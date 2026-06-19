@@ -12,15 +12,15 @@
 				<Property Id="Microsoft.VisualStudio.Code.Engine" Value="^1.60.0" />
 				<Property Id="Microsoft.VisualStudio.Code.ExtensionDependencies" Value="" />
 				<Property Id="Microsoft.VisualStudio.Code.ExtensionPack" Value="" />
-				<Property Id="Microsoft.VisualStudio.Code.ExtensionKind" Value="workspace" />
+				<Property Id="Microsoft.VisualStudio.Code.ExtensionKind" Value="ui,workspace" />
 				<Property Id="Microsoft.VisualStudio.Code.LocalizedLanguages" Value="" />
 				
 				
-				<Property Id="Microsoft.VisualStudio.Services.Links.Source" Value="https://github.com/local-developer/antigravity-unified-cascade.git" />
-				<Property Id="Microsoft.VisualStudio.Services.Links.Getstarted" Value="https://github.com/local-developer/antigravity-unified-cascade.git" />
-				<Property Id="Microsoft.VisualStudio.Services.Links.GitHub" Value="https://github.com/local-developer/antigravity-unified-cascade.git" />
-				<Property Id="Microsoft.VisualStudio.Services.Links.Support" Value="https://github.com/local-developer/antigravity-unified-cascade/issues" />
-				<Property Id="Microsoft.VisualStudio.Services.Links.Learn" Value="https://github.com/local-developer/antigravity-unified-cascade#readme" />
+				<Property Id="Microsoft.VisualStudio.Services.Links.Source" Value="https://github.com/Alcafer2011/Antigravity.git" />
+				<Property Id="Microsoft.VisualStudio.Services.Links.Getstarted" Value="https://github.com/Alcafer2011/Antigravity.git" />
+				<Property Id="Microsoft.VisualStudio.Services.Links.GitHub" Value="https://github.com/Alcafer2011/Antigravity.git" />
+				<Property Id="Microsoft.VisualStudio.Services.Links.Support" Value="https://github.com/Alcafer2011/Antigravity/issues" />
+				<Property Id="Microsoft.VisualStudio.Services.Links.Learn" Value="https://github.com/Alcafer2011/Antigravity#readme" />
 				
 				
 				<Property Id="Microsoft.VisualStudio.Services.GitHubFlavoredMarkdown" Value="true" />

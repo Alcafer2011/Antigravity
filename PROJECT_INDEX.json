@@ -1,6 +1,6 @@
 {
-  "version": "1.0.0",
-  "lastUpdated": "2026-06-17T10:46:00.000Z",
+  "version": "2.0.0",
+  "lastUpdated": "2026-06-19T16:00:00.000Z",
   "projectRoot": "C:\\Users\\infoa\\.vscode-oss\\extensions\\local-developer.antigravity-unified-cascade-4.0.0",
   "files": {
     "root": {
@@ -197,12 +197,21 @@
       "description": "Gli agenti esistenti restituiscono solo dati simulati, necessaria implementazione reale",
       "file": "src/agents/",
       "suggestedFix": "Implementare logica reale per ogni agente"
+    },
+    {
+      "severity": "low",
+      "type": "compatibility",
+      "description": "Correzioni di compatibilità VSCode applicate a package.json e extension.vsixmanifest",
+      "file": "package.json, extension.vsixmanifest",
+      "suggestedFix": "Nessuna - già corretto"
     }
   ],
-  "status": "refactoring_complete",
+  "status": "compatibility_fixed",
   "nextSteps": [
     "Implementare logica reale per agenti esistenti",
     "Testare l'estensione in VS Codium",
-    "Verificare il funzionamento dei nuovi agenti"
+    "Verificare il funzionamento dei nuovi agenti",
+    "Creare nuovo pacchetto VSIX",
+    "Reinstallare estensione"
   ]
 }

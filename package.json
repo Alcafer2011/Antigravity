@@ -21,11 +21,17 @@
     "updateUrl": "https://github.com/Alcafer2011/Antigravity/releases/latest",
     "versionScheme": "semver",
     "engines": {
-        "vscode": "^1.60.0"
+        "vscode": "^1.60.0",
+        "node": ">=16.x"
     },
+    "extensionKind": [
+        "ui",
+        "workspace"
+    ],
     "main": "./extension.js",
     "activationEvents": [
-        "*"
+        "onStartupFinished",
+        "onView:antigravityUnifiedChat"
     ],
     "categories": [
         "Machine Learning",
