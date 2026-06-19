@@ -28,7 +28,12 @@
         "ui",
         "workspace"
     ],
-    "main": "./extension.js",
+    "main": "./build/extension.js",
+    "scripts": {
+        "build": "node scripts/build.js",
+        "watch": "node scripts/watch.js",
+        "package": "vsce package"
+    },
     "activationEvents": [
         "onStartupFinished",
         "onView:antigravityUnifiedChat"
@@ -138,10 +143,90 @@
                 "command": "antigravity.performanceAudit",
                 "title": "Antigravity: Performance Audit",
                 "category": "Antigravity"
+            },
+            {
+                "command": "antigravity.quickEdit",
+                "title": "Edit with Natural Language",
+                "category": "Antigravity"
+            },
+            {
+                "command": "antigravity.acceptDiff",
+                "title": "Accept Diff",
+                "category": "Antigravity"
+            },
+            {
+                "command": "antigravity.rejectDiff",
+                "title": "Reject Diff",
+                "category": "Antigravity"
+            },
+            {
+                "command": "antigravity.toggleAutocomplete",
+                "title": "Toggle Autocomplete",
+                "category": "Antigravity"
             }
         ]
     },
+    "keybindings": [
+        {
+            "command": "antigravity.focusChat",
+            "key": "ctrl+l",
+            "mac": "cmd+l"
+        },
+        {
+            "command": "antigravity.quickEdit",
+            "key": "ctrl+i",
+            "mac": "cmd+i"
+        },
+        {
+            "command": "antigravity.acceptDiff",
+            "key": "shift+ctrl+enter",
+            "mac": "shift+cmd+enter",
+            "when": "antigravity.diffVisible"
+        },
+        {
+            "command": "antigravity.rejectDiff",
+            "key": "shift+ctrl+backspace",
+            "mac": "shift+cmd+backspace",
+            "when": "antigravity.diffVisible"
+        }
+    ],
+    "menus": {
+        "editor/context": [
+            {
+                "command": "antigravity.quickEdit",
+                "group": "antigravity@1",
+                "when": "editorHasSelection"
+            }
+        ]
+    },
+    "configuration": {
+        "title": "Antigravity",
+        "properties": {
+            "antigravity.enableAutocomplete": {
+                "type": "boolean",
+                "default": true,
+                "description": "Enable tab autocomplete feature"
+            },
+            "antigravity.enableStreamingDiff": {
+                "type": "boolean",
+                "default": true,
+                "description": "Enable streaming diff viewer"
+            },
+            "antigravity.enableQuickEdit": {
+                "type": "boolean",
+                "default": true,
+                "description": "Enable quick edit with natural language (Ctrl+I)"
+            }
+        }
+    },
     "dependencies": {
-        "sharp": "^0.35.1"
+        "sharp": "^0.35.1",
+        "diff": "^8.0.0",
+        "ignore": "^5.3.0",
+        "minisearch": "^7.0.0"
+    },
+    "devDependencies": {
+        "esbuild": "^0.25.0",
+        "@types/vscode": "^1.70.0"
     }
 }

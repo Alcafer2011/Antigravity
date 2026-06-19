@@ -6,8 +6,16 @@ const CloudDeployer = require("./src/cloudDeployer");
 const AdvancedOrchestrator = require("./src/orchestrator");
 const CrewAIOrchestrator = require("./src/orchestrator-crewai");
 
+// New editing modules
+const AutocompleteManager = require("./src/editing/autocomplete");
+const StreamingDiffManager = require("./src/editing/streaming-diff");
+const QuickEditManager = require("./src/editing/quick-edit");
+
 let orchestrator = null;
 let crewaiOrchestrator = null;
+let autocompleteManager = null;
+let streamingDiffManager = null;
+let quickEditManager = null;
 
 // Create dedicated OutputChannel for extension logging
 const consoleChannel = vscode.window.createOutputChannel("Antigravity Dev Console");
@@ -140,6 +148,35 @@ function activate(context) {
         
         // Initialize the CrewAI-style orchestrator (new)
         crewaiOrchestrator = new CrewAIOrchestrator(context);
+        
+        // Initialize new editing modules
+        streamingDiffManager = new StreamingDiffManager(context);
+        quickEditManager = new QuickEditManager(context, crewaiOrchestrator, streamingDiffManager);
+        autocompleteManager = new AutocompleteManager(context, crewaiOrchestrator);
+        
+        // Register new editing commands
+        const acceptDiffCommand = vscode.commands.registerCommand('antigravity.acceptDiff', () => {
+            const editor = vscode.window.activeTextEditor;
+            if (editor && streamingDiffManager.hasActiveDiff(editor)) {
+                streamingDiffManager.acceptDiff(editor);
+            }
+        });
+        
+        const rejectDiffCommand = vscode.commands.registerCommand('antigravity.rejectDiff', () => {
+            const editor = vscode.window.activeTextEditor;
+            if (editor && streamingDiffManager.hasActiveDiff(editor)) {
+                streamingDiffManager.rejectDiff(editor);
+            }
+        });
+        
+        const toggleAutocompleteCommand = vscode.commands.registerCommand('antigravity.toggleAutocomplete', () => {
+            const config = vscode.workspace.getConfiguration('antigravity');
+            const currentValue = config.get('enableAutocomplete', true);
+            config.update('enableAutocomplete', !currentValue, vscode.ConfigurationTarget.Global);
+        });
+        
+        context.subscriptions.push(acceptDiffCommand, rejectDiffCommand, toggleAutocompleteCommand);
+        
     } catch (err) {
         console.error("Runtime error during activation:", err);
         consoleChannel.show(true);
@@ -690,6 +727,19 @@ async function importFromGitHub(githubToken, context, webviewView) {
     } catch (error) {
         console.error('GitHub import error:', error);
         webviewView.webview.postMessage({ type: "githubImportError", value: error.message });
+    }
+}
+
+function deactivate() {
+    // Dispose editing managers
+    if (autocompleteManager) {
+        autocompleteManager.dispose();
+    }
+    if (streamingDiffManager) {
+        streamingDiffManager.dispose();
+    }
+    if (quickEditManager) {
+        quickEditManager.dispose();
     }
 }
 
