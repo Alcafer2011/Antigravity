@@ -16,9 +16,9 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/local-developer/antigravity-unified-cascade"
+        "url": "https://github.com/Alcafer2011/Antigravity.git"
     },
-    "updateUrl": "https://github.com/local-developer/antigravity-unified-cascade/releases/latest",
+    "updateUrl": "https://github.com/Alcafer2011/Antigravity/releases/latest",
     "versionScheme": "semver",
     "engines": {
         "vscode": "^1.60.0"
