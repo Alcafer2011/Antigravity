@@ -1,0 +1,208 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-06-17T10:46:00.000Z",
+  "projectRoot": "C:\\Users\\infoa\\.vscode-oss\\extensions\\local-developer.antigravity-unified-cascade-4.0.0",
+  "files": {
+    "root": {
+      "package.json": {
+        "path": "package.json",
+        "size": 2884,
+        "lastModified": "2026-06-17T10:46:00.000Z",
+        "type": "config",
+        "description": "Package configuration for VSCode extension"
+      },
+      "README.md": {
+        "path": "README.md",
+        "size": 4919,
+        "lastModified": "2026-06-17T10:46:00.000Z",
+        "type": "documentation",
+        "description": "Project documentation"
+      },
+      "LICENSE": {
+        "path": "LICENSE",
+        "size": 1002,
+        "lastModified": "2026-06-17T10:46:00.000Z",
+        "type": "legal",
+        "description": "License file"
+      },
+      "extension.js": {
+        "path": "extension.js",
+        "size": 8880,
+        "lastModified": "2026-06-17T10:46:00.000Z",
+        "type": "source",
+        "description": "Main extension entry point",
+        "dependencies": ["./src/agentFactory", "./src/cloudDeployer", "./src/orchestrator"]
+      },
+      "interface.html": {
+        "path": "interface.html",
+        "size": 37634,
+        "lastModified": "2026-06-17T10:46:00.000Z",
+        "type": "ui",
+        "description": "Webview interface for the extension"
+      },
+      "settings.json": {
+        "path": "settings.json",
+        "size": 819,
+        "lastModified": "2026-06-17T10:46:00.000Z",
+        "type": "config",
+        "description": "Extension settings"
+      }
+    },
+    "src": {
+      "agentFactory.js": {
+        "path": "src/agentFactory.js",
+        "size": 1925,
+        "lastModified": "2026-06-17T10:46:00.000Z",
+        "type": "source",
+        "description": "Factory for creating AI agents"
+      },
+      "cloudDeployer.js": {
+        "path": "src/cloudDeployer.js",
+        "size": 1982,
+        "lastModified": "2026-06-17T10:46:00.000Z",
+        "type": "source",
+        "description": "Cloudflare deployment utilities"
+      },
+      "hiveCoordinator.js": {
+        "path": "src/hiveCoordinator.js",
+        "size": 228,
+        "lastModified": "2026-06-17T10:46:00.000Z",
+        "type": "source",
+        "description": "Hive coordination utilities"
+      },
+      "orchestrator.js": {
+        "path": "src/orchestrator.js",
+        "size": 53320,
+        "lastModified": "2026-06-17T10:46:00.000Z",
+        "type": "source",
+        "description": "Advanced orchestrator for multi-agent system"
+      },
+      "providerManager.js": {
+        "path": "src/providerManager.js",
+        "size": 20306,
+        "lastModified": "2026-06-17T10:46:00.000Z",
+        "type": "source",
+        "description": "Multi-provider AI model manager"
+      },
+      "agents": {
+        "analyzer.js": {
+          "path": "src/agents/analyzer.js",
+          "size": 11832,
+          "lastModified": "2026-06-17T10:46:00.000Z",
+          "type": "source",
+          "description": "Code analysis agent"
+        },
+        "debugger.js": {
+          "path": "src/agents/debugger.js",
+          "size": 12550,
+          "lastModified": "2026-06-17T10:46:00.000Z",
+          "type": "source",
+          "description": "Debugging agent"
+        },
+        "deployer.js": {
+          "path": "src/agents/deployer.js",
+          "size": 12322,
+          "lastModified": "2026-06-17T10:46:00.000Z",
+          "type": "source",
+          "description": "Deployment agent"
+        },
+        "documenter.js": {
+          "path": "src/agents/documenter.js",
+          "size": 11770,
+          "lastModified": "2026-06-17T10:46:00.000Z",
+          "type": "source",
+          "description": "Documentation agent"
+        },
+        "immune_guardian.js": {
+          "path": "src/agents/immune_guardian.js",
+          "size": 29696,
+          "lastModified": "2026-06-17T10:46:00.000Z",
+          "type": "source",
+          "description": "System guardian agent"
+        },
+        "integrator.js": {
+          "path": "src/agents/integrator.js",
+          "size": 12357,
+          "lastModified": "2026-06-17T10:46:00.000Z",
+          "type": "source",
+          "description": "Integration agent"
+        },
+        "liquid_programmer.js": {
+          "path": "src/agents/liquid_programmer.js",
+          "size": 26782,
+          "lastModified": "2026-06-17T10:46:00.000Z",
+          "type": "source",
+          "description": "Master programmer agent"
+        },
+        "optimizer.js": {
+          "path": "src/agents/optimizer.js",
+          "size": 13614,
+          "lastModified": "2026-06-17T10:46:00.000Z",
+          "type": "source",
+          "description": "Performance optimizer agent"
+        },
+        "security.js": {
+          "path": "src/agents/security.js",
+          "size": 15113,
+          "lastModified": "2026-06-17T10:46:00.000Z",
+          "type": "source",
+          "description": "Security specialist agent"
+        },
+        "subsystem_architect.js": {
+          "path": "src/agents/subsystem_architect.js",
+          "size": 22439,
+          "lastModified": "2026-06-17T10:46:00.000Z",
+          "type": "source",
+          "description": "System architect agent"
+        },
+        "tester.js": {
+          "path": "src/agents/tester.js",
+          "size": 11654,
+          "lastModified": "2026-06-17T10:46:00.000Z",
+          "type": "source",
+          "description": "Quality assurance agent"
+        },
+        "indexer.js": {
+          "path": "src/agents/indexer.js",
+          "size": 15234,
+          "lastModified": "2026-06-17T10:46:00.000Z",
+          "type": "source",
+          "description": "Project indexing agent with real-time file watching"
+        },
+        "sandbox_executor.js": {
+          "path": "src/agents/sandbox_executor.js",
+          "size": 18765,
+          "lastModified": "2026-06-17T10:46:00.000Z",
+          "type": "source",
+          "description": "Sandbox executor for terminal and browser automation"
+        },
+        "realtime_tester.js": {
+          "path": "src/agents/realtime_tester.js",
+          "size": 16543,
+          "lastModified": "2026-06-17T10:46:00.000Z",
+          "type": "source",
+          "description": "Real-time tester and automatic error corrector"
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "extension.js": ["./src/agentFactory", "./src/cloudDeployer", "./src/orchestrator"],
+    "src/orchestrator.js": ["./agents/analyzer", "./agents/debugger", "./agents/deployer", "./agents/documenter", "./agents/immune_guardian", "./agents/integrator", "./agents/liquid_programmer", "./agents/optimizer", "./agents/security", "./agents/subsystem_architect", "./agents/tester", "./agents/indexer", "./agents/sandbox_executor", "./agents/realtime_tester"]
+  },
+  "issues": [
+    {
+      "severity": "medium",
+      "type": "mock_implementation",
+      "description": "Gli agenti esistenti restituiscono solo dati simulati, necessaria implementazione reale",
+      "file": "src/agents/",
+      "suggestedFix": "Implementare logica reale per ogni agente"
+    }
+  ],
+  "status": "refactoring_complete",
+  "nextSteps": [
+    "Implementare logica reale per agenti esistenti",
+    "Testare l'estensione in VS Codium",
+    "Verificare il funzionamento dei nuovi agenti"
+  ]
+}

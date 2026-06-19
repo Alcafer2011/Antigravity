@@ -1,0 +1,33 @@
+{
+  "version": "1.0.0",
+  "modelThreshold": 200,
+  "smallModel": "deepseek-ai/deepseek-coder-1.3b-instruct",
+  "largeModel": "meta-llama/Llama-3.1-70B-Instruct",
+  "maxConcurrentRequests": 5,
+  "enableCache": true,
+  "enableTelemetry": false,
+  "multiProvider": {
+    "enabled": true,
+    "providers": ["openrouter", "google", "groq", "huggingface", "cloudflare"],
+    "autoRouting": true,
+    "preferFreeModels": true,
+    "fallbackEnabled": true
+  },
+  "orchestrator": {
+    "taskBreaking": true,
+    "crewExecution": true,
+    "changeTracking": true,
+    "projectIndexing": true,
+    "dependencyAnalysis": true
+  },
+  "interface": {
+    "showTodoList": true,
+    "showActiveAgent": true,
+    "showActiveModel": true,
+    "language": "italian"
+  },
+  "devTools": {
+    "enabled": true,
+    "rawCodePanel": true
+  }
+}

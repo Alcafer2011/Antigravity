@@ -1,0 +1,141 @@
+{
+    "name": "antigravity-unified-cascade",
+    "displayName": "Antigravity Unified Engine v4.0",
+    "description": "Ecosistema Unificato stile Cursor/Windsurf/Devin con 14 Agenti Universitari, Multi-Provider AI Routing e Orchestratore Avanzato",
+    "version": "4.0.0",
+    "publisher": "local-developer",
+    "icon": "icon.png",
+    "icons": {
+        "default": {
+            "16": "icon-16x16.png",
+            "32": "icon-32x32.png",
+            "48": "icon-48x48.png",
+            "128": "icon-128x128.png",
+            "256": "icon-256x256.png"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/local-developer/antigravity-unified-cascade"
+    },
+    "updateUrl": "https://github.com/local-developer/antigravity-unified-cascade/releases/latest",
+    "versionScheme": "semver",
+    "engines": {
+        "vscode": "^1.60.0"
+    },
+    "main": "./extension.js",
+    "activationEvents": [
+        "*"
+    ],
+    "categories": [
+        "Machine Learning",
+        "Other"
+    ],
+    "keywords": [
+        "AI",
+        "Chat",
+        "Orchestrator",
+        "Multi-Provider",
+        "Agents"
+    ],
+    "contributes": {
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "antigravity-unified-container",
+                    "title": "Antigravity AI",
+                    "icon": "icon.png"
+                }
+            ]
+        },
+        "views": {
+            "antigravity-unified-container": [
+                {
+                    "type": "webview",
+                    "id": "antigravityUnifiedChat",
+                    "name": "Antigravity AI Chat"
+                }
+            ]
+        },
+        "commands": [
+            {
+                "command": "antigravity.focusChat",
+                "title": "Focus Antigravity Chat",
+                "category": "Antigravity"
+            },
+            {
+                "command": "antigravity.clearChat",
+                "title": "Clear Chat History",
+                "category": "Antigravity"
+            },
+            {
+                "command": "antigravity.reindexWorkspace",
+                "title": "Reindex Workspace",
+                "category": "Antigravity"
+            },
+            {
+                "command": "antigravity.setOpenRouterKey",
+                "title": "Antigravity: Set OpenRouter API Key",
+                "category": "Antigravity"
+            },
+            {
+                "command": "antigravity.setHuggingFaceKey",
+                "title": "Antigravity: Set Hugging Face API Key",
+                "category": "Antigravity"
+            },
+            {
+                "command": "antigravity.setCloudflareKeys",
+                "title": "Antigravity: Set Cloudflare Account ID & API Key",
+                "category": "Antigravity"
+            },
+            {
+                "command": "antigravity.discoverModels",
+                "title": "Antigravity: Discover Available Models",
+                "category": "Antigravity"
+            },
+            {
+                "command": "antigravity.showStatus",
+                "title": "Antigravity: Show Orchestrator Status",
+                "category": "Antigravity"
+            },
+            {
+                "command": "antigravity.autoOptimize",
+                "title": "Antigravity: Auto-Optimize Project",
+                "category": "Antigravity"
+            },
+            {
+                "command": "antigravity.generateTests",
+                "title": "Antigravity: Generate Automated Tests",
+                "category": "Antigravity"
+            },
+            {
+                "command": "antigravity.securityScan",
+                "title": "Antigravity: Deep Security Scan",
+                "category": "Antigravity"
+            },
+            {
+                "command": "antigravity.predictiveAnalysis",
+                "title": "Antigravity: Predictive Analysis",
+                "category": "Antigravity"
+            },
+            {
+                "command": "antigravity.autoRefactor",
+                "title": "Antigravity: Auto-Refactor Codebase",
+                "category": "Antigravity"
+            },
+            {
+                "command": "antigravity.generateDocs",
+                "title": "Antigravity: Generate Documentation",
+                "category": "Antigravity"
+            },
+            {
+                "command": "antigravity.performanceAudit",
+                "title": "Antigravity: Performance Audit",
+                "category": "Antigravity"
+            }
+        ]
+    },
+    "dependencies": {
+        "sharp": "^0.35.1"
+    }
+}

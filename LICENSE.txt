@@ -1,0 +1,18 @@
+MIT License
+
+Copyright (c) 2026 local-developer. Tutti i diritti riservati.
+
+CONTRATTO DI LICENZA SOFTWARE PROPRIETARIO (ANTIGRAVITY v4.0.0)
+
+
+
+Il presente software è concesso in licenza d'uso e non viene venduto. Il codice sorgente, l'architettura ad Alveare Serverless e i componenti d'interfaccia sono di proprietà esclusiva dello sviluppatore.
+
+CONDIZIONI DI UTILIZZO E SICUREZZA DELLE CHIAVI API:
+1. Il software viene distribuito privo di credenziali hardware o chiavi di accesso (API Key) pre-configurate.
+2. L'utente finale è l'unico responsabile del recupero, inserimento e pagamento delle proprie chiavi Cloudflare, Hugging Face, OpenRouter, Google AI Studio, Groq e altri provider AI.
+3. Lo sviluppatore non si assume alcuna responsabilità per l'uso improprio o per addebiti derivanti dall'utilizzo delle API Key personali all'interno dell'estensione.
+
+È fatto divieto assoluto di decompilare, clonare o ridistribuire il software senza il consenso scritto del detentore del copyright.
+
+

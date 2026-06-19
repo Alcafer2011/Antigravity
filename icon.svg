@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="quantumGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00f5ff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#7c3aed;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f472b6;stop-opacity:1" />
+    </linearGradient>
+
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- SFONDO ORIGINALE -->
+  <rect width="128" height="128" rx="28" fill="#0f0f23"/>
+
+  <!-- ELLISSI ORIGINALI -->
+  <ellipse cx="64" cy="64" rx="52" ry="18"
+           fill="none" stroke="url(#quantumGrad)" stroke-width="2" opacity="0.6"
+           transform="rotate(-30 64 64)"/>
+
+  <ellipse cx="64" cy="64" rx="52" ry="18"
+           fill="none" stroke="url(#quantumGrad)" stroke-width="2" opacity="0.6"
+           transform="rotate(30 64 64)"/>
+
+  <ellipse cx="64" cy="64" rx="52" ry="18"
+           fill="none" stroke="url(#quantumGrad)" stroke-width="2" opacity="0.6"
+           transform="rotate(90 64 64)"/>
+
+  <!-- NUCLEO ORIGINALE -->
+  <circle cx="64" cy="64" r="16" fill="url(#quantumGrad)" filter="url(#glow)"/>
+  <circle cx="64" cy="64" r="8" fill="#ffffff" opacity="0.9"/>
+
+  <!-- PALLINI IN ORBITA (senza ritardi) -->
+  <!-- ORBITA 1 -->
+  <g transform="rotate(-30 64 64)">
+    <circle r="4" fill="#00f5ff" filter="url(#glow)">
+      <animateMotion dur="4s" repeatCount="indefinite"
+        path="M 12 64 a 52 18 0 1 0 104 0 a 52 18 0 1 0 -104 0"/>
+    </circle>
+  </g>
+
+  <!-- ORBITA 2 -->
+  <g transform="rotate(30 64 64)">
+    <circle r="4" fill="#7c3aed" filter="url(#glow)">
+      <animateMotion dur="4s" repeatCount="indefinite"
+        path="M 12 64 a 52 18 0 1 0 104 0 a 52 18 0 1 0 -104 0"/>
+    </circle>
+  </g>
+
+  <!-- ORBITA 3 -->
+  <g transform="rotate(90 64 64)">
+    <circle r="4" fill="#f472b6" filter="url(#glow)">
+      <animateMotion dur="4s" repeatCount="indefinite"
+        path="M 12 64 a 52 18 0 1 0 104 0 a 52 18 0 1 0 -104 0"/>
+    </circle>
+  </g>
+
+</svg>
