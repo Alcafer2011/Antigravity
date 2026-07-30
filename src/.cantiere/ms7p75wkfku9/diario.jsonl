@@ -1,0 +1,3 @@
+{"t":"2026-07-30T15:58:23.397Z","tipo":"apertura","testo":"Prova dal vivo","obiettivo":"verifica","files":["_finto.js"]}
+{"t":"2026-07-30T15:58:23.480Z","tipo":"passo","testo":"scritto il modulo","prossimo":"collegare la rotta Y"}
+{"t":"2026-07-30T15:58:23.927Z","tipo":"chiusura","testo":"prova dal vivo finita"}

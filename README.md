@@ -1,119 +1,138 @@
-# Antigravity Unified Engine v4.0 🚀
+# Antigravity
 
-Antigravity è un ecosistema di sviluppo AI con Agenti Specializzati, Multi-Provider AI Routing e Orchestratore Avanzato, progettato per gestire progetti complessi senza gravare sulla memoria RAM o sulla CPU locale dell'IDE.
+**Il tuo copilota AI locale e senza filtri, dentro VS Code — e sul telefono.**
 
-## 🌟 Caratteristiche Supreme
+Antigravity è un assistente AI che vive sulla tua macchina: apre, legge e analizza qualsiasi file, codice o binario, scrive e modifica progetti, genera immagini e ragiona senza censure. La stessa conversazione è disponibile nel pannello di VS Code **e** sul telefono, in tempo reale.
 
-### 🧠 14 Agenti Universitari Avanzati
-- **Coder**: Sviluppo codice con best practices e patterns moderni
-- **Debugger**: Analisi errori, generazione fix e workflow debugging
-- **Tester**: Strategia test, automazione, coverage e testing sicurezza
-- **Optimizer**: Tuning performance, identificazione colli di bottiglia e caching
-- **Security**: Scansione vulnerabilità, threat modeling e compliance
-- **Documenter**: Documentazione tecnica, API docs e guide utente
-- **Analyzer**: Analisi statica/dinamica, code smell detection e analisi architetturale
-- **Integrator**: Integrazione sistemi, API, cloud e message queue
-- **Deployer**: Deployment automatico, CI/CD, containerizzazione e Kubernetes
-- **Refactorer**: Refactoring intelligente e miglioramento code quality
-- **Architect**: Design architetturale e pattern enterprise
-- **Researcher**: Ricerca stato dell'arte, analisi paper scientifici e innovazione tecnologica
-- **Planner**: Pianificazione strategica, roadmap progetti e gestione milestone
-- **Reviewer**: Code review avanzata, analisi qualità e best practices enforcement
+Tre motori nello stesso pannello — **locale** (privato, senza filtri), **cloud gratuito** (più potenza) e **Claude Code** (il tuo abbonamento) — con instradamento e ripiego automatici.
 
-### ✨ Funzioni Divine Assolute (Esclusive)
-- **Auto-Optimization**: Ottimizzazione automatica del progetto con analisi predittiva
-- **Predictive Analysis**: Analisi predittiva per identificare problemi prima che accadano
-- **Auto-Refactoring**: Refactoring automatico intelligente con machine learning
-- **Deep Security Scan**: Scansione sicurezza profonda con threat modeling avanzato
-- **Automated Test Generation**: Generazione automatica test con coverage completo
-- **Performance Audit**: Audit performance con identificazione colli di bottiglia
-- **Auto-Documentation**: Generazione documentazione automatica completa
-- **Parallel Processing**: Elaborazione parallela per performance massime
+---
 
-### 🤖 Multi-Provider AI Routing
-- **5 Provider Supportati**: OpenRouter, Google AI Studio, Groq, Hugging Face, Cloudflare Workers AI
-- **Discovery Automatica**: Scoperta modelli free ogni 24 ore
-- **Routing Intelligente**: Selezione automatica modello basata su complessità del prompt (scala 1-10)
-- **Fallback Automatico**: Gestione provider saturi/offline/senza token
-- **Preferenza Modelli Free**: Priorità ai modelli gratuiti quando disponibili
+## Cosa sa fare
 
-### 🧠 Orchestratore Avanzato Stile CrewAI
-- **Indicizzazione Progetto**: Gestione progetti con 1.000.000+ file
-- **Analisi Dipendenze**: Grafo delle dipendenze e call graph
-- **Task Breaking**: Divisione intelligente di task complessi in sub-task
-- **Crew Execution**: Esecuzione parallela di più agenti per task complessi
-- **Change Tracking**: Tracciamento modifiche e rollback
-- **Stato Progetto**: Metriche di salute e performance
+### 💬 Chat unificata, condivisa col telefono
+Una sola conversazione, due schermi. Il pannello dentro VS Code e la pagina web sul telefono (via rete locale / Tailscale) mostrano **la stessa chat**: inizi a scrivere dal computer e continui dal telefono, senza copiare niente. Conversazioni multiple, salvate e con titolo automatico.
 
-### 📝 Interfaccia Utente Avanzata
-- **Pannello Impostazioni Completo**: 4 sezioni con switch on/off e spiegazioni
-  - Modello AI: Routing Intelligente, Preferisci Modelli Free
-  - Orchestratore: Task Breaking, Crew Execution, Change Tracking
-  - Interfaccia: Mostra Todo List, Mostra Agente Attivo, Mostra Modello Attivo
-  - Sistema: Project Indexing, Dependency Analysis
-- **Selettore Modello**: Dropdown con opzione "Auto" per routing intelligente
-- **Display Modello Attivo**: Mostra quale modello sta lavorando quando usa routing auto
-- **Todo List Interattiva**: Visualizzazione task in tempo reale con progresso
-- **Resoconto Finale**: Report completo del lavoro svolto
+### 🧠 Tre motori, instradamento automatico
+- **Locale (Ollama):** modelli *uncensored* (abliterati) che girano sul tuo PC, offline e privati. Si avvia da solo se è spento.
+- **Cloud (OpenRouter · Groq · Gemini · HuggingFace):** più potenza quando serve. Due canali separati — *normale* e *uncensored* — con **rotazione automatica**: se un modello è occupato o a limite, passa da solo al successivo.
+- **🤖 Claude Code:** usa la CLI di Claude già installata e il tuo **abbonamento esistente** — nessuna chiave API da inserire. Testo in streaming, strumenti come schede, la sua TODO list nel pannello Piano, e la **barra dei limiti di utilizzo** (percentuale usata, tipo di finestra, quando si azzera) proprio come nell'app Claude Code.
 
-### 🔧 Strumenti di Sviluppo
-- **DevTools**: Pulsante per attivare/disattiva strumenti di sviluppo
-- **Codice Grezzo**: Pannello per visualizzare il codice grezzo delle risposte in caso di errori
-- **Firma**: Powered By Alessandro Calabria
+L'estensione sceglie da sola motore e modello in base alla richiesta; se un canale è esaurito o a limite, **ripiega automaticamente** su un altro (es. limite Claude raggiunto → passa al locale).
 
-## 📍 Architettura
+### 🤝 Claude + la squadra locale, insieme
+Quando usi il provider Claude, l'estensione gli presta **gli stessi strumenti della squadra locale** via MCP: generazione immagini (ComfyUI) e analisi binari (toolchain reverse). Così Claude lavora con la tua cassetta degli attrezzi, e la stessa politica dei permessi vale anche per lui.
 
-L'applicazione scinde la base di codice statica in macro-aree funzionali:
-- **Auth System**: Gestione token e barriere di accesso
-- **Database Module**: Schemi, migrazioni e persistenza dati
-- **API Routing**: Controllo dei canali di comunicazione di rete
-- **Core Logic Matrix**: Il nucleo algoritmico del workspace
+### 🤖 Agente con strumenti reali
+In modalità **Agente**, il modello non chiacchiera soltanto: *agisce*. Legge file, analizza binari (Detect-It-Easy, pefile, Ghidra headless), cerca nel codice, esegue comandi, scrive file — mostrando il piano e i passi mentre lavora.
+- Sui modelli con tool nativi usa il **tool-calling** diretto.
+- Sui modelli che sanno solo chattare (molti uncensored cloud) usa un'**armatura ReAct**: il modello scrive le azioni, l'estensione le esegue.
 
-## ⚙️ Configurazione
+### 🎨 Generazione immagini (ComfyUI)
+Chiedi un'immagine in italiano nella chat — *"disegnami un logo con un'aquila"* — e Antigravity avvia ComfyUI da solo, genera l'immagine e te la mostra **dentro la chat**.
 
-### Configurazione Chiavi API Multi-Provider
+### 🜂 Delega ad Hermes
+I compiti pesanti e autonomi possono essere delegati all'agente **Hermes** (memoria, skill, sotto-agenti), che lavora a testa bassa e riporta il risultato nella tua chat.
 
-1. Premi `Ctrl + Shift + P` ed esegui: **`Antigravity: Set All API Keys`**
-2. Oppure usa **`Antigravity: Save Provided API Keys`** per salvare le chiavi pre-configurate
-3. Per configurazione manuale:
-   - **`Antigravity: Set Cloudflare Keys`**: Cloudflare Account ID e API Token
-   - **`Antigravity: Set API Key (Secure)`**: Chiave Hugging Face (hf_...)
+### 🔒 Permessi sotto controllo
+Tre politiche selezionabili, valide per **tutti** i motori (Claude compreso):
+- **Chiedi** — conferma inline nella chat prima di ogni scrittura o comando;
+- **Autonomo** — fa da solo;
+- **Sola lettura** — non tocca nulla (a Claude vengono passati solo gli strumenti di lettura).
 
-### Scoperta Modelli
+---
 
-1. Premi `Ctrl + Shift + P` ed esegui: **`Antigravity: Discover Available Models`**
-2. Il sistema scansiona tutti i provider per modelli free disponibili
-3. I modelli vengono salvati e aggiornati automaticamente ogni 24 ore
+## Installazione
 
-### Stato Orchestratore
+Antigravity coordina strumenti gratuiti open-source. Installa quelli che ti servono: **funziona già con il solo Ollama**, il resto è opzionale.
 
-1. Premi `Ctrl + Shift + P` ed esegui: **`Antigravity: Show Orchestrator Status`**
-2. Visualizza stato agenti, code, task attivi e metriche performance
+### 1) Ollama — il motore locale (consigliato)
+Scarica da **[ollama.com](https://ollama.com)**, poi da terminale scarica i modelli. Suggeriti per l'uso quotidiano (con hardware ~8 GB VRAM o 32 GB RAM):
 
-## 🎯 Modalità di Utilizzo
+```bash
+# Agente potente, uncensored, con tool nativi (motore principale)
+ollama pull richardyoung/qwen2.5-14b-instruct-abliterated
 
-### Modalità Codice
-Sviluppo e refactoring con assistenza AI avanzata
+# Alternativa più veloce (8B) per agente/ragionamento
+ollama pull huihui_ai/dolphin3-abliterated:8b
 
-### Modalità Ask
-Domande e chiarimenti sul codice
+# Coding
+ollama pull huihui_ai/qwen2.5-coder-abliterate:7b
+```
 
-### Modalità Plan
-Pianificazione e analisi di task complessi
+Il router aggancia da solo i modelli appena scaricati. Ollama si avvia automaticamente quando invii un messaggio in modalità Locale.
 
-## 🔒 Sicurezza
+### 2) Claude Code — il tuo abbonamento (opzionale)
+Se hai un abbonamento Claude, installa la CLI una volta sola:
 
-L'estensione garantisce la massima riservatezza:
-- Non memorizza credenziali in file di configurazione in chiaro
-- Sfrutta il Secret Storage locale crittografato (Gestore Credenziali del Sistema Operativo)
-- Le chiavi API sono gestite in modo sicuro tramite VSCode secrets
+```bash
+npm install -g @anthropic-ai/claude-code
+claude            # esegui una volta per accedere
+```
 
-## 📄 Licenza
+Fatto questo, nel pannello compare il provider **🤖 Claude Code** con i suoi modelli (Opus / Sonnet / Haiku) e la barra dei limiti di utilizzo. Nessuna chiave API da configurare.
 
-Software Proprietario v4.0.0. Tutti i diritti riservati a local-developer.
+### 3) ComfyUI — immagini (opzionale)
+Installa **[ComfyUI](https://github.com/comfyanonymous/ComfyUI)** (o ComfyUI Desktop). Metti almeno un checkpoint nella cartella modelli (`models/checkpoints/`). Con 4 GB di VRAM va bene **SD 1.5**; per SDXL usa `--lowvram`. Antigravity avvia ComfyUI da solo quando chiedi un'immagine.
 
-Copyright (c) 2026 local-developer. Tutti i diritti riservati.
+### 4) Hermes — agente autonomo (opzionale)
+Per la delega dei compiti complessi, scarica **Hermes** da GitHub:
 
-## 🚀 Powered By
+```bash
+# Nous Research — Hermes / Function Calling
+git clone https://github.com/NousResearch/Hermes-Function-Calling
+```
 
-**Alessandro Calabria**
+Configura la sua `HERMES_HOME` e il modello (un modello con *tool-calling* uncensored, es. `huihui_ai/hermes-3-llama-3.2-abliterated`). Antigravity lo usa come sotto-agente quando serve potenza autonoma.
+
+### 5) Cloud gratuito (opzionale)
+Crea un file `.env` nella cartella dell'estensione con le chiavi che hai (tutte gratuite):
+
+```env
+OPENROUTER_API_KEY=...     # canale uncensored (modelli :free)
+GROQ_API_KEY=...           # velocissimo, canale normale
+GOOGLE_API_KEY=...         # Gemini (flash gratis)
+HF_TOKEN=...               # HuggingFace
+# Chat sul telefono (Tailscale):
+MOBILE_TOKEN=...           # un token segreto a tua scelta
+MOBILE_PORT=8790
+```
+
+Il file `.env` **non** viene mai incluso nel pacchetto: le chiavi restano solo sul tuo PC.
+
+---
+
+## Comandi
+
+| Comando | Cosa fa |
+|---|---|
+| **Antigravity: Aggiorna modelli locali** | Ripesca i modelli disponibili su Ollama |
+| **Antigravity: Stato motore locale** | Mostra la mappa dei ruoli e lo stato |
+| **Antigravity: Autonomia squadra** | Cambia la politica dei permessi (chiedi / auto / sola lettura) |
+| **Antigravity: Avvia/ferma server mobile** | Accende la chat sul telefono (via Tailscale) |
+| **Antigravity: Spegni i motori** | Libera la VRAM (ComfyUI e Ollama) |
+
+---
+
+## Come si usa
+
+1. Apri il pannello **Antigravity** dalla barra laterale.
+2. Scrivi in italiano quello che ti serve: una domanda, *"analizza questo file .exe"*, *"genera un'immagine di…"*, *"studia questo progetto"*.
+3. Scegli, se vuoi, la modalità (Auto / Agente / Reverse / Codice), il **provider** (Locale / Cloud / Claude Code) e la politica dei permessi.
+4. Per usarlo dal telefono: lancia *Avvia server mobile* e apri l'indirizzo sul telefono (stessa chat, in tempo reale).
+
+---
+
+## Perché è diverso (e perché è un prodotto)
+
+- **Un pannello, tre motori.** Locale privato, cloud gratuito e Claude ad abbonamento convivono nella stessa chat, con ripiego automatico: non resti mai a piedi.
+- **Privacy prima di tutto.** Il motore locale è offline e senza filtri; niente lascia il PC se non lo decidi tu.
+- **Trasparenza su costi e limiti.** Barra d'uso del cloud (token/costo stimato del mese) e barra dei limiti dell'abbonamento Claude, sempre visibili.
+- **Stesso assistente ovunque.** VS Code e telefono condividono la conversazione in tempo reale.
+- **Estendibile.** Gli strumenti (immagini, reverse engineering) sono esposti via MCP e riusati da tutti i motori.
+
+Antigravity impacchetta in un'unica esperienza pulita ciò che di solito richiede mezza giornata di configurazione tra Ollama, ComfyUI, chiavi cloud e agenti.
+
+---
+
+*Antigravity — locale prima di tutto, senza filtri, sotto il tuo controllo.*

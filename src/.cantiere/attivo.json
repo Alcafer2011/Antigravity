@@ -1,0 +1,25 @@
+{
+  "id": "ms7p7kbhk1d1",
+  "titolo": "Blocco reale",
+  "obiettivo": "",
+  "prossimo": "",
+  "origine": "mobile",
+  "files": [
+    "_vivo.js"
+  ],
+  "stato": "chiuso",
+  "aperto": "2026-07-30T15:58:42.077Z",
+  "ultimoTocco": "2026-07-30T15:58:42.077Z",
+  "pinPiattaforma": null,
+  "passi": 0,
+  "blocchi": 1,
+  "sospeso": false,
+  "ultimoBlocco": {
+    "chi": "rollback (torna indietro)",
+    "file": "_vivo.js",
+    "quando": "2026-07-30T15:58:42.142Z",
+    "motivo": "ripristino manuale dell'ultimo backup"
+  },
+  "chiuso": "2026-07-30T15:58:42.266Z",
+  "esito": "fine"
+}

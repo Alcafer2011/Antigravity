@@ -1,0 +1,12 @@
+{
+  "id": "C9",
+  "severity": "high",
+  "detail": "Dipendenza mancante in src/_prova_cacciatore.js: require('./_prova_aiuto_mancante') non esiste",
+  "status": "resolved",
+  "createdAt": "2026-07-30T12:01:56.124Z",
+  "updatedAt": "2026-07-30T12:08:02.692Z",
+  "resolution": "Test fase 1 completato.",
+  "analyzedAt": "2026-07-30T12:07:03.637Z",
+  "plan": "Il file `C:\\Users\\infoa\\Antigravity\\src\\_prova_cacciatore.js` tenta di caricare il modulo `./_prova_aiuto_mancante` (riga 3), ma tale file non esiste nella cartella `src`. La ricerca effettuata non ha trovato alcun file corrispondente al nome `_prova_aiuto_mancante.js` (né con altre estensioni comuni). Pertanto, il `require` fallirà in fase di esecuzione con un errore del tipo “Cannot find module './_prova_aiuto_mancante'”.\r\n\r\n**Non è possibile proporre una patch** poiché non conosciamo il contenuto effettivo che dovrebbe essere fornito da quel modulo mancante. È necessario verificare se il file è stato rimosso per errore, se deve essere creato o se il riferimento nel codice è sbagliato. Una volta chiarito cosa dovrebbe contenere `_prova_aiuto_mancante.js`, potremo applicare la correzione appropriata.",
+  "warnings": null
+}

@@ -1,0 +1,5 @@
+"use strict";
+// File di prova del cacciatore di bug (30/07). Va rimosso dopo il test.
+// Il nome del modulo ha una lettera di troppo: la correzione giusta e ovvia.
+const reg = require("./providerRegistryy");
+module.exports = { reg };

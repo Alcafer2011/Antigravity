@@ -1,147 +1,112 @@
 {
-    "name": "antigravity-unified-cascade",
-    "displayName": "Antigravity Unified Engine v4.0",
-    "description": "Ecosistema Unificato stile Cursor/Windsurf/Devin con 14 Agenti Universitari, Multi-Provider AI Routing e Orchestratore Avanzato",
-    "version": "4.0.0",
-    "publisher": "local-developer",
-    "icon": "icon.png",
-    "icons": {
-        "default": {
-            "16": "icon-16x16.png",
-            "32": "icon-32x32.png",
-            "48": "icon-48x48.png",
-            "128": "icon-128x128.png",
-            "256": "icon-256x256.png"
-        }
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Alcafer2011/Antigravity.git"
-    },
-    "updateUrl": "https://github.com/Alcafer2011/Antigravity/releases/latest",
-    "versionScheme": "semver",
-    "engines": {
-        "vscode": "^1.60.0",
-        "node": ">=16.x"
-    },
-    "extensionKind": [
-        "ui",
-        "workspace"
-    ],
-    "main": "./extension.js",
-    "activationEvents": [
-        "onStartupFinished",
-        "onView:antigravityUnifiedChat"
-    ],
-    "categories": [
-        "Machine Learning",
-        "Other"
-    ],
-    "keywords": [
-        "AI",
-        "Chat",
-        "Orchestrator",
-        "Multi-Provider",
-        "Agents"
-    ],
-    "contributes": {
-        "viewsContainers": {
-            "activitybar": [
-                {
-                    "id": "antigravity-unified-container",
-                    "title": "Antigravity AI",
-                    "icon": "icon.png"
-                }
-            ]
-        },
-        "views": {
-            "antigravity-unified-container": [
-                {
-                    "type": "webview",
-                    "id": "antigravityUnifiedChat",
-                    "name": "Antigravity AI Chat"
-                }
-            ]
-        },
-        "commands": [
-            {
-                "command": "antigravity.focusChat",
-                "title": "Focus Antigravity Chat",
-                "category": "Antigravity"
-            },
-            {
-                "command": "antigravity.clearChat",
-                "title": "Clear Chat History",
-                "category": "Antigravity"
-            },
-            {
-                "command": "antigravity.reindexWorkspace",
-                "title": "Reindex Workspace",
-                "category": "Antigravity"
-            },
-            {
-                "command": "antigravity.setOpenRouterKey",
-                "title": "Antigravity: Set OpenRouter API Key",
-                "category": "Antigravity"
-            },
-            {
-                "command": "antigravity.setHuggingFaceKey",
-                "title": "Antigravity: Set Hugging Face API Key",
-                "category": "Antigravity"
-            },
-            {
-                "command": "antigravity.setCloudflareKeys",
-                "title": "Antigravity: Set Cloudflare Account ID & API Key",
-                "category": "Antigravity"
-            },
-            {
-                "command": "antigravity.discoverModels",
-                "title": "Antigravity: Discover Available Models",
-                "category": "Antigravity"
-            },
-            {
-                "command": "antigravity.showStatus",
-                "title": "Antigravity: Show Orchestrator Status",
-                "category": "Antigravity"
-            },
-            {
-                "command": "antigravity.autoOptimize",
-                "title": "Antigravity: Auto-Optimize Project",
-                "category": "Antigravity"
-            },
-            {
-                "command": "antigravity.generateTests",
-                "title": "Antigravity: Generate Automated Tests",
-                "category": "Antigravity"
-            },
-            {
-                "command": "antigravity.securityScan",
-                "title": "Antigravity: Deep Security Scan",
-                "category": "Antigravity"
-            },
-            {
-                "command": "antigravity.predictiveAnalysis",
-                "title": "Antigravity: Predictive Analysis",
-                "category": "Antigravity"
-            },
-            {
-                "command": "antigravity.autoRefactor",
-                "title": "Antigravity: Auto-Refactor Codebase",
-                "category": "Antigravity"
-            },
-            {
-                "command": "antigravity.generateDocs",
-                "title": "Antigravity: Generate Documentation",
-                "category": "Antigravity"
-            },
-            {
-                "command": "antigravity.performanceAudit",
-                "title": "Antigravity: Performance Audit",
-                "category": "Antigravity"
-            }
-        ]
-    },
-    "dependencies": {
-        "sharp": "^0.35.1"
+  "name": "antigravity",
+  "displayName": "Antigravity",
+  "description": "Copilot AI locale e senza filtri per VS Code: chat unificata (anche sul telefono), agente con strumenti, generazione immagini e motori locali + cloud con instradamento automatico.",
+  "version": "1.0.36",
+  "publisher": "local-developer",
+  "icon": "icon.png",
+  "icons": {
+    "default": {
+      "16": "icon-16x16.png",
+      "32": "icon-32x32.png",
+      "48": "icon-48x48.png",
+      "128": "icon-128x128.png",
+      "256": "icon-256x256.png"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Alcafer2011/Antigravity.git"
+  },
+  "updateUrl": "https://github.com/Alcafer2011/Antigravity/releases/latest",
+  "versionScheme": "semver",
+  "engines": {
+    "vscode": "^1.60.0",
+    "node": ">=16.x"
+  },
+  "extensionKind": [
+    "ui",
+    "workspace"
+  ],
+  "main": "./extension.js",
+  "activationEvents": [
+    "onStartupFinished",
+    "onView:antigravityUnifiedChat"
+  ],
+  "categories": [
+    "Machine Learning",
+    "Other"
+  ],
+  "keywords": [
+    "AI",
+    "Chat",
+    "Orchestrator",
+    "Multi-Provider",
+    "Agents"
+  ],
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "antigravity-unified-container",
+          "title": "Antigravity AI",
+          "icon": "icon.png"
+        }
+      ]
+    },
+    "views": {
+      "antigravity-unified-container": [
+        {
+          "type": "webview",
+          "id": "antigravityUnifiedChat",
+          "name": "Antigravity AI Chat"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "antigravity.discoverModels",
+        "title": "Antigravity: Aggiorna modelli locali (Ollama)",
+        "category": "Antigravity"
+      },
+      {
+        "command": "antigravity.showStatus",
+        "title": "Antigravity: Stato motore locale (mappa ruoli)",
+        "category": "Antigravity"
+      },
+      {
+        "command": "antigravity.setPermissionPolicy",
+        "title": "Antigravity: Autonomia squadra (chiedi/auto/sola-lettura)",
+        "category": "Antigravity"
+      },
+      {
+        "command": "antigravity.toggleMobileServer",
+        "title": "Antigravity: Avvia/ferma server mobile (chat sul telefono via Tailscale)",
+        "category": "Antigravity"
+      },
+      {
+        "command": "antigravity.analyzeFile",
+        "title": "Analizza con Antigravity",
+        "category": "Antigravity"
+      },
+      {
+        "command": "antigravity.stopEngines",
+        "title": "Antigravity: Spegni i motori (ComfyUI e Ollama) e libera la VRAM",
+        "category": "Antigravity"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "antigravity.analyzeFile",
+          "when": "!explorerResourceIsFolder",
+          "group": "navigation@99"
+        }
+      ]
+    }
+  },
+  "dependencies": {
+    "opencode-ai": "^1.18.8",
+    "playwright": "^1.61.1"
+  }
 }

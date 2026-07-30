@@ -1,4 +1,4 @@
-# Antigravity Unified Engine v4.0 - Architettura Completa
+# Antigravity Unified Engine v4.0.1 - Architettura Completa
 
 ## 📋 Indice
 - [Panoramica](#panoramica)
@@ -18,7 +18,7 @@
 
 Antigravity Unified Engine è un'estensione VSCode/VSCodium che fornisce un ecosistema AI completo con 14 agenti specializzati, multi-provider AI routing, e orchestratori avanzati.
 
-**Versione:** 4.0.0  
+**Versione:** 4.0.1  
 **Publisher:** local-developer  
 **Engine:** VSCode ^1.60.0  
 **Linguaggio:** JavaScript (Node.js)

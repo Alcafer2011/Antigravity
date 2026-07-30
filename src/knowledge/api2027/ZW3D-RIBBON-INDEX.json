@@ -1,0 +1,2130 @@
+{
+ "Direct Edit": {
+  "Modify": [
+   "ID_!CdDeMove",
+   "ID_!CdFaceCnsMove",
+   "ID_!CdFaceDimMove",
+   "ID_!FtDeOffset",
+   "ID_!FtSpatula",
+   "ID_!FtDeDraft",
+   "ID_!CdDeMove",
+   "ID_!CdFaceCnsMove",
+   "ID_!CdFaceDimMove",
+   "ID_!FtDeOffset",
+   "ID_!FtSpatula",
+   "ID_!FtDeDraft"
+  ],
+  "Reuse": [
+   "ID_!CdDeCopy",
+   "ID_!FtDeMirror",
+   "ID_!FtDePtn",
+   "ID_!CdDeCopy",
+   "ID_!FtDeMirror",
+   "ID_!FtDePtn"
+  ]
+ },
+ "Root": {
+  "Insert Object": [
+   "ID_$NewObj=89",
+   "ID_$NewObj=90",
+   "ID_$NewObj=200",
+   "ID_$NewObj=70",
+   "ID_$NewObj=121",
+   "ID_$NewObj=89",
+   "ID_$NewObj=90",
+   "ID_$NewObj=200",
+   "ID_$NewObj=70",
+   "ID_$NewObj=121"
+  ],
+  "Edit Object": [
+   "ID_!CdRootDel",
+   "ID_!CdRootDel"
+  ],
+  "Data Exchange": [
+   "ID_$CdFileImport",
+   "ID_$CdFileIopView",
+   "ID_$CdFileInMulti",
+   "ID_$CdFileImport",
+   "ID_$CdFileIopView",
+   "ID_$CdFileInMulti"
+  ],
+  "Utilities": [
+   "ID_$SF=UiBrBlock",
+   "ID_$SF=UiNotes",
+   "ID_$SF=UiUpdName",
+   "ID_~CdEditorFile",
+   "ID_$CdWorkFolder",
+   "ID_$CdZwAppLm",
+   "ID_$CdStartFolderMgr",
+   "ID_$Another",
+   "ID_$CloseUnusedFiles",
+   "ID_$SF=UiBrBlock",
+   "ID_$SF=UiNotes",
+   "ID_$SF=UiUpdName",
+   "ID_~CdEditorFile",
+   "ID_$CdWorkFolder",
+   "ID_$CdZwAppLm",
+   "ID_$CdStartFolderMgr",
+   "ID_$Another",
+   "ID_$CloseUnusedFiles"
+  ]
+ },
+ "Tools": {
+  "Data Exchange": [
+   "ID_~CdCut",
+   "ID_~CdCopy",
+   "ID_~CdPaste",
+   "ID_$CdFileImport",
+   "ID_$CdFileIopView",
+   "ID_$CdFileInMulti",
+   "ID_$CdFileExport",
+   "ID_$SF=UiDxFileConvert",
+   "ID_~CmInpClipMgr",
+   "ID_~CmLibImpObjFn",
+   "ID_~CmLibExpObjFn",
+   "ID_~CdCopy",
+   "ID_~CdCut",
+   "ID_~CdPaste",
+   "ID_$CdFileImport",
+   "ID_$CdFileIopView",
+   "ID_$CdFileInMulti",
+   "ID_$CdFileExport",
+   "ID_~CdCut",
+   "ID_~CdCopy",
+   "ID_~CdPaste",
+   "ID_$CdFileImport",
+   "ID_$CdFileIopView",
+   "ID_$CdFileInMulti",
+   "ID_$CdFileExport",
+   "ID_$SF=UiDxFileConvert",
+   "ID_~CmInpClipMgr",
+   "ID_~CmLibImpObjFn",
+   "ID_~CmLibExpObjFn",
+   "ID_~CdCopy",
+   "ID_~CdCut",
+   "ID_~CdPaste",
+   "ID_$CdFileImport",
+   "ID_$CdFileIopView",
+   "ID_$CdFileInMulti",
+   "ID_$CdFileExport"
+  ],
+  "View": [
+   "ID_$CdRedraw",
+   "ID_^prevView",
+   "ID_^nextView",
+   "ID_!CdVuPnt",
+   "ID_!CdVuPntReset",
+   "ID_!CdVuAxis",
+   "ID_$CdRedraw",
+   "ID_^prevView",
+   "ID_^nextView",
+   "ID_$vport=6",
+   "ID_$CdRedraw",
+   "ID_^prevView",
+   "ID_^nextView",
+   "ID_!CdVuPnt",
+   "ID_!CdVuPntReset",
+   "ID_!CdVuAxis",
+   "ID_$CdRedraw",
+   "ID_^prevView",
+   "ID_^nextView",
+   "ID_$vport=6"
+  ],
+  "Attributes": [
+   "ID_$SF=CdStyleMgr",
+   "ID_~CdStylePointShow",
+   "ID_~CdStyleLineShow",
+   "ID_~CdStyleDimShow",
+   "ID_~CdStyleAnnoShow",
+   "ID_~CdStyleSymbsShow",
+   "ID_~CdStyleHatShow",
+   "ID_~CdStyleTextShow",
+   "ID_~CdStyleTblShow",
+   "ID_~CdStyleViewShow",
+   "ID_!CdAtPainter",
+   "ID_$SF=UiPartAt",
+   "ID_!CdSmdAttrib",
+   "ID_$SF=UiBatchAttribute",
+   "ID_$SF=UiDmAt3D",
+   "ID_$SF=UiPointAt",
+   "ID_$SF=UiLineAt",
+   "ID_$SF=UiDmAt3D",
+   "ID_$SF=UiTextAt",
+   "ID_$CdPrfClrStg",
+   "ID_$SF=CdStyleMgr",
+   "ID_~CdStylePointShow",
+   "ID_~CdStyleLineShow",
+   "ID_~CdStyleDimShow",
+   "ID_~CdStyleAnnoShow",
+   "ID_~CdStyleSymbsShow",
+   "ID_~CdStyleHatShow",
+   "ID_~CdStyleTextShow",
+   "ID_~CdStyleTblShow",
+   "ID_~CdStyleViewShow",
+   "ID_!CdAtPainter",
+   "ID_$SF=UiPartAt",
+   "ID_!CdSmdAttrib",
+   "ID_$SF=UiBatchAttribute",
+   "ID_!CdTolColor",
+   "ID_$SF=UiDmAt3D",
+   "ID_$SF=UiPointAt",
+   "ID_$SF=UiLineAt",
+   "ID_$SF=UiDmAt3D",
+   "ID_$SF=UiTextAt",
+   "ID_$CdPrfClrStg"
+  ],
+  "Settings": [
+   "ID_!CdDwgOrigin",
+   "ID_$CdSetStep",
+   "ID_$CdSettings",
+   "ID_$SF=UiNotes",
+   "ID_$SF=UiBackgroundAt",
+   "ID_$CdSettings",
+   "ID_$CdSetStep",
+   "ID_$SF=UiNotes",
+   "ID_$SF=UiBackgroundAt",
+   "ID_$SF=CmConfigUpdate",
+   "ID_$CdSetStep",
+   "ID_$CdSettings",
+   "ID_$SF=UiBackgroundAt",
+   "ID_$CdSetStep",
+   "ID_$SF=UiNotes",
+   "ID_$SF=UiBackgroundAt",
+   "ID_$CdSetStep",
+   "ID_$SF=UiNotes",
+   "ID_$SF=UiBackgroundAt",
+   "ID_!CdDwgOrigin",
+   "ID_$CdSetStep",
+   "ID_$CdSettings",
+   "ID_$SF=UiNotes",
+   "ID_$SF=UiBackgroundAt",
+   "ID_$CdSettings",
+   "ID_$CdSetStep",
+   "ID_$SF=UiNotes",
+   "ID_$SF=UiBackgroundAt",
+   "ID_$SF=CmConfigUpdate",
+   "ID_$CdSetStep",
+   "ID_$CdSettings",
+   "ID_$SF=UiBackgroundAt",
+   "ID_$CdSetStep",
+   "ID_$SF=UiNotes",
+   "ID_$SF=UiBackgroundAt",
+   "ID_$CdSetStep",
+   "ID_$SF=UiNotes",
+   "ID_$SF=UiBackgroundAt",
+   "ID_$SF=CmConfigUpdate",
+   "ID_$CdSetStep",
+   "ID_$CdSettings",
+   "ID_$SF=UiBackgroundAt"
+  ],
+  "Utilities": [
+   "ID_~BrVarAll",
+   "ID_$SF=UiUpdName",
+   "ID_~CdEditorFile",
+   "ID_~CdFontConv",
+   "ID_~CdShowEqnMgr",
+   "ID_$ss",
+   "ID_$CdWorkFolder",
+   "ID_$CdZwAppLm",
+   "ID_$CdStartFolderMgr",
+   "ID_$Another",
+   "ID_$CloseUnusedFiles",
+   "ID_~BrVarAll",
+   "ID_$SF=UiBrBlock",
+   "ID_~CdRenameShow",
+   "ID_$SF=UiUpdName",
+   "ID_~CdEditorFile",
+   "ID_~CdFontConv",
+   "ID_$ss",
+   "ID_$CdWorkFolder",
+   "ID_$CdZwAppLm",
+   "ID_$CdStartFolderMgr",
+   "ID_$Another",
+   "ID_$CloseUnusedFiles",
+   "ID_$SF=CmTaskScheduler",
+   "ID_$SF=UiUpdName",
+   "ID_~CdEditorFile",
+   "ID_$ss",
+   "ID_$CdWorkFolder",
+   "ID_$CdZwAppLm",
+   "ID_$CdStartFolderMgr",
+   "ID_$Another",
+   "ID_$CloseUnusedFiles",
+   "ID_~BrVarAll",
+   "ID_$CdUnitConvert",
+   "ID_$ss",
+   "ID_$CdWorkFolder",
+   "ID_$CdZwAppLm",
+   "ID_$CdStartFolderMgr",
+   "ID_$Another",
+   "ID_$CloseUnusedFiles",
+   "ID_~BrVarAll",
+   "ID_$SF=UiUpdName",
+   "ID_~CdEditorFile",
+   "ID_~CdFontConv",
+   "ID_~CdShowEqnMgr",
+   "ID_$ss",
+   "ID_$CdWorkFolder",
+   "ID_$CdZwAppLm",
+   "ID_$CdStartFolderMgr",
+   "ID_$Another",
+   "ID_$CloseUnusedFiles",
+   "ID_~BrVarAll",
+   "ID_$SF=UiBrBlock",
+   "ID_~CdRenameShow",
+   "ID_$SF=UiUpdName",
+   "ID_~CdEditorFile",
+   "ID_~CdFontConv",
+   "ID_$ss",
+   "ID_$CdWorkFolder",
+   "ID_$CdZwAppLm",
+   "ID_$CdStartFolderMgr",
+   "ID_$Another",
+   "ID_$CloseUnusedFiles",
+   "ID_$SF=CmTaskScheduler",
+   "ID_!CdTolColor",
+   "ID_$SF=UiUpdName",
+   "ID_~CdEditorFile",
+   "ID_$ss",
+   "ID_$CdWorkFolder",
+   "ID_$CdZwAppLm",
+   "ID_$CdStartFolderMgr",
+   "ID_$Another",
+   "ID_$CloseUnusedFiles",
+   "ID_~BrVarAll",
+   "ID_$CdUnitConvert",
+   "ID_$ss",
+   "ID_$CdWorkFolder",
+   "ID_$CdZwAppLm",
+   "ID_$CdStartFolderMgr",
+   "ID_$Another",
+   "ID_$CloseUnusedFiles",
+   "ID_!CdTolColor",
+   "ID_$SF=UiUpdName",
+   "ID_~CdEditorFile",
+   "ID_$ss",
+   "ID_$CdWorkFolder",
+   "ID_$CdZwAppLm",
+   "ID_$CdStartFolderMgr",
+   "ID_$Another",
+   "ID_$CloseUnusedFiles"
+  ],
+  "Insert": [
+   "ID_~CdShowEqnMgr",
+   "ID_!CdInsSubPart",
+   "ID_!CdEditAllPrtCfg",
+   "ID_$SF=UiAutoDraft",
+   "ID_!CdPartPickSet",
+   "ID_~CdShowEqnMgr",
+   "ID_!CdInsSubPart",
+   "ID_!CdEditAllPrtCfg",
+   "ID_!CdPartPickSet"
+  ],
+  "Library": [
+   "ID_$SF=UiPartTable",
+   "ID_~CdMatlLibrary",
+   "ID_~CdUDFWizardShow",
+   "ID_~CdUDFInsShow",
+   "ID_$SF=UiPartTable",
+   "ID_~CdMatlLibrary",
+   "ID_~CdUDFWizardShow",
+   "ID_~CdUDFInsShow"
+  ]
+ },
+ "PMI": {
+  "Dimension": [
+   "ID_!CdPMIDimAll",
+   "ID_!CdPMIDimLin",
+   "ID_!CdPMISym",
+   "ID_!CdPMIDimAng",
+   "ID_!CdPMIDimRad",
+   "ID_!CdPMIDimChamfer",
+   "ID_!CdPMIDimArc",
+   "ID_!CdPMIDimHole",
+   "ID_!CdPartBounding",
+   "ID_!CdPMIDimAll",
+   "ID_!CdPMIDimLin",
+   "ID_!CdPMISym",
+   "ID_!CdPMIDimAng",
+   "ID_!CdPMIDimRad",
+   "ID_!CdPMIDimChamfer",
+   "ID_!CdPMIDimArc",
+   "ID_!CdPMIDimHole",
+   "ID_!CdPartBounding"
+  ],
+  "Annotation": [
+   "ID_!CdPMICoord",
+   "ID_!CdPMILabel",
+   "ID_!CdPMIBalloon",
+   "ID_!CdPMIStack",
+   "ID_!CdPMIDatumFs",
+   "ID_!CdPMIDatumT",
+   "ID_!CdPMIFCS",
+   "ID_!CdPMIIntsectSym",
+   "ID_!CdPMISymWeldCrt",
+   "ID_!CdPMISymSrf",
+   "ID_!CdPMISymInsert",
+   "ID_!CdPMICoord",
+   "ID_!CdPMILabel",
+   "ID_!CdPMIBalloon",
+   "ID_!CdPMIStack",
+   "ID_!CdPMIDatumFs",
+   "ID_!CdPMIDatumT",
+   "ID_!CdPMIFCS",
+   "ID_!CdPMIIntsectSym",
+   "ID_!CdPMISymWeldCrt",
+   "ID_!CdPMISymSrf",
+   "ID_!CdPMISymInsert"
+  ],
+  "Text": [
+   "ID_!CdTextFtr",
+   "ID_!CdBalloonFtr",
+   "ID_!CdTextFtr",
+   "ID_!CdBalloonFtr"
+  ],
+  "Display": [
+   "ID_$SF=UiPMIDmAt",
+   "ID_~CdPMIResize",
+   "ID_$CdPMIRegenAll",
+   "ID_$SF=UiPMIDmAt",
+   "ID_~CdPMIResize",
+   "ID_$CdPMIRegenAll"
+  ]
+ },
+ "Visualize": {
+  "View": [
+   "ID_!CdVuPnt",
+   "ID_!CdVuPntReset",
+   "ID_!CdVuAxis",
+   "ID_$CdRedraw",
+   "ID_^prevView",
+   "ID_^nextView",
+   "ID_$vport=6",
+   "ID_!CdVuPnt",
+   "ID_!CdVuAxis",
+   "ID_$CdRedraw",
+   "ID_^prevView",
+   "ID_^nextView",
+   "ID_$vport=6",
+   "ID_!CdVuPnt",
+   "ID_!CdVuPntReset",
+   "ID_!CdVuAxis",
+   "ID_$CdRedraw",
+   "ID_^prevView",
+   "ID_^nextView",
+   "ID_$vport=6",
+   "ID_!CdVuPnt",
+   "ID_!CdVuPntReset",
+   "ID_!CdVuAxis",
+   "ID_$CdRedraw",
+   "ID_^prevView",
+   "ID_^nextView",
+   "ID_$vport=6",
+   "ID_!CdVuPnt",
+   "ID_!CdVuAxis",
+   "ID_$CdRedraw",
+   "ID_^prevView",
+   "ID_^nextView",
+   "ID_$vport=6",
+   "ID_!CdVuPnt",
+   "ID_!CdVuPntReset",
+   "ID_!CdVuAxis",
+   "ID_$CdRedraw",
+   "ID_^prevView",
+   "ID_^nextView",
+   "ID_$vport=6"
+  ],
+  "Material": [
+   "ID_!CdVFaceAppAt",
+   "ID_!CdVFaceAppCpy",
+   "ID_!CdVFaceAppAt",
+   "ID_!CdVFaceAppCpy"
+  ],
+  "Environment and Lighting": [
+   "ID_!CdEnvScene",
+   "ID_!CdLites",
+   "ID_!CdLiteMod",
+   "ID_!CdLiteDel",
+   "ID_!CdLiteDelAll",
+   "ID_$CdSwapLite",
+   "ID_!CdEnvScene",
+   "ID_!CdLites",
+   "ID_!CdLiteMod",
+   "ID_!CdLiteDel",
+   "ID_!CdLiteDelAll",
+   "ID_$CdSwapLite"
+  ],
+  "Light": [
+   "ID_!CdLites",
+   "ID_!CdLiteMod",
+   "ID_!CdLiteDel",
+   "ID_!CdLiteDelAll",
+   "ID_$CdSwapLite",
+   "ID_!CdLites",
+   "ID_!CdLiteMod",
+   "ID_!CdLiteDel",
+   "ID_!CdLiteDelAll",
+   "ID_$CdSwapLite"
+  ]
+ },
+ "Data Exchange": {
+  "Import": [
+   "ID_$CdFileImport",
+   "ID_$CdFileIopView",
+   "ID_$CdFileInMulti",
+   "ID_!CdGeomCopy",
+   "ID_!CdInsSketch",
+   "ID_!CdInsPart",
+   "ID_$CdFileSTLImport",
+   "ID_!CdPtImport",
+   "ID_!CdWrap",
+   "ID_$CdFileImport",
+   "ID_!CdGeomCopy",
+   "ID_!CdInsSketch",
+   "ID_!CdInsPart",
+   "ID_!CdWrap",
+   "ID_$CdFileImport",
+   "ID_!CdGeomCopy",
+   "ID_!CdInsSketch",
+   "ID_!CdInsPart",
+   "ID_!CdWrap",
+   "ID_$CdFileImport",
+   "ID_$CdFileIopView",
+   "ID_$CdFileInMulti",
+   "ID_!CdGeomCopy",
+   "ID_!CdInsSketch",
+   "ID_!CdInsPart",
+   "ID_$CdFileSTLImport",
+   "ID_!CdPtImport",
+   "ID_!CdWrap",
+   "ID_$CdFileImport",
+   "ID_!CdGeomCopy",
+   "ID_!CdInsSketch",
+   "ID_!CdInsPart",
+   "ID_!CdWrap",
+   "ID_$CdFileImport",
+   "ID_!CdGeomCopy",
+   "ID_!CdInsSketch",
+   "ID_!CdInsPart",
+   "ID_!CdWrap"
+  ],
+  "Export": [
+   "ID_$CdFileExport",
+   "ID_$CdFileConvert",
+   "ID_!CdGeomExportII",
+   "ID_!CdCompExtract",
+   "ID_!CdPartPubSet",
+   "ID_!CdGeomExportII",
+   "ID_!CdCompExtract",
+   "ID_!CdPartPubSet",
+   "ID_$CdFileExport",
+   "ID_$CdFileConvert",
+   "ID_!CdGeomExportII",
+   "ID_!CdCompExtract",
+   "ID_!CdPartPubSet",
+   "ID_!CdGeomExportII",
+   "ID_!CdCompExtract",
+   "ID_!CdPartPubSet"
+  ]
+ },
+ "Drawing Packet": {
+  "Insert Sheet": [
+   "ID_$NewObj=90",
+   "ID_!CdSheetInst",
+   "ID_$NewObj=90",
+   "ID_!CdSheetInst"
+  ],
+  "Edit Object": [
+   "ID_!CdRootRename2",
+   "ID_!CdRootDel",
+   "ID_!CdInqTarg",
+   "ID_!CdRootRename2",
+   "ID_!CdRootDel",
+   "ID_!CdInqTarg"
+  ],
+  "Utilities": [
+   "ID_$CdEditParent",
+   "ID_$SF=UiInqFiles",
+   "ID_$SF=UiUpdName",
+   "ID_~CdEditorFile",
+   "ID_$CdWorkFolder",
+   "ID_$CdZwAppLm",
+   "ID_$CdStartFolderMgr",
+   "ID_$Another",
+   "ID_$CloseUnusedFiles",
+   "ID_$CdEditParent",
+   "ID_$SF=UiInqFiles",
+   "ID_$SF=UiUpdName",
+   "ID_~CdEditorFile",
+   "ID_$CdWorkFolder",
+   "ID_$CdZwAppLm",
+   "ID_$CdStartFolderMgr",
+   "ID_$Another",
+   "ID_$CloseUnusedFiles"
+  ]
+ },
+ "Quick Primer": {
+  "Start": [
+   "ID_$CdFileNew",
+   "ID_!CdFileOpen3",
+   "ID_$CdFileNew",
+   "ID_!CdFileOpen3"
+  ],
+  "Data Exchange": [
+   "ID_$CdFileImport",
+   "ID_$CdFileIopView",
+   "ID_$CdFileInMulti",
+   "ID_$CdFileImport",
+   "ID_$CdFileIopView",
+   "ID_$CdFileInMulti"
+  ],
+  "Utilities": [
+   "ID_$CdWorkFolder",
+   "ID_$CdWorkFolder"
+  ],
+  "Applications": [
+   "ID_$SF=UiAppMgr",
+   "ID_$CdFileOpenInCAD_Top",
+   "ID_$CdModelImport",
+   "ID_$SF=UiAppMgr",
+   "ID_$CdFileOpenInCAD_Top",
+   "ID_$CdAIAutoDim",
+   "ID_$CdModelImport"
+  ]
+ },
+ "2x Mill": {
+  "Tactics": [
+   "ID_~PmRSetsPop(2)",
+   "ID_~PmRSetsPop(2)"
+  ],
+  "2D Pocket": [
+   "ID_~PmOp(202)",
+   "ID_~PmOp(204)",
+   "ID_~PmOp(203)",
+   "ID_~PmOp(205)",
+   "ID_~PmOp(212)",
+   "ID_~PmOp(202)",
+   "ID_~PmOp(204)",
+   "ID_~PmOp(203)",
+   "ID_~PmOp(205)",
+   "ID_~PmOp(212)",
+   "ID_~PmOpCreateSpiralCut2",
+   "ID_~PmOpCreatePocketing"
+  ],
+  "2D Contour": [
+   "ID_~PmOp(201)",
+   "ID_~PmOp(208)",
+   "ID_~PmOp(322)",
+   "ID_~PmOp(211)",
+   "ID_~PmOp(201)",
+   "ID_~PmOp(208)",
+   "ID_~PmOp(322)",
+   "ID_~PmOp(211)",
+   "ID_~PmOpCreateProfileCut2",
+   "ID_~PmOpCreateCtrText"
+  ],
+  "Corner cut": [
+   "ID_~PmOp(206)",
+   "ID_~PmOp(209)",
+   "ID_~PmOp(206)",
+   "ID_~PmOp(209)"
+  ],
+  "2D Face": [
+   "ID_~PmOp(207)",
+   "ID_~PmOp(213)",
+   "ID_~PmOp(210)",
+   "ID_~PmOp(207)",
+   "ID_~PmOp(213)",
+   "ID_~PmOp(210)"
+  ]
+ },
+ "3x Nurbs": {
+  "Rough": [
+   "ID_~PmOp3x(308)",
+   "ID_~PmOp3x(310)",
+   "ID_~PmOp3x(309)",
+   "ID_~PmOp3x(318)",
+   "ID_~PmOp3x(308)",
+   "ID_~PmOp3x(310)",
+   "ID_~PmOp3x(309)",
+   "ID_~PmOp3x(318)"
+  ],
+  "Cast": [
+   "ID_~PmOp3x(311)",
+   "ID_~PmOp3x(313)",
+   "ID_~PmOp3x(312)",
+   "ID_~PmOp3x(319)",
+   "ID_~PmOp3x(311)",
+   "ID_~PmOp3x(313)",
+   "ID_~PmOp3x(312)",
+   "ID_~PmOp3x(319)"
+  ],
+  "Finish": [
+   "ID_~PmOp3x(304)",
+   "ID_~PmOp3x(306)",
+   "ID_~PmOp3x(305)",
+   "ID_~PmOp3x(317)",
+   "ID_~PmOp3x(307)",
+   "ID_~PmOp3x(304)",
+   "ID_~PmOp3x(306)",
+   "ID_~PmOp3x(305)",
+   "ID_~PmOp3x(317)",
+   "ID_~PmOp3x(307)"
+  ],
+  "Cut": [
+   "ID_~PmOp3x(302)",
+   "ID_~PmOp3x(321)",
+   "ID_~PmOp3x(303)",
+   "ID_~PmOp3x(339)",
+   "ID_~PmOp3x(301)",
+   "ID_~PmOp3x(314)",
+   "ID_~PmOp3x(315)",
+   "ID_~PmOp3x(316)",
+   "ID_~PmOp3x(302)",
+   "ID_~PmOp3x(321)",
+   "ID_~PmOp3x(303)",
+   "ID_~PmOp3x(339)",
+   "ID_~PmOp3x(301)",
+   "ID_~PmOp3x(314)",
+   "ID_~PmOp3x(315)",
+   "ID_~PmOp3x(316)"
+  ]
+ },
+ "3x Quick": {
+  "Tactic": [
+   "ID_~PmRSetsPop(3)",
+   "ID_~PmRSetsPop(3)"
+  ],
+  "Drill": [
+   "ID_~PmOp3x(334)",
+   "ID_~PmOp3x(334)"
+  ],
+  "Rough": [
+   "ID_~PmOp3x(340)",
+   "ID_~PmOp3x(332)",
+   "ID_~PmOp3x(331)",
+   "ID_~PmOp3x(333)",
+   "ID_~PmOp3x(345)",
+   "ID_~PmOp3x(340)",
+   "ID_~PmOp3x(332)",
+   "ID_~PmOp3x(331)",
+   "ID_~PmOp3x(333)",
+   "ID_~PmOp3x(345)",
+   "ID_~PmOpCreateQmRough"
+  ],
+  "Finish": [
+   "ID_~PmOp3x(323)",
+   "ID_~PmOp3x(329)",
+   "ID_~PmOp3x(342)",
+   "ID_~PmOp3x(343)",
+   "ID_~PmOp3x(344)",
+   "ID_~PmOpCreateRegionMill",
+   "ID_~PmOpCreateZConstant",
+   "ID_~PmOpCreateCornerPlunge",
+   "ID_~PmOpCreateChamferPlunge",
+   "ID_~PmOpCreateChamferDebur",
+   "ID_~PmOpCreateAreaMill2",
+   "ID_~PmOpCreateCornerFinish2",
+   "ID_~PmOpCreateZConstant2",
+   "ID_~PmOpCreateRegionMill2",
+   "ID_~CmQmCacheClean",
+   "ID_~CmQmDirClean",
+   "ID_~PmOp3x(323)",
+   "ID_~PmOp3x(329)",
+   "ID_~PmOp3x(342)",
+   "ID_~PmOp3x(343)",
+   "ID_~PmOp3x(344)",
+   "ID_~PmOpCreateRegionMill",
+   "ID_~PmOpCreateZConstant",
+   "ID_~PmOpCreateCornerPlunge",
+   "ID_~PmOpCreateChamferPlunge",
+   "ID_~PmOpCreateChamferDebur",
+   "ID_~PmOpCreate3xChamferDebur",
+   "ID_~PmOpCreateOff3dcut2",
+   "ID_~PmOpCreateAreaMill2",
+   "ID_~PmOpCreateOff3dcut2",
+   "ID_~PmOpCreateZConstant2",
+   "ID_~PmOpCreateRegionMill2",
+   "ID_~PmOpCreateCornerFinish2",
+   "ID_~PmOpCreatePencilCut2",
+   "ID_~PmOpCreate3xPointCurve",
+   "ID_~PmOpCreate3xTrackCrv",
+   "ID_~PmOpCreate3xChamferDebur2"
+  ],
+  "Cut": [
+   "ID_~PmOp3x(325)",
+   "ID_~PmOp3x(324)",
+   "ID_~PmOp3x(330)",
+   "ID_~PmOp3x(335)",
+   "ID_~PmOp3x(336)",
+   "ID_~PmOpCreate4xFinishing",
+   "ID_~PmOp3x(325)",
+   "ID_~PmOp3x(324)",
+   "ID_~PmOp3x(330)",
+   "ID_~PmOp3x(335)",
+   "ID_~PmOp3x(336)",
+   "ID_~PmOpCreate4xFinishing",
+   "ID_~PmOpCreate4xRoughing"
+  ],
+  "Engrave": [
+   "ID_~PmOp3x(337)",
+   "ID_~PmOp3x(337)"
+  ],
+  "HSM": [
+   "ID_~PmOp3x(341)",
+   "ID_~PmOp3x(326)",
+   "ID_~PmOp3x(328)",
+   "ID_~PmOp3x(327)",
+   "ID_~PmOp3x(341)",
+   "ID_~PmOp3x(326)",
+   "ID_~PmOp3x(328)",
+   "ID_~PmOp3x(327)"
+  ],
+  "Directive": [
+   "ID_~PmOp3x(501)",
+   "ID_~PmOp3x(501)"
+  ],
+  "Tools": [
+   "ID_!CmQmSrvCfg",
+   "ID_$SF=CmVxQmBatchMgr",
+   "ID_~CmQmCacheClean",
+   "ID_~CmQmDirClean",
+   "ID_!CmQmSrvCfg",
+   "ID_$SF=CmVxQmBatchMgr",
+   "ID_~CmQmCacheClean",
+   "ID_~CmQmDirClean"
+  ]
+ },
+ "5x Mill": {
+  "Cut": [
+   "ID_~PmOp5x(401)",
+   "ID_~PmOp5x(402)",
+   "ID_~PmOp5x(403)",
+   "ID_~PmOp5x(404)",
+   "ID_~PmOp5x(405)",
+   "ID_~PmOp5x(406)",
+   "ID_~PmOp5x(407)",
+   "ID_~PmOp5x(401)",
+   "ID_~PmOp5x(402)",
+   "ID_~PmOp5x(403)",
+   "ID_~PmOp5x(404)",
+   "ID_~PmOp5x(405)",
+   "ID_~PmOp5x(406)",
+   "ID_~PmOp5x(407)",
+   "ID_~PmOpCreate5xFcurve",
+   "ID_~PmOpCreate5xGcurve"
+  ]
+ },
+ "Inquire": {
+  "Measure": [
+   "ID_~CmInquirePop(0)",
+   "ID_~CmInquirePop(1)",
+   "ID_~CmInquirePop(2)",
+   "ID_~CmInquirePop(3)",
+   "ID_~CmInquirePop(4)",
+   "ID_~CmInquirePop(5)",
+   "ID_!CdSmtMsr",
+   "ID_!CdDstAll",
+   "ID_!CdInqAngAll",
+   "ID_!WrInqArc3P",
+   "ID_!WrInqRad",
+   "ID_!WrInqLen",
+   "ID_!CdInqSrfProp",
+   "ID_!CdDst2All",
+   "ID_!CdInqAng2All",
+   "ID_!WrInqArc3P-2D",
+   "ID_!WrInqLen2",
+   "ID_!WrInqArea",
+   "ID_!CdDstAll",
+   "ID_!CdInqAngAll",
+   "ID_!WrInqArc3P",
+   "ID_!WrInqLen3",
+   "ID_!WrInqArea2",
+   "ID_$SF=UiShowOverlap",
+   "ID_!CdDst2All",
+   "ID_!CdInqAng2All",
+   "ID_!WrInqArc3P-2D",
+   "ID_!WrInqLen2",
+   "ID_!WrInqArea",
+   "ID_!CdSmtMsr",
+   "ID_!CdDstAll",
+   "ID_!CdInqAngAll",
+   "ID_!WrInqArc3P",
+   "ID_!WrInqRad",
+   "ID_!WrInqLen",
+   "ID_!CdInqSrfProp",
+   "ID_!WrInqCoord3",
+   "ID_!CdDstAll",
+   "ID_!CdInqAngAll",
+   "ID_!WrInqArc3",
+   "ID_!WrInqLen",
+   "ID_!CdInqSrfProp",
+   "ID_~CmInquirePop(0)",
+   "ID_~CmInquirePop(1)",
+   "ID_~CmInquirePop(2)",
+   "ID_~CmInquirePop(3)",
+   "ID_~CmInquirePop(4)",
+   "ID_~CmInquirePop(5)",
+   "ID_!CdSmtMsr",
+   "ID_!CdDstAll",
+   "ID_!CdInqAngAll",
+   "ID_!WrInqArc3P",
+   "ID_!WrInqRad",
+   "ID_!WrInqLen",
+   "ID_!CdInqSrfProp",
+   "ID_!CdDst2All",
+   "ID_!CdInqAng2All",
+   "ID_!WrInqArc3P-2D",
+   "ID_!WrInqLen2",
+   "ID_!WrInqArea",
+   "ID_!CdDstAll",
+   "ID_!CdInqAngAll",
+   "ID_!WrInqArc3P",
+   "ID_!WrInqLen3",
+   "ID_!WrInqArea2",
+   "ID_$SF=UiShowOverlap",
+   "ID_!CdDst2All",
+   "ID_!CdInqAng2All",
+   "ID_!WrInqArc3P-2D",
+   "ID_!WrInqLen2",
+   "ID_!WrInqArea",
+   "ID_!CdSmtMsr",
+   "ID_!CdDstAll",
+   "ID_!CdInqAngAll",
+   "ID_!WrInqArc3P",
+   "ID_!WrInqRad",
+   "ID_!WrInqLen",
+   "ID_!CdInqSrfProp",
+   "ID_!WrInqCoord3",
+   "ID_!CdDstAll",
+   "ID_!CdInqAngAll",
+   "ID_!WrInqArc3",
+   "ID_!WrInqLen",
+   "ID_!CdInqSrfProp"
+  ],
+  "Inspect Entities": [
+   "ID_!CdInqPlistCrv",
+   "ID_!CdSrfAnalz2",
+   "ID_!WrInqNrbSrf",
+   "ID_!CdSfInqKrv",
+   "ID_!CdDynSectionCm",
+   "ID_~CdDynSection",
+   "ID_!CdInqEntity",
+   "ID_!CdInqPlistCrv",
+   "ID_!CdSfInqKrv",
+   "ID_!CdInqPlistSrf",
+   "ID_!CdThkAnalz",
+   "ID_!FtDraftAngChk",
+   "ID_!CdUndercut",
+   "ID_!CdSectionAlz",
+   "ID_!SmdBendInfo",
+   "ID_!WrInqCoord2",
+   "ID_!CdInqEntity2",
+   "ID_!WrInqCrv",
+   "ID_!WrInqNrbCrv",
+   "ID_!CdCvCpDraw",
+   "ID_!CdCvCombTeeth",
+   "ID_!CdInqPlistCrv",
+   "ID_!DmNotToScale",
+   "ID_!CdInqPlistCrv",
+   "ID_!CdSrfAnalz2",
+   "ID_!WrInqNrbSrf",
+   "ID_!CdSfInqKrv",
+   "ID_!CdDynSection",
+   "ID_~CdDynSection",
+   "ID_!CdInqPlistCrv",
+   "ID_!CmWatcher",
+   "ID_!CdSrfAnalz2",
+   "ID_!WrInqNrbSrf",
+   "ID_!CdSfInqKrv",
+   "ID_!CdDynSectionCm",
+   "ID_~CdDynSection",
+   "ID_!CdInqEntity",
+   "ID_!CdInqPlistCrv",
+   "ID_!CdSfInqKrv",
+   "ID_!CdInqPlistSrf",
+   "ID_!CdThkAnalz",
+   "ID_!FtDraftAngChk",
+   "ID_!CdUndercut",
+   "ID_!CdSectionAlz",
+   "ID_!SmdBendInfo",
+   "ID_!WrInqCoord2",
+   "ID_!CdInqEntity2",
+   "ID_!WrInqCrv",
+   "ID_!WrInqNrbCrv",
+   "ID_!CdCvCpDraw",
+   "ID_!CdCvCombTeeth",
+   "ID_!CdInqPlistCrv",
+   "ID_!DmNotToScale"
+  ]
+ },
+ "Animation": {
+  "Animation": [
+   "ID_!AnimNewAnimInst",
+   "ID_!AnimImportExp",
+   "ID_!AnimNewAnimInst",
+   "ID_!AnimImportExp"
+  ],
+  "Key Frame": [
+   "ID_!AnimAddViewKfrm",
+   "ID_!AnimAddMotor",
+   "ID_!AnimAddAppKfrm",
+   "ID_!AnimPosKfrmCmd",
+   "ID_!AnimAddViewKfrm",
+   "ID_!AnimAddMotor",
+   "ID_!AnimAddAppKfrm",
+   "ID_!AnimPosKfrmCmd"
+  ],
+  "Animation Inquire": [
+   "ID_!AnimBandAnal",
+   "ID_!AnimInferCrt",
+   "ID_!AnimTrkCrt",
+   "ID_!AnimBandAnal",
+   "ID_!AnimInferCrt",
+   "ID_!AnimTrkCrt"
+  ]
+ },
+ "Assembly": {
+  "Component": [
+   "ID_!CdCompSetPart",
+   "ID_!CdEditCompPart",
+   "ID_!CdCompSetPart",
+   "ID_!CdEditCompPart"
+  ],
+  "Constraint": [
+   "ID_!AsAlnAll2",
+   "ID_!AsMechAlnAll",
+   "ID_!AsMcmPulley",
+   "ID_!AsAlnFix",
+   "ID_!AsUnivAlign",
+   "ID_$SF=AsInqAlnStat",
+   "ID_!AnimAlnKfrmCmd",
+   "ID_!AsAlnAll2",
+   "ID_!AsMechAlnAll",
+   "ID_!AsMcmPulley",
+   "ID_!AsAlnFix",
+   "ID_!AsUnivAlign",
+   "ID_$SF=AsInqAlnStat",
+   "ID_!AnimAlnKfrmCmd"
+  ],
+  "Basic Editing": [
+   "ID_!AsmPtnAll",
+   "ID_!AsmMirrorAll2",
+   "ID_!FtAssemCut4",
+   "ID_!FtAssemHole",
+   "ID_!FtAssemFillet",
+   "ID_!FtAssemChamfers",
+   "ID_!AsmPtnAll",
+   "ID_!AsmMirrorAll2",
+   "ID_!FtAssemCut4",
+   "ID_!FtAssemHole",
+   "ID_!FtAssemFillet",
+   "ID_!FtAssemChamfers"
+  ],
+  "Library": [
+   "ID_$SF=UiPartTable",
+   "ID_~CdUDFWizardShow",
+   "ID_~CdUDFInsShow",
+   "ID_$SF=UiPartTable",
+   "ID_~CdUDFWizardShow",
+   "ID_~CdUDFInsShow"
+  ],
+  "Inquire": [
+   "ID_$SF=AsInqAlnStat",
+   "ID_!CdIferChk1",
+   "ID_!CdClrChk",
+   "ID_$SF=UiCompareParts",
+   "ID_$SF=Ui3DBom",
+   "ID_$SF=AsInqAlnStat",
+   "ID_!CdIferChk1",
+   "ID_!CdClrChk",
+   "ID_$SF=UiCompareParts",
+   "ID_$SF=Ui3DBom"
+  ],
+  "Animation": [
+   "ID_!CdEnterAnim",
+   "ID_!CdEnterAnim"
+  ]
+ },
+ "Dimension": {
+  "Dimension": [
+   "ID_!DmShowModelDim",
+   "ID_!DmOff",
+   "ID_!DmSym",
+   "ID_!DmChmf",
+   "ID_!DmRadDia",
+   "ID_!DmArc",
+   "ID_!CdHoleCallMk",
+   "ID_!DmShowModelDim",
+   "ID_!DmOff",
+   "ID_!DmSym",
+   "ID_!DmChmf",
+   "ID_!DmRadDia",
+   "ID_!DmArc",
+   "ID_!CdHoleCallMk"
+  ],
+  "Annotation": [
+   "ID_!DmLabelOrd",
+   "ID_!DmLabel",
+   "ID_!DmBalloon",
+   "ID_!CdAutoBalloon",
+   "ID_!DmFCS",
+   "ID_!DmDatum",
+   "ID_!DmDatumTc",
+   "ID_!DmElevation",
+   "ID_!DmLabelOrd",
+   "ID_!DmLabel",
+   "ID_!DmBalloon",
+   "ID_!CdAutoBalloon",
+   "ID_!DmFCS",
+   "ID_!DmDatum",
+   "ID_!DmDatumTc",
+   "ID_!DmElevation"
+  ],
+  "Symbol": [
+   "ID_!CdSymSrfCrt",
+   "ID_!DmIntsectSym",
+   "ID_!CdSymImgCrt",
+   "ID_!CdSymMarkCrt",
+   "ID_~CdFileInsert",
+   "ID_!CdSymSrfCrt",
+   "ID_!DmIntsectSym",
+   "ID_!CdSymImgCrt",
+   "ID_!CdSymMarkCrt",
+   "ID_~CdFileInsert"
+  ],
+  "Edit Dimension": [
+   "ID_!DmModTol",
+   "ID_!DmRefToggle",
+   "ID_!DmModDogLeg",
+   "ID_!DmRotCenter",
+   "ID_!DmModTol",
+   "ID_!DmRefToggle",
+   "ID_!DmModDogLeg",
+   "ID_!DmRotCenter"
+  ]
+ },
+ "Drawing": {
+  "Drawing": [
+   "ID_!WrSmtDraw2D",
+   "ID_!WrCrCircles",
+   "ID_!WrCrElps",
+   "ID_!WrCrBndBox",
+   "ID_!CdShtProf",
+   "ID_!WrSmtDraw2D",
+   "ID_!WrCrCircles",
+   "ID_!WrCrElps",
+   "ID_!WrCrBndBox",
+   "ID_!CdShtProf"
+  ],
+  "Curve": [
+   "ID_!CdBlend2CrvsII",
+   "ID_!CdFitCrv",
+   "ID_!CdBlend2CrvsII",
+   "ID_!CdFitCrv"
+  ],
+  "Edit Curve": [
+   "ID_!CdCvModII",
+   "ID_!CdCvModII"
+  ]
+ },
+ "Drill": {
+  "Tactics": [
+   "ID_~PmRSetsPop(1)",
+   "ID_~PmRSetsPop(1)"
+  ]
+ },
+ "Electrode": {
+  "Start": [
+   "ID_~CdElecPrj",
+   "ID_!CdInstPart3",
+   "ID_!CdInstNewPart",
+   "ID_!FtAllSub",
+   "ID_!CdInsPart",
+   "ID_~CdElecPrj",
+   "ID_!CdInstPart3",
+   "ID_!CdInstNewPart",
+   "ID_!FtAllSub",
+   "ID_!CdInsPart"
+  ],
+  "Basic Editing": [
+   "ID_!FtPtnElectrode",
+   "ID_!CdAllMove",
+   "ID_!CdAllCopy",
+   "ID_!CdScale3D",
+   "ID_!FtPtnElectrode",
+   "ID_!CdAllMove",
+   "ID_!CdAllCopy",
+   "ID_!CdScale3D"
+  ]
+ },
+ "Exploded View": {
+  "Exploded View": [
+   "ID_!AsmExpAddStep",
+   "ID_!AsmExpViewAuto",
+   "ID_!AsmExpAddTrail",
+   "ID_!AsmExpAutoTrail",
+   "ID_!AsmExpReuse",
+   "ID_!AsmSwitchExp"
+  ]
+ },
+ "Shape": {
+  "Basic Shape": [
+   "ID_!FtAllExt",
+   "ID_!FtAllRev",
+   "ID_!FtAllExt",
+   "ID_!FtAllRev"
+  ],
+  "Engineering Feature": [
+   "ID_!FtChamfers2",
+   "ID_!FtSlot",
+   "ID_!FtExtStock2",
+   "ID_!FtChamfers2",
+   "ID_!FtSlot",
+   "ID_!FtExtStock2"
+  ],
+  "Edit Shape": [
+   "ID_!FtShell1",
+   "ID_!FtThicken",
+   "ID_!FtSpatula",
+   "ID_!FtSelfX",
+   "ID_!FtShell1",
+   "ID_!FtThicken",
+   "ID_!FtSpatula",
+   "ID_!FtSelfX"
+  ],
+  "Morph": [
+   "ID_!FtWrapShp",
+   "ID_!FtWrapPtn",
+   "ID_!FtWrapShp",
+   "ID_!FtWrapPtn"
+  ],
+  "Basic Editing": [
+   "ID_!CdAllCopy",
+   "ID_!CdScale3D",
+   "ID_!CdAllCopy",
+   "ID_!CdScale3D"
+  ]
+ },
+ "Heal": {
+  "Heal": [
+   "ID_!CdHealTtAll",
+   "ID_!CdGapTighten",
+   "ID_!CdHealTtAll",
+   "ID_!CdGapTighten"
+  ],
+  "Edge": [
+   "ID_!CdInqOpnEdg",
+   "ID_!CdDelTinyEdgs",
+   "ID_!FtEdSplit",
+   "ID_!FtEdMerge",
+   "ID_!CdRefitEdgCrv",
+   "ID_!FtSfUntrim",
+   "ID_!CdFaceBndRplc",
+   "ID_!FtSfInvert",
+   "ID_!CdInqOpnEdg",
+   "ID_!CdDelTinyEdgs",
+   "ID_!FtEdSplit",
+   "ID_!FtEdMerge",
+   "ID_!CdRefitEdgCrv",
+   "ID_!FtSfUntrim",
+   "ID_!CdFaceBndRplc",
+   "ID_!FtSfInvert"
+  ],
+  "Face": [
+   "ID_!CdShapeSew",
+   "ID_!CdFaceExplode",
+   "ID_!CdSewEdgGap",
+   "ID_!CdSimplifyEdg",
+   "ID_!FtGapFill",
+   "ID_!CdSf2Pln",
+   "ID_!CdFacesetFlip",
+   "ID_!CdFaceExt2",
+   "ID_!FtDivFcsToCvs",
+   "ID_!FtSfSplit",
+   "ID_!CdFcsPrimFix",
+   "ID_!CdShapeSew",
+   "ID_!CdFaceExplode",
+   "ID_!CdSewEdgGap",
+   "ID_!CdSimplifyEdg",
+   "ID_!FtGapFill",
+   "ID_!CdSf2Pln",
+   "ID_!CdFacesetFlip",
+   "ID_!CdFaceExt2",
+   "ID_!FtDivFcsToCvs",
+   "ID_!FtSfSplit",
+   "ID_!CdFcsPrimFix"
+  ]
+ },
+ "Layout": {
+  "View": [
+   "ID_!CdV3Auto2",
+   "ID_!CdV3InsPrj",
+   "ID_!CdV3InsAux",
+   "ID_!CdV3BrkSect",
+   "ID_!CdV3Detail",
+   "ID_!CdV3AlterPos",
+   "ID_!CdV3BrkLine",
+   "ID_!CdV3Auto2",
+   "ID_!CdV3InsPrj",
+   "ID_!CdV3InsAux",
+   "ID_!CdV3BrkSect",
+   "ID_!CdV3Detail",
+   "ID_!CdV3AlterPos",
+   "ID_!CdV3BrkLine"
+  ],
+  "Table": [
+   "ID_!CdBomTblCrt",
+   "ID_~CdEskdBom",
+   "ID_!CdHoleTblMk2",
+   "ID_!CdEdmTblCrt",
+   "ID_!CdWdSegTblCrt",
+   "ID_!CdWeldTblCrt",
+   "ID_!CdTblUsrCrt",
+   "ID_!CdAnntTblCrt",
+   "ID_!CdRevTblCrt",
+   "ID_!CdBomTblCrt",
+   "ID_~CdEskdBom",
+   "ID_!CdHoleTblMk2",
+   "ID_!CdEdmTblCrt",
+   "ID_!CdWdSegTblCrt",
+   "ID_!CdWeldTblCrt",
+   "ID_!CdTblUsrCrt",
+   "ID_!CdAnntTblCrt",
+   "ID_!CdRevTblCrt"
+  ],
+  "Edit View": [
+   "ID_!CdV3RedefDet",
+   "ID_!CdV3RedefSec",
+   "ID_!CdV3SetPart",
+   "ID_!CdViewRotate",
+   "ID_!CdV3RedefDet",
+   "ID_!CdV3RedefSec",
+   "ID_!CdV3SetPart",
+   "ID_!CdViewRotate"
+  ],
+  "Edit Table": [
+   "ID_!CdTblEdit",
+   "ID_!CdTblInsert",
+   "ID_!CdTblSyncAttr",
+   "ID_!CdTblEdit",
+   "ID_!CdTblInsert",
+   "ID_!CdTblSyncAttr"
+  ]
+ },
+ "Output": {
+  "Spreadsheet": [
+   "ID_~PmSpShPop(8)",
+   "ID_~PmSpShPop(9)",
+   "ID_~PmSpShPop(8)",
+   "ID_~PmSpShPop(9)"
+  ],
+  "Output": [
+   "ID_~CmOpsPop(20)",
+   "ID_~CmOpsPop(15)",
+   "ID_~CmOpPop(3)",
+   "ID_~CmStartVxPost",
+   "ID_~PmOutPop(14)",
+   "ID_~CmOpsPop(20)",
+   "ID_~CmOpsPop(15)",
+   "ID_~CmOpPop(3)",
+   "ID_~CmStartVxPost",
+   "ID_~CmStartZwPost",
+   "ID_~PmOutPop(14)",
+   "ID_~CmOpsPop(20)",
+   "ID_~CmBrowserSolidVerify",
+   "ID_~CmBrowserVerify",
+   "ID_~CmStartVxPost",
+   "ID_~CmStartZwPost",
+   "ID_~PmOutPop(14)"
+  ]
+ },
+ "Sketch": {
+  "Exit": [
+   "ID_$CdEditParent",
+   "ID_$CdCancelExit",
+   "ID_$CdEditParent",
+   "ID_$CdCancelExit",
+   "ID_$CdEditParent",
+   "ID_$CdCancelExit",
+   "ID_$CdEditParent",
+   "ID_$CdCancelExit"
+  ],
+  "Drawing": [
+   "ID_!WrSmtDraw2D",
+   "ID_!WrCrCircles",
+   "ID_!WrCrElps",
+   "ID_!WrCrCircles3D",
+   "ID_!WrCrEllp3D",
+   "ID_!WrSmtDraw2D",
+   "ID_!WrCrCircles",
+   "ID_!WrCrElps",
+   "ID_!WrCrCircles3D",
+   "ID_!WrCrEllp3D"
+  ],
+  "Curve": [
+   "ID_!CdBlend2CrvsII",
+   "ID_!CdBlend2CrvsII3",
+   "ID_!CdBlend2CrvsII",
+   "ID_!CdBlend2CrvsII3"
+  ],
+  "Edit Curve": [
+   "ID_!CdEqCurve2D",
+   "ID_!CdCvModII3DPrf",
+   "ID_!CdEqCurve2D",
+   "ID_!CdCvModII3DPrf"
+  ],
+  "Dimension": [
+   "ID_!DmAll3D",
+   "ID_!DmSym3D",
+   "ID_!DmAng3D",
+   "ID_!DmPerimeter",
+   "ID_~CdProfShowEqnMgr",
+   "ID_!DmAll3DPrf",
+   "ID_!CdPrfDmBatch",
+   "ID_!DmAll3D",
+   "ID_!DmSym3D",
+   "ID_!DmAng3D",
+   "ID_!DmPerimeter",
+   "ID_~CdProfShowEqnMgr",
+   "ID_!DmAll3DPrf",
+   "ID_!CdPrfDmBatch"
+  ],
+  "Reference": [
+   "ID_!CdSymImgCrt",
+   "ID_!CdSymImgCrt"
+  ],
+  "Basic Editing": [
+   "ID_!WrMdPtn",
+   "ID_!WrMdCp3D",
+   "ID_!WrMdMove3D",
+   "ID_!WrMdScl3D",
+   "ID_!CdC3Drag",
+   "ID_!WrMdPtn",
+   "ID_!WrMdCp3D",
+   "ID_!WrMdMove3D",
+   "ID_!WrMdScl3D",
+   "ID_!CdC3Drag"
+  ],
+  "Datum": [
+   "ID_!CdPlane",
+   "ID_!CdPlane"
+  ],
+  "Constraint": [
+   "ID_!CdCnsAll3DPrf",
+   "ID_!CdCnsAll3DPrf"
+  ]
+ },
+ "Point Cloud": {
+  "Import": [
+   "ID_$CdFileSTLImport",
+   "ID_!CdImportMesh",
+   "ID_!CdPtImport",
+   "ID_$CdFileSTLImport",
+   "ID_!CdImportMesh",
+   "ID_!CdPtImport"
+  ],
+  "Edit Block": [
+   "ID_!CdTrimBlock",
+   "ID_!CdSplitBlock",
+   "ID_!CdThinPntArray",
+   "ID_!CdTrimBlock",
+   "ID_!CdSplitBlock",
+   "ID_!CdThinPntArray"
+  ],
+  "Edit Mesh": [
+   "ID_!CdTssltSctDat",
+   "ID_!CdBlockFillHole",
+   "ID_!CdBlockAddTri",
+   "ID_!CdBlockDelFace",
+   "ID_!CdBlockFlipFace",
+   "ID_!CdBlockFlipEdge",
+   "ID_!CdBlockDivEdge",
+   "ID_!CdBlockDivMesh",
+   "ID_!CdCllctTsltNds",
+   "ID_!CdRoughExpand",
+   "ID_!CdTssltSctDat",
+   "ID_!CdBlockFillHole",
+   "ID_!CdBlockAddTri",
+   "ID_!CdBlockDelFace",
+   "ID_!CdBlockFlipFace",
+   "ID_!CdBlockFlipEdge",
+   "ID_!CdBlockDivEdge",
+   "ID_!CdBlockDivMesh",
+   "ID_!CdCllctTsltNds",
+   "ID_!CdRoughExpand"
+  ],
+  "Create Curve": [
+   "ID_!CdCrossSection",
+   "ID_!CdTraceRegion",
+   "ID_!CdGeodesicPath",
+   "ID_!CdTraceShpEdge",
+   "ID_!CdTraceSilhou",
+   "ID_!CdCrossSection",
+   "ID_!CdBlockCurvePrjOnMesh",
+   "ID_!CdTraceRegion",
+   "ID_!CdGeodesicPath",
+   "ID_!CdTraceShpEdge",
+   "ID_!CdTraceSilhou"
+  ],
+  "Create Face": [
+   "ID_!CdSfFitBnd2",
+   "ID_!CdFitPlane",
+   "ID_!CdSfFitBnd2"
+  ]
+ },
+ "Setup": {
+  "Setup": [
+   "ID_~PmGeomPop(11)",
+   "ID_~PmCompPop(21)",
+   "ID_~CmFramesPop(1)",
+   "ID_~PmClearPop(11)",
+   "ID_~PmToolShow",
+   "ID_~PmMachShow",
+   "ID_~PmGeomPop(11)",
+   "ID_~PmCompPop(21)",
+   "ID_~PmAddStock",
+   "ID_~CmFramesPop(1)",
+   "ID_~PmClearPop(11)",
+   "ID_~PmToolShow",
+   "ID_~PmMachShow",
+   "ID_$CdFileImport",
+   "ID_~PmOpCreateMachVolume",
+   "ID_~PmOpCreateMachRegion",
+   "ID_~PmAddStock",
+   "ID_~CreateFrame",
+   "ID_~PmClear2",
+   "ID_~PmToolShow2",
+   "ID_~PmLCS",
+   "ID_~PmRelocate"
+  ],
+  "Feature": [
+   "ID_~CmFtrOpt(2)",
+   "ID_~CmFtrOpt(1)",
+   "ID_~CmFtrOpt(3)",
+   "ID_~CmFtrOpt(4)",
+   "ID_~CmFtrOpt(5)",
+   "ID_~CmFtrOpt(6)",
+   "ID_~CmFtrOpt(7)",
+   "ID_~CmFtrOpt(8)",
+   "ID_~CmFtrOpt(9)",
+   "ID_~CmFtrOpt(10)",
+   "ID_~PmFtrOpt(11)",
+   "ID_~CmFtrOpt(12)",
+   "ID_~CmFtrOpt(13)",
+   "ID_~CmFtrOpt(2)",
+   "ID_~CmFtrOpt(1)",
+   "ID_~CmFtrOpt(3)",
+   "ID_~CmFtrOpt(4)",
+   "ID_~CmFtrOpt(5)",
+   "ID_~CmFtrOpt(6)",
+   "ID_~CmFtrOpt(7)",
+   "ID_~CmFtrOpt(8)",
+   "ID_~CmFtrOpt(9)",
+   "ID_~CmFtrOpt(10)",
+   "ID_~PmFtrOpt(11)",
+   "ID_~CmFtrOpt(12)",
+   "ID_~CmFtrOpt(13)"
+  ],
+  "Sketch": [
+   "ID_~CmNewSk",
+   "ID_~CmEditSk",
+   "ID_!CmDelSk"
+  ],
+  "Display": [
+   "ID_~PmTpathCutShow",
+   "ID_~PmTpathNonCutShow",
+   "ID_~PmTpathShowToolEnd",
+   "ID_~PmTpathShowToolAxis"
+  ],
+  "Tool Path Animation": [
+   "ID_~PmTpVerifyReset",
+   "ID_~PmTpVerifyStepBackfoward",
+   "ID_~PmTpVerifyBackFoward",
+   "ID_~PmTpVerifyPause",
+   "ID_~PmTpVerifyFoward",
+   "ID_~PmTpVerifyStepFoward",
+   "ID_~PmTpVerifyReset",
+   "ID_~PmTpVerifyStepBackfoward",
+   "ID_~PmTpVerifyBackFoward",
+   "ID_~PmTpVerifyPause",
+   "ID_~PmTpVerifyFoward",
+   "ID_~PmTpVerifyStepFoward"
+  ],
+  "Tool Path Display": [
+   "ID_~PmTpathCutShow",
+   "ID_~PmTpathNonCutShow",
+   "ID_~PmTpathShowToolEnd",
+   "ID_~PmTpathShowToolAxis"
+  ],
+  "Part Editing": [
+   "ID_~PmMoveEntity",
+   "ID_~PmShpCnsesMv",
+   "ID_~PmEntCoordMov",
+   "ID_~PmCopyEntity",
+   "ID_~PmCmFtPtnGeom",
+   "ID_~PmCmFtMirrorGeom"
+  ],
+  "Datum": [
+   "ID_~PmCmAddPlane"
+  ]
+ },
+ "Sheet Metal": {
+  "Base": [
+   "ID_!CdProfNew",
+   "ID_!CdProfNew"
+  ],
+  "Flange": [
+   "ID_!CdSmdPartFlng",
+   "ID_!CdSmdHem",
+   "ID_!CdSmdDrawFlng",
+   "ID_!CdSmdLftdFlng2",
+   "ID_!CdSmdSwpFlg",
+   "ID_!CdSmdDrawBend",
+   "ID_!CdSmdJog",
+   "ID_!CdSmdPartFlng",
+   "ID_!CdSmdDrawFlng",
+   "ID_!CdSmdLftdFlng2",
+   "ID_!CdSmdSwpFlg",
+   "ID_!CdSmdDrawBend",
+   "ID_!CdSmdJog"
+  ],
+  "Editing": [
+   "ID_!CdSmdFlngExtend",
+   "ID_!CdSmdBendTaper",
+   "ID_!SmdNormalCut",
+   "ID_!CdSmdFlngExtend",
+   "ID_!CdSmdMergeFlange",
+   "ID_!CdSmdJointFlange",
+   "ID_!CdSmdBendTaper",
+   "ID_!SmdNormalCut"
+  ],
+  "Corner": [
+   "ID_!SmdClsCrnerList",
+   "ID_!SmdClsCrnerList"
+  ],
+  "Form": [
+   "ID_!SmdDimple",
+   "ID_!SmdLouver",
+   "ID_!SmdPunch",
+   "ID_!CdSmdVent",
+   "ID_!SmdDimple",
+   "ID_!SmdLouver",
+   "ID_!SmdPunch",
+   "ID_!CdSmdVent"
+  ],
+  "Bend": [
+   "ID_!CdSmdFold",
+   "ID_!CdSmdUnFold",
+   "ID_!CdSmdFlat",
+   "ID_!CdSmdLnUnfold",
+   "ID_!CdSmdBendEdit",
+   "ID_!SmdSetStatFc",
+   "ID_!CdSmdFold",
+   "ID_!CdSmdUnFold",
+   "ID_!CdSmdFlat",
+   "ID_!CdSmdLnUnfold",
+   "ID_!CdSmdBendEdit",
+   "ID_!SmdSetStatFc"
+  ],
+  "Convert": [
+   "ID_!CdSmdRip",
+   "ID_!CdSmdCut",
+   "ID_!CdSmdAddBend",
+   "ID_!CdSmdCnvt1"
+  ]
+ },
+ "Free Form": {
+  "Basic Face": [
+   "ID_!FtSmtSrf",
+   "ID_!FtBridgeSrf",
+   "ID_!FtSfMeshProf1",
+   "ID_!CdSrfAngSrf2",
+   "ID_!CdSfFitBnd",
+   "ID_!FtSfNPatch",
+   "ID_!FtCrTrimPln",
+   "ID_!FtDome",
+   "ID_!FtSmtSrf",
+   "ID_!FtBridgeSrf",
+   "ID_!FtSfMeshProf1",
+   "ID_!CdSrfAngSrf2",
+   "ID_!CdSfFitBnd",
+   "ID_!FtSfNPatch",
+   "ID_!FtCrTrimPln",
+   "ID_!FtDome"
+  ],
+  "Edit Face": [
+   "ID_!CdFaceEnlarge",
+   "ID_!FtFlltSrfSets",
+   "ID_!CdSfMod",
+   "ID_!CdFlatSrfII",
+   "ID_!CdFaceEnlarge",
+   "ID_!FtFlltSrfSets",
+   "ID_!CdSfMod",
+   "ID_!CdFlatSrfII"
+  ],
+  "Basic Editing": [
+   "ID_!CdAllMove",
+   "ID_!CdAllCopy",
+   "ID_!CdScale3D",
+   "ID_!CdAllMove",
+   "ID_!CdAllCopy",
+   "ID_!CdScale3D"
+  ]
+ },
+ "Tool Path Editor": {
+  "Trim": [
+   "ID_!CmTpathTrim",
+   "ID_!CmTpathDivide",
+   "ID_~CmBrowserTpathTrim",
+   "ID_~CmBrowserTpathDivide",
+   "ID_!CmTpathTrim",
+   "ID_!CmTpathDivide",
+   "ID_~CmBrowserTpathTrim",
+   "ID_~CmBrowserTpathDivide"
+  ],
+  "Transform": [
+   "ID_~CmOpPop(33)",
+   "ID_~CmOpPop(34)",
+   "ID_~CmOpPop(35)",
+   "ID_~CmOpPop(36)",
+   "ID_~CmBrowserTransformationMove",
+   "ID_~CmBrowserTransformationPattern",
+   "ID_~CmBrowserTransformationMirror",
+   "ID_~CmBrowserTransformationScale"
+  ],
+  "Reorder": [
+   "ID_~CmOpPop(37)",
+   "ID_~CmOpPop(37)"
+  ],
+  "Relink": [
+   "ID_~CmOpPop(38)",
+   "ID_~CmOpPop(38)"
+  ],
+  "Xform": [
+   "ID_~CmOpPop(33)",
+   "ID_~CmOpPop(34)",
+   "ID_~CmOpPop(35)",
+   "ID_~CmOpPop(36)"
+  ]
+ },
+ "Weldments": {
+  "Path": [
+   "ID_!CdProfNew",
+   "ID_!CdProfNew"
+  ],
+  "Weld": [
+   "ID_!CdWeldStruct",
+   "ID_!CdWeldTrim",
+   "ID_!CdWeldGusset",
+   "ID_!CdWeldEndCap",
+   "ID_!CdWeldBeads",
+   "ID_!WdFilletWeld",
+   "ID_!WdGrooveWeld",
+   "ID_!WdPlugWeldMulti",
+   "ID_!WdSpotWeld",
+   "ID_$SF=WdWeldConvert",
+   "ID_~CdShowWdSegBom",
+   "ID_!CdWeldStruct",
+   "ID_!CdWeldTrim",
+   "ID_!CdWeldGusset",
+   "ID_!CdWeldEndCap",
+   "ID_!CdWeldBeads",
+   "ID_!WdFilletWeld",
+   "ID_!WdGrooveWeld",
+   "ID_!WdPlugWeldMulti",
+   "ID_!WdSpotWeld",
+   "ID_$SF=WdWeldConvert",
+   "ID_~CdShowWdSegBom"
+  ],
+  "Edit Frame": [
+   "ID_!FtChamfers2",
+   "ID_!FtHoleMain",
+   "ID_!FtChamfers2",
+   "ID_!FtHoleMain"
+  ],
+  "Basic Editing": [
+   "ID_!CdAllMove",
+   "ID_!CdAllCopy",
+   "ID_!CdAllMove",
+   "ID_!CdAllCopy"
+  ]
+ },
+ "Wireframe": {
+  "Drawing": [
+   "ID_!CdWrCircles",
+   "ID_!CdCr3dEllp",
+   "ID_!CdWrCircles",
+   "ID_!CdCr3dEllp",
+   "ID_!CdWrCircles",
+   "ID_!CdCr3dEllp",
+   "ID_!CdWrCircles",
+   "ID_!CdCr3dEllp"
+  ],
+  "Curve": [
+   "ID_!CdBlend2CrvsII3",
+   "ID_!CdEqCurve",
+   "ID_!CdPlistCrv",
+   "ID_!CdWireText",
+   "ID_!CdPlistCrv",
+   "ID_!CdBlend2CrvsII3",
+   "ID_!CdEqCurve",
+   "ID_!CdPlistCrv",
+   "ID_!CdWireText",
+   "ID_!CdPlistCrv"
+  ],
+  "Edit Curve": [
+   "ID_!CdCvModII3D",
+   "ID_!CdCvModII3D",
+   "ID_!CdCvModII3D",
+   "ID_!CdCvModII3D"
+  ],
+  "Basic Editing": [
+   "ID_!CdAllMove",
+   "ID_!CdAllCopy",
+   "ID_!CdScale3D",
+   "ID_!CdAllMove",
+   "ID_!CdScale3D",
+   "ID_!CdPartModDim",
+   "ID_!CdAllMove",
+   "ID_!CdAllCopy",
+   "ID_!CdScale3D",
+   "ID_!CdAllMove",
+   "ID_!CdScale3D",
+   "ID_!CdPartModDim"
+  ]
+ },
+ "Harness": {
+  "Harness Route": [
+   "ID_!HarnessRoute",
+   "ID_!HrnBundleCrt",
+   "ID_!HarnessRoute",
+   "ID_!HrnBundleCrt"
+  ],
+  "Path and Route": [
+   "ID_!HrnNetPathCrt",
+   "ID_!HrnExtractPath",
+   "ID_!HrnNetworkCrt",
+   "ID_!HrnAddToNetwork",
+   "ID_$SF=HrnAtRtMain",
+   "ID_!HrnNetPathCrt",
+   "ID_!HrnExtractPath",
+   "ID_!HrnNetworkCrt",
+   "ID_!HrnAddToNetwork",
+   "ID_$SF=HrnAtRtMain"
+  ],
+  "Edit": [
+   "ID_!HrnAttach",
+   "ID_!HrnAddtoBundle",
+   "ID_!HrnDetach",
+   "ID_!HrnSegSplit",
+   "ID_!HrnPosPntModify",
+   "ID_!HarnessModify",
+   "ID_!HrnObjCut",
+   "ID_!HrnObjDelete",
+   "ID_!HrnAttach",
+   "ID_!HrnAddtoBundle",
+   "ID_!HrnDetach",
+   "ID_!HrnSegSplit",
+   "ID_!HrnPosPntModify",
+   "ID_!HarnessModify",
+   "ID_!HrnObjCut",
+   "ID_!HrnObjDelete"
+  ],
+  "Reference": [
+   "ID_!CdPartRef",
+   "ID_!HrnRefPort",
+   "ID_!HrnRefLeadPath",
+   "ID_!HrnNetCopy",
+   "ID_!CdPartRef",
+   "ID_!HrnRefPort",
+   "ID_!HrnRefLeadPath",
+   "ID_!HrnNetCopy"
+  ],
+  "Inquire": [
+   "ID_!HrnInqDiam",
+   "ID_!HrnInqDiam"
+  ],
+  "Table": [
+   "ID_$SF=Hrn3DBomPrt",
+   "ID_$SF=Hrn3DBomPrt"
+  ],
+  "Harness File": [
+   "ID_~HrnPartCreate",
+   "ID_~HrnPartCreate"
+  ],
+  "Attribute": [
+   "ID_$SF=HrnWireMtlAtt",
+   "ID_$SF=HrnWireMtlData",
+   "ID_$SF=HrnSheathMtlAtt",
+   "ID_$SF=HrnSheathMtlData",
+   "ID_$SF=HarnessExprMgrUi",
+   "ID_$SF=HrnColorDef",
+   "ID_$SF=HrnWireMtlAtt",
+   "ID_$SF=HrnWireMtlData",
+   "ID_$SF=HrnSheathMtlAtt",
+   "ID_$SF=HrnSheathMtlData",
+   "ID_$SF=HarnessExprMgrUi",
+   "ID_$SF=HrnColorDef"
+  ],
+  "BOM": [
+   "ID_$SF=Hrn3DBom",
+   "ID_$SF=Hrn3DBom"
+  ]
+ },
+ "Piping": {
+  "Start": [
+   "ID_~PipCreate",
+   "ID_~CdInstPipe",
+   "ID_~CdInstPipe"
+  ],
+  "Route": [
+   "ID_!PipLayoutPip",
+   "ID_!PipAutoLayout",
+   "ID_!PipParallelRou",
+   "ID_!PipLytUPip",
+   "ID_!PipInstPipPart",
+   "ID_!PipRefConPoint",
+   "ID_!PipConnectPip",
+   "ID_!PipLayoutPip",
+   "ID_!PipAutoLayout",
+   "ID_!PipParallelRou",
+   "ID_!PipLytUPip",
+   "ID_!PipInstPipPart",
+   "ID_!PipRefConPoint",
+   "ID_!PipConnectPip"
+  ],
+  "Constraint": [
+   "ID_!AsPipAlnAll",
+   "ID_!PipQuickDim",
+   "ID_!PipDrag",
+   "ID_!AsPipAlnAll",
+   "ID_!PipQuickDim",
+   "ID_!PipDrag"
+  ],
+  "Modify": [
+   "ID_!PipChangeNSize",
+   "ID_!PipChangeSpec",
+   "ID_!PipChangeNSize",
+   "ID_!PipChangeSpec"
+  ],
+  "Design Check": [
+   "ID_!CdIferChk1",
+   "ID_!CdIferChk1"
+  ],
+  "Drawing": [
+   "ID_!PipSpooling",
+   "ID_$SF=UiPipShtAutoDraft",
+   "ID_!PipISOCreDivPnt",
+   "ID_$SF=UiPipISOSetting",
+   "ID_$SF=UiPipISOGen",
+   "ID_!PipSpooling",
+   "ID_$SF=UiPipShtAutoDraft",
+   "ID_!PipISOCreDivPnt",
+   "ID_$SF=UiPipISOSetting",
+   "ID_$SF=UiPipISOGen"
+  ],
+  "BOM": [
+   "ID_$SF=UiPipBomExport",
+   "ID_$SF=UiPipBends",
+   "ID_$SF=UiPipNesting",
+   "ID_$SF=UiPipBomExport",
+   "ID_$SF=UiPipBends",
+   "ID_$SF=UiPipNesting"
+  ],
+  "Piping Rule": [
+   "ID_~PipShowParam",
+   "ID_$SF=UiPipSpecIndex",
+   "ID_~PipShowParam",
+   "ID_$SF=UiPipSpecIndex"
+  ]
+ },
+ "Routing": {
+  "Piping/Tubing": [
+   "ID_!PipTblCrt",
+   "ID_!PipShtDmBalloon",
+   "ID_!PipShtDmFlow",
+   "ID_!PipTblCrt",
+   "ID_!PipShtDmBalloon",
+   "ID_!PipShtDmFlow"
+  ]
+ },
+ "CAD": {
+  "CADCAM": [
+   "ID_~CmEdAsm",
+   "ID_~PmCmPartDel"
+  ]
+ },
+ "Tool Path": {
+  "Tool Path Display": [
+   "ID_~PmTpathCutShow",
+   "ID_~PmTpathNonCutShow",
+   "ID_~PmTpathShowToolEnd",
+   "ID_~PmTpathShowToolAxis"
+  ]
+ },
+ "ZWStructure": {
+  "Base Config": [
+   "ID_!ZwCeAnStep",
+   "ID_$ZwSolverOption",
+   "ID_~ZwSimCalculateUI",
+   "ID_~ZwEnterPost",
+   "ID_!ZwCeTask",
+   "ID_!ZwCeTask",
+   "ID_$ZwFtSolverOption",
+   "ID_~ZwSimCalculateUI",
+   "ID_~ZwEnterPost"
+  ],
+  "Property and Expression": [
+   "ID_~ZwProElmBeamMngr",
+   "ID_$ZwStdFunction"
+  ],
+  "Initial Condition": [
+   "ID_!ZwInitVelAcc"
+  ],
+  "Interaction": [
+   "ID_!ZwBondContact",
+   "ID_!ZwCeContact"
+  ],
+  "Constraint": [
+   "ID_~ZwFullCstr",
+   "ID_~ZwCustomCstr"
+  ],
+  "Load": [
+   "ID_!ZwForceLoad",
+   "ID_!ZwPressureLoad",
+   "ID_!ZwEnforceMotion",
+   "ID_!ZwStBaseExcita",
+   "ID_!ZwSelectExcita"
+  ],
+  "Fatigue Event": [
+   "ID_!ZwFtLoad",
+   "ID_!ZwFtLoadVar"
+  ],
+  "Fatigue Load": [
+   "ID_!ZwFtLoadTmStep",
+   "ID_!ZwFtLoadHarmoni",
+   "ID_!ZwFtLoadRanVib"
+  ],
+  "Thermal": [
+   "ID_!ZwThTempLoad",
+   "ID_!ZwThHtPowLoad",
+   "ID_!ZwThInterHtGen",
+   "ID_!ZwThHtFluxLoad",
+   "ID_!ZwThConvecLoad",
+   "ID_!ZwThRadiaLoad"
+  ]
+ },
+ "Geometry and Mesh": {
+  "Generate": [
+   "ID_!ZwCeMeshing",
+   "ID_!ZwMesh1D",
+   "ID_!ZwRemesh"
+  ],
+  "Mesh Heal": [
+   "ID_!ZwReloadGTopo",
+   "ID_!ZwMeshCleanUp"
+  ],
+  "Show/Hide": [
+   "ID_!ZwShowHideMesh",
+   "ID_~ZwShowAllMesh",
+   "ID_~ZwMeshFRecover"
+  ],
+  "Transform": [
+   "ID_!ZwMeshTranslate",
+   "ID_!ZwMeshRotate",
+   "ID_!ZwMeshScale",
+   "ID_!ZwMeshMirror",
+   "ID_!ZwMeshProject",
+   "ID_!ZwMeshPosition",
+   "ID_!ZwMeshModNode",
+   "ID_!ZwMeshMoveNode",
+   "ID_!ZwMeshRemap"
+  ],
+  "Node and Element": [
+   "ID_!ZwMeshCreNode",
+   "ID_!ZwMeshCreElem",
+   "ID_!ZwStCreMass",
+   "ID_!ZwMeshDetach",
+   "ID_!ZwMeshDelete",
+   "ID_~ZwStClearNode",
+   "ID_!ZwMeshMergeNode"
+  ],
+  "Tool": [
+   "ID_!ZwMeshMeasure",
+   "ID_!ZwMeshRenumber",
+   "ID_!ZwMeshReorder",
+   "ID_!ZwMeshFReverDir"
+  ],
+  "Virtual Clean-up": [
+   "ID_!ZwMeshGTopoTool",
+   "ID_!ZwGTopoFcTool",
+   "ID_!ZwMGTopoConfig",
+   "ID_ZwGTopoRegenVis",
+   "ID_!ZwMeshGEdgeCtr",
+   "ID_$SF=ZwMGEdgeCtrMgr",
+   "ID_!ZwMesh2D",
+   "ID_!ZwMesh3D",
+   "ID_~ZwGTopoLayerMgr",
+   "ID_!ZwGTopoOptLayer"
+  ]
+ },
+ "ZWTeammate": {
+  "User": [
+   "ID_plm_login",
+   "ID_plm_logout",
+   "ID_plm_login",
+   "ID_plm_logout",
+   "ID_plm_login",
+   "ID_plm_logout",
+   "ID_plm_login",
+   "ID_plm_logout"
+  ],
+  "Data Query": [
+   "ID_plm_teamManage",
+   "ID_plm_teamManage",
+   "ID_plm_teamManage",
+   "ID_plm_insert",
+   "ID_plm_teamManage"
+  ],
+  "Object Create/Update": [
+   "ID_plm_newDocFromTmpl",
+   "ID_plm_relatePart",
+   "ID_plm_clone",
+   "ID_plm_update",
+   "ID_plm_relatePart",
+   "ID_plm_clone",
+   "ID_plm_update",
+   "ID_plm_newDocFromTmpl",
+   "ID_plm_relatePart",
+   "ID_plm_update"
+  ],
+  "Collaboration": [
+   "ID_plm_workflowManage",
+   "ID_plm_newDoc",
+   "ID_plm_customCheckin",
+   "ID_plm_customCheckout",
+   "ID_plm_customCancelCheckout",
+   "ID_plm_customRevise",
+   "ID_plm_workflowManage",
+   "ID_plm_newDoc",
+   "ID_plm_customCheckin",
+   "ID_plm_customCheckout",
+   "ID_plm_customCancelCheckout",
+   "ID_plm_customRevise",
+   "ID_plm_workflowManage",
+   "ID_plm_newDoc",
+   "ID_plm_customCheckin",
+   "ID_plm_customCheckout",
+   "ID_plm_customCancelCheckout",
+   "ID_plm_customRevise",
+   "ID_plm_workflowManage"
+  ],
+  "Setting": [
+   "ID_plm_cacheManage",
+   "ID_plm_cacheManage",
+   "ID_plm_cacheManage",
+   "ID_plm_cacheManage"
+  ]
+ }
+}

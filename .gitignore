@@ -1,42 +1,57 @@
-# Dependencies
-node_modules/
+# ============================================================
+# Antigravity — .gitignore
+# ★ 2026-07-30 (riordino): il repo ha ora come radice IL PROGETTO
+# (C:\Users\infoa\Antigravity), non più la cartella utente. Prima la radice era
+# la HOME: `git status` vedeva 221 file personali e un `git add -A` avrebbe
+# potuto spedirli su GitHub.
+# ============================================================
 
-# Build outputs
-dist/
-build/
+# --- SEGRETI: mai committare, in nessuna variante ---
+# Il vecchio elenco copriva solo ".env": i backup delle chiavi
+# (".env.bak-20260729", ".env.bak.pre-keyupdate_...") restavano committabili.
+.env
+.env.*
+*.env
+!*.env.example
+
+# --- Dipendenze e pacchetti ---
+node_modules/
 *.vsix
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
+# --- Build ---
+dist/
+build/
 
-# OS
-.DS_Store
-Thumbs.db
+# --- Backup automatici dell'app (rumore, non codice) ---
+# .self-heal-backup : copie sane dei file critici, le rifà selfHeal
+# .bugHunter-backup : una copia a ogni auto-fix -> cresce senza limite
+#                     (era arrivata a 26.109 file / 732 MB)
+.self-heal-backup/
+.bugHunter-backup/
+_backup_modifiche/
+*.bak
+*.bak-*
+*.restored
+bugHunter-errors.json
 
-# Logs
+# --- Log ---
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Environment
-.env
-.env.local
-.env.*.local
+# --- Editor / sistema ---
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+nul
 
-# Temporary files
+# --- Temporanei ---
 *.tmp
 *.temp
 .cache/
-
-# Test coverage
 coverage/
 .nyc_output/
-
-# Package manager locks (optional - uncomment if needed)
-# package-lock.json
-# yarn.lock

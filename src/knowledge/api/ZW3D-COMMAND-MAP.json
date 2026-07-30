@@ -1,0 +1,6049 @@
+{
+ "meta": {
+  "generato_da": "Hermes agente orchestratore",
+  "data": "2026-07-26",
+  "sorgente": "C:\\Program Files\\ZWSOFT\\ZW3D 2025",
+  "metodo": "lettura file di installazione ZW3D (.zcui/.tcmd), analisi lecita",
+  "n_ribbon_entries": 731,
+  "n_unique_actions": 556,
+  "n_tcmd_files": 12,
+  "n_actions_with_function": 0
+ },
+ "ribbon_entries": [
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE DE",
+   "pageText": "Direct Edit",
+   "group": "GROUP Mo",
+   "groupText": "Modify",
+   "action": "ID_!CdDeMove"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE DE",
+   "pageText": "Direct Edit",
+   "group": "GROUP Mo",
+   "groupText": "Modify",
+   "action": "ID_!CdFaceCnsMove"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE DE",
+   "pageText": "Direct Edit",
+   "group": "GROUP Mo",
+   "groupText": "Modify",
+   "action": "ID_!CdFaceDimMove"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE DE",
+   "pageText": "Direct Edit",
+   "group": "GROUP Mo",
+   "groupText": "Modify",
+   "action": "ID_!FtDeOffset"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE DE",
+   "pageText": "Direct Edit",
+   "group": "GROUP Mo",
+   "groupText": "Modify",
+   "action": "ID_!CdSimplify"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE DE",
+   "pageText": "Direct Edit",
+   "group": "GROUP Mo",
+   "groupText": "Modify",
+   "action": "ID_!FtSpatula"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE DE",
+   "pageText": "Direct Edit",
+   "group": "GROUP Mo",
+   "groupText": "Modify",
+   "action": "ID_!FtDeDraft"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE DE",
+   "pageText": "Direct Edit",
+   "group": "GROUP Re",
+   "groupText": "Reuse",
+   "action": "ID_!CdDeCopy"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE DE",
+   "pageText": "Direct Edit",
+   "group": "GROUP Re",
+   "groupText": "Reuse",
+   "action": "ID_!FtDeMirror"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE DE",
+   "pageText": "Direct Edit",
+   "group": "GROUP Re",
+   "groupText": "Reuse",
+   "action": "ID_!FtDePtn"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE093752",
+   "pageText": "Root",
+   "group": "GROUP093806",
+   "groupText": "Insert Object",
+   "action": "ID_$NewObj=89"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE093752",
+   "pageText": "Root",
+   "group": "GROUP093806",
+   "groupText": "Insert Object",
+   "action": "ID_$NewObj=90"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE093752",
+   "pageText": "Root",
+   "group": "GROUP093806",
+   "groupText": "Insert Object",
+   "action": "ID_$NewObj=200"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE093752",
+   "pageText": "Root",
+   "group": "GROUP093806",
+   "groupText": "Insert Object",
+   "action": "ID_$NewObj=70"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE093752",
+   "pageText": "Root",
+   "group": "GROUP093806",
+   "groupText": "Insert Object",
+   "action": "ID_$NewObj=121"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE093752",
+   "pageText": "Root",
+   "group": "GROUP093808",
+   "groupText": "Edit Object",
+   "action": "ID_!CdRootDel"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE093752",
+   "pageText": "Root",
+   "group": "GROUP104236",
+   "groupText": "Data Exchange",
+   "action": "ID_$CdFileImport"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE093752",
+   "pageText": "Root",
+   "group": "GROUP104236",
+   "groupText": "Data Exchange",
+   "action": "ID_$CdFileIopView"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE093752",
+   "pageText": "Root",
+   "group": "GROUP104236",
+   "groupText": "Data Exchange",
+   "action": "ID_$CdFileInMulti"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE093752",
+   "pageText": "Root",
+   "group": "GROUP093809",
+   "groupText": "Utilities",
+   "action": "ID_$SF=UiBrBlock"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE093752",
+   "pageText": "Root",
+   "group": "GROUP093809",
+   "groupText": "Utilities",
+   "action": "ID_$SF=UiNotes"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE093752",
+   "pageText": "Root",
+   "group": "GROUP093809",
+   "groupText": "Utilities",
+   "action": "ID_$SF=UiUpdName"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE093752",
+   "pageText": "Root",
+   "group": "GROUP093809",
+   "groupText": "Utilities",
+   "action": "ID_~CdEditorFile"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE093752",
+   "pageText": "Root",
+   "group": "GROUP093809",
+   "groupText": "Utilities",
+   "action": "ID_$CdWorkFolder"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE093752",
+   "pageText": "Root",
+   "group": "GROUP093809",
+   "groupText": "Utilities",
+   "action": "ID_$CdZwAppLm"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE093752",
+   "pageText": "Root",
+   "group": "GROUP093809",
+   "groupText": "Utilities",
+   "action": "ID_$CdStartFolderMgr"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE093752",
+   "pageText": "Root",
+   "group": "GROUP093809",
+   "groupText": "Utilities",
+   "action": "ID_$Another"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE093752",
+   "pageText": "Root",
+   "group": "GROUP093809",
+   "groupText": "Utilities",
+   "action": "ID_$CloseUnusedFiles"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP140249",
+   "groupText": "Data Exchange",
+   "action": "ID_~CdCut"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP140249",
+   "groupText": "Data Exchange",
+   "action": "ID_~CdCopy"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP140249",
+   "groupText": "Data Exchange",
+   "action": "ID_~CdPaste"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP140249",
+   "groupText": "Data Exchange",
+   "action": "ID_$CdFileImport"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP140249",
+   "groupText": "Data Exchange",
+   "action": "ID_$CdFileIopView"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP140249",
+   "groupText": "Data Exchange",
+   "action": "ID_$CdFileInMulti"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP140249",
+   "groupText": "Data Exchange",
+   "action": "ID_$CdFileExport"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP140249",
+   "groupText": "Data Exchange",
+   "action": "ID_$SF=UiDxFileConvert"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP144616",
+   "groupText": "View",
+   "action": "ID_$CdRedraw"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP144616",
+   "groupText": "View",
+   "action": "ID_^prevView"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP144616",
+   "groupText": "View",
+   "action": "ID_^nextView"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP105626",
+   "groupText": "Attributes",
+   "action": "ID_$SF=CdStyleMgr"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP105626",
+   "groupText": "Attributes",
+   "action": "ID_~CdStylePointShow"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP105626",
+   "groupText": "Attributes",
+   "action": "ID_~CdStyleLineShow"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP105626",
+   "groupText": "Attributes",
+   "action": "ID_~CdStyleDimShow"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP105626",
+   "groupText": "Attributes",
+   "action": "ID_~CdStyleAnnoShow"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP105626",
+   "groupText": "Attributes",
+   "action": "ID_~CdStyleSymbsShow"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP105626",
+   "groupText": "Attributes",
+   "action": "ID_~CdStyleHatShow"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP105626",
+   "groupText": "Attributes",
+   "action": "ID_~CdStyleTextShow"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP105626",
+   "groupText": "Attributes",
+   "action": "ID_~CdStyleTblShow"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP105626",
+   "groupText": "Attributes",
+   "action": "ID_~CdStyleViewShow"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP105626",
+   "groupText": "Attributes",
+   "action": "ID_!CdAtPainter"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP1430131",
+   "groupText": "Settings",
+   "action": "ID_!CdDwgOrigin"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP1430131",
+   "groupText": "Settings",
+   "action": "ID_$CdSetStep"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP1430131",
+   "groupText": "Settings",
+   "action": "ID_$CdSettings"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP1430131",
+   "groupText": "Settings",
+   "action": "ID_$SF=UiNotes"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP1430131",
+   "groupText": "Settings",
+   "action": "ID_$SF=UiBackgroundAt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP1430132",
+   "groupText": "Utilities",
+   "action": "ID_~BrVarAll"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP1430132",
+   "groupText": "Utilities",
+   "action": "ID_$SF=UiUpdName"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP1430132",
+   "groupText": "Utilities",
+   "action": "ID_~CdEditorFile"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP1430132",
+   "groupText": "Utilities",
+   "action": "ID_~CdFontConv"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP1430132",
+   "groupText": "Utilities",
+   "action": "ID_~CdShowEqnMgr"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP1430132",
+   "groupText": "Utilities",
+   "action": "ID_$ss"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP1430132",
+   "groupText": "Utilities",
+   "action": "ID_$CdWorkFolder"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP1430132",
+   "groupText": "Utilities",
+   "action": "ID_$CdZwAppLm"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP1430132",
+   "groupText": "Utilities",
+   "action": "ID_$CdStartFolderMgr"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP1430132",
+   "groupText": "Utilities",
+   "action": "ID_$Another"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE105623",
+   "pageText": "Tools",
+   "group": "GROUP1430132",
+   "groupText": "Utilities",
+   "action": "ID_$CloseUnusedFiles"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE115003",
+   "pageText": "PMI",
+   "group": "GROUP115008",
+   "groupText": "Dimension",
+   "action": "ID_!CdPMIDimAll"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE115003",
+   "pageText": "PMI",
+   "group": "GROUP115008",
+   "groupText": "Dimension",
+   "action": "ID_!CdPMIDimLin"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE115003",
+   "pageText": "PMI",
+   "group": "GROUP115008",
+   "groupText": "Dimension",
+   "action": "ID_!CdPMISym"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE115003",
+   "pageText": "PMI",
+   "group": "GROUP115008",
+   "groupText": "Dimension",
+   "action": "ID_!CdPMIDimAng"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE115003",
+   "pageText": "PMI",
+   "group": "GROUP115008",
+   "groupText": "Dimension",
+   "action": "ID_!CdPMIDimRad"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE115003",
+   "pageText": "PMI",
+   "group": "GROUP115008",
+   "groupText": "Dimension",
+   "action": "ID_!CdPMIDimChamfer"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE115003",
+   "pageText": "PMI",
+   "group": "GROUP115008",
+   "groupText": "Dimension",
+   "action": "ID_!CdPMIDimArc"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE115003",
+   "pageText": "PMI",
+   "group": "GROUP115008",
+   "groupText": "Dimension",
+   "action": "ID_!CdPMIDimHole"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE115003",
+   "pageText": "PMI",
+   "group": "GROUP115008",
+   "groupText": "Dimension",
+   "action": "ID_!CdPartBounding"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE115003",
+   "pageText": "PMI",
+   "group": "GROUP115222",
+   "groupText": "Annotation",
+   "action": "ID_!CdPMICoord"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE115003",
+   "pageText": "PMI",
+   "group": "GROUP115222",
+   "groupText": "Annotation",
+   "action": "ID_!CdPMILabel"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE115003",
+   "pageText": "PMI",
+   "group": "GROUP115222",
+   "groupText": "Annotation",
+   "action": "ID_!CdPMIBalloon"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE115003",
+   "pageText": "PMI",
+   "group": "GROUP115222",
+   "groupText": "Annotation",
+   "action": "ID_!CdPMIStack"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE115003",
+   "pageText": "PMI",
+   "group": "GROUP115222",
+   "groupText": "Annotation",
+   "action": "ID_!CdPMIDatumFs"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE115003",
+   "pageText": "PMI",
+   "group": "GROUP115222",
+   "groupText": "Annotation",
+   "action": "ID_!CdPMIDatumT"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE115003",
+   "pageText": "PMI",
+   "group": "GROUP115222",
+   "groupText": "Annotation",
+   "action": "ID_!CdPMIFCS"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE115003",
+   "pageText": "PMI",
+   "group": "GROUP115222",
+   "groupText": "Annotation",
+   "action": "ID_!CdPMIIntsectSym"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE115003",
+   "pageText": "PMI",
+   "group": "GROUP115222",
+   "groupText": "Annotation",
+   "action": "ID_!CdPMISymWeldCrt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE115003",
+   "pageText": "PMI",
+   "group": "GROUP115222",
+   "groupText": "Annotation",
+   "action": "ID_!CdPMISymSrf"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE115003",
+   "pageText": "PMI",
+   "group": "GROUP115222",
+   "groupText": "Annotation",
+   "action": "ID_!CdPMISymInsert"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE115003",
+   "pageText": "PMI",
+   "group": "GROUP115315",
+   "groupText": "Text",
+   "action": "ID_!CdTextFtr"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE115003",
+   "pageText": "PMI",
+   "group": "GROUP115315",
+   "groupText": "Text",
+   "action": "ID_!CdBalloonFtr"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE133101",
+   "pageText": "Visualize",
+   "group": "GROUP152836",
+   "groupText": "View",
+   "action": "ID_!CdVuPnt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE133101",
+   "pageText": "Visualize",
+   "group": "GROUP152836",
+   "groupText": "View",
+   "action": "ID_!CdVuPntReset"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE133101",
+   "pageText": "Visualize",
+   "group": "GROUP152836",
+   "groupText": "View",
+   "action": "ID_!CdVuAxis"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE133101",
+   "pageText": "Visualize",
+   "group": "GROUP152836",
+   "groupText": "View",
+   "action": "ID_$CdRedraw"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE133101",
+   "pageText": "Visualize",
+   "group": "GROUP152836",
+   "groupText": "View",
+   "action": "ID_^prevView"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE133101",
+   "pageText": "Visualize",
+   "group": "GROUP152836",
+   "groupText": "View",
+   "action": "ID_^nextView"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE133101",
+   "pageText": "Visualize",
+   "group": "GROUP152836",
+   "groupText": "View",
+   "action": "ID_$vport=6"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP153105",
+   "groupText": "Insert",
+   "action": "ID_~CdShowEqnMgr"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP153105",
+   "groupText": "Insert",
+   "action": "ID_!CdInsSubPart"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP153105",
+   "groupText": "Insert",
+   "action": "ID_!CdEditAllPrtCfg"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP153105",
+   "groupText": "Insert",
+   "action": "ID_$SF=UiAutoDraft"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP153105",
+   "groupText": "Insert",
+   "action": "ID_!CdPartPickSet"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP144329",
+   "groupText": "Library",
+   "action": "ID_$SF=UiPartTable"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP144329",
+   "groupText": "Library",
+   "action": "ID_~CdMatlLibrary"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP144329",
+   "groupText": "Library",
+   "action": "ID_~CdUDFWizardShow"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP144329",
+   "groupText": "Library",
+   "action": "ID_~CdUDFInsShow"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP140414",
+   "groupText": "Attributes",
+   "action": "ID_$SF=UiPartAt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP140414",
+   "groupText": "Attributes",
+   "action": "ID_!CdSmdAttrib"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP140414",
+   "groupText": "Attributes",
+   "action": "ID_$SF=UiBatchAttribute"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP140414",
+   "groupText": "Attributes",
+   "action": "ID_$SF=UiDmAt3D"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP1407261",
+   "groupText": "Settings",
+   "action": "ID_$CdSettings"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP1407261",
+   "groupText": "Settings",
+   "action": "ID_$CdSetStep"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP1407261",
+   "groupText": "Settings",
+   "action": "ID_$SF=UiNotes"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP1407261",
+   "groupText": "Settings",
+   "action": "ID_$SF=UiBackgroundAt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP1407262",
+   "groupText": "Utilities",
+   "action": "ID_~BrVarAll"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP1407262",
+   "groupText": "Utilities",
+   "action": "ID_$SF=UiBrBlock"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP1407262",
+   "groupText": "Utilities",
+   "action": "ID_~CdRenameShow"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP1407262",
+   "groupText": "Utilities",
+   "action": "ID_$SF=UiUpdName"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP1407262",
+   "groupText": "Utilities",
+   "action": "ID_~CdEditorFile"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP1407262",
+   "groupText": "Utilities",
+   "action": "ID_~CdFontConv"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP1407262",
+   "groupText": "Utilities",
+   "action": "ID_$ss"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP1407262",
+   "groupText": "Utilities",
+   "action": "ID_$CdWorkFolder"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP1407262",
+   "groupText": "Utilities",
+   "action": "ID_$CdZwAppLm"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP1407262",
+   "groupText": "Utilities",
+   "action": "ID_$CdStartFolderMgr"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP1407262",
+   "groupText": "Utilities",
+   "action": "ID_$Another"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE140350",
+   "pageText": "Tools",
+   "group": "GROUP1407262",
+   "groupText": "Utilities",
+   "action": "ID_$CloseUnusedFiles"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP140353",
+   "groupText": "Import",
+   "action": "ID_$CdFileImport"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP140353",
+   "groupText": "Import",
+   "action": "ID_$CdFileIopView"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP140353",
+   "groupText": "Import",
+   "action": "ID_$CdFileInMulti"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP140353",
+   "groupText": "Import",
+   "action": "ID_!CdGeomCopy"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP140353",
+   "groupText": "Import",
+   "action": "ID_!CdInsSketch"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP140353",
+   "groupText": "Import",
+   "action": "ID_!CdInsPart"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP140353",
+   "groupText": "Import",
+   "action": "ID_$CdFileSTLImport"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP140353",
+   "groupText": "Import",
+   "action": "ID_!CdPtImport"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP140353",
+   "groupText": "Import",
+   "action": "ID_!CdWrap"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP150044",
+   "groupText": "Export",
+   "action": "ID_$CdFileExport"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP150044",
+   "groupText": "Export",
+   "action": "ID_$CdFileConvert"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP150044",
+   "groupText": "Export",
+   "action": "ID_!CdGeomExportII"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP150044",
+   "groupText": "Export",
+   "action": "ID_!CdCompExtract"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP150044",
+   "groupText": "Export",
+   "action": "ID_!CdPartPubSet"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE150715",
+   "pageText": "Drawing Packet",
+   "group": "GROUP150734",
+   "groupText": "Insert Sheet",
+   "action": "ID_$NewObj=90"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE150715",
+   "pageText": "Drawing Packet",
+   "group": "GROUP150734",
+   "groupText": "Insert Sheet",
+   "action": "ID_!CdSheetInst"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE150715",
+   "pageText": "Drawing Packet",
+   "group": "GROUP115612",
+   "groupText": "Edit Object",
+   "action": "ID_!CdRootRename2"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE150715",
+   "pageText": "Drawing Packet",
+   "group": "GROUP115612",
+   "groupText": "Edit Object",
+   "action": "ID_!CdRootDel"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE150715",
+   "pageText": "Drawing Packet",
+   "group": "GROUP115612",
+   "groupText": "Edit Object",
+   "action": "ID_!CdInqTarg"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE150715",
+   "pageText": "Drawing Packet",
+   "group": "GROUP1507351",
+   "groupText": "Utilities",
+   "action": "ID_$CdEditParent"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE150715",
+   "pageText": "Drawing Packet",
+   "group": "GROUP1507351",
+   "groupText": "Utilities",
+   "action": "ID_$SF=UiInqFiles"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE150715",
+   "pageText": "Drawing Packet",
+   "group": "GROUP1507351",
+   "groupText": "Utilities",
+   "action": "ID_$SF=UiUpdName"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE150715",
+   "pageText": "Drawing Packet",
+   "group": "GROUP1507351",
+   "groupText": "Utilities",
+   "action": "ID_~CdEditorFile"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE150715",
+   "pageText": "Drawing Packet",
+   "group": "GROUP1507351",
+   "groupText": "Utilities",
+   "action": "ID_$CdWorkFolder"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE150715",
+   "pageText": "Drawing Packet",
+   "group": "GROUP1507351",
+   "groupText": "Utilities",
+   "action": "ID_$CdZwAppLm"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE150715",
+   "pageText": "Drawing Packet",
+   "group": "GROUP1507351",
+   "groupText": "Utilities",
+   "action": "ID_$CdStartFolderMgr"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE150715",
+   "pageText": "Drawing Packet",
+   "group": "GROUP1507351",
+   "groupText": "Utilities",
+   "action": "ID_$Another"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE150715",
+   "pageText": "Drawing Packet",
+   "group": "GROUP1507351",
+   "groupText": "Utilities",
+   "action": "ID_$CloseUnusedFiles"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE152207",
+   "pageText": "Tools",
+   "group": "GROUP190338",
+   "groupText": "Data Exchange",
+   "action": "ID_~CmInpClipMgr"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE152207",
+   "pageText": "Tools",
+   "group": "GROUP190338",
+   "groupText": "Data Exchange",
+   "action": "ID_~CmLibImpObjFn"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE152207",
+   "pageText": "Tools",
+   "group": "GROUP190338",
+   "groupText": "Data Exchange",
+   "action": "ID_~CmLibExpObjFn"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE152207",
+   "pageText": "Tools",
+   "group": "GROUP152630",
+   "groupText": "Settings",
+   "action": "ID_$SF=CmConfigUpdate"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE152207",
+   "pageText": "Tools",
+   "group": "GROUP152630",
+   "groupText": "Settings",
+   "action": "ID_$CdSetStep"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE152207",
+   "pageText": "Tools",
+   "group": "GROUP152630",
+   "groupText": "Settings",
+   "action": "ID_$CdSettings"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE152207",
+   "pageText": "Tools",
+   "group": "GROUP152630",
+   "groupText": "Settings",
+   "action": "ID_$SF=UiBackgroundAt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE152207",
+   "pageText": "Tools",
+   "group": "GROUP152209",
+   "groupText": "Utilities",
+   "action": "ID_$SF=CmTaskScheduler"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE152207",
+   "pageText": "Tools",
+   "group": "GROUP152209",
+   "groupText": "Utilities",
+   "action": "ID_$SF=UiUpdName"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE152207",
+   "pageText": "Tools",
+   "group": "GROUP152209",
+   "groupText": "Utilities",
+   "action": "ID_~CdEditorFile"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE152207",
+   "pageText": "Tools",
+   "group": "GROUP152209",
+   "groupText": "Utilities",
+   "action": "ID_$ss"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE152207",
+   "pageText": "Tools",
+   "group": "GROUP152209",
+   "groupText": "Utilities",
+   "action": "ID_$CdWorkFolder"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE152207",
+   "pageText": "Tools",
+   "group": "GROUP152209",
+   "groupText": "Utilities",
+   "action": "ID_$CdZwAppLm"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE152207",
+   "pageText": "Tools",
+   "group": "GROUP152209",
+   "groupText": "Utilities",
+   "action": "ID_$CdStartFolderMgr"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE152207",
+   "pageText": "Tools",
+   "group": "GROUP152209",
+   "groupText": "Utilities",
+   "action": "ID_$Another"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE152207",
+   "pageText": "Tools",
+   "group": "GROUP152209",
+   "groupText": "Utilities",
+   "action": "ID_$CloseUnusedFiles"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE163354",
+   "pageText": "Tools",
+   "group": "GROUP163357",
+   "groupText": "Data Exchange",
+   "action": "ID_~CdCopy"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE163354",
+   "pageText": "Tools",
+   "group": "GROUP163357",
+   "groupText": "Data Exchange",
+   "action": "ID_~CdCut"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE163354",
+   "pageText": "Tools",
+   "group": "GROUP163357",
+   "groupText": "Data Exchange",
+   "action": "ID_~CdPaste"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE163354",
+   "pageText": "Tools",
+   "group": "GROUP163357",
+   "groupText": "Data Exchange",
+   "action": "ID_$CdFileImport"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE163354",
+   "pageText": "Tools",
+   "group": "GROUP163357",
+   "groupText": "Data Exchange",
+   "action": "ID_$CdFileIopView"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE163354",
+   "pageText": "Tools",
+   "group": "GROUP163357",
+   "groupText": "Data Exchange",
+   "action": "ID_$CdFileInMulti"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE163354",
+   "pageText": "Tools",
+   "group": "GROUP163357",
+   "groupText": "Data Exchange",
+   "action": "ID_$CdFileExport"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE163354",
+   "pageText": "Tools",
+   "group": "GROUP203034",
+   "groupText": "View",
+   "action": "ID_!CdVuPnt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE163354",
+   "pageText": "Tools",
+   "group": "GROUP203034",
+   "groupText": "View",
+   "action": "ID_!CdVuPntReset"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE163354",
+   "pageText": "Tools",
+   "group": "GROUP203034",
+   "groupText": "View",
+   "action": "ID_!CdVuAxis"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE163354",
+   "pageText": "Tools",
+   "group": "GROUP203034",
+   "groupText": "View",
+   "action": "ID_$CdRedraw"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE163354",
+   "pageText": "Tools",
+   "group": "GROUP203034",
+   "groupText": "View",
+   "action": "ID_^prevView"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE163354",
+   "pageText": "Tools",
+   "group": "GROUP203034",
+   "groupText": "View",
+   "action": "ID_^nextView"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE163354",
+   "pageText": "Tools",
+   "group": "GROUP203034",
+   "groupText": "View",
+   "action": "ID_$vport=6"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE163354",
+   "pageText": "Tools",
+   "group": "GROUP163358",
+   "groupText": "Attributes",
+   "action": "ID_$SF=UiPointAt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE163354",
+   "pageText": "Tools",
+   "group": "GROUP163358",
+   "groupText": "Attributes",
+   "action": "ID_$SF=UiLineAt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE163354",
+   "pageText": "Tools",
+   "group": "GROUP163358",
+   "groupText": "Attributes",
+   "action": "ID_$SF=UiDmAt3D"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE163354",
+   "pageText": "Tools",
+   "group": "GROUP163358",
+   "groupText": "Attributes",
+   "action": "ID_$SF=UiTextAt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE163354",
+   "pageText": "Tools",
+   "group": "GROUP163358",
+   "groupText": "Attributes",
+   "action": "ID_$CdPrfClrStg"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE163354",
+   "pageText": "Tools",
+   "group": "GROUP163359",
+   "groupText": "Settings",
+   "action": "ID_$CdSetStep"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE163354",
+   "pageText": "Tools",
+   "group": "GROUP163359",
+   "groupText": "Settings",
+   "action": "ID_$SF=UiNotes"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE163354",
+   "pageText": "Tools",
+   "group": "GROUP163359",
+   "groupText": "Settings",
+   "action": "ID_$SF=UiBackgroundAt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE180107",
+   "pageText": "Tools",
+   "group": "GROUP180108",
+   "groupText": "Settings",
+   "action": "ID_$CdSetStep"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE180107",
+   "pageText": "Tools",
+   "group": "GROUP180108",
+   "groupText": "Settings",
+   "action": "ID_$SF=UiNotes"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE180107",
+   "pageText": "Tools",
+   "group": "GROUP180108",
+   "groupText": "Settings",
+   "action": "ID_$SF=UiBackgroundAt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE180107",
+   "pageText": "Tools",
+   "group": "GROUP180147",
+   "groupText": "Utilities",
+   "action": "ID_~BrVarAll"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE180107",
+   "pageText": "Tools",
+   "group": "GROUP180147",
+   "groupText": "Utilities",
+   "action": "ID_$CdUnitConvert"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE180107",
+   "pageText": "Tools",
+   "group": "GROUP180147",
+   "groupText": "Utilities",
+   "action": "ID_$ss"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE180107",
+   "pageText": "Tools",
+   "group": "GROUP180147",
+   "groupText": "Utilities",
+   "action": "ID_$CdWorkFolder"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE180107",
+   "pageText": "Tools",
+   "group": "GROUP180147",
+   "groupText": "Utilities",
+   "action": "ID_$CdZwAppLm"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE180107",
+   "pageText": "Tools",
+   "group": "GROUP180147",
+   "groupText": "Utilities",
+   "action": "ID_$CdStartFolderMgr"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE180107",
+   "pageText": "Tools",
+   "group": "GROUP180147",
+   "groupText": "Utilities",
+   "action": "ID_$Another"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE180107",
+   "pageText": "Tools",
+   "group": "GROUP180147",
+   "groupText": "Utilities",
+   "action": "ID_$CloseUnusedFiles"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "QuickPrimer",
+   "pageText": "Quick Primer",
+   "group": "Start",
+   "groupText": "Start",
+   "action": "ID_$CdFileNew"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "QuickPrimer",
+   "pageText": "Quick Primer",
+   "group": "Start",
+   "groupText": "Start",
+   "action": "ID_!CdFileOpen3"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "QuickPrimer",
+   "pageText": "Quick Primer",
+   "group": "GROUP084359",
+   "groupText": "Data Exchange",
+   "action": "ID_$CdFileImport"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "QuickPrimer",
+   "pageText": "Quick Primer",
+   "group": "GROUP084359",
+   "groupText": "Data Exchange",
+   "action": "ID_$CdFileIopView"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "QuickPrimer",
+   "pageText": "Quick Primer",
+   "group": "GROUP084359",
+   "groupText": "Data Exchange",
+   "action": "ID_$CdFileInMulti"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "QuickPrimer",
+   "pageText": "Quick Primer",
+   "group": "GROUP195951",
+   "groupText": "Utilities",
+   "action": "ID_$CdWorkFolder"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "QuickPrimer",
+   "pageText": "Quick Primer",
+   "group": "GROUP200518",
+   "groupText": "Applications",
+   "action": "ID_$SF=UiAppMgr"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "QuickPrimer",
+   "pageText": "Quick Primer",
+   "group": "GROUP200518",
+   "groupText": "Applications",
+   "action": "ID_$CdFileOpenInCAD_Top"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "QuickPrimer",
+   "pageText": "Quick Primer",
+   "group": "GROUP200518",
+   "groupText": "Applications",
+   "action": "ID_$CdModelImport"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui2xTool",
+   "pageText": "2x Mill",
+   "group": "2xTactics",
+   "groupText": "Tactics",
+   "action": "ID_~PmRSetsPop(2)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui2xTool",
+   "pageText": "2x Mill",
+   "group": "2D Pocket",
+   "groupText": "2D Pocket",
+   "action": "ID_~PmOp(202)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui2xTool",
+   "pageText": "2x Mill",
+   "group": "2D Pocket",
+   "groupText": "2D Pocket",
+   "action": "ID_~PmOp(204)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui2xTool",
+   "pageText": "2x Mill",
+   "group": "2D Pocket",
+   "groupText": "2D Pocket",
+   "action": "ID_~PmOp(203)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui2xTool",
+   "pageText": "2x Mill",
+   "group": "2D Pocket",
+   "groupText": "2D Pocket",
+   "action": "ID_~PmOp(205)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui2xTool",
+   "pageText": "2x Mill",
+   "group": "2D Pocket",
+   "groupText": "2D Pocket",
+   "action": "ID_~PmOp(212)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui2xTool",
+   "pageText": "2x Mill",
+   "group": "2D Contour",
+   "groupText": "2D Contour",
+   "action": "ID_~PmOp(201)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui2xTool",
+   "pageText": "2x Mill",
+   "group": "2D Contour",
+   "groupText": "2D Contour",
+   "action": "ID_~PmOp(208)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui2xTool",
+   "pageText": "2x Mill",
+   "group": "2D Contour",
+   "groupText": "2D Contour",
+   "action": "ID_~PmOp(322)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui2xTool",
+   "pageText": "2x Mill",
+   "group": "2D Contour",
+   "groupText": "2D Contour",
+   "action": "ID_~PmOp(211)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui2xTool",
+   "pageText": "2x Mill",
+   "group": "Corner cut",
+   "groupText": "Corner cut",
+   "action": "ID_~PmOp(206)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui2xTool",
+   "pageText": "2x Mill",
+   "group": "Corner cut",
+   "groupText": "Corner cut",
+   "action": "ID_~PmOp(209)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui2xTool",
+   "pageText": "2x Mill",
+   "group": "2D Face",
+   "groupText": "2D Face",
+   "action": "ID_~PmOp(207)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui2xTool",
+   "pageText": "2x Mill",
+   "group": "2D Face",
+   "groupText": "2D Face",
+   "action": "ID_~PmOp(213)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui2xTool",
+   "pageText": "2x Mill",
+   "group": "2D Face",
+   "groupText": "2D Face",
+   "action": "ID_~PmOp(210)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xdTool",
+   "pageText": "3x Nurbs",
+   "group": "3xdRough",
+   "groupText": "Rough",
+   "action": "ID_~PmOp3x(308)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xdTool",
+   "pageText": "3x Nurbs",
+   "group": "3xdRough",
+   "groupText": "Rough",
+   "action": "ID_~PmOp3x(310)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xdTool",
+   "pageText": "3x Nurbs",
+   "group": "3xdRough",
+   "groupText": "Rough",
+   "action": "ID_~PmOp3x(309)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xdTool",
+   "pageText": "3x Nurbs",
+   "group": "3xdRough",
+   "groupText": "Rough",
+   "action": "ID_~PmOp3x(318)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xdTool",
+   "pageText": "3x Nurbs",
+   "group": "Cast",
+   "groupText": "Cast",
+   "action": "ID_~PmOp3x(311)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xdTool",
+   "pageText": "3x Nurbs",
+   "group": "Cast",
+   "groupText": "Cast",
+   "action": "ID_~PmOp3x(313)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xdTool",
+   "pageText": "3x Nurbs",
+   "group": "Cast",
+   "groupText": "Cast",
+   "action": "ID_~PmOp3x(312)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xdTool",
+   "pageText": "3x Nurbs",
+   "group": "Cast",
+   "groupText": "Cast",
+   "action": "ID_~PmOp3x(319)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xdTool",
+   "pageText": "3x Nurbs",
+   "group": "3xdFinish",
+   "groupText": "Finish",
+   "action": "ID_~PmOp3x(304)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xdTool",
+   "pageText": "3x Nurbs",
+   "group": "3xdFinish",
+   "groupText": "Finish",
+   "action": "ID_~PmOp3x(306)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xdTool",
+   "pageText": "3x Nurbs",
+   "group": "3xdFinish",
+   "groupText": "Finish",
+   "action": "ID_~PmOp3x(305)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xdTool",
+   "pageText": "3x Nurbs",
+   "group": "3xdFinish",
+   "groupText": "Finish",
+   "action": "ID_~PmOp3x(317)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xdTool",
+   "pageText": "3x Nurbs",
+   "group": "3xdFinish",
+   "groupText": "Finish",
+   "action": "ID_~PmOp3x(307)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xdTool",
+   "pageText": "3x Nurbs",
+   "group": "3xdCut",
+   "groupText": "Cut",
+   "action": "ID_~PmOp3x(302)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xdTool",
+   "pageText": "3x Nurbs",
+   "group": "3xdCut",
+   "groupText": "Cut",
+   "action": "ID_~PmOp3x(321)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xdTool",
+   "pageText": "3x Nurbs",
+   "group": "3xdCut",
+   "groupText": "Cut",
+   "action": "ID_~PmOp3x(303)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xdTool",
+   "pageText": "3x Nurbs",
+   "group": "3xdCut",
+   "groupText": "Cut",
+   "action": "ID_~PmOp3x(339)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xdTool",
+   "pageText": "3x Nurbs",
+   "group": "3xdCut",
+   "groupText": "Cut",
+   "action": "ID_~PmOp3x(301)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xdTool",
+   "pageText": "3x Nurbs",
+   "group": "3xdCut",
+   "groupText": "Cut",
+   "action": "ID_~PmOp3x(314)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xdTool",
+   "pageText": "3x Nurbs",
+   "group": "3xdCut",
+   "groupText": "Cut",
+   "action": "ID_~PmOp3x(315)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xdTool",
+   "pageText": "3x Nurbs",
+   "group": "3xdCut",
+   "groupText": "Cut",
+   "action": "ID_~PmOp3x(316)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "3xqTactic",
+   "groupText": "Tactic",
+   "action": "ID_~PmRSetsPop(3)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "3xDrill",
+   "groupText": "Drill",
+   "action": "ID_~PmOp3x(334)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "3xqRough",
+   "groupText": "Rough",
+   "action": "ID_~PmOp3x(340)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "3xqRough",
+   "groupText": "Rough",
+   "action": "ID_~PmOp3x(332)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "3xqRough",
+   "groupText": "Rough",
+   "action": "ID_~PmOp3x(331)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "3xqRough",
+   "groupText": "Rough",
+   "action": "ID_~PmOp3x(333)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "3xqRough",
+   "groupText": "Rough",
+   "action": "ID_~PmOp3x(345)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "3xqFinish",
+   "groupText": "Finish",
+   "action": "ID_~PmOp3x(323)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "3xqFinish",
+   "groupText": "Finish",
+   "action": "ID_~PmOp3x(329)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "3xqFinish",
+   "groupText": "Finish",
+   "action": "ID_~PmOp3x(342)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "3xqFinish",
+   "groupText": "Finish",
+   "action": "ID_~PmOp3x(343)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "3xqFinish",
+   "groupText": "Finish",
+   "action": "ID_~PmOp3x(344)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "3xqFinish",
+   "groupText": "Finish",
+   "action": "ID_~PmOpCreateAreaMill"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "3xqCut",
+   "groupText": "Cut",
+   "action": "ID_~PmOp3x(325)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "3xqCut",
+   "groupText": "Cut",
+   "action": "ID_~PmOp3x(324)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "3xqCut",
+   "groupText": "Cut",
+   "action": "ID_~PmOp3x(330)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "3xqCut",
+   "groupText": "Cut",
+   "action": "ID_~PmOp3x(335)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "3xqCut",
+   "groupText": "Cut",
+   "action": "ID_~PmOp3x(336)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "Engrave",
+   "groupText": "Engrave",
+   "action": "ID_~PmOp3x(337)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "HSM",
+   "groupText": "HSM",
+   "action": "ID_~PmOp3x(341)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "HSM",
+   "groupText": "HSM",
+   "action": "ID_~PmOp3x(326)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "HSM",
+   "groupText": "HSM",
+   "action": "ID_~PmOp3x(328)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "HSM",
+   "groupText": "HSM",
+   "action": "ID_~PmOp3x(327)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui3xqTool",
+   "pageText": "3x Quick",
+   "group": "Directive",
+   "groupText": "Directive",
+   "action": "ID_~PmOp3x(501)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui5xTool",
+   "pageText": "5x Mill",
+   "group": "5xCut",
+   "groupText": "Cut",
+   "action": "ID_~PmOp5x(401)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui5xTool",
+   "pageText": "5x Mill",
+   "group": "5xCut",
+   "groupText": "Cut",
+   "action": "ID_~PmOp5x(402)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui5xTool",
+   "pageText": "5x Mill",
+   "group": "5xCut",
+   "groupText": "Cut",
+   "action": "ID_~PmOp5x(403)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui5xTool",
+   "pageText": "5x Mill",
+   "group": "5xCut",
+   "groupText": "Cut",
+   "action": "ID_~PmOp5x(404)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui5xTool",
+   "pageText": "5x Mill",
+   "group": "5xCut",
+   "groupText": "Cut",
+   "action": "ID_~PmOp5x(405)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui5xTool",
+   "pageText": "5x Mill",
+   "group": "5xCut",
+   "groupText": "Cut",
+   "action": "ID_~PmOp5x(406)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "Ui5xTool",
+   "pageText": "5x Mill",
+   "group": "5xCut",
+   "groupText": "Cut",
+   "action": "ID_~PmOp5x(407)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAnalzTool",
+   "pageText": "Inquire",
+   "group": "CamMeasure",
+   "groupText": "Measure",
+   "action": "ID_~CmInquirePop(0)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAnalzTool",
+   "pageText": "Inquire",
+   "group": "CamMeasure",
+   "groupText": "Measure",
+   "action": "ID_~CmInquirePop(1)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAnalzTool",
+   "pageText": "Inquire",
+   "group": "CamMeasure",
+   "groupText": "Measure",
+   "action": "ID_~CmInquirePop(2)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAnalzTool",
+   "pageText": "Inquire",
+   "group": "CamMeasure",
+   "groupText": "Measure",
+   "action": "ID_~CmInquirePop(3)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAnalzTool",
+   "pageText": "Inquire",
+   "group": "CamMeasure",
+   "groupText": "Measure",
+   "action": "ID_~CmInquirePop(4)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAnalzTool",
+   "pageText": "Inquire",
+   "group": "CamMeasure",
+   "groupText": "Measure",
+   "action": "ID_~CmInquirePop(5)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAnalzTool",
+   "pageText": "Inquire",
+   "group": "CamAttribute",
+   "groupText": "Inspect Entities",
+   "action": "ID_!CdInqPlistCrv"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAnalzTool",
+   "pageText": "Inquire",
+   "group": "CamAttribute",
+   "groupText": "Inspect Entities",
+   "action": "ID_!CdSrfAnalz2"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAnalzTool",
+   "pageText": "Inquire",
+   "group": "CamAttribute",
+   "groupText": "Inspect Entities",
+   "action": "ID_!WrInqNrbSrf"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAnalzTool",
+   "pageText": "Inquire",
+   "group": "CamAttribute",
+   "groupText": "Inspect Entities",
+   "action": "ID_!CdSfInqKrv"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAnalzTool",
+   "pageText": "Inquire",
+   "group": "CamAttribute",
+   "groupText": "Inspect Entities",
+   "action": "ID_!CdDynSectionCm"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAnalzTool",
+   "pageText": "Inquire",
+   "group": "CamAttribute",
+   "groupText": "Inspect Entities",
+   "action": "ID_~CdDynSection"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAnimation",
+   "pageText": "Animation",
+   "group": "Animation",
+   "groupText": "Animation",
+   "action": "ID_!AnimNewAnimInst"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAnimation",
+   "pageText": "Animation",
+   "group": "Animation",
+   "groupText": "Animation",
+   "action": "ID_!AnimImportExp"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAnimation",
+   "pageText": "Animation",
+   "group": "AnimKeyFrame",
+   "groupText": "Key Frame",
+   "action": "ID_!AnimAddViewKfrm"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAnimation",
+   "pageText": "Animation",
+   "group": "AnimKeyFrame",
+   "groupText": "Key Frame",
+   "action": "ID_!AnimAddMotor"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAnimation",
+   "pageText": "Animation",
+   "group": "AnimKeyFrame",
+   "groupText": "Key Frame",
+   "action": "ID_!AnimAddAppKfrm"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAnimation",
+   "pageText": "Animation",
+   "group": "AnimKeyFrame",
+   "groupText": "Key Frame",
+   "action": "ID_!AnimPosKfrmCmd"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAnimation",
+   "pageText": "Animation",
+   "group": "AnimInquire",
+   "groupText": "Animation Inquire",
+   "action": "ID_!AnimBandAnal"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAnimation",
+   "pageText": "Animation",
+   "group": "AnimInquire",
+   "groupText": "Animation Inquire",
+   "action": "ID_!AnimInferCrt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAnimation",
+   "pageText": "Animation",
+   "group": "AnimInquire",
+   "groupText": "Animation Inquire",
+   "action": "ID_!AnimTrkCrt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool",
+   "pageText": "Assembly",
+   "group": "Component",
+   "groupText": "Component",
+   "action": "ID_!CdCompSetPart"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool",
+   "pageText": "Assembly",
+   "group": "Component",
+   "groupText": "Component",
+   "action": "ID_!CdEditCompPart"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool",
+   "pageText": "Assembly",
+   "group": "Constraints",
+   "groupText": "Constraint",
+   "action": "ID_!AsAlnAll2"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool",
+   "pageText": "Assembly",
+   "group": "Constraints",
+   "groupText": "Constraint",
+   "action": "ID_!AsMechAlnAll"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool",
+   "pageText": "Assembly",
+   "group": "Constraints",
+   "groupText": "Constraint",
+   "action": "ID_!AsMcmPulley"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool",
+   "pageText": "Assembly",
+   "group": "Constraints",
+   "groupText": "Constraint",
+   "action": "ID_!AsAlnFix"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool",
+   "pageText": "Assembly",
+   "group": "Constraints",
+   "groupText": "Constraint",
+   "action": "ID_!AsUnivAlign"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool",
+   "pageText": "Assembly",
+   "group": "assemBasicOperation",
+   "groupText": "Basic Editing",
+   "action": "ID_!AsmPtnAll"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool",
+   "pageText": "Assembly",
+   "group": "assemBasicOperation",
+   "groupText": "Basic Editing",
+   "action": "ID_!CdAsmMove"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool",
+   "pageText": "Assembly",
+   "group": "assemBasicOperation",
+   "groupText": "Basic Editing",
+   "action": "ID_!AsmMirrorAll"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool",
+   "pageText": "Assembly",
+   "group": "assemBasicOperation",
+   "groupText": "Basic Editing",
+   "action": "ID_!FtAssemCut4"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool",
+   "pageText": "Assembly",
+   "group": "assemBasicOperation",
+   "groupText": "Basic Editing",
+   "action": "ID_!FtAssemHole"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool",
+   "pageText": "Assembly",
+   "group": "assemBasicOperation",
+   "groupText": "Basic Editing",
+   "action": "ID_!FtAssemFillet"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool",
+   "pageText": "Assembly",
+   "group": "assemBasicOperation",
+   "groupText": "Basic Editing",
+   "action": "ID_!FtAssemChamfers"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool",
+   "pageText": "Assembly",
+   "group": "GROUP130947",
+   "groupText": "Library",
+   "action": "ID_$SF=UiPartTable"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool",
+   "pageText": "Assembly",
+   "group": "GROUP130947",
+   "groupText": "Library",
+   "action": "ID_~CdUDFWizardShow"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool",
+   "pageText": "Assembly",
+   "group": "GROUP130947",
+   "groupText": "Library",
+   "action": "ID_~CdUDFInsShow"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool",
+   "pageText": "Assembly",
+   "group": "AssemblyTools",
+   "groupText": "Inquire",
+   "action": "ID_$SF=AsInqAlnStat"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool",
+   "pageText": "Assembly",
+   "group": "AssemblyTools",
+   "groupText": "Inquire",
+   "action": "ID_!CdIferChk1"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool",
+   "pageText": "Assembly",
+   "group": "AssemblyTools",
+   "groupText": "Inquire",
+   "action": "ID_!CdClrChk"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool",
+   "pageText": "Assembly",
+   "group": "AssemblyTools",
+   "groupText": "Inquire",
+   "action": "ID_$SF=UiCompareParts"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool",
+   "pageText": "Assembly",
+   "group": "AssemblyTools",
+   "groupText": "Inquire",
+   "action": "ID_$SF=Ui3DBom"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool",
+   "pageText": "Assembly",
+   "group": "GROUP130951",
+   "groupText": "Animation",
+   "action": "ID_!CdEnterAnim"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool2",
+   "pageText": "Assembly",
+   "group": "AniConstraint",
+   "groupText": "Constraint",
+   "action": "ID_$SF=AsInqAlnStat"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiAssemTool2",
+   "pageText": "Assembly",
+   "group": "AniConstraint",
+   "groupText": "Constraint",
+   "action": "ID_!AnimAlnKfrmCmd"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDimenTool",
+   "pageText": "Dimension",
+   "group": "SheetDimension",
+   "groupText": "Dimension",
+   "action": "ID_!DmOff"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDimenTool",
+   "pageText": "Dimension",
+   "group": "SheetDimension",
+   "groupText": "Dimension",
+   "action": "ID_!DmSym"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDimenTool",
+   "pageText": "Dimension",
+   "group": "SheetDimension",
+   "groupText": "Dimension",
+   "action": "ID_!DmChmf"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDimenTool",
+   "pageText": "Dimension",
+   "group": "SheetDimension",
+   "groupText": "Dimension",
+   "action": "ID_!DmRadDia"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDimenTool",
+   "pageText": "Dimension",
+   "group": "SheetDimension",
+   "groupText": "Dimension",
+   "action": "ID_!DmArc"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDimenTool",
+   "pageText": "Dimension",
+   "group": "SheetDimension",
+   "groupText": "Dimension",
+   "action": "ID_!CdHoleCallMk"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDimenTool",
+   "pageText": "Dimension",
+   "group": "SheetAnnotation",
+   "groupText": "Annotation",
+   "action": "ID_!DmLabelOrd"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDimenTool",
+   "pageText": "Dimension",
+   "group": "SheetAnnotation",
+   "groupText": "Annotation",
+   "action": "ID_!DmLabel"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDimenTool",
+   "pageText": "Dimension",
+   "group": "SheetAnnotation",
+   "groupText": "Annotation",
+   "action": "ID_!DmBalloon"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDimenTool",
+   "pageText": "Dimension",
+   "group": "SheetAnnotation",
+   "groupText": "Annotation",
+   "action": "ID_!CdAutoBalloon"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDimenTool",
+   "pageText": "Dimension",
+   "group": "SheetAnnotation",
+   "groupText": "Annotation",
+   "action": "ID_!DmFCS"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDimenTool",
+   "pageText": "Dimension",
+   "group": "SheetAnnotation",
+   "groupText": "Annotation",
+   "action": "ID_!DmDatum"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDimenTool",
+   "pageText": "Dimension",
+   "group": "SheetAnnotation",
+   "groupText": "Annotation",
+   "action": "ID_!DmDatumTc"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDimenTool",
+   "pageText": "Dimension",
+   "group": "SheetAnnotation",
+   "groupText": "Annotation",
+   "action": "ID_!DmElevation"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDimenTool",
+   "pageText": "Dimension",
+   "group": "Symbol",
+   "groupText": "Symbol",
+   "action": "ID_!CdSymSrfCrt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDimenTool",
+   "pageText": "Dimension",
+   "group": "Symbol",
+   "groupText": "Symbol",
+   "action": "ID_!DmIntsectSym"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDimenTool",
+   "pageText": "Dimension",
+   "group": "Symbol",
+   "groupText": "Symbol",
+   "action": "ID_!CdSymImgCrt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDimenTool",
+   "pageText": "Dimension",
+   "group": "Symbol",
+   "groupText": "Symbol",
+   "action": "ID_!CdSymMarkCrt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDimenTool",
+   "pageText": "Dimension",
+   "group": "Symbol",
+   "groupText": "Symbol",
+   "action": "ID_~CdFileInsert"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDimenTool",
+   "pageText": "Dimension",
+   "group": "DimensionEdit",
+   "groupText": "Edit Dimension",
+   "action": "ID_!DmModTol"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDimenTool",
+   "pageText": "Dimension",
+   "group": "DimensionEdit",
+   "groupText": "Edit Dimension",
+   "action": "ID_!DmRefToggle"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDimenTool",
+   "pageText": "Dimension",
+   "group": "DimensionEdit",
+   "groupText": "Edit Dimension",
+   "action": "ID_!DmModDogLeg"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDimenTool",
+   "pageText": "Dimension",
+   "group": "DimensionEdit",
+   "groupText": "Edit Dimension",
+   "action": "ID_!DmRotCenter"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDrawTool",
+   "pageText": "Drawing",
+   "group": "SheetDrawing",
+   "groupText": "Drawing",
+   "action": "ID_!WrSmtDraw2D"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDrawTool",
+   "pageText": "Drawing",
+   "group": "SheetDrawing",
+   "groupText": "Drawing",
+   "action": "ID_!WrCrCircles"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDrawTool",
+   "pageText": "Drawing",
+   "group": "SheetDrawing",
+   "groupText": "Drawing",
+   "action": "ID_!WrCrElps"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDrawTool",
+   "pageText": "Drawing",
+   "group": "SheetDrawing",
+   "groupText": "Drawing",
+   "action": "ID_!WrCrBndBox"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDrawTool",
+   "pageText": "Drawing",
+   "group": "SheetDrawing",
+   "groupText": "Drawing",
+   "action": "ID_!CdShtProf"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDrawTool",
+   "pageText": "Drawing",
+   "group": "GROUP105656",
+   "groupText": "Curve",
+   "action": "ID_!CdBlend2CrvsII"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDrawTool",
+   "pageText": "Drawing",
+   "group": "GROUP105656",
+   "groupText": "Curve",
+   "action": "ID_!CdFitCrv"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDrawTool",
+   "pageText": "Drawing",
+   "group": "SheetEdit",
+   "groupText": "Edit Curve",
+   "action": "ID_!CdCvModII"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiDrillTool",
+   "pageText": "Drill",
+   "group": "HoleTactics",
+   "groupText": "Tactics",
+   "action": "ID_~PmRSetsPop(1)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiElectrodeTool",
+   "pageText": "Electrode",
+   "group": "Start",
+   "groupText": "Start",
+   "action": "ID_~CdElecPrj"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiElectrodeTool",
+   "pageText": "Electrode",
+   "group": "Start",
+   "groupText": "Start",
+   "action": "ID_!CdInstPart3"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiElectrodeTool",
+   "pageText": "Electrode",
+   "group": "Start",
+   "groupText": "Start",
+   "action": "ID_!CdInstNewPart"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiElectrodeTool",
+   "pageText": "Electrode",
+   "group": "Start",
+   "groupText": "Start",
+   "action": "ID_!FtAllSub"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiElectrodeTool",
+   "pageText": "Electrode",
+   "group": "Start",
+   "groupText": "Start",
+   "action": "ID_!CdInsPart"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiElectrodeTool",
+   "pageText": "Electrode",
+   "group": "Basic Editing",
+   "groupText": "Basic Editing",
+   "action": "ID_!FtPtnElectrode"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiElectrodeTool",
+   "pageText": "Electrode",
+   "group": "Basic Editing",
+   "groupText": "Basic Editing",
+   "action": "ID_!CdAllMove"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiElectrodeTool",
+   "pageText": "Electrode",
+   "group": "Basic Editing",
+   "groupText": "Basic Editing",
+   "action": "ID_!CdAllCopy"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiElectrodeTool",
+   "pageText": "Electrode",
+   "group": "Basic Editing",
+   "groupText": "Basic Editing",
+   "action": "ID_!CdScale3D"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiExpViewTool",
+   "pageText": "Exploded View",
+   "group": "ExplosionSwitcher",
+   "groupText": "Exploded View",
+   "action": "ID_!AsmExpAddStep"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiExpViewTool",
+   "pageText": "Exploded View",
+   "group": "ExplosionSwitcher",
+   "groupText": "Exploded View",
+   "action": "ID_!AsmExpViewAuto"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiExpViewTool",
+   "pageText": "Exploded View",
+   "group": "ExplosionSwitcher",
+   "groupText": "Exploded View",
+   "action": "ID_!AsmExpAddTrail"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiExpViewTool",
+   "pageText": "Exploded View",
+   "group": "ExplosionSwitcher",
+   "groupText": "Exploded View",
+   "action": "ID_!AsmExpAutoTrail"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiExpViewTool",
+   "pageText": "Exploded View",
+   "group": "ExplosionSwitcher",
+   "groupText": "Exploded View",
+   "action": "ID_!AsmExpReuse"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiExpViewTool",
+   "pageText": "Exploded View",
+   "group": "ExplosionSwitcher",
+   "groupText": "Exploded View",
+   "action": "ID_!AsmSwitchExp"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiFtrTool",
+   "pageText": "Shape",
+   "group": "BasicShapes",
+   "groupText": "Basic Shape",
+   "action": "ID_!FtAllExt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiFtrTool",
+   "pageText": "Shape",
+   "group": "BasicShapes",
+   "groupText": "Basic Shape",
+   "action": "ID_!FtAllRev"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiFtrTool",
+   "pageText": "Shape",
+   "group": "Operation",
+   "groupText": "Engineering Feature",
+   "action": "ID_!FtChamfers2"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiFtrTool",
+   "pageText": "Shape",
+   "group": "Operation",
+   "groupText": "Engineering Feature",
+   "action": "ID_!FtLip"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiFtrTool",
+   "pageText": "Shape",
+   "group": "Operation",
+   "groupText": "Engineering Feature",
+   "action": "ID_!FtExtStock2"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiFtrTool",
+   "pageText": "Shape",
+   "group": "GROUP122719",
+   "groupText": "Edit Shape",
+   "action": "ID_!FtShell1"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiFtrTool",
+   "pageText": "Shape",
+   "group": "GROUP122719",
+   "groupText": "Edit Shape",
+   "action": "ID_!FtThicken"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiFtrTool",
+   "pageText": "Shape",
+   "group": "GROUP122719",
+   "groupText": "Edit Shape",
+   "action": "ID_!CdSimplify"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiFtrTool",
+   "pageText": "Shape",
+   "group": "GROUP122719",
+   "groupText": "Edit Shape",
+   "action": "ID_!FtSpatula"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiFtrTool",
+   "pageText": "Shape",
+   "group": "GROUP122719",
+   "groupText": "Edit Shape",
+   "action": "ID_!FtSelfX"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiFtrTool",
+   "pageText": "Shape",
+   "group": "GROUP123325",
+   "groupText": "Morph",
+   "action": "ID_!FtWrapShp"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiFtrTool",
+   "pageText": "Shape",
+   "group": "GROUP123325",
+   "groupText": "Morph",
+   "action": "ID_!FtWrapPtn"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiFtrTool",
+   "pageText": "Shape",
+   "group": "BasicOperation",
+   "groupText": "Basic Editing",
+   "action": "ID_!CdAllCopy"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiFtrTool",
+   "pageText": "Shape",
+   "group": "BasicOperation",
+   "groupText": "Basic Editing",
+   "action": "ID_!CdScale3D"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHealTool",
+   "pageText": "Heal",
+   "group": "Heal",
+   "groupText": "Heal",
+   "action": "ID_!CdHealTtAll"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHealTool",
+   "pageText": "Heal",
+   "group": "Heal",
+   "groupText": "Heal",
+   "action": "ID_!CdGapTighten"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHealTool",
+   "pageText": "Heal",
+   "group": "HealEdge",
+   "groupText": "Edge",
+   "action": "ID_!CdInqOpnEdg"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHealTool",
+   "pageText": "Heal",
+   "group": "HealEdge",
+   "groupText": "Edge",
+   "action": "ID_!CdDelTinyEdgs"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHealTool",
+   "pageText": "Heal",
+   "group": "HealEdge",
+   "groupText": "Edge",
+   "action": "ID_!FtEdSplit"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHealTool",
+   "pageText": "Heal",
+   "group": "HealEdge",
+   "groupText": "Edge",
+   "action": "ID_!FtEdMerge"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHealTool",
+   "pageText": "Heal",
+   "group": "HealEdge",
+   "groupText": "Edge",
+   "action": "ID_!CdRefitEdgCrv"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHealTool",
+   "pageText": "Heal",
+   "group": "HealEdge",
+   "groupText": "Edge",
+   "action": "ID_!FtSfUntrim"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHealTool",
+   "pageText": "Heal",
+   "group": "HealEdge",
+   "groupText": "Edge",
+   "action": "ID_!CdFaceBndRplc"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHealTool",
+   "pageText": "Heal",
+   "group": "HealEdge",
+   "groupText": "Edge",
+   "action": "ID_!FtSfInvert"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHealTool",
+   "pageText": "Heal",
+   "group": "HealFace",
+   "groupText": "Face",
+   "action": "ID_!CdShapeSew"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHealTool",
+   "pageText": "Heal",
+   "group": "HealFace",
+   "groupText": "Face",
+   "action": "ID_!CdFaceExplode"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHealTool",
+   "pageText": "Heal",
+   "group": "HealFace",
+   "groupText": "Face",
+   "action": "ID_!CdSewEdgGap"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHealTool",
+   "pageText": "Heal",
+   "group": "HealFace",
+   "groupText": "Face",
+   "action": "ID_!CdSimplifyEdg"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHealTool",
+   "pageText": "Heal",
+   "group": "HealFace",
+   "groupText": "Face",
+   "action": "ID_!FtGapFill"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHealTool",
+   "pageText": "Heal",
+   "group": "HealFace",
+   "groupText": "Face",
+   "action": "ID_!CdSf2Pln"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHealTool",
+   "pageText": "Heal",
+   "group": "HealFace",
+   "groupText": "Face",
+   "action": "ID_!CdFacesetFlip"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHealTool",
+   "pageText": "Heal",
+   "group": "HealFace",
+   "groupText": "Face",
+   "action": "ID_!CdFaceExt2"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHealTool",
+   "pageText": "Heal",
+   "group": "HealFace",
+   "groupText": "Face",
+   "action": "ID_!FtDivFcsToCvs"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHealTool",
+   "pageText": "Heal",
+   "group": "HealFace",
+   "groupText": "Face",
+   "action": "ID_!FtSfSplit"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHealTool",
+   "pageText": "Heal",
+   "group": "HealFace",
+   "groupText": "Face",
+   "action": "ID_!CdFcsPrimFix"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLayoutTool",
+   "pageText": "Layout",
+   "group": "View",
+   "groupText": "View",
+   "action": "ID_!CdV3Auto2"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLayoutTool",
+   "pageText": "Layout",
+   "group": "View",
+   "groupText": "View",
+   "action": "ID_!CdV3InsPrj"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLayoutTool",
+   "pageText": "Layout",
+   "group": "View",
+   "groupText": "View",
+   "action": "ID_!CdV3InsAux"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLayoutTool",
+   "pageText": "Layout",
+   "group": "View",
+   "groupText": "View",
+   "action": "ID_!CdV3BrkSect"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLayoutTool",
+   "pageText": "Layout",
+   "group": "View",
+   "groupText": "View",
+   "action": "ID_!CdV3Detail"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLayoutTool",
+   "pageText": "Layout",
+   "group": "View",
+   "groupText": "View",
+   "action": "ID_!CdV3AlterPos"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLayoutTool",
+   "pageText": "Layout",
+   "group": "View",
+   "groupText": "View",
+   "action": "ID_!CdV3BrkLine"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLayoutTool",
+   "pageText": "Layout",
+   "group": "Table",
+   "groupText": "Table",
+   "action": "ID_!CdBomTblCrt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLayoutTool",
+   "pageText": "Layout",
+   "group": "Table",
+   "groupText": "Table",
+   "action": "ID_~CdEskdBom"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLayoutTool",
+   "pageText": "Layout",
+   "group": "Table",
+   "groupText": "Table",
+   "action": "ID_!CdHoleTblMk2"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLayoutTool",
+   "pageText": "Layout",
+   "group": "Table",
+   "groupText": "Table",
+   "action": "ID_!CdEdmTblCrt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLayoutTool",
+   "pageText": "Layout",
+   "group": "Table",
+   "groupText": "Table",
+   "action": "ID_!CdWdSegTblCrt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLayoutTool",
+   "pageText": "Layout",
+   "group": "Table",
+   "groupText": "Table",
+   "action": "ID_!CdWeldTblCrt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLayoutTool",
+   "pageText": "Layout",
+   "group": "Table",
+   "groupText": "Table",
+   "action": "ID_!CdTblUsrCrt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLayoutTool",
+   "pageText": "Layout",
+   "group": "Table",
+   "groupText": "Table",
+   "action": "ID_!CdAnntTblCrt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLayoutTool",
+   "pageText": "Layout",
+   "group": "Table",
+   "groupText": "Table",
+   "action": "ID_!CdRevTblCrt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLayoutTool",
+   "pageText": "Layout",
+   "group": "LayoutEdit",
+   "groupText": "Edit View",
+   "action": "ID_!CdV3RedefDet"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLayoutTool",
+   "pageText": "Layout",
+   "group": "LayoutEdit",
+   "groupText": "Edit View",
+   "action": "ID_!CdV3RedefSec"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLayoutTool",
+   "pageText": "Layout",
+   "group": "LayoutEdit",
+   "groupText": "Edit View",
+   "action": "ID_!CdV3SetPart"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLayoutTool",
+   "pageText": "Layout",
+   "group": "LayoutEdit",
+   "groupText": "Edit View",
+   "action": "ID_!CdViewRotate"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLayoutTool",
+   "pageText": "Layout",
+   "group": "GROUP083636",
+   "groupText": "Edit Table",
+   "action": "ID_!CdTblEdit"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLayoutTool",
+   "pageText": "Layout",
+   "group": "GROUP083636",
+   "groupText": "Edit Table",
+   "action": "ID_!CdTblInsert"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLayoutTool",
+   "pageText": "Layout",
+   "group": "GROUP083636",
+   "groupText": "Edit Table",
+   "action": "ID_!CdTblSyncAttr"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool",
+   "pageText": "Visualize",
+   "group": "VisView",
+   "groupText": "View",
+   "action": "ID_!CdVuPnt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool",
+   "pageText": "Visualize",
+   "group": "VisView",
+   "groupText": "View",
+   "action": "ID_!CdVuAxis"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool",
+   "pageText": "Visualize",
+   "group": "VisView",
+   "groupText": "View",
+   "action": "ID_$CdRedraw"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool",
+   "pageText": "Visualize",
+   "group": "VisView",
+   "groupText": "View",
+   "action": "ID_^prevView"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool",
+   "pageText": "Visualize",
+   "group": "VisView",
+   "groupText": "View",
+   "action": "ID_^nextView"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool",
+   "pageText": "Visualize",
+   "group": "VisView",
+   "groupText": "View",
+   "action": "ID_$vport=6"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool",
+   "pageText": "Visualize",
+   "group": "Material",
+   "groupText": "Material",
+   "action": "ID_!CdVFaceAppAt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool",
+   "pageText": "Visualize",
+   "group": "Material",
+   "groupText": "Material",
+   "action": "ID_!CdVFaceAppCpy"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool",
+   "pageText": "Visualize",
+   "group": "Light",
+   "groupText": "Environment and Lighting",
+   "action": "ID_!CdEnvScene"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool",
+   "pageText": "Visualize",
+   "group": "Light",
+   "groupText": "Environment and Lighting",
+   "action": "ID_!CdLites"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool",
+   "pageText": "Visualize",
+   "group": "Light",
+   "groupText": "Environment and Lighting",
+   "action": "ID_!CdLiteMod"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool",
+   "pageText": "Visualize",
+   "group": "Light",
+   "groupText": "Environment and Lighting",
+   "action": "ID_!CdLiteDel"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool",
+   "pageText": "Visualize",
+   "group": "Light",
+   "groupText": "Environment and Lighting",
+   "action": "ID_!CdLiteDelAll"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool",
+   "pageText": "Visualize",
+   "group": "Light",
+   "groupText": "Environment and Lighting",
+   "action": "ID_$CdSwapLite"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool2",
+   "pageText": "Visualize",
+   "group": "GROUP175844",
+   "groupText": "View",
+   "action": "ID_!CdVuPnt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool2",
+   "pageText": "Visualize",
+   "group": "GROUP175844",
+   "groupText": "View",
+   "action": "ID_!CdVuPntReset"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool2",
+   "pageText": "Visualize",
+   "group": "GROUP175844",
+   "groupText": "View",
+   "action": "ID_!CdVuAxis"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool2",
+   "pageText": "Visualize",
+   "group": "GROUP175844",
+   "groupText": "View",
+   "action": "ID_$CdRedraw"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool2",
+   "pageText": "Visualize",
+   "group": "GROUP175844",
+   "groupText": "View",
+   "action": "ID_^prevView"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool2",
+   "pageText": "Visualize",
+   "group": "GROUP175844",
+   "groupText": "View",
+   "action": "ID_^nextView"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool2",
+   "pageText": "Visualize",
+   "group": "GROUP175844",
+   "groupText": "View",
+   "action": "ID_$vport=6"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool2",
+   "pageText": "Visualize",
+   "group": "AnimationLight",
+   "groupText": "Light",
+   "action": "ID_!CdLites"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool2",
+   "pageText": "Visualize",
+   "group": "AnimationLight",
+   "groupText": "Light",
+   "action": "ID_!CdLiteMod"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool2",
+   "pageText": "Visualize",
+   "group": "AnimationLight",
+   "groupText": "Light",
+   "action": "ID_!CdLiteDel"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool2",
+   "pageText": "Visualize",
+   "group": "AnimationLight",
+   "groupText": "Light",
+   "action": "ID_!CdLiteDelAll"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiLightTool2",
+   "pageText": "Visualize",
+   "group": "AnimationLight",
+   "groupText": "Light",
+   "action": "ID_$CdSwapLite"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiOutputTool",
+   "pageText": "Output",
+   "group": "Spreadsheet",
+   "groupText": "Spreadsheet",
+   "action": "ID_~PmSpShPop(8)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiOutputTool",
+   "pageText": "Output",
+   "group": "Spreadsheet",
+   "groupText": "Spreadsheet",
+   "action": "ID_~PmSpShPop(9)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiOutputTool",
+   "pageText": "Output",
+   "group": "Output",
+   "groupText": "Output",
+   "action": "ID_~CmOpsPop(20)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiOutputTool",
+   "pageText": "Output",
+   "group": "Output",
+   "groupText": "Output",
+   "action": "ID_~CmOpsPop(15)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiOutputTool",
+   "pageText": "Output",
+   "group": "Output",
+   "groupText": "Output",
+   "action": "ID_~CmOpPop(3)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiOutputTool",
+   "pageText": "Output",
+   "group": "Output",
+   "groupText": "Output",
+   "action": "ID_~CmStartVxPost"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiOutputTool",
+   "pageText": "Output",
+   "group": "Output",
+   "groupText": "Output",
+   "action": "ID_~PmOutPop(14)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPartInqTool",
+   "pageText": "Inquire",
+   "group": "Measure",
+   "groupText": "Measure",
+   "action": "ID_!CdSmtMsr"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPartInqTool",
+   "pageText": "Inquire",
+   "group": "Measure",
+   "groupText": "Measure",
+   "action": "ID_!CdDstAll"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPartInqTool",
+   "pageText": "Inquire",
+   "group": "Measure",
+   "groupText": "Measure",
+   "action": "ID_!CdInqAngAll"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPartInqTool",
+   "pageText": "Inquire",
+   "group": "Measure",
+   "groupText": "Measure",
+   "action": "ID_!WrInqArc3P"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPartInqTool",
+   "pageText": "Inquire",
+   "group": "Measure",
+   "groupText": "Measure",
+   "action": "ID_!WrInqRad"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPartInqTool",
+   "pageText": "Inquire",
+   "group": "Measure",
+   "groupText": "Measure",
+   "action": "ID_!WrInqLen"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPartInqTool",
+   "pageText": "Inquire",
+   "group": "Measure",
+   "groupText": "Measure",
+   "action": "ID_!CdInqSrfProp"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPartInqTool",
+   "pageText": "Inquire",
+   "group": "Inquery",
+   "groupText": "Inspect Entities",
+   "action": "ID_!WrInqCoord3"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPartInqTool",
+   "pageText": "Inquire",
+   "group": "Inquery",
+   "groupText": "Inspect Entities",
+   "action": "ID_!CdInqPlistCrv"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPartInqTool",
+   "pageText": "Inquire",
+   "group": "Inquery",
+   "groupText": "Inspect Entities",
+   "action": "ID_!CdSfInqKrv"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPartInqTool",
+   "pageText": "Inquire",
+   "group": "Inquery",
+   "groupText": "Inspect Entities",
+   "action": "ID_!CdInqPlistSrf"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPartInqTool",
+   "pageText": "Inquire",
+   "group": "Inquery",
+   "groupText": "Inspect Entities",
+   "action": "ID_!CdThkAnalz"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPartInqTool",
+   "pageText": "Inquire",
+   "group": "Inquery",
+   "groupText": "Inspect Entities",
+   "action": "ID_!FtDraftAngChk"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPartInqTool",
+   "pageText": "Inquire",
+   "group": "Inquery",
+   "groupText": "Inspect Entities",
+   "action": "ID_!CdUndercut"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPartInqTool",
+   "pageText": "Inquire",
+   "group": "Inquery",
+   "groupText": "Inspect Entities",
+   "action": "ID_!CdSectionAlz"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPartInqTool",
+   "pageText": "Inquire",
+   "group": "Inquery",
+   "groupText": "Inspect Entities",
+   "action": "ID_!SmdBendInfo"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfInqTool",
+   "pageText": "Inquire",
+   "group": "SketchMeasure",
+   "groupText": "Measure",
+   "action": "ID_!CdDst2All"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfInqTool",
+   "pageText": "Inquire",
+   "group": "SketchMeasure",
+   "groupText": "Measure",
+   "action": "ID_!CdInqAng2All"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfInqTool",
+   "pageText": "Inquire",
+   "group": "SketchMeasure",
+   "groupText": "Measure",
+   "action": "ID_!WrInqArc3P-2D"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfInqTool",
+   "pageText": "Inquire",
+   "group": "SketchMeasure",
+   "groupText": "Measure",
+   "action": "ID_!WrInqLen2"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfInqTool",
+   "pageText": "Inquire",
+   "group": "SketchMeasure",
+   "groupText": "Measure",
+   "action": "ID_!WrInqArea"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfInqTool",
+   "pageText": "Inquire",
+   "group": "SketchMeasure",
+   "groupText": "Measure",
+   "action": "ID_!CdDstAll"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfInqTool",
+   "pageText": "Inquire",
+   "group": "SketchMeasure",
+   "groupText": "Measure",
+   "action": "ID_!CdInqAngAll"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfInqTool",
+   "pageText": "Inquire",
+   "group": "SketchMeasure",
+   "groupText": "Measure",
+   "action": "ID_!WrInqArc3P"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfInqTool",
+   "pageText": "Inquire",
+   "group": "SketchMeasure",
+   "groupText": "Measure",
+   "action": "ID_!WrInqLen3"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfInqTool",
+   "pageText": "Inquire",
+   "group": "SketchMeasure",
+   "groupText": "Measure",
+   "action": "ID_!WrInqArea2"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfInqTool",
+   "pageText": "Inquire",
+   "group": "SketchMeasure",
+   "groupText": "Measure",
+   "action": "ID_$SF=UiShowOverlap"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfSkeTool",
+   "pageText": "Sketch",
+   "group": "SketchExit",
+   "groupText": "Exit",
+   "action": "ID_$CdEditParent"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfSkeTool",
+   "pageText": "Sketch",
+   "group": "SketchExit",
+   "groupText": "Exit",
+   "action": "ID_$CdCancelExit"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfSkeTool",
+   "pageText": "Sketch",
+   "group": "SketchDrawing",
+   "groupText": "Drawing",
+   "action": "ID_!WrSmtDraw2D"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfSkeTool",
+   "pageText": "Sketch",
+   "group": "SketchDrawing",
+   "groupText": "Drawing",
+   "action": "ID_!WrCrCircles"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfSkeTool",
+   "pageText": "Sketch",
+   "group": "SketchDrawing",
+   "groupText": "Drawing",
+   "action": "ID_!WrCrElps"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfSkeTool",
+   "pageText": "Sketch",
+   "group": "GROUP160830",
+   "groupText": "Curve",
+   "action": "ID_!CdBlend2CrvsII"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfSkeTool",
+   "pageText": "Sketch",
+   "group": "SketchModify",
+   "groupText": "Edit Curve",
+   "action": "ID_!CdEqCurve2D"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfSkeTool",
+   "pageText": "Sketch",
+   "group": "SketchDimension",
+   "groupText": "Dimension",
+   "action": "ID_!DmAll3D"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfSkeTool",
+   "pageText": "Sketch",
+   "group": "SketchDimension",
+   "groupText": "Dimension",
+   "action": "ID_!DmSym3D"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfSkeTool",
+   "pageText": "Sketch",
+   "group": "SketchDimension",
+   "groupText": "Dimension",
+   "action": "ID_!DmAng3D"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfSkeTool",
+   "pageText": "Sketch",
+   "group": "SketchDimension",
+   "groupText": "Dimension",
+   "action": "ID_!DmPerimeter"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfSkeTool",
+   "pageText": "Sketch",
+   "group": "SketchDimension",
+   "groupText": "Dimension",
+   "action": "ID_~CdProfShowEqnMgr"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfSkeTool",
+   "pageText": "Sketch",
+   "group": "GROUP160854",
+   "groupText": "Reference",
+   "action": "ID_!CdSymImgCrt"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiProfSkeTool",
+   "pageText": "Sketch",
+   "group": "GROUP161441",
+   "groupText": "Basic Editing",
+   "action": "ID_!WrMdPtn"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPtCloudTool",
+   "pageText": "Point Cloud",
+   "group": "Import",
+   "groupText": "Import",
+   "action": "ID_$CdFileSTLImport"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPtCloudTool",
+   "pageText": "Point Cloud",
+   "group": "Import",
+   "groupText": "Import",
+   "action": "ID_!CdImportMesh"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPtCloudTool",
+   "pageText": "Point Cloud",
+   "group": "Import",
+   "groupText": "Import",
+   "action": "ID_!CdPtImport"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPtCloudTool",
+   "pageText": "Point Cloud",
+   "group": "PointBlockEdit",
+   "groupText": "Edit Block",
+   "action": "ID_!CdTrimBlock"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPtCloudTool",
+   "pageText": "Point Cloud",
+   "group": "PointBlockEdit",
+   "groupText": "Edit Block",
+   "action": "ID_!CdSplitBlock"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPtCloudTool",
+   "pageText": "Point Cloud",
+   "group": "PointBlockEdit",
+   "groupText": "Edit Block",
+   "action": "ID_!CdThinPntArray"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPtCloudTool",
+   "pageText": "Point Cloud",
+   "group": "GROUPEditMesh",
+   "groupText": "Edit Mesh",
+   "action": "ID_!CdTssltSctDat"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPtCloudTool",
+   "pageText": "Point Cloud",
+   "group": "GROUPEditMesh",
+   "groupText": "Edit Mesh",
+   "action": "ID_!CdBlockFillHole"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPtCloudTool",
+   "pageText": "Point Cloud",
+   "group": "GROUPEditMesh",
+   "groupText": "Edit Mesh",
+   "action": "ID_!CdBlockAddTri"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPtCloudTool",
+   "pageText": "Point Cloud",
+   "group": "GROUPEditMesh",
+   "groupText": "Edit Mesh",
+   "action": "ID_!CdBlockDelFace"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPtCloudTool",
+   "pageText": "Point Cloud",
+   "group": "GROUPEditMesh",
+   "groupText": "Edit Mesh",
+   "action": "ID_!CdBlockFlipFace"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPtCloudTool",
+   "pageText": "Point Cloud",
+   "group": "GROUPEditMesh",
+   "groupText": "Edit Mesh",
+   "action": "ID_!CdBlockFlipEdge"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPtCloudTool",
+   "pageText": "Point Cloud",
+   "group": "GROUPEditMesh",
+   "groupText": "Edit Mesh",
+   "action": "ID_!CdBlockDivEdge"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPtCloudTool",
+   "pageText": "Point Cloud",
+   "group": "GROUPEditMesh",
+   "groupText": "Edit Mesh",
+   "action": "ID_!CdBlockDivMesh"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPtCloudTool",
+   "pageText": "Point Cloud",
+   "group": "GROUPEditMesh",
+   "groupText": "Edit Mesh",
+   "action": "ID_!CdCllctTsltNds"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPtCloudTool",
+   "pageText": "Point Cloud",
+   "group": "GROUPEditMesh",
+   "groupText": "Edit Mesh",
+   "action": "ID_!CdRoughExpand"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPtCloudTool",
+   "pageText": "Point Cloud",
+   "group": "GROUPCreateCurve",
+   "groupText": "Create Curve",
+   "action": "ID_!CdCrossSection"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPtCloudTool",
+   "pageText": "Point Cloud",
+   "group": "GROUPCreateCurve",
+   "groupText": "Create Curve",
+   "action": "ID_!CdTraceRegion"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPtCloudTool",
+   "pageText": "Point Cloud",
+   "group": "GROUPCreateCurve",
+   "groupText": "Create Curve",
+   "action": "ID_!CdGeodesicPath"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPtCloudTool",
+   "pageText": "Point Cloud",
+   "group": "GROUPCreateCurve",
+   "groupText": "Create Curve",
+   "action": "ID_!CdTraceShpEdge"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPtCloudTool",
+   "pageText": "Point Cloud",
+   "group": "GROUPCreateCurve",
+   "groupText": "Create Curve",
+   "action": "ID_!CdTraceSilhou"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPtCloudTool",
+   "pageText": "Point Cloud",
+   "group": "GROUP140208",
+   "groupText": "Create Face",
+   "action": "ID_!CdSfFitBnd2"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPtCloudTool",
+   "pageText": "Point Cloud",
+   "group": "GROUP140208",
+   "groupText": "Create Face",
+   "action": "ID_!CdFitPlane"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSetupTool",
+   "pageText": "Setup",
+   "group": "Setup",
+   "groupText": "Setup",
+   "action": "ID_~PmGeomPop(11)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSetupTool",
+   "pageText": "Setup",
+   "group": "Setup",
+   "groupText": "Setup",
+   "action": "ID_~PmCompPop(21)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSetupTool",
+   "pageText": "Setup",
+   "group": "Setup",
+   "groupText": "Setup",
+   "action": "ID_~CmFramesPop(1)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSetupTool",
+   "pageText": "Setup",
+   "group": "Setup",
+   "groupText": "Setup",
+   "action": "ID_~PmClearPop(11)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSetupTool",
+   "pageText": "Setup",
+   "group": "Setup",
+   "groupText": "Setup",
+   "action": "ID_~PmToolShow"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSetupTool",
+   "pageText": "Setup",
+   "group": "Setup",
+   "groupText": "Setup",
+   "action": "ID_~PmMachShow"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSetupTool",
+   "pageText": "Setup",
+   "group": "Feature",
+   "groupText": "Feature",
+   "action": "ID_~CmFtrOpt(2)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSetupTool",
+   "pageText": "Setup",
+   "group": "Feature",
+   "groupText": "Feature",
+   "action": "ID_~CmFtrOpt(1)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSetupTool",
+   "pageText": "Setup",
+   "group": "Feature",
+   "groupText": "Feature",
+   "action": "ID_~CmFtrOpt(3)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSetupTool",
+   "pageText": "Setup",
+   "group": "Feature",
+   "groupText": "Feature",
+   "action": "ID_~CmFtrOpt(4)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSetupTool",
+   "pageText": "Setup",
+   "group": "Feature",
+   "groupText": "Feature",
+   "action": "ID_~CmFtrOpt(5)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSetupTool",
+   "pageText": "Setup",
+   "group": "Feature",
+   "groupText": "Feature",
+   "action": "ID_~CmFtrOpt(6)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSetupTool",
+   "pageText": "Setup",
+   "group": "Feature",
+   "groupText": "Feature",
+   "action": "ID_~CmFtrOpt(7)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSetupTool",
+   "pageText": "Setup",
+   "group": "Feature",
+   "groupText": "Feature",
+   "action": "ID_~CmFtrOpt(8)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSetupTool",
+   "pageText": "Setup",
+   "group": "Feature",
+   "groupText": "Feature",
+   "action": "ID_~CmFtrOpt(9)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSetupTool",
+   "pageText": "Setup",
+   "group": "Feature",
+   "groupText": "Feature",
+   "action": "ID_~CmFtrOpt(10)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSetupTool",
+   "pageText": "Setup",
+   "group": "Feature",
+   "groupText": "Feature",
+   "action": "ID_~PmFtrOpt(11)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSetupTool",
+   "pageText": "Setup",
+   "group": "Feature",
+   "groupText": "Feature",
+   "action": "ID_~CmFtrOpt(12)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSetupTool",
+   "pageText": "Setup",
+   "group": "Feature",
+   "groupText": "Feature",
+   "action": "ID_~CmFtrOpt(13)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtInqTool",
+   "pageText": "Inquire",
+   "group": "SheetMeasure",
+   "groupText": "Measure",
+   "action": "ID_!CdDst2All"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtInqTool",
+   "pageText": "Inquire",
+   "group": "SheetMeasure",
+   "groupText": "Measure",
+   "action": "ID_!CdInqAng2All"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtInqTool",
+   "pageText": "Inquire",
+   "group": "SheetMeasure",
+   "groupText": "Measure",
+   "action": "ID_!WrInqArc3P-2D"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtInqTool",
+   "pageText": "Inquire",
+   "group": "SheetMeasure",
+   "groupText": "Measure",
+   "action": "ID_!WrInqLen2"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtInqTool",
+   "pageText": "Inquire",
+   "group": "SheetMeasure",
+   "groupText": "Measure",
+   "action": "ID_!WrInqArea"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtInqTool",
+   "pageText": "Inquire",
+   "group": "SheetAttributes",
+   "groupText": "Inspect Entities",
+   "action": "ID_!WrInqCoord2"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtInqTool",
+   "pageText": "Inquire",
+   "group": "SheetAttributes",
+   "groupText": "Inspect Entities",
+   "action": "ID_!WrInqCrv"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtInqTool",
+   "pageText": "Inquire",
+   "group": "SheetAttributes",
+   "groupText": "Inspect Entities",
+   "action": "ID_!WrInqNrbCrv"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtInqTool",
+   "pageText": "Inquire",
+   "group": "SheetAttributes",
+   "groupText": "Inspect Entities",
+   "action": "ID_!CdCvCpDraw"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtInqTool",
+   "pageText": "Inquire",
+   "group": "SheetAttributes",
+   "groupText": "Inspect Entities",
+   "action": "ID_!CdCvCombTeeth"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtInqTool",
+   "pageText": "Inquire",
+   "group": "SheetAttributes",
+   "groupText": "Inspect Entities",
+   "action": "ID_!CdInqPlistCrv"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtInqTool",
+   "pageText": "Inquire",
+   "group": "SheetAttributes",
+   "groupText": "Inspect Entities",
+   "action": "ID_!DmNotToScale"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtMetTool",
+   "pageText": "Sheet Metal",
+   "group": "Base",
+   "groupText": "Base",
+   "action": "ID_!CdProfNew"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtMetTool",
+   "pageText": "Sheet Metal",
+   "group": "SMOperation",
+   "groupText": "Flange",
+   "action": "ID_!CdSmdPartFlng"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtMetTool",
+   "pageText": "Sheet Metal",
+   "group": "SMOperation",
+   "groupText": "Flange",
+   "action": "ID_!CdSmdHem"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtMetTool",
+   "pageText": "Sheet Metal",
+   "group": "SMOperation",
+   "groupText": "Flange",
+   "action": "ID_!CdSmdDrawFlng"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtMetTool",
+   "pageText": "Sheet Metal",
+   "group": "SMOperation",
+   "groupText": "Flange",
+   "action": "ID_!CdSmdLftdFlng2"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtMetTool",
+   "pageText": "Sheet Metal",
+   "group": "SMOperation",
+   "groupText": "Flange",
+   "action": "ID_!CdSmdSwpFlg"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtMetTool",
+   "pageText": "Sheet Metal",
+   "group": "SMOperation",
+   "groupText": "Flange",
+   "action": "ID_!CdSmdDrawBend"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtMetTool",
+   "pageText": "Sheet Metal",
+   "group": "SMOperation",
+   "groupText": "Flange",
+   "action": "ID_!CdSmdJog"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtMetTool",
+   "pageText": "Sheet Metal",
+   "group": "GROUP102054",
+   "groupText": "Editing",
+   "action": "ID_!CdSmdFlngExtend"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtMetTool",
+   "pageText": "Sheet Metal",
+   "group": "GROUP102054",
+   "groupText": "Editing",
+   "action": "ID_!CdSmdBendTaper"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtMetTool",
+   "pageText": "Sheet Metal",
+   "group": "GROUP102054",
+   "groupText": "Editing",
+   "action": "ID_!SmdNormalCut"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtMetTool",
+   "pageText": "Sheet Metal",
+   "group": "GROUP102127",
+   "groupText": "Corner",
+   "action": "ID_!SmdClsCrnerList"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtMetTool",
+   "pageText": "Sheet Metal",
+   "group": "SMOptions",
+   "groupText": "Form",
+   "action": "ID_!SmdDimple"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtMetTool",
+   "pageText": "Sheet Metal",
+   "group": "SMOptions",
+   "groupText": "Form",
+   "action": "ID_!SmdLouver"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtMetTool",
+   "pageText": "Sheet Metal",
+   "group": "SMOptions",
+   "groupText": "Form",
+   "action": "ID_!SmdPunch"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtMetTool",
+   "pageText": "Sheet Metal",
+   "group": "GROUP135202",
+   "groupText": "Bend",
+   "action": "ID_!CdSmdFold"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtMetTool",
+   "pageText": "Sheet Metal",
+   "group": "GROUP135202",
+   "groupText": "Bend",
+   "action": "ID_!CdSmdUnFold"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtMetTool",
+   "pageText": "Sheet Metal",
+   "group": "GROUP135202",
+   "groupText": "Bend",
+   "action": "ID_!CdSmdFlat"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtMetTool",
+   "pageText": "Sheet Metal",
+   "group": "GROUP135202",
+   "groupText": "Bend",
+   "action": "ID_!CdSmdLnUnfold"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtMetTool",
+   "pageText": "Sheet Metal",
+   "group": "GROUP135202",
+   "groupText": "Bend",
+   "action": "ID_!CdSmdBendEdit"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtMetTool",
+   "pageText": "Sheet Metal",
+   "group": "GROUP135202",
+   "groupText": "Bend",
+   "action": "ID_!SmdSetStatFc"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSketch3Tool",
+   "pageText": "Sketch",
+   "group": "Exit",
+   "groupText": "Exit",
+   "action": "ID_$CdEditParent"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSketch3Tool",
+   "pageText": "Sketch",
+   "group": "Exit",
+   "groupText": "Exit",
+   "action": "ID_$CdCancelExit"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSketch3Tool",
+   "pageText": "Sketch",
+   "group": "Drawing",
+   "groupText": "Drawing",
+   "action": "ID_!WrCrCircles3D"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSketch3Tool",
+   "pageText": "Sketch",
+   "group": "Drawing",
+   "groupText": "Drawing",
+   "action": "ID_!WrCrEllp3D"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSketch3Tool",
+   "pageText": "Sketch",
+   "group": "Curves",
+   "groupText": "Curve",
+   "action": "ID_!CdBlend2CrvsII3"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSketch3Tool",
+   "pageText": "Sketch",
+   "group": "wireBasicOperation",
+   "groupText": "Edit Curve",
+   "action": "ID_!CdCvModII3DPrf"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSketch3Tool",
+   "pageText": "Sketch",
+   "group": "GROUP125914",
+   "groupText": "Basic Editing",
+   "action": "ID_!WrMdCp3D"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSketch3Tool",
+   "pageText": "Sketch",
+   "group": "GROUP125914",
+   "groupText": "Basic Editing",
+   "action": "ID_!WrMdMove3D"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSketch3Tool",
+   "pageText": "Sketch",
+   "group": "GROUP125914",
+   "groupText": "Basic Editing",
+   "action": "ID_!WrMdScl3D"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSketch3Tool",
+   "pageText": "Sketch",
+   "group": "GROUP125914",
+   "groupText": "Basic Editing",
+   "action": "ID_!CdC3Drag"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSketch3Tool",
+   "pageText": "Sketch",
+   "group": "Datum",
+   "groupText": "Datum",
+   "action": "ID_!CdPlane"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSketch3Tool",
+   "pageText": "Sketch",
+   "group": "Constraint",
+   "groupText": "Constraint",
+   "action": "ID_!CdCnsAll3DPrf"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSketch3Tool",
+   "pageText": "Sketch",
+   "group": "Dimension",
+   "groupText": "Dimension",
+   "action": "ID_!DmAll3DPrf"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSketch3Tool",
+   "pageText": "Sketch",
+   "group": "Dimension",
+   "groupText": "Dimension",
+   "action": "ID_!CdPrfDmBatch"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSurfTool",
+   "pageText": "Free Form",
+   "group": "Surface",
+   "groupText": "Basic Face",
+   "action": "ID_!FtSmtSrf"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSurfTool",
+   "pageText": "Free Form",
+   "group": "Surface",
+   "groupText": "Basic Face",
+   "action": "ID_!FtBridgeSrf"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSurfTool",
+   "pageText": "Free Form",
+   "group": "Surface",
+   "groupText": "Basic Face",
+   "action": "ID_!FtSfMeshProf1"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSurfTool",
+   "pageText": "Free Form",
+   "group": "Surface",
+   "groupText": "Basic Face",
+   "action": "ID_!CdSrfAngSrf2"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSurfTool",
+   "pageText": "Free Form",
+   "group": "Surface",
+   "groupText": "Basic Face",
+   "action": "ID_!CdSfFitBnd"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSurfTool",
+   "pageText": "Free Form",
+   "group": "Surface",
+   "groupText": "Basic Face",
+   "action": "ID_!FtSfNPatch"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSurfTool",
+   "pageText": "Free Form",
+   "group": "Surface",
+   "groupText": "Basic Face",
+   "action": "ID_!FtCrTrimPln"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSurfTool",
+   "pageText": "Free Form",
+   "group": "Surface",
+   "groupText": "Basic Face",
+   "action": "ID_!FtDome"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSurfTool",
+   "pageText": "Free Form",
+   "group": "SurfaceOperation",
+   "groupText": "Edit Face",
+   "action": "ID_!CdFaceEnlarge"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSurfTool",
+   "pageText": "Free Form",
+   "group": "SurfaceOperation",
+   "groupText": "Edit Face",
+   "action": "ID_!FtFlltSrfSets"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSurfTool",
+   "pageText": "Free Form",
+   "group": "SurfaceOperation",
+   "groupText": "Edit Face",
+   "action": "ID_!CdSfMod"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSurfTool",
+   "pageText": "Free Form",
+   "group": "SurfaceOperation",
+   "groupText": "Edit Face",
+   "action": "ID_!CdFlatSrfII"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSurfTool",
+   "pageText": "Free Form",
+   "group": "BasicOperation",
+   "groupText": "Basic Editing",
+   "action": "ID_!CdAllMove"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSurfTool",
+   "pageText": "Free Form",
+   "group": "BasicOperation",
+   "groupText": "Basic Editing",
+   "action": "ID_!CdAllCopy"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiSurfTool",
+   "pageText": "Free Form",
+   "group": "BasicOperation",
+   "groupText": "Basic Editing",
+   "action": "ID_!CdScale3D"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiTpathEditor",
+   "pageText": "Tool Path Editor",
+   "group": "TpathTrim",
+   "groupText": "Trim",
+   "action": "ID_!CmTpathTrim"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiTpathEditor",
+   "pageText": "Tool Path Editor",
+   "group": "TpathTrim",
+   "groupText": "Trim",
+   "action": "ID_!CmTpathDivide"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiTpathEditor",
+   "pageText": "Tool Path Editor",
+   "group": "TpathTransform",
+   "groupText": "Transform",
+   "action": "ID_~CmOpPop(33)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiTpathEditor",
+   "pageText": "Tool Path Editor",
+   "group": "TpathTransform",
+   "groupText": "Transform",
+   "action": "ID_~CmOpPop(34)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiTpathEditor",
+   "pageText": "Tool Path Editor",
+   "group": "TpathTransform",
+   "groupText": "Transform",
+   "action": "ID_~CmOpPop(35)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiTpathEditor",
+   "pageText": "Tool Path Editor",
+   "group": "TpathTransform",
+   "groupText": "Transform",
+   "action": "ID_~CmOpPop(36)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiTpathEditor",
+   "pageText": "Tool Path Editor",
+   "group": "TpathReorder",
+   "groupText": "Reorder",
+   "action": "ID_~CmOpPop(37)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiTpathEditor",
+   "pageText": "Tool Path Editor",
+   "group": "TpathRelink",
+   "groupText": "Relink",
+   "action": "ID_~CmOpPop(38)"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWeldmentsTool",
+   "pageText": "Weldments",
+   "group": "Path",
+   "groupText": "Path",
+   "action": "ID_!CdProfNew"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWeldmentsTool",
+   "pageText": "Weldments",
+   "group": "Base",
+   "groupText": "Weld",
+   "action": "ID_!CdWeldStruct"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWeldmentsTool",
+   "pageText": "Weldments",
+   "group": "Base",
+   "groupText": "Weld",
+   "action": "ID_!CdWeldTrim"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWeldmentsTool",
+   "pageText": "Weldments",
+   "group": "Base",
+   "groupText": "Weld",
+   "action": "ID_!CdWeldGusset"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWeldmentsTool",
+   "pageText": "Weldments",
+   "group": "Base",
+   "groupText": "Weld",
+   "action": "ID_!CdWeldEndCap"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWeldmentsTool",
+   "pageText": "Weldments",
+   "group": "Base",
+   "groupText": "Weld",
+   "action": "ID_!CdWeldBeads"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWeldmentsTool",
+   "pageText": "Weldments",
+   "group": "Base",
+   "groupText": "Weld",
+   "action": "ID_!WdFilletWeld"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWeldmentsTool",
+   "pageText": "Weldments",
+   "group": "Base",
+   "groupText": "Weld",
+   "action": "ID_!WdGrooveWeld"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWeldmentsTool",
+   "pageText": "Weldments",
+   "group": "Base",
+   "groupText": "Weld",
+   "action": "ID_!WdPlugWeldMulti"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWeldmentsTool",
+   "pageText": "Weldments",
+   "group": "Base",
+   "groupText": "Weld",
+   "action": "ID_!WdSpotWeld"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWeldmentsTool",
+   "pageText": "Weldments",
+   "group": "Base",
+   "groupText": "Weld",
+   "action": "ID_$SF=WdWeldConvert"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWeldmentsTool",
+   "pageText": "Weldments",
+   "group": "Base",
+   "groupText": "Weld",
+   "action": "ID_~CdShowWdSegBom"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWeldmentsTool",
+   "pageText": "Weldments",
+   "group": "EditFrame",
+   "groupText": "Edit Frame",
+   "action": "ID_!FtChamfers2"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWeldmentsTool",
+   "pageText": "Weldments",
+   "group": "EditFrame",
+   "groupText": "Edit Frame",
+   "action": "ID_!FtHoleMain"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWeldmentsTool",
+   "pageText": "Weldments",
+   "group": "BasicEditing",
+   "groupText": "Basic Editing",
+   "action": "ID_!CdAllMove"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWeldmentsTool",
+   "pageText": "Weldments",
+   "group": "BasicEditing",
+   "groupText": "Basic Editing",
+   "action": "ID_!CdAllCopy"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWireTool",
+   "pageText": "Wireframe",
+   "group": "Drawing",
+   "groupText": "Drawing",
+   "action": "ID_!CdWrCircles"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWireTool",
+   "pageText": "Wireframe",
+   "group": "Drawing",
+   "groupText": "Drawing",
+   "action": "ID_!CdCr3dEllp"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWireTool",
+   "pageText": "Wireframe",
+   "group": "Curves",
+   "groupText": "Curve",
+   "action": "ID_!CdBlend2CrvsII3"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWireTool",
+   "pageText": "Wireframe",
+   "group": "Curves",
+   "groupText": "Curve",
+   "action": "ID_!CdEqCurve"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWireTool",
+   "pageText": "Wireframe",
+   "group": "Curves",
+   "groupText": "Curve",
+   "action": "ID_!CdPlistCrv"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWireTool",
+   "pageText": "Wireframe",
+   "group": "Curves",
+   "groupText": "Curve",
+   "action": "ID_!CdWireText"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWireTool",
+   "pageText": "Wireframe",
+   "group": "wireBasicOperation",
+   "groupText": "Edit Curve",
+   "action": "ID_!CdCvModII3D"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWireTool",
+   "pageText": "Wireframe",
+   "group": "GROUP125914",
+   "groupText": "Basic Editing",
+   "action": "ID_!CdAllMove"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWireTool",
+   "pageText": "Wireframe",
+   "group": "GROUP125914",
+   "groupText": "Basic Editing",
+   "action": "ID_!CdAllCopy"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWireTool",
+   "pageText": "Wireframe",
+   "group": "GROUP125914",
+   "groupText": "Basic Editing",
+   "action": "ID_!CdScale3D"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWireTool2",
+   "pageText": "Wireframe",
+   "group": "AniDrawing",
+   "groupText": "Drawing",
+   "action": "ID_!CdWrCircles"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWireTool2",
+   "pageText": "Wireframe",
+   "group": "AniDrawing",
+   "groupText": "Drawing",
+   "action": "ID_!CdCr3dEllp"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWireTool2",
+   "pageText": "Wireframe",
+   "group": "GROUP174509",
+   "groupText": "Curve",
+   "action": "ID_!CdPlistCrv"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWireTool2",
+   "pageText": "Wireframe",
+   "group": "Ani_wBasicOper",
+   "groupText": "Edit Curve",
+   "action": "ID_!CdCvModII3D"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWireTool2",
+   "pageText": "Wireframe",
+   "group": "GROUP175006",
+   "groupText": "Basic Editing",
+   "action": "ID_!CdAllMove"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWireTool2",
+   "pageText": "Wireframe",
+   "group": "GROUP175006",
+   "groupText": "Basic Editing",
+   "action": "ID_!CdScale3D"
+  },
+  {
+   "source": "Settings\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiWireTool2",
+   "pageText": "Wireframe",
+   "group": "GROUP175006",
+   "groupText": "Basic Editing",
+   "action": "ID_!CdPartModDim"
+  },
+  {
+   "source": "Settings\\ResourcePool\\Layouts\\Layout_11_ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP140353",
+   "groupText": "Import",
+   "action": "ID_$CdFileImport"
+  },
+  {
+   "source": "Settings\\ResourcePool\\Layouts\\Layout_11_ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP140353",
+   "groupText": "Import",
+   "action": "ID_!CdGeomCopy"
+  },
+  {
+   "source": "Settings\\ResourcePool\\Layouts\\Layout_11_ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP140353",
+   "groupText": "Import",
+   "action": "ID_!CdInsSketch"
+  },
+  {
+   "source": "Settings\\ResourcePool\\Layouts\\Layout_11_ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP140353",
+   "groupText": "Import",
+   "action": "ID_!CdInsPart"
+  },
+  {
+   "source": "Settings\\ResourcePool\\Layouts\\Layout_11_ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP140353",
+   "groupText": "Import",
+   "action": "ID_!CdWrap"
+  },
+  {
+   "source": "Settings\\ResourcePool\\Layouts\\Layout_12_ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP140353",
+   "groupText": "Import",
+   "action": "ID_$CdFileImport"
+  },
+  {
+   "source": "Settings\\ResourcePool\\Layouts\\Layout_12_ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP140353",
+   "groupText": "Import",
+   "action": "ID_!CdGeomCopy"
+  },
+  {
+   "source": "Settings\\ResourcePool\\Layouts\\Layout_12_ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP140353",
+   "groupText": "Import",
+   "action": "ID_!CdInsSketch"
+  },
+  {
+   "source": "Settings\\ResourcePool\\Layouts\\Layout_12_ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP140353",
+   "groupText": "Import",
+   "action": "ID_!CdInsPart"
+  },
+  {
+   "source": "Settings\\ResourcePool\\Layouts\\Layout_12_ResourcePool\\RibbonPages.zcui",
+   "page": "PAGE145932",
+   "pageText": "Data Exchange",
+   "group": "GROUP140353",
+   "groupText": "Import",
+   "action": "ID_!CdWrap"
+  },
+  {
+   "source": "ZWHarness\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHrnTool",
+   "pageText": "Harness",
+   "group": "HarnessRoute",
+   "groupText": "Harness Route",
+   "action": "ID_!HarnessRoute"
+  },
+  {
+   "source": "ZWHarness\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHrnTool",
+   "pageText": "Harness",
+   "group": "HarnessRoute",
+   "groupText": "Harness Route",
+   "action": "ID_!HrnBundleCrt"
+  },
+  {
+   "source": "ZWHarness\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHrnTool",
+   "pageText": "Harness",
+   "group": "HarnessEdit",
+   "groupText": "Edit",
+   "action": "ID_!HrnAttach"
+  },
+  {
+   "source": "ZWHarness\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHrnTool",
+   "pageText": "Harness",
+   "group": "HarnessEdit",
+   "groupText": "Edit",
+   "action": "ID_!HrnAddtoBundle"
+  },
+  {
+   "source": "ZWHarness\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHrnTool",
+   "pageText": "Harness",
+   "group": "HarnessEdit",
+   "groupText": "Edit",
+   "action": "ID_!HrnDetach"
+  },
+  {
+   "source": "ZWHarness\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHrnTool",
+   "pageText": "Harness",
+   "group": "HarnessEdit",
+   "groupText": "Edit",
+   "action": "ID_!HrnSegSplit"
+  },
+  {
+   "source": "ZWHarness\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHrnTool",
+   "pageText": "Harness",
+   "group": "HarnessEdit",
+   "groupText": "Edit",
+   "action": "ID_!HrnPosPntModify"
+  },
+  {
+   "source": "ZWHarness\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHrnTool",
+   "pageText": "Harness",
+   "group": "HarnessEdit",
+   "groupText": "Edit",
+   "action": "ID_!HarnessModify"
+  },
+  {
+   "source": "ZWHarness\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHrnTool",
+   "pageText": "Harness",
+   "group": "HarnessEdit",
+   "groupText": "Edit",
+   "action": "ID_!HrnObjCut"
+  },
+  {
+   "source": "ZWHarness\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHrnTool",
+   "pageText": "Harness",
+   "group": "HarnessEdit",
+   "groupText": "Edit",
+   "action": "ID_!HrnObjDelete"
+  },
+  {
+   "source": "ZWHarness\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHrnTool",
+   "pageText": "Harness",
+   "group": "HarnessRef",
+   "groupText": "Reference",
+   "action": "ID_!CdPartRef"
+  },
+  {
+   "source": "ZWHarness\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHrnTool",
+   "pageText": "Harness",
+   "group": "HarnessRef",
+   "groupText": "Reference",
+   "action": "ID_!HrnRefPort"
+  },
+  {
+   "source": "ZWHarness\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHrnTool",
+   "pageText": "Harness",
+   "group": "HarnessRef",
+   "groupText": "Reference",
+   "action": "ID_!HrnRefLeadPath"
+  },
+  {
+   "source": "ZWHarness\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHrnTool",
+   "pageText": "Harness",
+   "group": "HarnessInq",
+   "groupText": "Inquire",
+   "action": "ID_!HrnInqDiam"
+  },
+  {
+   "source": "ZWHarness\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHrnTool",
+   "pageText": "Harness",
+   "group": "HarnessTable",
+   "groupText": "Table",
+   "action": "ID_$SF=Hrn3DBomPrt"
+  },
+  {
+   "source": "ZWHarness\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHrnTool",
+   "pageText": "Harness",
+   "group": "HarnessFile",
+   "groupText": "Harness File",
+   "action": "ID_~HrnPartCreate"
+  },
+  {
+   "source": "ZWHarness\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHrnTool",
+   "pageText": "Harness",
+   "group": "HarnessAttr",
+   "groupText": "Attribute",
+   "action": "ID_$SF=HrnWireMtlAtt"
+  },
+  {
+   "source": "ZWHarness\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHrnTool",
+   "pageText": "Harness",
+   "group": "HarnessAttr",
+   "groupText": "Attribute",
+   "action": "ID_$SF=HrnWireMtlData"
+  },
+  {
+   "source": "ZWHarness\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHrnTool",
+   "pageText": "Harness",
+   "group": "HarnessAttr",
+   "groupText": "Attribute",
+   "action": "ID_$SF=HrnSheathMtlAtt"
+  },
+  {
+   "source": "ZWHarness\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHrnTool",
+   "pageText": "Harness",
+   "group": "HarnessAttr",
+   "groupText": "Attribute",
+   "action": "ID_$SF=HrnSheathMtlData"
+  },
+  {
+   "source": "ZWHarness\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHrnTool",
+   "pageText": "Harness",
+   "group": "HarnessAttr",
+   "groupText": "Attribute",
+   "action": "ID_$SF=HrnColorDef"
+  },
+  {
+   "source": "ZWHarness\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiHrnTool",
+   "pageText": "Harness",
+   "group": "HarnessBom",
+   "groupText": "BOM",
+   "action": "ID_$SF=Hrn3DBom"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Start",
+   "groupText": "Start",
+   "action": "ID_~PipCreate"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Start",
+   "groupText": "Start",
+   "action": "ID_~CdInstPipe"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Route",
+   "groupText": "Route",
+   "action": "ID_!PipLayoutPip"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Route",
+   "groupText": "Route",
+   "action": "ID_!PipAutoLayout"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Route",
+   "groupText": "Route",
+   "action": "ID_!PipParallelRou"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Route",
+   "groupText": "Route",
+   "action": "ID_!PipLytUPip"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Route",
+   "groupText": "Route",
+   "action": "ID_!PipInstPipPart"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Route",
+   "groupText": "Route",
+   "action": "ID_!PipRefConPoint"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Route",
+   "groupText": "Route",
+   "action": "ID_!PipConnectPip"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Constraint",
+   "groupText": "Constraint",
+   "action": "ID_!AsPipAlnAll"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Constraint",
+   "groupText": "Constraint",
+   "action": "ID_!PipQuickDim"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Constraint",
+   "groupText": "Constraint",
+   "action": "ID_!PipDrag"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Modify",
+   "groupText": "Modify",
+   "action": "ID_!PipChangeNSize"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Modify",
+   "groupText": "Modify",
+   "action": "ID_!PipChangeSpec"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Design",
+   "groupText": "Design Check",
+   "action": "ID_!CdIferChk1"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Drawing",
+   "groupText": "Drawing",
+   "action": "ID_!PipSpooling"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Drawing",
+   "groupText": "Drawing",
+   "action": "ID_$SF=UiPipShtAutoDraft"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Drawing",
+   "groupText": "Drawing",
+   "action": "ID_!PipISOCreDivPnt"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Drawing",
+   "groupText": "Drawing",
+   "action": "ID_$SF=UiPipISOSetting"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Drawing",
+   "groupText": "Drawing",
+   "action": "ID_$SF=UiPipISOGen"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Bom",
+   "groupText": "BOM",
+   "action": "ID_$SF=UiPipBomExport"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Bom",
+   "groupText": "BOM",
+   "action": "ID_$SF=UiPipBends"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Bom",
+   "groupText": "BOM",
+   "action": "ID_$SF=UiPipNesting"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Rule",
+   "groupText": "Piping Rule",
+   "action": "ID_~PipShowParam"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiPipingTool",
+   "pageText": "Piping",
+   "group": "Rule",
+   "groupText": "Piping Rule",
+   "action": "ID_$SF=UiPipSpecIndex"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtRoutingTool",
+   "pageText": "Routing",
+   "group": "Piping",
+   "groupText": "Piping/Tubing",
+   "action": "ID_!PipTblCrt"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtRoutingTool",
+   "pageText": "Routing",
+   "group": "Piping",
+   "groupText": "Piping/Tubing",
+   "action": "ID_!PipShtDmBalloon"
+  },
+  {
+   "source": "ZWRouting\\Resource\\settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiShtRoutingTool",
+   "pageText": "Routing",
+   "group": "Piping",
+   "groupText": "Piping/Tubing",
+   "action": "ID_!PipShtDmFlow"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolTop",
+   "pageText": "ZWTeammate",
+   "group": "ZWTUser",
+   "groupText": "User",
+   "action": "ID_plm_login"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolTop",
+   "pageText": "ZWTeammate",
+   "group": "ZWTUser",
+   "groupText": "User",
+   "action": "ID_plm_logout"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolTop",
+   "pageText": "ZWTeammate",
+   "group": "ZWTSetting",
+   "groupText": "Setting",
+   "action": "ID_plm_cacheManage"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolPart",
+   "pageText": "ZWTeammate",
+   "group": "ZWTUser",
+   "groupText": "User",
+   "action": "ID_plm_login"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolPart",
+   "pageText": "ZWTeammate",
+   "group": "ZWTUser",
+   "groupText": "User",
+   "action": "ID_plm_logout"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolPart",
+   "pageText": "ZWTeammate",
+   "group": "ZWTObject",
+   "groupText": "Object Create/Update",
+   "action": "ID_plm_newDoc"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolPart",
+   "pageText": "ZWTeammate",
+   "group": "ZWTObject",
+   "groupText": "Object Create/Update",
+   "action": "ID_plm_clone"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolPart",
+   "pageText": "ZWTeammate",
+   "group": "ZWTObject",
+   "groupText": "Object Create/Update",
+   "action": "ID_plm_update"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolPart",
+   "pageText": "ZWTeammate",
+   "group": "ZWTCollaboration",
+   "groupText": "Collaboration",
+   "action": "ID_plm_customCheckin"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolPart",
+   "pageText": "ZWTeammate",
+   "group": "ZWTCollaboration",
+   "groupText": "Collaboration",
+   "action": "ID_plm_customCheckout"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolPart",
+   "pageText": "ZWTeammate",
+   "group": "ZWTCollaboration",
+   "groupText": "Collaboration",
+   "action": "ID_plm_customCancelCheckout"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolPart",
+   "pageText": "ZWTeammate",
+   "group": "ZWTCollaboration",
+   "groupText": "Collaboration",
+   "action": "ID_plm_customRevise"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolPart",
+   "pageText": "ZWTeammate",
+   "group": "ZWTSetting",
+   "groupText": "Setting",
+   "action": "ID_plm_cacheManage"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolAsm",
+   "pageText": "ZWTeammate",
+   "group": "ZWTUser",
+   "groupText": "User",
+   "action": "ID_plm_login"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolAsm",
+   "pageText": "ZWTeammate",
+   "group": "ZWTUser",
+   "groupText": "User",
+   "action": "ID_plm_logout"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolAsm",
+   "pageText": "ZWTeammate",
+   "group": "ZWTSearch",
+   "groupText": "Data Acquisition",
+   "action": "ID_plm_insert"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolAsm",
+   "pageText": "ZWTeammate",
+   "group": "ZWTObject",
+   "groupText": "Object Create/Update",
+   "action": "ID_plm_newDoc"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolAsm",
+   "pageText": "ZWTeammate",
+   "group": "ZWTObject",
+   "groupText": "Object Create/Update",
+   "action": "ID_plm_clone"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolAsm",
+   "pageText": "ZWTeammate",
+   "group": "ZWTObject",
+   "groupText": "Object Create/Update",
+   "action": "ID_plm_update"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolAsm",
+   "pageText": "ZWTeammate",
+   "group": "ZWTCollaboration",
+   "groupText": "Collaboration",
+   "action": "ID_plm_customCheckin"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolAsm",
+   "pageText": "ZWTeammate",
+   "group": "ZWTCollaboration",
+   "groupText": "Collaboration",
+   "action": "ID_plm_customCheckout"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolAsm",
+   "pageText": "ZWTeammate",
+   "group": "ZWTCollaboration",
+   "groupText": "Collaboration",
+   "action": "ID_plm_customCancelCheckout"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolAsm",
+   "pageText": "ZWTeammate",
+   "group": "ZWTCollaboration",
+   "groupText": "Collaboration",
+   "action": "ID_plm_customRevise"
+  },
+  {
+   "source": "ZWTeammate\\Resource\\Settings\\Default\\ResourcePool\\RibbonPages.zcui",
+   "page": "UiZWTToolAsm",
+   "pageText": "ZWTeammate",
+   "group": "ZWTSetting",
+   "groupText": "Setting",
+   "action": "ID_plm_cacheManage"
+  }
+ ],
+ "tcmd_entries": [
+  {
+   "file": "apilibs\\Resource\\Commands\\SA_SvilAsolaTondo.tcmd",
+   "template": "SA_SvilAsolaTondo",
+   "function": "SA_SvilAsolaTondo",
+   "nParams": 10,
+   "params": [
+    "Asola tratto dritto",
+    "Asola raggio",
+    "Raggio cerchio",
+    "Altezza",
+    "Spessore lamiera",
+    "Generatrici",
+    "Scostamento X",
+    "Scostamento Y",
+    "Materiale (0=ferro 1=inox)",
+    "Raggio piega (0=spessore)"
+   ]
+  },
+  {
+   "file": "apilibs\\Resource\\Commands\\SA_SvilCono.tcmd",
+   "template": "SA_SvilCono",
+   "function": "SA_SvilCono",
+   "nParams": 9,
+   "params": [
+    "Raggio base",
+    "Raggio cima (0=cono pieno)",
+    "Altezza",
+    "Spessore lamiera",
+    "Generatrici",
+    "Scostamento X",
+    "Scostamento Y",
+    "Materiale (0=ferro 1=inox)",
+    "Raggio piega (0=spessore)"
+   ]
+  },
+  {
+   "file": "apilibs\\Resource\\Commands\\SA_SvilFlangia.tcmd",
+   "template": "SA_SvilFlangia",
+   "function": "SA_SvilFlangia",
+   "nParams": 5,
+   "params": [
+    "Flangia - larghezza bordo",
+    "Flangia - spessore",
+    "Aria oltre la parete",
+    "Fori - diametro (0=niente)",
+    "Fori - interasse (passo)"
+   ]
+  },
+  {
+   "file": "apilibs\\Resource\\Commands\\SA_SvilGomito.tcmd",
+   "template": "SA_SvilGomito",
+   "function": "SA_SvilGomito",
+   "nParams": 8,
+   "params": [
+    "Raggio tubo",
+    "Angolo gomito (gradi)",
+    "Numero pezzi (incl. 2 mezzi)",
+    "Raggio di curvatura",
+    "Spessore lamiera",
+    "Punti (discretizzazione)",
+    "Materiale (0=ferro 1=inox)",
+    "Raggio piega (0=spessore)"
+   ]
+  },
+  {
+   "file": "apilibs\\Resource\\Commands\\SA_SvilPiquage.tcmd",
+   "template": "SA_SvilPiquage",
+   "function": "SA_SvilPiquage",
+   "nParams": 7,
+   "params": [
+    "Raggio braccio",
+    "Raggio tubo madre",
+    "Altezza braccio",
+    "Spessore lamiera",
+    "Punti (discretizzazione)",
+    "Materiale (0=ferro 1=inox)",
+    "Raggio piega (0=spessore)"
+   ]
+  },
+  {
+   "file": "apilibs\\Resource\\Commands\\SA_SvilQuadroTondo.tcmd",
+   "template": "SA_SvilQuadroTondo",
+   "function": "SA_SvilQuadroTondo",
+   "nParams": 10,
+   "params": [
+    "Rettangolo larghezza",
+    "Rettangolo profondita",
+    "Raggio cerchio",
+    "Altezza",
+    "Spessore lamiera",
+    "Punti per quarto arco",
+    "Scostamento X",
+    "Scostamento Y",
+    "Materiale (0=ferro 1=inox)",
+    "Raggio piega (0=spessore)"
+   ]
+  },
+  {
+   "file": "apilibs\\Resource\\Commands\\SA_SvilSfera.tcmd",
+   "template": "SA_SvilSfera",
+   "function": "SA_SvilSfera",
+   "nParams": 5,
+   "params": [
+    "Raggio sfera",
+    "Numero di spicchi",
+    "Spessore lamiera",
+    "Punti (discretizzazione)",
+    "Materiale (0=ferro 1=inox)"
+   ]
+  },
+  {
+   "file": "apilibs\\Resource\\Commands\\SA_SvilTramoggia.tcmd",
+   "template": "SA_SvilTramoggia",
+   "function": "SA_SvilTramoggia",
+   "nParams": 14,
+   "params": [
+    "Base larghezza",
+    "Base profondita",
+    "Cima larghezza",
+    "Cima profondita",
+    "Altezza",
+    "Spessore lamiera",
+    "Scostamento X",
+    "Scostamento Y",
+    "Materiale (0=ferro 1=inox)",
+    "Raggio piega (0=spessore)",
+    "Flangia - larghezza bordo",
+    "Flangia - spessore (0=niente flange)",
+    "Fori - diametro (0=niente)",
+    "Fori - interasse (passo)"
+   ]
+  },
+  {
+   "file": "AppMenu\\Resource\\Commands\\CdMSMTrans.tcmd",
+   "template": "CdMSMTrans",
+   "function": "CdMSMTrans",
+   "nParams": 9,
+   "params": [
+    "Insert type",
+    "Point",
+    "X angle",
+    "Y angle",
+    "Z angle",
+    "Flip Z direction",
+    "X distance",
+    "Y distance",
+    "Z distance"
+   ]
+  },
+  {
+   "file": "AppMenu\\Resource\\Commands\\CdTransform.tcmd",
+   "template": "CdTransform",
+   "function": "CdTransform",
+   "nParams": 9,
+   "params": [
+    "Insert type",
+    "Point",
+    "X angle",
+    "Y angle",
+    "Z angle",
+    "Flip Z direction",
+    "X distance",
+    "Y distance",
+    "Z distance"
+   ]
+  },
+  {
+   "file": "AppMenu\\Resource\\Commands\\MSMModMd.tcmd",
+   "template": "MSMModMd",
+   "function": "MSMModMd",
+   "nParams": 1,
+   "params": [
+    "Component or Shape"
+   ]
+  },
+  {
+   "file": "AppMenu\\Resource\\Commands\\MSMModPr.tcmd",
+   "template": "MSMModPr",
+   "function": "MSMModPr",
+   "nParams": 1,
+   "params": [
+    "Component or Shape"
+   ]
+  }
+ ],
+ "action_to_function": {}
+}

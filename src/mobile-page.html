@@ -1,0 +1,1851 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Antigravity</title>
+<!-- Rileva l'ambiente PRIMA del CSS: iPhone → cornice-telefono confinata (430×932);
+     tutto il resto (pannello VS Code, browser desktop) → layout FLUIDO che riempie
+     lo spazio e si ri-adatta quando allarghi/stringi. Fallback: fluido. -->
+<script>(function(){try{var ua=navigator.userAgent||"";var isPhone=/iPhone|iPod/.test(ua)&&!/Electron/i.test(ua);document.documentElement.classList.add(isPhone?"phone":"fluid");}catch(e){document.documentElement.classList.add("fluid");}})();</script>
+<script>
+/* ★ 2026-07-25 — Tema giorno/notte automatico (SOLO telefono).
+   Default: scuro come prima. Segue il "Tema chiaro/scuro" impostato su iPhone.
+   L'utente può forzarlo col pulsante 🌓 (scelta salvata nel telefono). */
+(function(){
+  try{
+    var ua=navigator.userAgent||"";
+    if(!(/iPhone|iPod/.test(ua)&&!/Electron/i.test(ua))) return; // PC/VS Code: resta scuro
+    var mq=window.matchMedia&&window.matchMedia("(prefers-color-scheme: light)");
+    function applyTheme(mode){
+      var t=mode==="auto"?(mq&&mq.matches?"light":"dark"):mode;
+      document.documentElement.setAttribute("data-theme",t);
+    }
+    window.__agThemeMode=localStorage.getItem("ag-theme")||"auto";
+    applyTheme(window.__agThemeMode);
+    window.__agApplyTheme=applyTheme;
+    if(mq&&mq.addEventListener) mq.addEventListener("change",function(){
+      if((localStorage.getItem("ag-theme")||"auto")==="auto") applyTheme("auto");
+    });
+  }catch(e){}
+})();
+</script>
+<style>
+  /* Tema scuro sempre, sia nel pannello VS Code sia sul telefono. */
+  :root{
+    color-scheme:dark;
+    --bg:#262624; --bg2:#1f1e1d; --panel:#2a2927; --txt:#ececec; --dim:#a8a49c;
+    --line:#3a3834; --line2:#4a473f; --bd:#3a3834; --accent:#d97757; --accent-ink:#ffffff;
+    --user-bg:#34322e; --code-bg:#1c1b19; --code-ink:#ececec;
+    --ok:#48bb78; --warn:#d69e2e; --err:#e05252;
+    --radius:16px; --max:760px;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  /* ★ 2026-07-19 — DUE interfacce diverse (richiesta utente: "pc una cosa,
+     telefono un'altra").
+     • TELEFONO (schermo stretto): il "blocco esterno" è cappato a 430×932 (le
+       misure logiche dell'iPhone 15 Pro Max), riempie lo schermo, cornice-telefono.
+     • PC / VS Code largo (≥ 760px): si ALLARGA a un layout desktop comodo
+       (fino a 1100px, tutta l'altezza), NON una cornice-telefono stretta.
+     In entrambi i casi overflow:hidden sul body → scorre SOLO la chat (.scroll). */
+  html{margin:0;height:100%;background:var(--bg2);display:flex;justify-content:center;align-items:center}
+  /* DEFAULT = FLUIDO: riempie il contenitore (pannello VS Code o finestra browser) e
+     si ri-adatta a QUALSIASI larghezza/altezza quando lo allarghi o lo stringi.
+     Il testo resta leggibile perché la colonna .thread ha un suo max-width. */
+  body{background:var(--bg);color:var(--txt);font:16px/1.6 var(--font);display:flex;flex-direction:column;
+       width:100%;max-width:none;height:100dvh;max-height:none;overflow:hidden;margin:0;
+       -webkit-font-smoothing:antialiased}
+  /* TELEFONO (iPhone rilevato via UA): confinato alle misure logiche dell'iPhone 15
+     Pro Max (430×932), cornice centrata. Sul dispositivo reale coincide con lo schermo. */
+  html.phone{background:#131211}
+  html.phone body{max-width:430px;max-height:932px;box-shadow:0 0 40px rgba(0,0,0,.4)}
+  /* ★ 2026-07-25 — TEMA CHIARO (solo iPhone): si ribalta quando il telefono è in
+     "Tema chiaro" o l'utente preme 🌓. Il PC/VS Code resta scuro (default :root). */
+  html.phone[data-theme="light"]{
+    color-scheme:light;
+    /* ★ 2026-07-25 — contrasto giorno alzato (richiesta utente): testo secondario piu'
+       scuro, bordi e pannelli piu' distinti dal bianco. Arancio del brand invariato. */
+    --bg:#ffffff; --bg2:#eae7e0; --panel:#ffffff; --txt:#14130f; --dim:#54514a;
+    --line:#d5d2c9; --line2:#c1bdb2; --bd:#d5d2c9; --accent:#d97757; --accent-ink:#ffffff;
+    --user-bg:#e7eaf0; --code-bg:#efeee7; --code-ink:#14130f;
+    --ok:#2a8f4e; --warn:#a6790a; --err:#b53226;
+  }
+  html.phone[data-theme="light"]{background:var(--bg2)}
+  /* il pulsante tema si vede solo sul telefono */
+  html:not(.phone) #themeBtn{display:none}
+
+  /* Header */
+  /* I bottoni dell'header non si comprimono mai: a restringersi è solo il titolo. */
+  header{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:5}
+  .brand{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px;min-width:0;overflow:hidden}
+  .brand .name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .logo{flex:0 0 auto;width:24px;height:24px;border-radius:7px;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:700}
+  .brand small{color:var(--dim);font-weight:400;font-size:12px}
+  .hspace{flex:1 1 auto;min-width:0}
+  .hstat{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--dim)}
+  /* barra limiti Claude: verde → arancio oltre il 75% → rosso a limite raggiunto */
+  .lim{padding:2px 8px;border-radius:999px;border:1px solid var(--bd);cursor:default}
+  .lim.warn{color:#c47f00;border-color:#c47f0055;background:#c47f0012}
+  .lim.bad{color:#c0392b;border-color:#c0392b55;background:#c0392b12}
+  .dot{flex:0 0 auto;width:8px;height:8px;border-radius:50%;background:var(--err)}
+  .dot.on{background:var(--ok)}
+  .hbtn{flex:0 0 auto;background:transparent;border:1px solid var(--line2);color:var(--dim);width:34px;height:34px;border-radius:9px;font-size:16px;cursor:pointer;display:grid;place-items:center}
+  .hbtn:hover{color:var(--txt);background:var(--bg2)}
+  .hbtns{flex:0 0 auto;display:flex;align-items:center;gap:8px}
+  /* Terza riga: comandi GPU Kaggle (telefono). Pulsanti in sequenza, comprensibili. */
+  .kbar{display:flex;align-items:center;gap:6px;padding:6px 10px;border-bottom:1px solid var(--line);background:var(--bg);flex-wrap:wrap}
+  .kbtn{flex:1 1 0;min-width:64px;border:1px solid var(--line2);background:var(--bg2);color:var(--txt);border-radius:9px;padding:8px 6px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+  .kbtn:hover{filter:brightness(1.06)}
+  .kbtn:active{transform:translateY(1px)}
+  .kbtn.busy{opacity:.6;pointer-events:none}
+  .kstat{flex:0 0 100%;font-size:11px;color:var(--dim);min-height:14px;padding-top:2px}
+  @media (max-width:520px){ .kbtn{font-size:11px;padding:9px 4px} }
+  /* versione della pagina: piccola, discreta, così si vede quando carica la nuova */
+  .ver{flex:0 0 auto;font-size:10px;color:var(--dim);opacity:.65;font-family:var(--mono);white-space:nowrap}
+  /* Pannello stretto: si sacrifica il testo, mai i comandi. */
+  @media (max-width:520px){ .brand small{display:none} }
+  @media (max-width:400px){ .hstat #stat{display:none} }
+  @media (max-width:330px){ .brand .name{display:none} }
+  /* ★ 2026-07-21 — HEADER CHE SCONFINA (foto utente): con ☰ + 5 comandi (🧅🔑🧹⤓✚)
+     la barra usciva a destra sul pannello VS Code stretto e sul telefono. Invece di
+     rimpicciolire le icone (diventavano illeggibili), quando lo spazio è poco la
+     barra va a CAPO: riga 1 = ☰ + titolo + stato, riga 2 = i comandi allineati a
+     destra. Così i bottoni restano grandi e non sconfinano MAI. */
+  @media (max-width:560px){
+    header{flex-wrap:wrap;gap:6px 8px;padding:8px 10px}
+    .hbtns{flex:1 1 100%;justify-content:flex-end}   /* i comandi su tutta la seconda riga */
+    header .ver{display:none}
+  }
+  @media (max-width:400px){
+    .brand small,.brand .name{display:none}   /* riga 1 stretta: resta il logo ▲ + stato */
+  }
+
+  /* Striscia di stato SEMPRE visibile (sta FUORI dall'area che scrolla): a sinistra
+     il modello che sta lavorando ORA (aggiornato dal routing), a destra le barre dei
+     token cloud usati per provider. Su iPhone non serve scrollare per vederli. */
+  #statusStrip{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:5px 14px;border-bottom:1px solid var(--line);background:var(--bg2)}
+  #curModel{flex:0 0 auto;max-width:46%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12.5px;font-weight:600;color:var(--txt)}
+  #curModel.idle{color:var(--dim);font-weight:500}
+  .provBars{flex:1 1 auto;display:flex;gap:9px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .provBars::-webkit-scrollbar{display:none}
+  .pbar{flex:0 0 auto;min-width:60px}
+  .pbar .pl{display:flex;justify-content:space-between;gap:6px;font-size:10px;color:var(--dim);margin-bottom:2px;line-height:1.2}
+  .pbar .pl b{color:var(--txt);font-weight:600}
+  .pbar .pt{height:5px;border-radius:3px;background:var(--line);overflow:hidden}
+  .pbar .pf{height:100%;width:0;background:var(--accent);border-radius:3px;transition:width .3s}
+  .pbar.hot .pf{background:var(--warn)}
+
+  /* Chat scroll area */
+  .scroll{position:relative;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
+  .thread{max-width:var(--max);margin:0 auto;padding:22px 16px 12px;display:flex;flex-direction:column;gap:22px}
+
+  /* Empty state */
+  .empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--dim);gap:14px;padding:30px 20px}
+  .empty .big{width:52px;height:52px;border-radius:15px;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:26px}
+  .empty h2{color:var(--txt);font-size:19px;margin:0}
+  .examples{display:flex;flex-direction:column;gap:8px;width:100%;max-width:380px;margin-top:6px}
+  .ex{text-align:left;border:1px solid var(--line);border-radius:12px;padding:11px 13px;cursor:pointer;background:var(--panel);font-size:14px;color:var(--txt)}
+  .ex:hover{border-color:var(--accent)}
+  .ex b{font-weight:600}
+
+  /* Messages */
+  .row{display:flex;flex-direction:column;gap:6px}
+  .row.user{align-items:flex-end}
+  .role{font-size:12px;color:var(--dim);font-weight:500;padding:0 2px}
+  .bubble{max-width:100%;word-wrap:break-word;overflow-wrap:anywhere}
+  .row.user .bubble{background:var(--user-bg);padding:11px 15px;border-radius:18px;border-bottom-right-radius:5px;white-space:pre-wrap}
+  .row.ai .bubble{width:100%}
+  /* Markdown */
+  .md>*:first-child{margin-top:0}
+  .md>*:last-child{margin-bottom:0}
+  .md p{margin:0 0 12px}
+  .md h1,.md h2,.md h3,.md h4{margin:18px 0 8px;line-height:1.3;font-weight:650}
+  .md h1{font-size:22px}.md h2{font-size:19px}.md h3{font-size:17px}.md h4{font-size:15px}
+  .md ul,.md ol{margin:0 0 12px;padding-left:22px}
+  .md li{margin:4px 0}
+  .md a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+  .md img.genimg{max-width:100%;height:auto;border-radius:12px;border:1px solid var(--line);margin:6px 0;cursor:zoom-in;display:block}
+  .md strong{font-weight:650}
+  .md blockquote{margin:0 0 12px;padding:2px 14px;border-left:3px solid var(--line2);color:var(--dim)}
+  .md hr{border:none;border-top:1px solid var(--line);margin:16px 0}
+  .md code.in{font-family:var(--mono);font-size:.88em;background:var(--code-bg);padding:2px 6px;border-radius:6px}
+  .md table{border-collapse:collapse;margin:0 0 12px;display:block;overflow-x:auto;max-width:100%}
+  .md th,.md td{border:1px solid var(--line2);padding:6px 10px;text-align:left;font-size:14px}
+  .md th{background:var(--bg2)}
+  /* Code block */
+  .cb{margin:12px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--code-bg)}
+  .cb .cbh{display:flex;justify-content:space-between;align-items:center;padding:6px 12px;background:var(--bg2);border-bottom:1px solid var(--line);font-size:12px;color:var(--dim)}
+  .cb .cbcopy{background:transparent;border:0;color:var(--dim);cursor:pointer;font-size:12px;padding:3px 8px;border-radius:6px}
+  .cb .cbcopy:hover{color:var(--txt);background:var(--line)}
+  .cb pre{margin:0;padding:12px 14px;overflow-x:auto}
+  .cb code{font-family:var(--mono);font-size:13px;line-height:1.5;color:var(--code-ink);white-space:pre}
+  .caret::after{content:"";display:inline-block;width:8px;height:1.05em;vertical-align:-2px;margin-left:2px;background:var(--accent);border-radius:1px;animation:blink 1s steps(2) infinite}
+  @keyframes blink{50%{opacity:0}}
+  /* Indicatore "sto pensando" con parola animata (tipo Claude) */
+  .thinking{display:flex;align-items:center;gap:9px;font-size:15px;padding:2px 0}
+  .thinking .sw{background:linear-gradient(90deg,var(--dim) 20%,var(--txt) 50%,var(--dim) 80%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 1.8s linear infinite;font-weight:500}
+  .thinking .el{color:var(--dim);font-size:13px}
+  @keyframes shimmer{to{background-position:-200% 0}}
+
+  /* Reasoning block (ragionamento) */
+  .think{border:1px solid var(--line);border-radius:11px;background:var(--bg2);margin:0 0 10px;overflow:hidden}
+  .think .th{display:flex;align-items:center;gap:8px;padding:8px 12px;cursor:pointer;font-size:13px;color:var(--dim)}
+  .think .th:hover{color:var(--txt)}
+  .think .tg{margin-left:auto;font-size:12px;opacity:.8}
+  .think .tc{border-top:1px solid var(--line);padding:10px 12px;font-size:13.5px;line-height:1.55;color:var(--dim);white-space:pre-wrap;max-height:280px;overflow:auto;display:none}
+  .think.open .tc{display:block}
+
+  /* Message actions */
+  .acts{display:flex;gap:2px;padding-top:2px}
+  .act{background:transparent;border:0;color:var(--dim);cursor:pointer;font-size:12px;padding:5px 8px;border-radius:7px;display:inline-flex;align-items:center;gap:5px}
+  .act:hover{color:var(--txt);background:var(--bg2)}
+
+  /* Pannello Piano (todo) */
+  .plan{border:1px solid var(--line);border-radius:11px;background:var(--panel);padding:11px 13px;margin:2px 0}
+  .plan .ph{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;font-weight:600}
+  .plan .pi{display:flex;gap:9px;align-items:flex-start;padding:3px 0;font-size:14px}
+  .plan .pi .pk{width:16px;flex:0 0 auto}
+  .plan .pi.done .pt{color:var(--dim);text-decoration:line-through}
+  .plan .pi.cur .pt{font-weight:600}
+
+  /* Tool card */
+  .tool{border:1px solid var(--line);border-radius:11px;background:var(--panel);overflow:hidden;margin:2px 0}
+  .tool .th{display:flex;align-items:center;gap:9px;padding:9px 12px;cursor:pointer;font-size:13px}
+  .tool .th:hover{background:var(--bg2)}
+  .tool .tic{width:18px;text-align:center}
+  .tool .tt{flex:1;font-family:var(--mono);font-size:12px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .tool .ts{font-size:11px;color:var(--dim)}
+  .tool .tb{border-top:1px solid var(--line);padding:10px 12px;font-family:var(--mono);font-size:12px;white-space:pre-wrap;max-height:240px;overflow:auto;color:var(--dim);display:none}
+  .tool.open .tb{display:block}
+  .spin{display:inline-block;width:11px;height:11px;border:2px solid var(--line2);border-top-color:var(--accent);border-radius:50%;animation:rot .7s linear infinite}
+  @keyframes rot{to{transform:rotate(360deg)}}
+
+  /* Approval */
+  .appr{border:1px solid var(--warn);border-radius:12px;background:color-mix(in srgb,var(--warn) 10%,transparent);padding:12px 14px;margin:2px 0}
+  .appr .at{font-weight:600;color:var(--warn);margin-bottom:5px}
+  .appr .aexpl{font-size:14px;line-height:1.5;color:var(--txt);white-space:pre-wrap;margin-bottom:9px}
+  .appr .ad{font-family:var(--mono);font-size:12px;white-space:pre-wrap;background:var(--code-bg);border-radius:8px;padding:9px;margin-bottom:10px;max-height:160px;overflow:auto}
+  .appr .arow{display:flex;gap:9px}
+
+  /* Buttons */
+  .btn{border:1px solid var(--line2);background:var(--panel);color:var(--txt);padding:8px 16px;border-radius:9px;cursor:pointer;font-size:14px;font-weight:500}
+  .btn.pri{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+  .btn:hover{filter:brightness(1.05)}
+
+  /* Scroll-to-bottom FAB */
+  .fab{position:absolute;left:50%;transform:translateX(-50%);bottom:8px;background:var(--panel);border:1px solid var(--line2);color:var(--txt);width:38px;height:38px;border-radius:50%;box-shadow:0 4px 14px rgba(0,0,0,.14);cursor:pointer;font-size:17px;display:none;place-items:center;z-index:4}
+  .fab.show{display:grid}
+
+  /* Composer */
+  .composer{border-top:1px solid var(--line);background:var(--panel);padding:10px 14px calc(10px + env(safe-area-inset-bottom))}
+  .cwrap{max-width:var(--max);margin:0 auto}
+  /* Va a capo invece di scorrere fuori vista: nessun comando sparisce quando il
+     pannello si stringe (prima era overflow-x:auto con la barra nascosta). */
+  .opts{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:9px}
+  .chip{flex:0 0 auto;border:1px solid var(--line2);background:var(--bg2);color:var(--dim);border-radius:20px;padding:6px 12px;font-size:13px;cursor:pointer}
+  .chip.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+  select.sel{flex:1 1 auto;min-width:104px;max-width:190px;background:var(--bg2);color:var(--txt);border:1px solid var(--line2);border-radius:20px;padding:6px 10px;font-size:13px}
+  .inputbar{display:flex;align-items:flex-end;gap:9px;background:var(--bg2);border:1px solid var(--line2);border-radius:24px;padding:7px 8px 7px 16px}
+  .inputbar:focus-within{border-color:var(--accent)}
+  textarea{flex:1;background:transparent;border:0;color:var(--txt);font:16px/1.5 var(--font);resize:none;max-height:180px;outline:none;padding:6px 0}
+  .send{width:40px;height:40px;flex:0 0 auto;border:0;border-radius:50%;background:var(--accent);color:#fff;font-size:17px;cursor:pointer;display:grid;place-items:center}
+  .send:disabled{opacity:.4}
+  .send.stop{background:var(--err)}
+  .mic{width:40px;height:40px;flex:0 0 auto;border:1px solid var(--line2);border-radius:50%;background:var(--bg2);color:var(--dim);font-size:16px;cursor:pointer;display:grid;place-items:center}
+  .mic.on{background:var(--err);border-color:var(--err);color:#fff;animation:micpulse 1.2s infinite}
+  @keyframes micpulse{50%{opacity:.55}}
+  .mic.hidden{display:none}
+  .hint{text-align:center;color:var(--dim);font-size:11px;margin-top:7px}
+
+  /* Drawer chat salvate */
+  .drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .2s;z-index:20}
+  .drawer-overlay.open{opacity:1;pointer-events:auto}
+  .drawer{position:fixed;top:0;left:0;bottom:0;width:82%;max-width:320px;background:var(--panel);border-right:1px solid var(--line);transform:translateX(-100%);transition:transform .22s ease;z-index:21;display:flex;flex-direction:column}
+  .drawer.open{transform:none}
+  /* Cassetto sul lato DESTRO (Chiavi API): la classe .open deve poter vincere,
+     perciò lo stato chiuso sta qui in CSS e NON come stile inline (che batterebbe .open). */
+  .drawer.right{left:auto;right:0;border-right:none;border-left:1px solid var(--line);transform:translateX(100%)}
+  .drawer.right.open{transform:none}
+  .drawer-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 14px 10px;border-bottom:1px solid var(--line);font-weight:600}
+  .drawer-head .btn{padding:7px 12px;font-size:13px}
+  .drawer-list{flex:1;overflow-y:auto;padding:8px}
+  /* FEATURE 1 — riga provider col suo indicatore vivo/morto/quota + VERIFICA */
+  .kp-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:6px 4px;font-size:13px;border:1px solid var(--line);border-radius:10px;margin:6px 0}
+  .kp-dot{font-size:15px;line-height:1}
+  .kp-name{flex:1;min-width:90px}
+  .kp-check,.kp-paste{flex:0 0 auto}
+  .kp-free{border:1px solid var(--line);border-radius:10px;padding:9px 11px;margin:6px 0}
+  .btn.sm{padding:4px 8px;font-size:12px}
+  .conv{display:flex;align-items:center;gap:8px;padding:10px 11px;border-radius:10px;cursor:pointer;color:var(--txt)}
+  .conv:hover{background:var(--bg2)}
+  .conv.active{background:var(--bg2);border:1px solid var(--line2)}
+  .conv .ct{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}
+  .conv .cd{opacity:0;border:0;background:transparent;color:var(--dim);cursor:pointer;font-size:15px;padding:2px 6px;border-radius:6px}
+  .conv:hover .cd{opacity:1}
+  .conv .cd:hover{color:var(--err);background:var(--line)}
+</style>
+</head>
+<body>
+<header>
+  <button class="hbtn" id="menuBtn" title="Chat salvate">☰</button>
+  <span class="brand"><span class="logo">▲</span><span class="name">Antigravity</span></span>
+  <span class="hspace"></span>
+  <span class="hstat"><span class="dot" id="dot"></span><span id="stat">connessione…</span></span>
+  <span class="hstat" id="usage" style="display:none" title="Uso cloud del mese"></span>
+  <span class="hstat lim" id="climit" style="display:none" title="Limiti di utilizzo di Claude"></span>
+  <span class="hbtns">
+    <button class="hbtn" id="torBtn" title="Navigatore Tor (rete .onion)">🧅</button>
+    <button class="hbtn" id="keysBtn" title="Chiavi API dei provider">🔑</button>
+    <button class="hbtn" id="clearBtn" title="Pulisci lo schermo (la memoria resta)">🧹</button>
+    <button class="hbtn" id="exportBtn" title="Esporta la chat in Markdown">⤓</button>
+    <button class="hbtn" id="newChat" title="Nuova chat">✚</button>
+    <button class="hbtn" id="themeBtn" title="Tema: automatico (segui il telefono)">🌓</button>
+  </span>
+</header>
+<!-- Striscia di stato sempre visibile su iPhone: modello attivo (routing) + token per provider -->
+<div id="statusStrip">
+  <span id="curModel" class="idle" title="Modello che sta lavorando ora (routing automatico)">🤖 —</span>
+  <div class="provBars" id="provBars" title="Token cloud usati questo mese, per provider"></div>
+  <!-- VERSIONE della pagina: si aggiorna da sola quando il file cambia, così
+       vedi subito se hai caricato la versione nuova. -->
+  <span class="ver" id="pageVer" title="Versione della pagina caricata">v{{VER}}</span>
+</div>
+<!-- Terza riga: comandi GPU Kaggle (accendi/spegni i modelli abliterated su cloud) -->
+<div id="kaggleBar" class="kbar">
+  <button class="kbtn" id="kgUp14" title="Accendi il notebook Kaggle 14B (Qwen2.5-Coder) su GPU">🟢 Kaggle 14B</button>
+  <button class="kbtn" id="kgUp30" title="Accendi il notebook Kaggle 30B-MoE (Qwen3-Coder) su GPU">🟣 Kaggle 30B</button>
+  <button class="kbtn" id="kgStatus" title="Controlla se il notebook Kaggle è acceso">🔵 Stato</button>
+  <button class="kbtn" id="kgOff" title="Spegni il notebook Kaggle (Kaggle non ha API di stop: apre la pagina)">🔴 Spegni</button>
+  <span class="kstat" id="kgQuota" title="Ore GPU Kaggle usate/totali della settimana e quando si azzerano">⏱️ …</span>
+  <span class="kstat" id="kgStat"></span>
+</div>
+
+<div class="drawer-overlay" id="overlay"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-head">
+    <span>Chat</span>
+    <button class="btn pri" id="drawerNew">＋ Nuova</button>
+  </div>
+  <div class="drawer-list" id="convList"></div>
+</aside>
+
+<div class="scroll" id="scroll">
+  <div class="thread" id="thread">
+    <div class="empty" id="empty">
+      <div class="big">▲</div>
+      <div><h2>Come posso aiutarti?</h2><div>Apro, leggo e analizzo qualsiasi file, codice o binario — senza filtri.</div></div>
+      <div class="examples">
+        <div class="ex" data-ex="Analizza il file in C:/Users/infoa/Downloads/… e dimmi cos'è e cosa fa">💿 <b>Analizza un binario</b></div>
+        <div class="ex" data-ex="Studia il progetto in questa cartella e spiegami come funziona">📂 <b>Studia un progetto</b></div>
+        <div class="ex" data-ex="Trova i bug in questo file e proponimi le correzioni">🐛 <b>Trova i bug</b></div>
+      </div>
+    </div>
+  </div>
+  <button class="fab" id="fab" title="Vai in fondo">↓</button>
+</div>
+
+<div class="composer">
+  <div class="cwrap">
+    <div class="opts">
+      <button class="chip on" data-mode="auto">Auto</button>
+      <button class="chip" data-mode="agent">Agente</button>
+      <button class="chip" data-mode="reverse">Reverse</button>
+      <button class="chip" data-mode="coding">Codice</button>
+      <select class="sel" id="provider"><option value="local">💻 Locale</option><option value="cloud">☁️ Cloud</option><option value="comfy">🎨 ComfyUI</option><option value="ghidra">🐉 Ghidra RE</option><option value="zw3d">🔧 ZW3D</option><option value="maintenance">🛠️ Manutenzione</option></select>
+      <select class="sel" id="llmProvider" title="Provider: chi ospita il modello"><option value="auto">Provider: tutti</option></select>
+      <select class="sel" id="model"><option value="auto">Modello: Auto</option></select>
+      <select class="sel" id="policy"><option value="ask-writes">Chiedi</option><option value="read-only">Sola lettura</option><option value="auto-allow">Autonomo</option></select>
+    </div>
+    <div id="attachRow" style="display:none;flex-wrap:wrap;gap:6px;padding:4px 2px"></div>
+    <input type="file" id="fileInput" style="display:none">
+    <div class="inputbar">
+      <button class="mic" id="attachBtn" title="Allega un file (qualsiasi tipo)">📎</button>
+      <textarea id="input" rows="1" placeholder="Scrivi un messaggio…"></textarea>
+      <button class="mic" id="mic" title="Detta col microfono">🎤</button>
+      <button class="send" id="send" title="Invia">➤</button>
+    </div>
+    <div class="hint">Invio per inviare · Maiusc+Invio per andare a capo</div>
+  </div>
+</div>
+
+<div class="drawer-overlay" id="keysOverlay"></div>
+<aside class="drawer right" id="keysDrawer">
+  <div class="drawer-head"><span>🔑 Chiavi API</span><button class="btn" id="keysClose">Chiudi</button></div>
+  <div class="drawer-list">
+    <div style="font-size:13px;color:var(--dim);margin:2px 4px 10px">Incolla una chiave: riconosco il provider e compilo tutto da solo.</div>
+    <textarea id="keyInput" rows="2" placeholder="Incolla qui la chiave API…" style="width:100%;box-sizing:border-box;background:var(--bg2);color:var(--txt);border:1px solid var(--line2);border-radius:9px;padding:9px;font-size:13px;font-family:monospace"></textarea>
+    <div id="keyDetect" style="font-size:13px;margin:8px 4px;min-height:18px;color:var(--dim)"></div>
+    <select class="sel" id="keyProvider" style="width:100%;margin:4px 0;display:none"></select>
+    <button class="btn pri" id="keySave" style="width:100%;margin:6px 0 14px" disabled>Salva chiave</button>
+    <div style="font-weight:600;font-size:13px;margin:6px 4px">Configurati</div>
+    <div id="keysActive" style="margin-bottom:12px"></div>
+    <button class="btn" id="statusBtn" style="width:100%;margin:2px 0 10px">📊 Stato sistema</button>
+    <div id="statusOut" style="font-size:12px;color:var(--dim);margin:0 4px 12px;white-space:pre-wrap;display:none"></div>
+    <!-- ★ 2026-07-30 — CANTIERE. Sta PRIMA dei pulsanti di manutenzione apposta:
+         sono loro (ripara / torna indietro / delega a Hermes) che ti cancellavano il
+         lavoro mentre lo stavi costruendo dal telefono. Con il cantiere aperto quei
+         file diventano intoccabili, e "Riprendi" ricostruisce da solo il punto in cui
+         eri quando l'app si è interrotta (niente più «riprendi da dove ti eri fermato»
+         raccontato a voce). -->
+    <div style="font-weight:600;font-size:13px;margin:10px 4px 4px">🔒 Cantiere (proteggi quello che stai costruendo)</div>
+    <div id="cantiereStato" style="font-size:12px;color:var(--dim);margin:0 4px 6px;white-space:pre-wrap">…</div>
+    <div id="cantiereChiuso">
+      <input class="inp" id="cantTitolo" placeholder="Cosa stai costruendo (titolo)" style="width:100%;margin:2px 0">
+      <input class="inp" id="cantFiles" placeholder="File da proteggere, separati da virgola" style="width:100%;margin:2px 0">
+      <button class="btn pri" id="cantApri" style="width:100%;margin:4px 0 10px">🔒 Apri cantiere</button>
+    </div>
+    <div id="cantiereAperto" style="display:none">
+      <button class="btn pri" id="cantRiprendi" style="width:100%;margin:2px 0">▶️ Riprendi da dove ti sei interrotto</button>
+      <input class="inp" id="cantPasso" placeholder="Passo appena fatto…" style="width:100%;margin:4px 0 2px">
+      <input class="inp" id="cantProssimo" placeholder="Prossimo passo (è ciò che permette di riprendere)" style="width:100%;margin:2px 0">
+      <button class="btn sm" id="cantSegna" style="width:100%;margin:2px 0">📌 Segna passo</button>
+      <button class="btn sm" id="cantChiudi" style="width:100%;margin:2px 0 10px;background:var(--danger);color:#fff">🔓 Chiudi cantiere</button>
+    </div>
+
+    <!-- ★ 2026-07-30 — PIATTAFORME GPU: gli stessi pulsanti di Kaggle, per tutte
+         quelle cablate. Il modello non lo scegli tu: esce dalla VRAM della GPU. -->
+    <div style="font-weight:600;font-size:13px;margin:10px 4px 4px">🖥️ Piattaforme GPU</div>
+    <div id="piattElenco" style="font-size:12px;color:var(--dim);margin:0 4px 6px">…</div>
+    <button class="btn sm" id="piattAggiorna" style="width:100%;margin:2px 0 10px">🔄 Aggiorna piattaforme</button>
+
+    <!-- ★ 2026-07-30 — Qui c'erano DUE bottoni, "Cacciatore di bug (auto-ripara)" e
+         "Ripara ora": chiamavano lo stesso identico endpoint con gli stessi parametri
+         (/bugHunter/scan?fix=1), cambiavano solo le emoji del testo di risposta. Uno
+         solo, che dice quello che fa davvero. -->
+    <button class="btn" id="bugHunterBtn" style="width:100%;margin:2px 0 6px">🐞 Controlla e ripara ora</button>
+    <button class="btn sm" id="rollbackBtn" style="width:100%;margin:2px 0 6px;background:var(--danger);color:#fff">↩️ Torna indietro (ripristina ultimo backup sano)</button>
+    <div id="bugHunterOut" style="font-size:12px;color:var(--dim);margin:0 4px 12px;white-space:pre-wrap;display:none"></div>
+    <!-- Coda dei problemi che il cacciatore NON sa riparare da solo: da qui si
+         delegano a Hermes, uno alla volta e solo se lo chiedi tu. -->
+    <div id="ticketBox" style="margin:0 4px 12px;display:none">
+      <div style="font-weight:600;font-size:13px;margin:6px 0">🎫 Da sistemare a mano <span id="ticketCount" style="color:var(--dim);font-weight:400"></span></div>
+      <div id="ticketList"></div>
+    </div>
+    <div style="font-weight:600;font-size:13px;margin:6px 4px">🏹 Cacciatore di taglie</div>
+    <div style="display:flex;gap:4px;margin:2px 4px 8px">
+      <button class="btn sm tab active" data-tab="prov" style="flex:1">⚡ Provider</button>
+      <button class="btn sm tab" data-tab="unc" style="flex:1">🔓 Senza filtri</button>
+      <button class="btn sm tab" data-tab="gpu" style="flex:1">🖥️ Piattaforme</button>
+    </div>
+
+    <!-- SCHEDA 1: Provider gratuiti (curati + caccia live) -->
+    <div class="huntPanel" data-panel="prov">
+      <div id="keysSuggest"></div>
+      <button class="btn pri" id="huntBtn" style="width:100%;margin:10px 0 6px">🔎 Cerca altri provider gratuiti online</button>
+      <div id="huntOut" style="font-size:12px;color:var(--dim);margin:0 4px 12px"></div>
+    </div>
+
+    <!-- SCHEDA 2: Solo provider SENZA FILTRI (abliterated / dolphin / roleplay) -->
+    <div class="huntPanel" data-panel="unc" style="display:none">
+      <div style="font-size:12px;color:var(--dim);margin:0 4px 8px">Solo provider e modelli SENZA filtri (abliterated, dolphin, roleplay). Caccia tra le fonti aggiornate.</div>
+      <button class="btn pri" id="huntUncBtn" style="width:100%;margin:4px 0 6px">🔎 Cerca provider senza filtri</button>
+      <div id="uncOut" style="font-size:12px;color:var(--dim);margin:0 4px 12px"></div>
+    </div>
+
+    <!-- SCHEDA 3: Piattaforme GPU (tipo Kaggle) per ospitare i TUOI modelli -->
+    <div class="huntPanel" data-panel="gpu" style="display:none">
+      <div style="font-size:12px;color:var(--dim);margin:0 4px 8px">Dove ospitare i TUOI modelli senza filtri (GPU gratis o economiche). Non sono provider API: qui PORTI il modello tuo.</div>
+      <button class="btn pri" id="gpuBtn" style="width:100%;margin:4px 0 6px">🚀 Confronta piattaforme GPU</button>
+      <div id="gpuOut" style="font-size:12px;color:var(--dim);margin:0 4px 12px"></div>
+    </div>
+  </div>
+</aside>
+
+<!-- ===== NAVIGATORE TOR (lettore .onion, a schermo intero) ===== -->
+<div id="torPanel" style="display:none;position:fixed;inset:0;z-index:50;background:var(--bg);flex-direction:column">
+  <div style="display:flex;align-items:center;gap:8px;padding:10px;border-bottom:1px solid var(--line);background:var(--panel)">
+    <button class="hbtn" id="torBack" title="Indietro">‹</button>
+    <input id="torUrl" placeholder="cerca qualcosa, o incolla un indirizzo .onion…" style="flex:1;background:var(--bg2);color:var(--txt);border:1px solid var(--line2);border-radius:9px;padding:9px 11px;font-size:14px" autocapitalize="off" autocorrect="off" spellcheck="false">
+    <button class="btn pri" id="torGo">Vai</button>
+    <button class="hbtn" id="torClose" title="Chiudi Tor">✕</button>
+  </div>
+  <div id="torStatus" style="font-size:12px;color:var(--dim);padding:6px 12px;border-bottom:1px solid var(--line);min-height:16px"></div>
+  <div id="torContent" style="flex:1;overflow-y:auto;padding:16px;font-size:15px;line-height:1.5;color:var(--txt);word-break:break-word"></div>
+</div>
+
+<script>
+const T = new URLSearchParams(location.search).get("t") || "";
+
+/* ---- DIAGNOSTICA: manda gli errori JS al server ----------------------------
+   Safari sull'iPhone non si puo' ispezionare dal PC: senza questo, davanti a
+   "si è verificato ripetutamente un errore" (= il processo della pagina va in
+   crash) si puo' solo tirare a indovinare. Qui ogni errore e ogni promise
+   rifiutata finiscono nel log del server.
+   Volutamente minimale e a prova di errore: se fallisce l'invio, si tace —
+   la diagnostica non deve MAI diventare essa stessa la causa del guasto.      */
+(function(){
+  var inviati = 0;                      // tetto: niente valanghe se l'errore si ripete
+  function segnala(tipo, dati){
+    if (inviati++ > 20) return;
+    try{
+      fetch("/clientError?t="+encodeURIComponent(T), {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify(Object.assign({
+          tipo: tipo,
+          quando: new Date().toISOString(),
+          ua: navigator.userAgent,
+          memoria: (performance && performance.memory) ? performance.memory.usedJSHeapSize : null
+        }, dati))
+      }).catch(function(){});
+    }catch(_){}
+  }
+  window.addEventListener("error", function(e){
+    segnala("errore", { messaggio: String(e.message||""), file: String(e.filename||""),
+                        riga: e.lineno||0, colonna: e.colno||0,
+                        stack: e.error && e.error.stack ? String(e.error.stack).slice(0,1500) : "" });
+  });
+  window.addEventListener("unhandledrejection", function(e){
+    var r = e.reason;
+    segnala("promise", { messaggio: r && r.message ? String(r.message) : String(r),
+                         stack: r && r.stack ? String(r.stack).slice(0,1500) : "" });
+  });
+  // Traccia anche l'apertura: cosi' so se la pagina e' arrivata a eseguire il JS
+  // (pagina bianca CON questa riga = si e' rotta dopo; SENZA = non e' mai partita).
+  segnala("apertura", { schermo: (screen.width+"x"+screen.height) });
+})();
+const $ = s => document.querySelector(s);
+const scrollEl=$("#scroll"), thread=$("#thread"), empty=$("#empty"), input=$("#input"), sendBtn=$("#send"), fab=$("#fab");
+let mode="auto", running=false, streamEl=null, streamRaw="", curAssist=null, lastUser=null, stick=true;
+const toolCards={};
+
+function api(p,b){ return fetch(p+"?t="+encodeURIComponent(T),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(b||{})}); }
+function apiUrl(p){ return p+"?t="+encodeURIComponent(T); }
+
+/* ---- autoscroll intelligente ---- */
+function nearBottom(){ return scrollEl.scrollHeight - scrollEl.scrollTop - scrollEl.clientHeight < 80; }
+function scrollDown(force){ if(force||stick){ scrollEl.scrollTop=scrollEl.scrollHeight; } }
+scrollEl.addEventListener("scroll",()=>{ stick=nearBottom(); fab.classList.toggle("show",!stick); });
+fab.addEventListener("click",()=>{ stick=true; scrollDown(true); fab.classList.remove("show"); });
+
+/* ---- markdown ---- */
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function inline(s){
+  return esc(s)
+    .replace(/`([^`]+)`/g,'<code class="in">$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+    .replace(/(^|[^*])\*([^*]+)\*/g,'$1<em>$2</em>')
+    // Immagini ![alt](url): PRIMA dei link, così "![…]" non diventa un link.
+    .replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g,'<img class="genimg" src="$2" alt="$1" loading="lazy">')
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noreferrer">$1</a>');
+}
+function mdTable(rows){
+  const cells=r=>r.replace(/^\||\|$/g,"").split("|").map(c=>c.trim());
+  let h="<table><thead><tr>"+cells(rows[0]).map(c=>"<th>"+inline(c)+"</th>").join("")+"</tr></thead><tbody>";
+  for(let i=2;i<rows.length;i++){ h+="<tr>"+cells(rows[i]).map(c=>"<td>"+inline(c)+"</td>").join("")+"</tr>"; }
+  return h+"</tbody></table>";
+}
+function renderMd(src){
+  // ★ 2026-07-19 — NORMALIZZA le fine-riga PRIMA di tutto. BUG CRITICO risolto:
+  // una riga tipo "### Titolo\r" (fine-riga Windows CRLF, prodotta dai modelli
+  // locali) NON veniva riconosciuta come titolo (`.` e `$` non gestiscono il
+  // \r finale) MA il controllo di fine-paragrafo la considerava "speciale":
+  // l'indice del ciclo non avanzava mai → LOOP INFINITO → 4GB di RAM → Safari
+  // uccideva la scheda (pagina bianca "errore ripetuto"), pulsanti inclusi. Un
+  // solo messaggio così (la risposta sul Tor del 18/07) bastava a bloccare tutta
+  // la chat a ogni ricaricamento. Convertendo \r\n e \r in \n il problema sparisce.
+  src=String(src||"").replace(/\r\n?/g,"\n");
+  const parts=src.split(/(```[\s\S]*?```)/g);
+  let out="";
+  for(const part of parts){
+    if(part.startsWith("```")){
+      const m=part.match(/^```([a-zA-Z0-9+#-]*)\n?([\s\S]*?)```$/);
+      const lang=(m&&m[1])||"codice", code=(m&&m[2]!=null)?m[2].replace(/\n$/,""):part.slice(3,-3);
+      out+='<div class="cb"><div class="cbh"><span>'+esc(lang)+'</span><button class="cbcopy" data-code="'+encodeURIComponent(code)+'">Copia</button></div><pre><code>'+esc(code)+'</code></pre></div>';
+      continue;
+    }
+    const lines=part.split("\n"); let i=0;
+    while(i<lines.length){
+      let ln=lines[i];
+      if(/^\s*$/.test(ln)){ i++; continue; }
+      let mm;
+      if(mm=ln.match(/^(#{1,4})\s+(.*)$/)){ const n=mm[1].length; out+="<h"+n+">"+inline(mm[2])+"</h"+n+">"; i++; continue; }
+      if(/^\s*([-*_])\s*\1\s*\1[\s*_]*$/.test(ln)){ out+="<hr>"; i++; continue; }
+      if(/^\s*>\s?/.test(ln)){ let b=[]; while(i<lines.length&&/^\s*>\s?/.test(lines[i])){ b.push(lines[i].replace(/^\s*>\s?/,"")); i++; } out+="<blockquote>"+b.map(inline).join("<br>")+"</blockquote>"; continue; }
+      if(/^\s*\|.*\|\s*$/.test(ln)&&i+1<lines.length&&/^\s*\|?[\s:-]+\|[\s:|-]*$/.test(lines[i+1])){ let t=[]; while(i<lines.length&&/^\s*\|.*\|\s*$/.test(lines[i])){ t.push(lines[i].trim()); i++; } out+=mdTable(t); continue; }
+      if(/^\s*[-*+]\s+/.test(ln)){ let items=[]; while(i<lines.length&&/^\s*[-*+]\s+/.test(lines[i])){ items.push(lines[i].replace(/^\s*[-*+]\s+/,"")); i++; } out+="<ul>"+items.map(x=>"<li>"+inline(x)+"</li>").join("")+"</ul>"; continue; }
+      if(/^\s*\d+[.)]\s+/.test(ln)){ let items=[]; while(i<lines.length&&/^\s*\d+[.)]\s+/.test(lines[i])){ items.push(lines[i].replace(/^\s*\d+[.)]\s+/,"")); i++; } out+="<ol>"+items.map(x=>"<li>"+inline(x)+"</li>").join("")+"</ol>"; continue; }
+      let para=[]; while(i<lines.length&&!/^\s*$/.test(lines[i])&&!/^\s*(#{1,4}\s|>|[-*+]\s|\d+[.)]\s|\|)/.test(lines[i])){ para.push(lines[i]); i++; }
+      out+="<p>"+para.map(inline).join("<br>")+"</p>";
+    }
+  }
+  return out;
+}
+
+/* ---- costruzione messaggi ---- */
+function hideEmpty(){ if(empty) empty.style.display="none"; }
+function addUser(text){
+  hideEmpty();
+  const r=document.createElement("div"); r.className="row user";
+  r.innerHTML='<div class="role">Tu</div><div class="bubble"></div>';
+  r.querySelector(".bubble").textContent=text;
+  thread.appendChild(r); scrollDown(); return r;
+}
+function newAssist(){
+  hideEmpty();
+  const r=document.createElement("div"); r.className="row ai";
+  r.innerHTML='<div class="role">Antigravity</div><div class="bubble"><div class="md"></div></div>';
+  thread.appendChild(r); scrollDown();
+  return { row:r, bubble:r.querySelector(".bubble"), md:r.querySelector(".md"), thinkEl:null };
+}
+
+// Separa il RAGIONAMENTO (<think>…</think>, emesso da modelli tipo deepseek-r1)
+// dalla risposta vera. Gestisce anche il tag ancora aperto durante lo streaming.
+function splitThink(raw){
+  let think="", answer=raw||"";
+  const o=answer.indexOf("<think>");
+  if(o>=0){
+    const c=answer.indexOf("</think>");
+    if(c>=0){ think=answer.slice(o+7,c); answer=answer.slice(0,o)+answer.slice(c+8); }
+    else { think=answer.slice(o+7); answer=answer.slice(0,o); }
+  }
+  return { think:think.trim(), answer:answer.trim() };
+}
+// Disegna un messaggio assistente: blocco "Ragionamento" (se presente) + risposta.
+function paintAssist(a, raw){
+  const s=splitThink(raw);
+  if(!a) return s.answer;   // ★ lo stream può essere già finito (curAssist=null): non crashare
+  if(s.think){
+    if(!a.thinkEl){
+      a.thinkEl=document.createElement("div"); a.thinkEl.className="think open";
+      a.thinkEl.innerHTML='<div class="th">💭 Ragionamento<span class="tg">nascondi</span></div><div class="tc"></div>';
+      a.thinkEl.querySelector(".th").onclick=()=>{ const op=a.thinkEl.classList.toggle("open"); a.thinkEl.querySelector(".tg").textContent=op?"nascondi":"mostra"; };
+      a.bubble.insertBefore(a.thinkEl, a.md);
+    }
+    a.thinkEl.querySelector(".tc").textContent=s.think;
+  }
+  a.md.innerHTML=renderMd(s.answer);
+  return s.answer;
+}
+function actionsFor(row, text){
+  const bar=document.createElement("div"); bar.className="acts";
+  const copy=document.createElement("button"); copy.className="act"; copy.innerHTML="⧉ Copia";
+  copy.onclick=()=>{ navigator.clipboard&&navigator.clipboard.writeText(text); copy.innerHTML="✓ Copiato"; setTimeout(()=>copy.innerHTML="⧉ Copia",1400); };
+  bar.appendChild(copy);
+  const regen=document.createElement("button"); regen.className="act"; regen.innerHTML="↻ Rigenera";
+  regen.onclick=()=>regenerate();
+  bar.appendChild(regen);
+  row.appendChild(bar);
+}
+
+/* ---- indicatore "sto pensando" (parole animate come Claude) ---- */
+const THINK=["Rifletto","Rimugino","Elaboro","Medito","Ragiono","Ponzo","Congetturo","Almanacco","Considero","Analizzo","Scandaglio","Vaglio"];
+let thinkEl=null,thinkIv=null,thinkSec=null,thinkT0=0;
+function showThinking(){
+  if(thinkEl) return; hideEmpty();
+  thinkEl=document.createElement("div"); thinkEl.className="row ai";
+  thinkEl.innerHTML='<div class="thinking"><span class="sw"></span><span class="el"></span></div>';
+  thread.appendChild(thinkEl); thinkT0=Date.now();
+  let i=Math.floor(Math.random()*THINK.length);
+  const word=()=>{ if(thinkEl) thinkEl.querySelector(".sw").textContent=THINK[i%THINK.length]+"…"; };
+  const elapsed=()=>{ if(thinkEl) thinkEl.querySelector(".el").textContent="("+Math.round((Date.now()-thinkT0)/1000)+"s · esc per fermare)"; };
+  word(); elapsed();
+  thinkIv=setInterval(()=>{ i++; word(); },2000);
+  thinkSec=setInterval(elapsed,1000);
+  scrollDown();
+}
+function hideThinking(){ if(thinkIv){clearInterval(thinkIv);thinkIv=null;} if(thinkSec){clearInterval(thinkSec);thinkSec=null;} if(thinkEl){thinkEl.remove();thinkEl=null;} }
+
+/* ---- streaming ---- */
+let _paintPending=false, _lastPaint=0, _paintTimer=null;
+function startStream(){
+  hideThinking();
+  streamRaw=""; _lastPaint=0; _paintPending=false;
+  if(_paintTimer){ clearTimeout(_paintTimer); _paintTimer=null; }
+  const a=newAssist(); curAssist=a; streamEl=a.md; streamEl.classList.add("caret");
+}
+// ★ 2026-07-19 — FRENO AL RIDISEGNO IN STREAMING.
+// Prima paintAssist() (parse markdown dell'INTERO testo accumulato) girava a OGNI
+// token: su una risposta lunga (i modelli di ragionamento sputano <think> da
+// migliaia di token) diventa lavoro al quadrato, il thread principale si inchioda
+// e la pagina si "blocca" — pulsanti inclusi, incliccabili. Ora si ridisegna al
+// massimo ogni 120ms (~8 volte/sec): scorre fluido e l'interfaccia resta viva.
+// Il disegno FINALE completo lo fa endStream, quindi nessuna perdita di qualità.
+function _flushPaint(){ _paintPending=false; _paintTimer=null; if(!curAssist) return; _lastPaint=Date.now(); paintAssist(curAssist, streamRaw); scrollDown(); }
+function appendStream(t){
+  if(!streamEl) startStream();
+  streamRaw+=t; streamEl.classList.add("caret");
+  const now=Date.now();
+  if(now-_lastPaint>120){ _flushPaint(); }
+  else if(!_paintPending){ _paintPending=true; _paintTimer=setTimeout(_flushPaint, 120); }
+}
+function endStream(full){
+  if(_paintTimer){ clearTimeout(_paintTimer); _paintTimer=null; }  // ★ annulla il ridisegno in coda: senza questo scattava con curAssist=null → crash "reading 'md'"
+  _paintPending=false;
+  const text=(full&&full.length>=streamRaw.length)?full:streamRaw;
+  if(!streamEl&&text) startStream();
+  let answer=text;
+  if(curAssist){ answer=paintAssist(curAssist, text); curAssist.md.classList.remove("caret"); }
+  if(curAssist&&text){ document.querySelectorAll(".row.ai .acts").forEach(e=>e.remove()); actionsFor(curAssist.row, answer); }
+  streamEl=null; curAssist=null; streamRaw="";
+  setRunning(false); setStatus("pronto",true);
+}
+
+/* ---- pannello piano (todo) ---- */
+let planEl=null;
+function renderPlan(entries){
+  hideThinking();
+  if(!planEl){ planEl=document.createElement("div"); planEl.className="plan"; (curAssist?curAssist.md.parentElement:thread).appendChild(planEl); }
+  planEl.innerHTML='<div class="ph">Piano</div>'+(entries||[]).map(e=>{
+    const ic=e.status==="completed"?"✅":(e.status==="in_progress"?"▶️":"⬜");
+    const cl=e.status==="completed"?"done":(e.status==="in_progress"?"cur":"");
+    return '<div class="pi '+cl+'"><span class="pk">'+ic+'</span><span class="pt">'+esc(e.content||"")+'</span></div>';
+  }).join("");
+  scrollDown();
+}
+
+/* ---- tool cards ---- */
+function toolCard(d){
+  hideThinking();
+  let c=toolCards[d.id];
+  if(!c){
+    c=document.createElement("div"); c.className="tool";
+    c.innerHTML='<div class="th"><span class="tic"></span><span class="tt"></span><span class="ts"><span class="spin"></span></span></div><div class="tb"></div>';
+    c.querySelector(".th").onclick=()=>c.classList.toggle("open");
+    (curAssist?curAssist.md.parentElement:thread).appendChild(c); toolCards[d.id]=c;
+  }
+  const icon=d.kind==="execute"?"⚡":d.kind==="edit"?"✎":"🔍";
+  c.querySelector(".tic").textContent=(d.status==="completed")?"✓":(d.status==="error"?"✗":icon);
+  c.querySelector(".tt").textContent=d.title||"strumento";
+  const ts=c.querySelector(".ts"); if(d.status==="completed"){ ts.textContent="fatto"; }
+  if(d.content) c.querySelector(".tb").textContent=String(d.content).slice(0,4000);
+  scrollDown();
+}
+
+/* ---- approvazioni ---- */
+function approval(m){
+  // Evita doppioni se l'evento arriva due volte (riconnessione).
+  const dup=thread.querySelector('.appr[data-aid="'+m.id+'"]'); if(dup) return;
+  const box=document.createElement("div"); box.className="appr"; box.dataset.aid=m.id;
+  // Separo la SPIEGAZIONE in parole semplici (prosa leggibile) dal DETTAGLIO tecnico
+  // (comando/codice, in monospace), così capisci cosa approvi senza leggere il codice.
+  let expl="", tech=String(m.detail||""); const marker="\n\n👉 Nel dettaglio (tecnico):\n";
+  const ix=tech.indexOf(marker); if(ix>=0){ expl=tech.slice(0,ix); tech=tech.slice(ix+marker.length); }
+  box.innerHTML='<div class="at">🔐 '+esc(m.title||"Confermi?")+'</div>'
+    +(expl?'<div class="aexpl">'+esc(expl)+'</div>':'')
+    +(tech?'<div class="ad">'+esc(tech)+'</div>':'')
+    +'<div class="arow"><button class="btn pri">✓ Approva</button><button class="btn">✗ Nega</button></div>';
+  const bs=box.querySelectorAll("button");
+  // Non rimuoviamo subito: aspettiamo l'eco "approvalResolved" dal server, così
+  // il box sparisce su ENTRAMBI i device (telefono + VS Code) insieme.
+  bs[0].onclick=()=>{ bs[0].disabled=bs[1].disabled=true; api("/approve",{id:m.id,approved:true}); };
+  bs[1].onclick=()=>{ bs[0].disabled=bs[1].disabled=true; api("/approve",{id:m.id,approved:false}); };
+  (curAssist?curAssist.md.parentElement:thread).appendChild(box); scrollDown();
+}
+function approvalResolved(m){
+  const box=thread.querySelector('.appr[data-aid="'+m.id+'"]');
+  if(box) box.remove();
+}
+
+/* ---- render conversazione condivisa ---- */
+function clearThread(){ hideThinking(); thread.querySelectorAll(".row,.tool,.appr,.plan").forEach(e=>e.remove()); for(const k in toolCards)delete toolCards[k]; curAssist=null; streamEl=null; streamRaw=""; planEl=null; }
+function renderHistory(msgs){
+  clearThread();
+  if(!msgs||!msgs.length){ if(empty) empty.style.display=""; return; }
+  hideEmpty();
+  for(const m of msgs){
+    if(m.role==="user"){ addUser(m.content); lastUser=m.content; }
+    else if(m.role==="assistant"){ const a=newAssist(); const ans=paintAssist(a, m.content||""); actionsFor(a.row, ans); }
+  }
+  scrollDown(true);
+}
+
+/* ---- eventi dal server ---- */
+function onMsg(m){
+  switch(m.type){
+    case "history": renderHistory(m.messages); break;
+    case "conversations": renderConvList(m.list); break;
+    case "userMessage": stick=true; planEl=null; addUser(m.value); lastUser=m.value; showThinking(); break;
+    case "cleared": clearThread(); if(empty) empty.style.display=""; setStatus("pronto",true); break;
+    case "updateStatus": setStatus(m.value,true); break;
+    case "addResponse": { const a=newAssist(); const ans=paintAssist(a, m.value||""); actionsFor(a.row, ans); setRunning(false); break; }
+    case "streamStart": startStream(); setStatus("sta scrivendo…",true); break;
+    case "streamToken": appendStream(m.value||""); break;
+    case "streamEnd": endStream(m.value||""); break;
+    case "agentEvent": if(m.kind==="tool") toolCard(m.data||{}); else if(m.kind==="plan") renderPlan((m.data||{}).entries||[]); break;
+    case "requestApproval": approval(m); break;
+    case "approvalResolved": approvalResolved(m); break;
+    case "clearView": clearThread(); if(empty) empty.style.display=""; setStatus("schermo pulito · memoria intatta",true); break;
+    case "cloudUsage": renderUsage(m.usage); break;
+    case "claudeLimit": renderLimit(m.limit); break;
+    case "model": { const el=$("#curModel"); const t=(m.label||m.model||"").trim(); if(t){ el.classList.remove("idle"); el.textContent="🤖 "+t; el.title="Sta lavorando ora: "+t; } break; }
+  }
+}
+
+/* ---- status / running ---- */
+function setStatus(t,on){ $("#stat").textContent=t; if(on!==undefined)$("#dot").classList.toggle("on",!!on); }
+function setRunning(r){ running=r; sendBtn.textContent=r?"■":"➤"; sendBtn.classList.toggle("stop",r); if(r)showThinking(); else hideThinking(); }
+
+/* ---- invio ---- */
+let attachments=[];   // {path,name} dei file allegati
+function send(){
+  if(running){ api("/stop",{}); setRunning(false); return; }
+  let text=input.value.trim();
+  if(!text && !attachments.length) return;
+  // Allega i percorsi dei file al prompt, così l'agente li apre/analizza.
+  if(attachments.length){
+    const list=attachments.map(a=>a.path).join("\n");
+    text=(text||"Analizza il/i file allegato/i e dimmi cos'è e cosa fa.")+"\n\n[FILE ALLEGATI - percorsi reali su disco]:\n"+list;
+    attachments=[]; renderAttach();
+  }
+  input.value=""; input.style.height="auto";
+  stick=true; setRunning(true); setStatus("invio…",true);
+  api("/send",{ prompt:text, mode, model:$("#model").value, provider:$("#provider").value, channel:"normal" });
+}
+/* ---- allega file ---- */
+function renderAttach(){
+  const row=$("#attachRow");
+  if(!attachments.length){ row.style.display="none"; row.innerHTML=""; return; }
+  row.style.display="flex";
+  row.innerHTML=attachments.map((a,i)=>`<span style="display:inline-flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--line2);border-radius:14px;padding:3px 10px;font-size:12px">📎 ${a.name.slice(0,28)} <b data-rm="${i}" style="cursor:pointer;color:var(--dim)">✕</b></span>`).join("");
+}
+$("#attachRow").addEventListener("click",e=>{ const rm=e.target.getAttribute("data-rm"); if(rm!==null){ attachments.splice(+rm,1); renderAttach(); } });
+$("#attachBtn").addEventListener("click",()=>$("#fileInput").click());
+$("#fileInput").addEventListener("change",async e=>{
+  const files=Array.from(e.target.files||[]); e.target.value="";
+  for(const f of files){
+    setStatus("carico "+f.name+"…",true);
+    try{
+      const buf=await f.arrayBuffer();
+      const r=await fetch("/upload?t="+encodeURIComponent(T),{method:"POST",headers:{"X-Filename":encodeURIComponent(f.name),"Content-Type":"application/octet-stream"},body:buf});
+      const j=await r.json();
+      if(j.ok){ attachments.push({path:j.path,name:j.name}); renderAttach(); }
+      else setStatus("errore upload: "+(j.error||""),false);
+    }catch(err){ setStatus("errore upload",false); }
+  }
+  setStatus("pronto",true);
+});
+function regenerate(){ if(running||!lastUser) return; stick=true; setRunning(true); setStatus("rigenero…",true); api("/send",{ prompt:lastUser, mode, model:$("#model").value, provider:$("#provider").value, channel:"normal" }); }
+function newChat(){ api("/newChat",{}); closeDrawer(); }
+
+/* ---- cassetto chat salvate ---- */
+function openDrawer(){ $("#drawer").classList.add("open"); $("#overlay").classList.add("open"); }
+function closeDrawer(){ $("#drawer").classList.remove("open"); $("#overlay").classList.remove("open"); }
+function renderConvList(list){
+  const box=$("#convList"); box.innerHTML="";
+  (list||[]).forEach(c=>{
+    const el=document.createElement("div"); el.className="conv"+(c.active?" active":"");
+    el.innerHTML='<span class="ct"></span><button class="cd" title="Elimina">🗑</button>';
+    el.querySelector(".ct").textContent=c.title||"Nuova chat";
+    el.querySelector(".ct").onclick=()=>{ api("/switch",{id:c.id}); closeDrawer(); };
+    el.querySelector(".cd").onclick=(e)=>{ e.stopPropagation(); if(confirm("Eliminare questa chat?")) api("/delete",{id:c.id}); };
+    box.appendChild(el);
+  });
+}
+
+/* ---- SSE ---- */
+// Su telefono, quando cambi pagina/app la connessione SSE viene sospesa e spesso
+// NON si riaggancia da sola: al ritorno restavi con una chat vecchia. Ora, appena
+// la pagina torna visibile (o riprende il focus), se il canale è chiuso lo
+// riapriamo: il server rimanda subito history + elenco chat → contesto ripristinato.
+let ev=null, reconnTimer=null;
+function connect(){
+  if(ev){ try{ ev.close(); }catch(_){} }
+  ev=new EventSource("/events?t="+encodeURIComponent(T));
+  ev.onopen=()=>setStatus("pronto",true);
+  ev.onmessage=e=>{ try{ onMsg(JSON.parse(e.data)); }catch(_){} };
+  ev.onerror=()=>{
+    setStatus("riconnessione…",false);
+    // EventSource riprova da solo sugli errori transitori, ma se il canale è
+    // rimasto CHIUSO (es. dopo lo sblocco del telefono) lo riapriamo noi.
+    clearTimeout(reconnTimer);
+    reconnTimer=setTimeout(()=>{ if(!ev || ev.readyState===2) connect(); }, 1500);
+  };
+}
+function ensureConnected(){ if(!ev || ev.readyState===2) connect(); }
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible") ensureConnected(); });
+window.addEventListener("focus",ensureConnected);
+window.addEventListener("pageshow",ensureConnected);
+let CATALOG={local:[],claude:[],hermes:[],nous:[],cloud:[],cloudUnc:[],cloudNorm:[],provMeta:{}};
+async function loadModels(){
+  try{
+    const r=await fetch("/models?t="+encodeURIComponent(T)); const j=await r.json();
+    CATALOG.local=j.models||[];
+    CATALOG.claude=(j.claude&&j.claude.models)||[];
+    // ★ 2026-07-19 — modelli CLOUD tenuti SEPARATI per gruppo: prima i SENZA
+    // CENSURA, poi i normali. Sono quelli VERI trovati dalla discovery live sui
+    // provider dove hai la chiave — non inventati.
+    {
+      const ch=(j.cloud&&j.cloud.channels)||{normal:[],uncensored:[]};
+      CATALOG.provMeta=ch.providers||{};   // nome + gratuità di ogni provider (dal motore)
+      const seen=new Set(); CATALOG.cloudUnc=[]; CATALOG.cloudNorm=[];
+      for(const m of (ch.uncensored||[])){ if(!m||seen.has(m.value))continue; seen.add(m.value);
+        CATALOG.cloudUnc.push({value:m.value,label:m.label||m.value,provider:m.provider,free:!!m.free}); }
+      for(const m of (ch.normal||[])){ if(!m||seen.has(m.value))continue; seen.add(m.value);
+        // molti "normali" sono in realtà abliterated/uncensored: si capisce dal nome
+        const unc=/abliterat|uncensored|dolphin|hermes|venice/i.test(m.value||"");
+        (unc?CATALOG.cloudUnc:CATALOG.cloudNorm).push({value:m.value,label:m.label||m.value,provider:m.provider,free:!!m.free}); }
+      CATALOG.cloud=CATALOG.cloudUnc.concat(CATALOG.cloudNorm);
+    }
+    CATALOG.hermes=(j.hermes&&j.hermes.models)||[];
+    CATALOG.nous=(j.nous&&j.nous.models)||[];
+    // Modelli NOUS (free) fusi dentro Hermes: niente provider a parte. Li mostriamo
+    // anche nella sezione Manutenzione (branch generico sotto). Il value resta
+    // "nous::..." così l'orchestratore li instrada al motore Nous diretto.
+    if(CATALOG.nous.length){
+      /* Senza doppioni: da quando anche hermesClient espone SOLO i 4 modelli :free,
+         le due liste si sovrappongono (stesso value "nous::org/nome:free") e il menu
+         mostrava ogni modello due volte. */
+      const gia=new Set(CATALOG.hermes.map(m=>m.value));
+      for(const m of CATALOG.nous){ if(!gia.has(m.value)){ gia.add(m.value); CATALOG.hermes.push({value:m.value, label:"🜂 "+m.label}); } }
+    }
+    // Il provider Claude compare solo se la CLI è davvero installata sul PC.
+    if(j.claude&&j.claude.available&&!$("#provider").querySelector('option[value="claude"]')){
+      const o=document.createElement("option"); o.value="claude"; o.textContent="🤖 Claude Code";
+      $("#provider").appendChild(o);
+    }
+    // Provider Hermes: compare solo se Hermes è installato sul PC.
+    if(j.hermes&&j.hermes.available&&!$("#provider").querySelector('option[value="hermes"]')){
+      const o=document.createElement("option"); o.value="hermes"; o.textContent="🜂 Hermes";
+      $("#provider").appendChild(o);
+    }
+    if(j.claude&&j.claude.limit) renderLimit(j.claude.limit);
+    fillModels();
+    if(j.policy) $("#policy").value=j.policy;
+  }catch(_){}
+}
+/* I modelli mostrati dipendono dal provider scelto (locali, Claude o Hermes).
+   Hermes porta i SUOI modelli (Ollama + i provider cloud che ha configurato) e la
+   sua lista contiene già le voci "Auto" e "Auto — senza censura": la usiamo intera. */
+function fillModels(){
+  const p=$("#provider").value, sel=$("#model");
+  if(p==="hermes"){
+    sel.innerHTML=""; fillProviders([]);   // Hermes porta la sua lista già pronta
+    const list = CATALOG.hermes.length ? CATALOG.hermes : [{value:"auto",label:"Modello: Auto"}];
+    list.forEach(m=>{ const o=document.createElement("option"); o.value=m.value; o.textContent=m.label; sel.appendChild(o); });
+    return;
+  }
+  // ★ 2026-07-24 — DUE SELETTORI SEPARATI, uguali per TUTTE le funzioni:
+  //   #llmProvider → CHI ospita il modello (alfabetico, con 🆓 o 💳 reale)
+  //   #model       → i modelli DI QUEL provider (alfabetico, sempre dal catalogo
+  //                  aggiornato da solo), ciascuno con la sua etichetta.
+  // Gratis/a pagamento NON è più deciso qui: arriva dal motore (campo `free`),
+  // che è l'unico a saperlo davvero. Prima un elenco scritto a mano nella pagina
+  // marcava "a pagamento" ogni provider nuovo (GitHub e Cloudflare, che sono gratis).
+  sel.innerHTML="";
+  const addOpt=(par,v,t)=>{ const o=document.createElement("option"); o.value=v; o.textContent=t; par.appendChild(o); };
+  const provOf=(v)=>{ const s=String(v||""); const i=s.indexOf("::"); return i>=0?s.slice(0,i):""; };
+  const byLabel=(x,y)=>(x.label||x.value).localeCompare(y.label||y.value);
+
+  if(p==="claude"){ fillProviders([]); addOpt(sel,"auto","Modello: Auto"); addGrp(sel,"🤖 Claude",CATALOG.claude); return; }
+
+  // Elenco unico di TUTTI i modelli disponibili, con provider e gratuità.
+  const all=[];
+  (CATALOG.cloudUnc||[]).concat(CATALOG.cloudNorm||[]).forEach(m=>{ if(m&&m.value!=="auto") all.push({value:m.value,label:m.label||m.value,prov:m.provider||provOf(m.value)||"altro",free:!!m.free}); });
+  (CATALOG.local||[]).forEach(m=>{ if(m&&m.value!=="auto") all.push({value:m.value,label:m.label||m.value,prov:"ollama",free:true}); });
+  (CATALOG.nous||[]).forEach(m=>{ if(m&&m.value!=="auto") all.push({value:m.value,label:m.label||m.value,prov:"nous",free:true}); });
+
+  fillProviders(all);
+  const scelto=$("#llmProvider").value||"auto";
+  const lista=(scelto==="auto")?all:all.filter(m=>m.prov===scelto);
+
+  addOpt(sel,"auto","⚙️ Auto — sceglie il migliore (consigliato)");
+  if(scelto==="auto"){
+    // "tutti": resta il raggruppamento per provider, alfabetico, con 🆓/💳
+    const byProv={}; lista.forEach(m=>{ (byProv[m.prov]=byProv[m.prov]||[]).push(m); });
+    Object.keys(byProv).sort((a,b)=>provName(a).localeCompare(provName(b))).forEach(pr=>{
+      const g=document.createElement("optgroup");
+      const nFree=byProv[pr].filter(m=>m.free).length;
+      g.label=(nFree===byProv[pr].length?"🆓 ":(nFree?"🆓/💳 ":"💳 "))+provName(pr)+" ("+byProv[pr].length+")";
+      byProv[pr].sort(byLabel).forEach(m=>addOpt(g,m.value,(m.free?"🆓 ":"💳 ")+(m.label||m.value)));
+      sel.appendChild(g);
+    });
+  } else {
+    lista.sort(byLabel).forEach(m=>addOpt(sel,m.value,(m.free?"🆓 ":"💳 ")+(m.label||m.value)));
+    if(!lista.length) addOpt(sel,"auto","(nessun modello per questo provider)");
+  }
+}
+/* Nomi leggibili dei provider (per ordinare e mostrare). Il resto arriva dal server. */
+const PROV_NAMES={openrouter:"OpenRouter",groq:"Groq",cerebras:"Cerebras",nvidia:"NVIDIA",sambanova:"SambaNova",hf:"HuggingFace",google:"Gemini (Google)",mistral:"Mistral",hyperbolic:"Hyperbolic",kaggle:"Kaggle (tuo)",alibaba:"Alibaba Qwen",openai:"OpenAI",deepseek:"DeepSeek",nous:"Nous",novita:"Novita",chutes:"Chutes",cloudflare:"Cloudflare",github:"GitHub Models",ollama:"Ollama (locale)","ollama-cloud":"Ollama Cloud"};
+function provName(p){ const m=(CATALOG.provMeta||{})[p]; if(m&&m.name) return m.name; return PROV_NAMES[p]||(p?p.charAt(0).toUpperCase()+p.slice(1):"Altro"); }
+function addGrp(sel,nome,items){ if(!items||!items.length) return;
+  const g=document.createElement("optgroup"); g.label=nome+" ("+items.length+")";
+  items.slice().sort((a,b)=>(a.label||a.value).localeCompare(b.label||b.value)).forEach(m=>{ if(m.value!=="auto"){ const o=document.createElement("option"); o.value=m.value; o.textContent=m.label||m.value; g.appendChild(o);} });
+  sel.appendChild(g); }
+/* Riempie il selettore PROVIDER: ordine alfabetico, con quanti modelli ha e se è
+   gratis. Mantiene la scelta corrente se il provider esiste ancora. */
+function fillProviders(all){
+  const ps=$("#llmProvider"); if(!ps) return;
+  const prima=ps.value||"auto";
+  const conta={}, free={};
+  (all||[]).forEach(m=>{ conta[m.prov]=(conta[m.prov]||0)+1; if(m.free) free[m.prov]=(free[m.prov]||0)+1; });
+  ps.innerHTML="";
+  const o0=document.createElement("option"); o0.value="auto"; o0.textContent="Provider: tutti ("+(all||[]).length+")"; ps.appendChild(o0);
+  Object.keys(conta).sort((a,b)=>provName(a).localeCompare(provName(b))).forEach(pr=>{
+    const tot=conta[pr], nf=free[pr]||0;
+    const bollo = nf===tot ? "🆓" : (nf===0 ? "💳" : "🆓/💳");
+    const o=document.createElement("option"); o.value=pr;
+    o.textContent=bollo+" "+provName(pr)+" ("+tot+")";
+    ps.appendChild(o);
+  });
+  if([...ps.options].some(o=>o.value===prima)) ps.value=prima;
+}
+/* ---- limiti di utilizzo dell'abbonamento Claude (come li mostra Claude Code) ---- */
+function renderLimit(l){
+  if(!l) return;
+  const el=$("#climit");
+  const pct=l.percent||0;
+  el.textContent="🤖 "+pct+"% "+(l.label||"")+(l.overage?" · extra":"");
+  el.title="Limite "+(l.label||"")+" al "+pct+"%"+(l.resetsHuman?" · si azzera "+l.resetsHuman:"")+(l.status==="rejected"?" · LIMITE RAGGIUNTO":"");
+  el.className="hstat lim"+(l.status==="rejected"||pct>=100?" bad":(pct>=75?" warn":""));
+  el.style.display="";
+}
+
+/* ---- UI wiring ---- */
+sendBtn.onclick=send;
+input.addEventListener("keydown",e=>{ if(e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); send(); } });
+input.addEventListener("input",()=>{ input.style.height="auto"; input.style.height=Math.min(input.scrollHeight,180)+"px"; });
+/* ---- dettatura vocale (Web Speech API) ---- */
+// Parli e scrive nel campo. Su iPhone può non essere supportata: in quel caso il
+// pulsante si nasconde e resta la dettatura del microfono della tastiera di iOS.
+(function(){
+  const micBtn=$("#mic");
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){ micBtn.classList.add("hidden"); return; }
+  let rec=null, listening=false, base="";
+  micBtn.onclick=()=>{
+    if(listening){ rec&&rec.stop(); return; }
+    rec=new SR(); rec.lang="it-IT"; rec.interimResults=true; rec.continuous=true;
+    base=input.value?input.value.replace(/\s*$/,"")+" ":"";
+    rec.onresult=e=>{ let t=""; for(let i=e.resultIndex;i<e.results.length;i++) t+=e.results[i][0].transcript; input.value=base+t; input.dispatchEvent(new Event("input")); };
+    rec.onend=()=>{ listening=false; micBtn.classList.remove("on"); };
+    rec.onerror=()=>{ listening=false; micBtn.classList.remove("on"); };
+    try{ rec.start(); listening=true; micBtn.classList.add("on"); input.focus(); }catch(_){}
+  };
+})();
+document.querySelectorAll(".chip[data-mode]").forEach(ch=>ch.onclick=()=>{ document.querySelectorAll(".chip[data-mode]").forEach(x=>x.classList.remove("on")); ch.classList.add("on"); mode=ch.dataset.mode; });
+$("#policy").addEventListener("change",e=>api("/policy",{policy:e.target.value}));
+$("#provider").addEventListener("change",fillModels);
+// Il selettore MODELLO si aggancia sempre al PROVIDER scelto: cambiando provider
+// si ricostruisce la lista dei suoi modelli (fresca, dal catalogo auto-aggiornato).
+$("#llmProvider").addEventListener("change",fillModels);
+$("#newChat").addEventListener("click",newChat);
+/* ---- contatore uso cloud + barre token per provider ---- */
+let _usageMonth=null;
+const PROV_SHORT={openrouter:"OpenRouter",groq:"Groq",google:"Gemini",nvidia:"NVIDIA",sambanova:"SambaNova",hyperbolic:"Hyperbolic",cerebras:"Cerebras",mistral:"Mistral",alibaba:"Qwen",hf:"HF",deepseek:"DeepSeek",openai:"OpenAI",anthropic:"Claude"};
+function renderUsage(u){
+  if(!u) return;
+  const el=$("#usage");
+  const req=u.requests||0, tok=u.totalTokens||0, cost=u.estCostUsd||0;
+  el.textContent="☁ "+req+" · "+(tok/1000).toFixed(1)+"k"+(cost>0?" · $"+cost.toFixed(3):"");
+  el.style.display=req?"":"none";
+  // "Comunicazione di quando si azzera": al cambio mese avvisa in barra di stato.
+  if(_usageMonth && u.month && u.month!==_usageMonth) setStatus("🔄 Uso mensile dei token azzerato — riparti da zero",true);
+  _usageMonth=u.month||_usageMonth;
+  renderProvBars(u);
+}
+// Barre token per provider: si riempiono col REALE consumo del mese (relativo al
+// provider più usato), con l'etichetta in token e quando si azzerano.
+function renderProvBars(u){
+  const box=$("#provBars"); if(!box) return;
+  const pp=u.perProvider||{};
+  const entries=Object.entries(pp).filter(e=>(e[1].totalTokens||0)>0).sort((a,b)=>(b[1].totalTokens||0)-(a[1].totalTokens||0));
+  if(!entries.length){ box.innerHTML='<span style="font-size:11px;color:var(--dim)">token cloud: 0 · si azzera '+esc(u.resetsHuman||"a inizio mese")+'</span>'; return; }
+  const max=entries[0][1].totalTokens||1;
+  box.innerHTML=entries.map(e=>{
+    const prov=e[0], t=e[1].totalTokens||0, pct=Math.max(5,Math.round(t/max*100));
+    const name=PROV_SHORT[prov]||prov, lbl=t>=1000?(t/1000).toFixed(1)+"k":String(t);
+    return '<div class="pbar'+(pct>=80?' hot':'')+'" title="'+esc(name)+': '+t+' token questo mese · si azzera '+esc(u.resetsHuman||"")+'">'
+      +'<div class="pl"><b>'+esc(name)+'</b><span>'+lbl+'</span></div>'
+      +'<div class="pt"><div class="pf" style="width:'+pct+'%"></div></div></div>';
+  }).join("");
+}
+/* ---- esporta la conversazione in Markdown ---- */
+function exportChat(){
+  const rows=[...thread.querySelectorAll(".row")];
+  let md="# Conversazione Antigravity\n\n";
+  for(const r of rows){
+    const isUser=r.classList.contains("user");
+    const b=r.querySelector(isUser?".bubble":".md");
+    if(!b) continue;
+    md+=(isUser?"**Tu:** ":"**Antigravity:** ")+(b.innerText||b.textContent||"").trim()+"\n\n";
+  }
+  const blob=new Blob([md],{type:"text/markdown"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download="antigravity-chat.md";
+  document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(a.href);
+}
+$("#exportBtn").addEventListener("click",exportChat);
+// 🧹 Pulisci lo schermo su TUTTI i device SENZA cancellare la memoria: i messaggi
+// restano sul server (il modello continua a ricordarli), spariscono solo dalla vista.
+$("#clearBtn").addEventListener("click",()=>{ api("/clearView",{}); setStatus("schermo pulito · memoria intatta",true); });
+// ---- Comandi GPU Kaggle (terza riga) ----
+function kgSetBusy(busy){ for(const id of ["kgUp14","kgUp30","kgStatus","kgOff"]) { const el=document.getElementById(id); if(el) el.classList.toggle("busy",!!busy); } }
+function kgMsg(t){ const e=document.getElementById("kgStat"); if(e){ e.textContent=t; } }
+$("#kgUp14").addEventListener("click",async()=>{ kgSetBusy(true); kgMsg("🟡 Accendo Kaggle 14B…"); try{ const r=await fetch(apiUrl("/kaggle/up?size=14")); const j=await r.json(); kgMsg(j.ok?"✅ Kaggle 14B acceso.":(j.error||"⚠️ avvio 14B fallito")); }catch(e){ kgMsg("⚠️ "+e.message); } finally{ kgSetBusy(false); } });
+$("#kgUp30").addEventListener("click",async()=>{ kgSetBusy(true); kgMsg("🟡 Accendo Kaggle 30B…"); try{ const r=await fetch(apiUrl("/kaggle/up?size=30")); const j=await r.json(); kgMsg(j.ok?"✅ Kaggle 30B acceso.":(j.error||"⚠️ avvio 30B fallito")); }catch(e){ kgMsg("⚠️ "+e.message); } finally{ kgSetBusy(false); } });
+$("#kgStatus").addEventListener("click",async()=>{ kgMsg("🔵 controllo…"); loadKaggleQuota(); try{ const r=await fetch(apiUrl("/kaggle/status")); const j=await r.json(); kgMsg(j.up?"🟢 Kaggle ACCESO ("+(j.host||"")+")":"🔴 Kaggle spento"); }catch(e){ kgMsg("⚠️ "+e.message); } });
+// Ore quota GPU Kaggle (usate/totali della settimana + quando si azzerano).
+async function loadKaggleQuota(){
+  const el=document.getElementById("kgQuota"); if(!el) return;
+  try{ const r=await fetch(apiUrl("/kaggle/quota")); const q=await r.json();
+    // ★ 2026-07-30 — Sul telefono il tooltip non si vede (non c'è il mouse): se il
+    // token è scaduto va scritto NELLA pagina, altrimenti i tasti sembrano "rotti"
+    // senza motivo. Il perché e il rimedio finiscono nella riga di stato.
+    if(q&&q.authFailed){ el.textContent="⛔ token Kaggle scaduto"; el.title=q.hint||q.error; kgMsg(q.hint||q.error); return; }
+    if(!q||q.error){ el.textContent="⏱️ ore n/d"; if(q&&q.error) el.title=q.error; return; }
+    el.textContent="⏱️ "+q.usedH+"/"+q.totalH+"h · reset "+(q.reset||"?");
+    el.title="Ore GPU Kaggle: usate "+q.usedH+"h su "+q.totalH+"h ("+q.remainingH+"h rimaste). Si azzerano il "+(q.reset||"?")+".";
+  }catch(e){ el.textContent="⏱️ ore n/d"; }
+}
+setTimeout(loadKaggleQuota, 1500); // all'avvio, senza rallentare il caricamento
+$("#kgOff").addEventListener("click",async()=>{ kgMsg("🔴 spegnimento…"); try{ const r=await fetch(apiUrl("/kaggle/shutdown"),{method:"POST"}); const j=await r.json(); kgMsg(j.message||(j.ok?"✅ spento":"⚠️ impossibile spegnere")); if(j.url){ window.open(j.url,"_blank"); } }catch(e){ kgMsg("⚠️ "+e.message); } });
+$("#menuBtn").addEventListener("click",openDrawer);
+$("#overlay").addEventListener("click",closeDrawer);
+$("#drawerNew").addEventListener("click",newChat);
+document.addEventListener("click",e=>{
+  const ex=e.target.closest(".ex"); if(ex){ input.value=ex.dataset.ex; input.dispatchEvent(new Event("input")); input.focus(); return; }
+  const cp=e.target.closest(".cbcopy"); if(cp){ const c=decodeURIComponent(cp.dataset.code||""); navigator.clipboard&&navigator.clipboard.writeText(c); cp.textContent="Copiato ✓"; setTimeout(()=>cp.textContent="Copia",1400); }
+});
+
+/* ---- 🔑 Pannello Chiavi API (auto-rilevamento provider) ---- */
+let keyPick=null; // provider scelto/rilevato
+function openKeys(){ $("#keysDrawer").classList.add("open"); $("#keysOverlay").classList.add("open"); loadKeys(); }
+function closeKeys(){ $("#keysDrawer").classList.remove("open"); $("#keysOverlay").classList.remove("open"); }
+$("#keysBtn").addEventListener("click",openKeys);
+$("#keysClose").addEventListener("click",closeKeys);
+$("#keysOverlay").addEventListener("click",closeKeys);
+
+// ★ FEATURE C: dashboard stato — chiama /status e mostra cosa è vivo.
+$("#statusBtn").addEventListener("click", async () => {
+  const out = $("#statusOut");
+  out.style.display = "block";
+  out.textContent = "Controllo…";
+  try {
+    const r = await fetch("/status?t=" + encodeURIComponent(T));
+    const s = await r.json();
+    const e = s.engines || {};
+    const lines = [];
+    lines.push("🖥️ Server: " + (s.server ? "ON" : "OFF"));
+    lines.push("💻 Ollama locale: " + (e.local ? "ON" : "off") + "  (" + (s.models_local || 0) + " modelli)");
+    lines.push("☁️ Cloud HF: " + (e.cloud ? "ON" : "off"));
+    lines.push("🜂 Nous :free: " + (s.nous ? "ON" : "off"));
+    if (s.kaggle) lines.push("🧨 Kaggle: " + (s.kaggle.up ? "ON (" + (s.kaggle.slug || "") + ")" : "spento"));
+    lines.push("🧅 Tor: " + (s.tor || "n/a"));
+    lines.push("🔑 Chiavi configurate: " + (s.keys_configured || 0));
+    // GPU attiva (failover) + piattaforme cablate
+    try {
+      const g = await (await fetch("/gpu/failover?t=" + encodeURIComponent(T))).json();
+      if (g.ok) {
+        lines.push("🖥️ GPU attiva: " + (g.active && g.active.active ? g.active.active : "?"));
+        const cfg = (g.platforms || []).filter(p => p.configured).map(p => p.id);
+        lines.push("   piattaforme cablate: " + (cfg.length ? cfg.join(", ") : "solo Kaggle"));
+      }
+    } catch (_) {}
+    // Sotto-agenti attivi
+    lines.push("🤖 Sotto-agenti: Ghidra / ZW3D / Immagini / Web (attivi)");
+    // ★ 2026-07-30 — Qui c'era scritto "ON (auto-ripara + Hermes ogni 30min)":
+    // una stringa fissa che non leggeva niente. Il timer da 30 minuti non è mai
+    // esistito (l'unico setInterval del server è il keep-alive dell'SSE) e Hermes
+    // non veniva mai chiamato. Ora la riga dice lo stato vero, letto dalla coda.
+    try {
+      const q = await (await fetch("/bugHunter/queue?t=" + encodeURIComponent(T))).json();
+      const aperti = (q.tickets || []).filter(t => t.status !== "resolved").length;
+      lines.push("🐞 Cacciatore bug: scansione all'avvio del server e col bottone");
+      lines.push("   da sistemare a mano: " + (aperti ? aperti + " (delegabili a Hermes)" : "nessuno"));
+    } catch (_) { lines.push("🐞 Cacciatore bug: stato coda non leggibile"); }
+    out.textContent = lines.join("\n");
+  } catch (err) {
+    out.textContent = "Errore stato: " + err.message;
+  }
+});
+
+// ★ 2026-07-27 — CACCIATORE DI BUG INTERNO: bottone visibile. Lancia una scansione
+// + auto-riparazione (whitelist chiusa) e mostra il report. Se trova e sistema
+// problemi, lo dice; se tutto ok, conferma "sano".
+$("#bugHunterBtn").addEventListener("click", async () => {
+  const out = $("#bugHunterOut");
+  out.style.display = "block";
+  out.textContent = "🐞 Ispeziono l'applicazione e riparo se necessario…";
+  try {
+    const r = await fetch("/bugHunter/scan?fix=1&t=" + encodeURIComponent(T));
+    const j = await r.json();
+    if (!j.ok) { out.textContent = "⚠️ Cacciatore non disponibile: " + (j.error || ""); return; }
+    const lines = [];
+    lines.push("🐞 Scansione: " + (j.issues.length ? j.issues.length + " anomalie" : "nessuna anomalia"));
+    if (j.fixed > 0) lines.push("✅ Corretto/i da solo: " + j.fixed);
+    (j.fixes || []).forEach(f => lines.push("  ✓ " + f));
+    if (j.issues.length) j.issues.forEach(i => lines.push("  " + (i.severity === "high" ? "🔴" : i.severity === "medium" ? "🟠" : "🟡") + " [" + i.id + "] " + i.detail));
+    lines.push(j.issues.length === 0 ? "💚 App sana." : "⚠️ Alcune cose richiedono attenzione manuale.");
+    out.textContent = lines.join("\n");
+  } catch (err) { out.textContent = "Errore cacciatore: " + err.message; }
+  loadTickets();
+});
+
+// ★ 2026-07-30 — CODA TICKET, adesso collegata davvero. I problemi che il
+// cacciatore non sa riparare da solo finiscono qui, e da qui si mandano a Hermes
+// UNO ALLA VOLTA, premendo. Hermes ci mette minuti: il server risponde subito e
+// scrive la risoluzione nel ticket quando ha finito, per questo si ricarica.
+async function loadTickets() {
+  const box = $("#ticketBox"), list = $("#ticketList"), cnt = $("#ticketCount");
+  try {
+    const j = await (await fetch("/bugHunter/queue?t=" + encodeURIComponent(T))).json();
+    const aperti = (j.tickets || []).filter(t => t.status !== "resolved");
+    if (!aperti.length) { box.style.display = "none"; return; }
+    box.style.display = "block";
+    cnt.textContent = "(" + aperti.length + ")";
+    list.innerHTML = "";
+    for (const t of aperti) {
+      const occupato = t.status === "analyzing" || t.status === "applying";
+      const daApprovare = t.status === "awaiting-approval";
+      const card = document.createElement("div");
+      card.style.cssText = "background:var(--bg2);border:1px solid " + (daApprovare ? "var(--warn)" : "var(--line2)") + ";border-radius:9px;padding:8px;margin:6px 0;font-size:12px";
+      const testa = document.createElement("div");
+      testa.style.cssText = "color:var(--txt);margin-bottom:6px";
+      testa.textContent = (t.severity === "high" ? "🔴" : "🟠") + " [" + t.id + "] " + t.detail;
+      card.appendChild(testa);
+
+      // ★ 2026-07-30 — IL PUNTO DI TUTTO: qui leggi cosa stai per approvare.
+      // Hermes ha già analizzato e scritto causa / file / modifica / rischi.
+      if (t.plan) {
+        const et = document.createElement("div");
+        et.style.cssText = "color:var(--warn);font-weight:600;margin:6px 0 3px";
+        et.textContent = "Hermes propone di fare questo:";
+        card.appendChild(et);
+        const piano = document.createElement("div");
+        piano.style.cssText = "color:var(--txt);white-space:pre-wrap;background:var(--bg);border-radius:7px;padding:7px;margin-bottom:6px;max-height:320px;overflow:auto;font-family:monospace;font-size:11px";
+        piano.textContent = t.plan;
+        card.appendChild(piano);
+      }
+      // Se durante l'ANALISI ha toccato dei file (non doveva), lo vedi prima di approvare.
+      if (t.warnings && t.warnings.length) {
+        const w = document.createElement("div");
+        w.style.cssText = "color:var(--danger);white-space:pre-wrap;margin-bottom:6px";
+        w.textContent = "⚠️ In fase di analisi ha modificato dei file (non avrebbe dovuto):\n  " + t.warnings.join("\n  ");
+        card.appendChild(w);
+      }
+      if (t.resolution) {
+        const esito = document.createElement("div");
+        esito.style.cssText = "color:var(--dim);white-space:pre-wrap;margin-bottom:6px";
+        esito.textContent = t.resolution;
+        card.appendChild(esito);
+      }
+
+      const barra = document.createElement("div");
+      barra.style.cssText = "display:flex;gap:6px";
+      const bH = document.createElement("button");
+      bH.className = "btn sm"; bH.style.flex = "1";
+      if (occupato) {
+        bH.textContent = t.status === "analyzing" ? "🜂 Hermes sta analizzando…" : "🛠️ Hermes sta applicando…";
+        bH.disabled = true;
+      } else if (daApprovare) {
+        bH.textContent = "✅ Approva ed esegui";
+        bH.style.background = "var(--warn)"; bH.style.color = "#1a1d21";
+      } else {
+        bH.textContent = "🔍 Fai analizzare a Hermes";
+      }
+      bH.addEventListener("click", async () => {
+        if (occupato) return;
+        const rotta = daApprovare ? "/bugHunter/apply" : "/bugHunter/delegate";
+        bH.disabled = true; bH.textContent = daApprovare ? "🛠️ Avvio…" : "🔍 Invio…";
+        try {
+          const r = await (await fetch(rotta + "?t=" + encodeURIComponent(T), {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ file: t.file })
+          })).json();
+          if (!r.ok) { bH.textContent = "⚠️ " + (r.error || "invio fallito"); bH.disabled = false; return; }
+          loadTickets();
+        } catch (e) { bH.textContent = "⚠️ " + e.message; bH.disabled = false; }
+      });
+      const bC = document.createElement("button");
+      bC.className = "btn sm";
+      bC.textContent = daApprovare ? "✕ Rifiuta" : "✕ Chiudi";
+      bC.addEventListener("click", async () => {
+        if (daApprovare && !confirm("Rifiuti la proposta di Hermes e chiudi il ticket?")) return;
+        bC.disabled = true;
+        try {
+          await fetch("/bugHunter/close?t=" + encodeURIComponent(T), {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ file: t.file, resolution: daApprovare ? "Proposta rifiutata dall'utente." : "Chiuso a mano dall'utente." })
+          });
+          loadTickets();
+        } catch (e) { bC.disabled = false; }
+      });
+      barra.appendChild(bH); barra.appendChild(bC);
+      card.appendChild(barra);
+      list.appendChild(card);
+    }
+  } catch (_) { box.style.display = "none"; }
+}
+// Ricarica periodica finché c'è un ticket in lavorazione da Hermes.
+setInterval(() => { if ($("#ticketBox") && $("#ticketBox").style.display === "block") loadTickets(); }, 20000);
+loadTickets();
+
+// ★ 2026-07-27 — TASTO "TORNA INDIETRO": ripristina l'ultimo backup sano di un file.
+// Chiede quale file (default mobileServer.js, il cuore). Salva la versione attuale
+// prima di sovrascrivere (rollback.js non cancella mai senza salvataggio).
+$("#rollbackBtn").addEventListener("click", async () => {
+  const out = $("#bugHunterOut");
+  out.style.display = "block";
+  const name = prompt("Quale file vuoi ripristinare all'ultimo backup sano?\n(lascia vuoto per mobileServer.js)", "mobileServer.js");
+  if (!name) { out.textContent = "Annullato."; return; }
+  out.textContent = "↩️ Ripristino " + name + " dall'ultimo backup…";
+  try {
+    const r = await fetch("/rollback?t=" + encodeURIComponent(T), {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name })
+    });
+    const j = await r.json();
+    if (!j.ok) { out.textContent = "⚠️ Rollback non riuscito: " + (j.error || JSON.stringify(j.rollback)); return; }
+    const rb = j.rollback || {};
+    const lines = ["↩️ Ripristinato da: " + (rb.restoredFrom || "?")];
+    if (rb.backedUpCurrent) lines.push("📦 Versione attuale salvata in: " + rb.backedUpCurrent);
+    lines.push("🔄 Server in riavvio…");
+    out.textContent = lines.join("\n");
+  } catch (err) { out.textContent = "Errore rollback: " + err.message; }
+});
+
+async function loadKeys(){
+  try{
+    const r=await fetch("/keys?t="+encodeURIComponent(T)); const j=await r.json();
+    const act=$("#keysActive"), sug=$("#keysSuggest");
+    const configured=(j.providers||[]).filter(p=>p.configured);
+    // ★ 2026-07-27 — TUTTI gli id provider noti al registro (server): li usiamo per
+    // decidere quali proposte possono avere il bottone "Incolla qui" (= hanno una
+    // chiave da salvare). Prima era una whitelist scritta a mano che dimenticava i
+    // provider nuovi: ora è automatica dal registro, così ogni provider aggiunto
+    // lato server ottiene subito il tasto chiave senza toccare la pagina.
+    const knownIds=new Set((j.providers||[]).map(p=>p.id));
+    // ★ 2026-07-30 — formato della chiave per provider: la scheda del cacciatore
+    // dice COSA incollare (es. "Inizia con vck_") prima ancora che tu apra il sito.
+    const fmtById={}; (j.providers||[]).forEach(p=>{ if(p.keyFmt) fmtById[p.id]=p.keyFmt; });
+    // Lista provider gratuiti dal server: ora arriva LIVE (modelli realmente
+    // disponibili + budget residuo letto dagli header di rate-limit).
+    let fps=[];
+    try{ const rf=await fetch("/freeProviders?t="+encodeURIComponent(T)); const jf=await rf.json(); fps=jf.providers||[]; }catch(_){}
+    const liveById={}; (fps||[]).forEach(p=>{ liveById[p.id]=p; });
+    // ★ FEATURE 1: per OGNI provider configurato mostro indicatore vivo/morto/quota
+    // e un bottone VERIFICA che fa un probe live via POST /keys/check?provider=xxx.
+    act.innerHTML = configured.length ? configured.map(p=>{
+      const id=escapeAttr(p.id), lbl=escapeHtml(p.label);
+      // ★ 2026-07-24 — riga BUDGET: il limite vero dei piani free è al MINUTO
+      // (Cerebras 5/min con 2400/giorno). Mostrarlo evita di scambiare una raffica
+      // per "chiave esaurita".
+      const lv=liveById[p.id]||{}; const b=lv.budget||{};
+      const bits=[];
+      if(b.remainingDay!=null) bits.push("oggi restano "+b.remainingDay);
+      if(b.perMinute!=null) bits.push(b.perMinute+"/min");
+      if(b.busyForSec>0) bits.push("⏳ libero fra "+b.busyForSec+"s");
+      if(lv.health&&lv.health!=="ok"&&lv.health!=="no-key") bits.push(lv.health);
+      const budget=bits.length?`<div style="font-size:11px;color:var(--dim);flex-basis:100%">${escapeHtml(bits.join(" · "))}</div>`:"";
+      return `<div class="kp-row" data-pid="${id}">
+        <span class="kp-dot" id="dot-${id}" title="stato non verificato">⚪</span>
+        <span class="kp-name">${lbl} ${p.free?'<small style="color:var(--dim)">gratis</small>':''}</span>
+        <button class="btn sm kp-check" data-pid="${id}">Verifica</button>
+        <div class="kp-detail" id="det-${id}" style="font-size:12px;color:var(--dim);flex-basis:100%"></div>
+        ${budget}
+      </div>`;
+    }).join("") : '<div style="font-size:13px;color:var(--dim);padding:4px">Nessuna ancora. Usa il Cacciatore di taglie qui sotto.</div>';
+    // Wiring dei bottoni VERIFICA (delegation sulla lista).
+    act.querySelectorAll(".kp-check").forEach(b=>{
+      b.onclick=()=>checkProviderKey(b.dataset.pid);
+    });
+    // FEATURE 2 — "Cacciatore di taglie": provider gratuiti che NON hai (fps sopra).
+    const cfgIds=new Set(configured.map(p=>p.id));
+    // ★ 2026-07-23 — Il cacciatore di taglie propone SOLO i provider gratuiti che NON
+    // hai ancora (quelli già configurati sono sopra in "Configurati"): niente doppioni.
+    const newFps=(fps||[]).filter(p=>!cfgIds.has(p.id));
+    if(!newFps.length){ sug.innerHTML='<div style="font-size:13px;color:var(--dim);padding:4px">🎉 Hai già tutti i provider gratuiti che conosco. Ottimo!</div>'; }
+    else sug.innerHTML=newFps.map(p=>{
+      const id=escapeAttr(p.id), name=escapeHtml(p.name), url=escapeAttr(p.keyUrl||"#");
+      const unc=p.uncensored?' <span style="color:var(--ok)">· senza filtri</span>':'';
+      const models=(p.freeModels||[]).map(m=>escapeHtml(m)).join(", ");
+      // "Incolla qui" pre-imposta keyProvider SOLO se il provider esiste nel registro
+      // (ha una chiave da salvare); per i provider locali/uncensored non ha senso.
+      // ★ 2026-07-30 — la whitelist scritta a mano è sparita: knownIds (calcolato
+      // sopra dal registro) contiene TUTTI i provider che hanno una voce vera con
+      // endpoint e variabile .env, catalogo preconfigurato compreso. Ogni provider
+      // proposto dal cacciatore ottiene così il bottone "Incolla qui".
+      const canPaste=cfgIds.has(p.id)||knownIds.has(p.id);
+      const pasteBtn=canPaste?`<button class="btn sm kp-paste" data-pid="${id}">Incolla qui</button>`:"";
+      return `<div class="kp-free">
+        <div style="font-weight:600;font-size:13px">${name}${unc}</div>
+        <div style="font-size:12px;color:var(--dim);margin:3px 0">${escapeHtml(p.note||"")}</div>
+        ${models?`<div style="font-size:11px;color:var(--dim)">Free: ${models}</div>`:""}
+        ${fmtById[p.id]?`<div style="font-size:11px;color:var(--dim);margin-top:3px">🔑 Chiave: ${escapeHtml(fmtById[p.id])}</div>`:""}
+        <div style="margin-top:5px;display:flex;gap:6px;flex-wrap:wrap">
+          <a class="btn sm kp-link" href="#" data-url="${url}" data-pid="${id}" onclick="event.preventDefault(); if(this.dataset.pid) window.keyPick=this.dataset.pid; openTranslated(this.dataset.url);" style="color:var(--acc,#c96442)">Ottieni chiave ↗</a>
+          ${pasteBtn}
+        </div>
+      </div>`;
+    }).join("");
+    sug.querySelectorAll(".kp-paste").forEach(b=>{
+      b.onclick=()=>pasteHere(b.dataset.pid);
+    });
+  }catch(e){}
+}
+// ★ 2026-07-24 — CACCIA VERA: il cacciatore va ONLINE a cercare provider gratuiti
+// nuovi (fonte pubblica aggiornata di continuo) e propone solo quelli che non hai.
+// Non crea account: trova, mostra i limiti reali e ti dà il link per la chiave.
+const huntBtn=$("#huntBtn");
+if(huntBtn) huntBtn.addEventListener("click",async()=>{
+  const out=$("#huntOut"); if(!out) return;
+  huntBtn.disabled=true; out.innerHTML="🔎 caccia in corso…";
+  try{
+    const r=await fetch("/freeProviders/hunt?force=1&t="+encodeURIComponent(T));
+    const j=await r.json();
+    if(j.error){ out.innerHTML="⚠️ "+escapeHtml(j.error); huntBtn.disabled=false; return; }
+    const free=(j.nuovi||[]);
+    const card=p=>{
+      const models=(p.models||[]).slice(0,3).map(m=>escapeHtml(m)).join("<br>");
+      // ★ = citato come gratuito da PIÙ fonti indipendenti: il segnale anti-fregatura.
+      const bollo=p.confermato
+        ? '<span title="confermato da più fonti indipendenti" style="color:var(--ok,#2e8b57)">★ confermato</span>'
+        : '<span style="color:var(--dim)">1 sola fonte — verifica</span>';
+      return `<div class="kp-free">
+        <div style="font-weight:600;font-size:13px">${escapeHtml(p.name)}${p.knownId?' <small style="color:var(--dim)">(già nel registro, chiave mancante)</small>':''}</div>
+        <div style="font-size:11px;margin:2px 0">${bollo}</div>
+        ${models?`<div style="font-size:11px;color:var(--dim);margin:3px 0">${models}</div>`:""}
+        <div style="margin-top:5px"><a class="btn sm kp-link" href="#" data-url="${escapeAttr(p.url||'#')}" data-pid="${escapeAttr(p.knownId||'')}" onclick="event.preventDefault(); if(this.dataset.pid) window.keyPick=this.dataset.pid; openTranslated(this.dataset.url);" style="color:var(--acc,#c96442)">Ottieni chiave ↗</a></div>
+      </div>`;
+    };
+    out.innerHTML =
+      `<div style="margin-bottom:6px">Sondati <b>${j.total||0}</b> provider su <b>${(j.sources||[]).length}</b> fonti${j.stale?" (cache)":""}`
+      + (j.trialEsclusi?` · <b>${j.trialEsclusi}</b> scartati perché a credito di prova/pagamento`:"") + `.</div>`
+      + (free.length?`<div style="font-weight:600;margin:8px 0 4px">🆓 Gratis permanenti, non ancora tuoi</div>`+free.map(card).join("")
+                    :"🎉 Hai già tutti i provider gratuiti che risultano dalle fonti.");
+  }catch(e){ out.innerHTML="⚠️ caccia fallita: "+escapeHtml(e.message); }
+  huntBtn.disabled=false;
+});
+
+// ★ 2026-07-27 — Cacciatore di piattaforme GPU: confronta dove ospitare i TUOI
+// modelli abliterated (Kaggle/Colab/Modal/RunPod/HF) e mostra lo stato live di Kaggle.
+const gpuBtn=$("#gpuBtn");
+if(gpuBtn) gpuBtn.addEventListener("click",async()=>{
+  const out=$("#gpuOut"); if(!out) return;
+  gpuBtn.disabled=true; out.innerHTML="🚀 confronto piattaforme…";
+  try{
+    const r=await fetch("/gpuPlatforms?t="+encodeURIComponent(T));
+    const j=await r.json();
+    if(j.error){ out.innerHTML="⚠️ "+escapeHtml(j.error); gpuBtn.disabled=false; return; }
+    const card=p=>{
+      const tag = p.kind==="free" ? "🟢 gratis" : p.kind==="freemium" ? "🟡 freemium" : "🔴 a pagamento";
+      const gpu = p.freeGpu ? "🖥️ GPU gratis" : "💸 GPU a pagamento";
+      const on  = p.alwaysOn ? "🔆 sempre acceso" : "💤 si addormenta";
+      const unc = p.uncensoredOk ? "✅ modelli senza filtri OK" : "⛔ no modelli vietati (termini)";
+      const pros=(p.pros||[]).map(x=>"✔️ "+escapeHtml(x)).join("<br>");
+      const cons=(p.cons||[]).map(x=>"➖ "+escapeHtml(x)).join("<br>");
+      const stato = p.statusNote ? `<div style="font-size:11px;margin:3px 0">${escapeHtml(p.statusNote)}</div>` : "";
+      return `<div class="kp-free">
+        <div style="font-weight:600;font-size:13px">${escapeHtml(p.name)}</div>
+        <div style="font-size:11px;margin:2px 0">${tag} · ${gpu} · ${on} · ${unc}</div>
+        ${stato}
+        <div style="font-size:11px;color:var(--dim);margin:3px 0"><b>Costo:</b> ${escapeHtml(p.costo||"-")}</div>
+        <div style="font-size:11px;margin:3px 0">${pros}</div>
+        <div style="font-size:11px;color:var(--dim);margin:3px 0">${cons}</div>
+        <div style="font-size:11px;color:var(--dim);margin:3px 0">${escapeHtml(p.howto||"")}</div>
+        ${p.url?`<div style="margin-top:5px"><a class="btn sm" href="#" data-url="${escapeAttr(p.url)}" onclick="event.preventDefault(); openTranslated(this.dataset.url);" style="color:var(--acc,#c96442)">Vai al sito ↗</a></div>`:""}
+      </div>`;
+    };
+    let html2 = `<div style="font-size:11px;margin-bottom:6px">Dove ospitare i TUOI modelli abliterated (GPU). Non sono provider API: qui PORTI il modello tuo.</div>`;
+    html2 += (j.platforms||[]).map(card).join("");
+    if(j.kaggle && j.kaggle.quota && !j.kaggle.quota.error){
+      const q=j.kaggle.quota;
+      html2 += `<div style="font-size:11px;color:var(--dim);margin-top:6px">📊 Quota Kaggle: ${escapeHtml(String(q.remainingH))}/${escapeHtml(String(q.totalH))}h rimaste (reset ${escapeHtml(String(q.reset||"-"))})</div>`;
+    }
+    out.innerHTML=html2;
+  }catch(e){ out.innerHTML="⚠️ confronto fallito: "+escapeHtml(e.message); }
+  gpuBtn.disabled=false;
+});
+
+// ★ 2026-07-27 — Tab del cacciatore (Provider / Senza filtri / Piattaforme):
+// mostra solo il pannello scelto e tiene il pulsante evidenziato.
+document.querySelectorAll(".tab").forEach(tab=>{
+  tab.addEventListener("click",()=>{
+    const which=tab.dataset.tab;
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+    tab.classList.add("active");
+    document.querySelectorAll(".huntPanel").forEach(p=>{
+      p.style.display = (p.dataset.panel===which) ? "block" : "none";
+    });
+  });
+});
+
+// ★ 2026-07-27 — Scheda "Senza filtri": chiama la caccia passando ?uncensored=1,
+// così il server propone SOLO provider/modelli abliterated/uncensored.
+const huntUncBtn=$("#huntUncBtn");
+if(huntUncBtn) huntUncBtn.addEventListener("click",async()=>{
+  const out=$("#uncOut"); if(!out) return;
+  huntUncBtn.disabled=true; out.innerHTML="🔎 caccia senza filtri in corso…";
+  try{
+    const r=await fetch("/freeProviders/hunt?force=1&uncensored=1&t="+encodeURIComponent(T));
+    const j=await r.json();
+    if(j.error){ out.innerHTML="⚠️ "+escapeHtml(j.error); huntUncBtn.disabled=false; return; }
+    const free=(j.nuovi||[]);
+    const card=p=>{
+      const models=(p.models||[]).slice(0,3).map(m=>escapeHtml(m)).join("<br>");
+      const bollo=p.confermato
+        ? '<span title="confermato da più fonti" style="color:var(--ok,#2e8b57)">★ confermato</span>'
+        : '<span style="color:var(--dim)">1 sola fonte — verifica</span>';
+      return `<div class="kp-free">
+        <div style="font-weight:600;font-size:13px">${escapeHtml(p.name)}${p.knownId?' <small style="color:var(--dim)">(già nel registro, chiave mancante)</small>':''}</div>
+        <div style="font-size:11px;margin:2px 0">${bollo} · <span style="color:var(--ok)">senza filtri</span></div>
+        ${models?`<div style="font-size:11px;color:var(--dim);margin:3px 0">${models}</div>`:""}
+        <div style="margin-top:5px"><a class="btn sm" href="#" data-url="${escapeAttr(p.url||'#')}" data-pid="${escapeAttr(p.knownId||'')}" onclick="event.preventDefault(); if(this.dataset.pid) window.keyPick=this.dataset.pid; openTranslated(this.dataset.url);" style="color:var(--acc,#c96442)">Ottieni chiave ↗</a></div>
+      </div>`;
+    };
+    out.innerHTML =
+      `<div style="margin-bottom:6px">Sondati <b>${j.total||0}</b> provider su <b>${(j.sources||[]).length}</b> fonti${j.stale?" (cache)":""}.</div>`
+      + (free.length?`<div style="font-weight:600;margin:8px 0 4px">🔓 Senza filtri, non ancora tuoi</div>`+free.map(card).join("")
+                    :"🎉 Nessun provider senza filtri nuovo dalle fonti.");
+  }catch(e){ out.innerHTML="⚠️ caccia fallita: "+escapeHtml(e.message); }
+  huntUncBtn.disabled=false;
+});
+
+// ★ 2026-07-27 — "Ottieni chiave" sempre in ITALIANO: passa l'URL al traduttore
+// Google così anche i siti cinesi/inglesi/russi si aprono tradotti. Se il
+// traduttore non risponde, apre il link originale (mai bloccare l'utente).
+async function openTranslated(url){
+  if(!url||url==="#"){ return; }
+  try{
+    const r=await fetch("/translate?u="+encodeURIComponent(url)+"&t="+encodeURIComponent(T));
+    const j=await r.json();
+    if(j.url) window.open(j.url,"_blank","noopener"); else window.open(url,"_blank","noopener");
+  }catch(_){ window.open(url,"_blank","noopener"); }
+}
+// Intercetta TUTTI i link "Ottieni chiave" del cacciatore (delegation).
+document.addEventListener("click",e=>{
+  const a=e.target.closest('a.kp-link, a[href*="keyUrl"], .kp-free a.btn');
+  if(a && a.dataset.translate!=="0"){
+    const href=a.getAttribute("href");
+    if(href && !href.startsWith("#")){ e.preventDefault(); openTranslated(href); }
+  }
+});
+
+// FEATURE 1 — probe live della chiave di un provider configurato.
+async function checkProviderKey(pid){
+  const dot=$("#dot-"+pid), det=$("#det-"+pid), btn=document.querySelector('.kp-check[data-pid="'+pid+'"]');
+  if(!dot) return;
+  dot.textContent="🟡"; dot.style.color="var(--warn,#b8860b)"; if(det) det.textContent="verifica in corso…"; if(btn) btn.disabled=true;
+  try{
+    const r=await fetch("/keys/check?provider="+encodeURIComponent(pid)+"&t="+encodeURIComponent(T));
+    const j=await r.json();
+    const map={live:["🟢","var(--ok,#2e8b57)"],dead:["🔴","var(--err,#c0392b)"],quota:["🟠","var(--warn,#b8860b)"]};
+    const m=map[j.status]||["⚪","var(--dim)"];
+    dot.textContent=m[0]; dot.style.color=m[1];
+    if(det) det.textContent=(j.detail||j.status||"");
+  }catch(e){ dot.textContent="⚪"; if(det) det.textContent="errore rete"; }
+  if(btn) btn.disabled=false;
+}
+// FEATURE 2 — "Incolla qui": porta il focus su keyInput e pre-imposta il provider.
+function pasteHere(pid){
+  // ★ 2026-07-30 — elenco COMPLETO (catalogo incluso) già preselezionato sul
+  // provider che hai scelto dal cacciatore: incolli la chiave e salvi.
+  fillProviderSelect(pid).catch(()=>{});
+  keyPick=pid;
+  const ki=$("#keyInput"); if(ki){ ki.focus(); ki.scrollIntoView({block:"center"}); }
+  const det=$("#keyDetect"); if(det) det.innerHTML='<span style="color:var(--acc,#c96442)">Incolla la chiave di <b>'+escapeHtml(pid)+'</b> qui sopra.</span>';
+}
+function escapeHtml(s){ return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function escapeAttr(s){ return String(s==null?"":s).replace(/"/g,"&quot;"); }
+// ★ 2026-07-30 — SELETTORE MANUALE COMPLETO. Prima il select veniva riempito solo
+// coi candidati del rilevamento (quindi quasi sempre vuoto) oppure con la lista
+// dei 25 provider scritti a mano: se incollavi la chiave di un provider proposto
+// dal cacciatore ma non presente lì, non c'era modo di salvarla. Ora contiene
+// SEMPRE tutti i provider del registro (catalogo preconfigurato incluso),
+// divisi in "gratis" e "a pagamento", col formato della chiave nel titolo e
+// ⚠️ sui provider il cui endpoint va confermato con "Verifica".
+let _allProvs=null;
+async function allProviders(){
+  if(_allProvs) return _allProvs;
+  try{ const r=await fetch("/keys?t="+encodeURIComponent(T)); const j=await r.json(); _allProvs=j.providers||[]; }
+  catch(_){ _allProvs=[]; }
+  return _allProvs;
+}
+async function fillProviderSelect(preselect){
+  const sel=$("#keyProvider"); if(!sel) return null;
+  const list=await allProviders();
+  if(!list.length) return preselect||null;
+  const opt=p=>`<option value="${escapeAttr(p.id)}" title="${escapeAttr(p.keyFmt||"")}">${escapeHtml(p.label)}${p.verified===false?" ⚠️":""}${p.configured?" ✓":""}</option>`;
+  const gratis=list.filter(p=>p.free), pagam=list.filter(p=>!p.free);
+  sel.innerHTML=(gratis.length?`<optgroup label="Gratis / piano free">${gratis.map(opt).join("")}</optgroup>`:"")
+              + (pagam.length?`<optgroup label="A pagamento o credito di prova">${pagam.map(opt).join("")}</optgroup>`:"");
+  if(preselect && list.some(p=>p.id===preselect)) sel.value=preselect;
+  sel.style.display="block";
+  return sel.value||null;
+}
+let keyTimer=null;
+$("#keyInput").addEventListener("input",()=>{
+  clearTimeout(keyTimer); const key=$("#keyInput").value.trim();
+  const det=$("#keyDetect"), selP=$("#keyProvider"), save=$("#keySave");
+  keyPick=null;
+  if(!key){ det.textContent=""; selP.style.display="none"; save.disabled=true; return; }
+  keyTimer=setTimeout(async()=>{
+    try{
+      const r=await api("/detectKey",{key}); const d=await r.json();
+      // ★ 2026-07-30 — AVVISO dal rilevatore (es. token Google "AQ." temporaneo,
+      // che sembra una chiave ma scade in un'ora): lo mostriamo PRIMA di salvare,
+      // così non ti ritrovi il pannello che dichiara "chiave obsoleta" domani.
+      const warn=d.warn?`<div style="color:var(--warn,#b8860b);font-size:12px;margin-bottom:4px">⚠️ ${escapeHtml(d.warn)}</div>`:"";
+      if(d.warn && !d.best){
+        det.innerHTML=warn+'Se sai quello che fai puoi comunque scegliere il provider a mano:';
+        keyPick=await fillProviderSelect((d.candidates&&d.candidates[0]&&d.candidates[0].id)||null);
+        save.disabled=!keyPick; return;
+      }
+      if(d.best){
+        keyPick=d.best.id;
+        const altri=(d.candidates&&d.candidates.length>1)
+          ? 'Più provider usano questo formato: controlla che sia quello giusto.'
+          : 'Non è questo? Cambialo qui sotto: l\'elenco contiene tutti i provider.';
+        det.innerHTML=`Rilevato: <b>${escapeHtml(d.best.label)}</b> · endpoint <code>${escapeHtml(d.best.host+d.best.chatPath)}</code>${d.best.free?' · <span style="color:var(--ok)">gratis</span>':''}`
+          + (d.best.keyFmt?`<div style="font-size:11px;color:var(--dim);margin-top:2px">🔑 ${escapeHtml(d.best.keyFmt)}</div>`:"")
+          + `<div style="font-size:11px;color:var(--dim);margin-top:2px">${altri}</div>`;
+        // il selettore resta SEMPRE visibile e completo, preselezionato sul rilevato
+        keyPick = (await fillProviderSelect(d.best.id)) || d.best.id;
+      } else {
+        det.innerHTML='Provider non riconosciuto dal formato. Scegli manualmente (elenco completo):';
+        keyPick = await fillProviderSelect(null);
+      }
+      save.disabled = !keyPick;
+    }catch(e){
+      det.innerHTML='Non riesco a contattare il rilevatore. Scegli manualmente (elenco completo):';
+      keyPick = await fillProviderSelect(null);
+      save.disabled = !keyPick;
+    }
+  },350);
+});
+$("#keyProvider").addEventListener("change",e=>{ keyPick=e.target.value; });
+$("#keySave").addEventListener("click",async()=>{
+  const key=$("#keyInput").value.trim(); if(!key) return;
+  $("#keySave").disabled=true; $("#keySave").textContent="Controllo…";
+  const selP=$("#keyProvider");
+  if(!keyPick && selP && selP.value) keyPick = selP.value;
+  if(!keyPick && selP && selP.options.length) keyPick = selP.options[0].value;
+  if(!keyPick){ $("#keyDetect").innerHTML='<span style="color:var(--err)">Errore: seleziona un provider prima di salvare.</span>'; $("#keySave").disabled=false; $("#keySave").textContent="Salva chiave"; return; }
+  try{
+    // ★ C2 — TEST CHIAVE LIVE prima di salvare: prova dal vivo il provider rilevato
+    // e mostra "funziona / scaduta / quota esaurita" PRIMA di confermare.
+    // Non blocca il salvataggio (anti-danno): se il probe fallisce o è lento,
+    // salva comunque ma avvisa.
+    let probeNote="";
+    if(keyPick){
+      try{
+        const pc=await fetch("/keys/check?provider="+encodeURIComponent(keyPick)+"&t="+encodeURIComponent(T));
+        const pj=await pc.json();
+        if(pj && pj.status){
+          const map={live:["🟢","funziona"],dead:["🔴","chiave morta/non valida"],quota:["🟠","quota esaurita/scaduta"]};
+          const m=map[pj.status]||["⚪",pj.status];
+          probeNote=` · ${m[0]} ${m[1]}`;
+        }
+      }catch(_){ probeNote=" · (test live saltato)"; }
+    }
+    $("#keySave").textContent="Salvo…";
+    const r=await api("/addKey",{key,provider:keyPick}); const j=await r.json();
+    if(j.ok){ $("#keyInput").value=""; $("#keyDetect").innerHTML='<span style="color:var(--ok)">✓ '+(j.label||j.provider)+' salvato e attivo.'+probeNote+'</span>'; $("#keyProvider").style.display="none"; _allProvs=null; loadKeys(); loadModels&&loadModels(); }
+    else $("#keyDetect").innerHTML='<span style="color:var(--err)">Errore: '+(j.error||"")+'</span>';
+  }catch(e){ $("#keyDetect").textContent="Errore di rete."; }
+  $("#keySave").textContent="Salva chiave"; $("#keySave").disabled=false;
+});
+/* ===== NAVIGATORE TOR ===== */
+// Siti .onion UFFICIALI e SICURI da cui partire (chi non conosce la rete parte
+// da qui). Sono le versioni onion verificate di servizi noti.
+const TOR_START=[
+  ["🦆 DuckDuckGo (ricerca)","https://duckduckgogg42xjoc72x3sjasowoarfbgcmvfimaftt6twagswzczad.onion/"],
+  ["📰 BBC News","https://www.bbcnewsd73hkzno2ini43t4gblxvycyac5aw4gnv7t2rccijh7745uqd.onion/"],
+  ["🔎 ProPublica","https://p53lf57qovyuvwsc6xnrppyply3vtqm7l6pcobkmyqsiofyeznfu5uqd.onion/"],
+  ["🧅 Tor Project","https://2gzyxa5ihm7nsggfxnu52rck2vv4rvmdlkiu3zzui5du4xyclen53wid.onion/"]
+];
+let torHistory=[];
+function torOpen(){ $("#torPanel").style.display="flex"; if(!$("#torContent").dataset.init){ torHome(); $("#torContent").dataset.init="1"; } }
+function torClose(){ $("#torPanel").style.display="none"; }
+function torHome(){
+  torHistory=[];
+  $("#torUrl").value="";
+  $("#torStatus").textContent="Rete Tor — scegli un sito sicuro per iniziare, o scrivi un indirizzo .onion";
+  const cards=TOR_START.map(([n,u])=>`<button class="btn" data-tor-url="${u}" style="display:block;width:100%;text-align:left;margin:6px 0;padding:12px">${n}</button>`).join("");
+  $("#torContent").innerHTML=`<div style="max-width:520px;margin:0 auto">
+    <div style="font-size:13px;color:var(--dim);margin-bottom:14px;line-height:1.5">🔒 Navighi attraverso Tor: il PC fa da tramite, il telefono non contatta nessun sito direttamente. Gli script dei siti sono disattivati per sicurezza. È un <b>lettore</b>: i siti semplici si vedono bene, quelli pieni di JavaScript no.</div>
+    <div style="font-weight:600;margin-bottom:6px">Punti di partenza sicuri</div>${cards}
+    <div style="font-size:12px;color:var(--dim);margin-top:16px">💡 Scrivi cosa cerchi nella barra in alto (es. «notizie anonime») e premi Vai: cerco per te su DuckDuckGo dentro Tor. Ogni pagina che apri viene <b>pre-analizzata</b> e ti avviso se c'è qualcosa di rischioso.</div>
+  </div>`;
+}
+// Banner del rischio in cima alla pagina (semaforo).
+function torRiskBanner(risk){
+  if(!risk||!risk.warnings||!risk.warnings.length) return "";
+  const col = risk.level==="pericolo" ? "#e05252" : (risk.level==="attenzione" ? "#d69e2e" : "#48bb78");
+  const ico = risk.level==="pericolo" ? "⛔ PERICOLO" : (risk.level==="attenzione" ? "⚠️ ATTENZIONE" : "✓");
+  return '<div style="border:1px solid '+col+';background:'+col+'18;border-radius:10px;padding:10px 12px;margin-bottom:14px;font-size:13px;line-height:1.5">'
+    +'<b style="color:'+col+'">'+ico+' — pre-analisi della pagina</b><ul style="margin:6px 0 0;padding-left:18px">'
+    +risk.warnings.map(x=>"<li>"+esc(x)+"</li>").join("")+'</ul></div>';
+}
+// Se il testo è un indirizzo → apri; altrimenti → CERCA su DuckDuckGo-onion.
+function torGoSmart(text){
+  text=(text||"").trim(); if(!text) return;
+  const looksUrl = /\.onion(\/|$)/i.test(text) || /^https?:\/\//i.test(text) || /\.[a-z]{2,}(\/|$)/i.test(text);
+  if(looksUrl){ torVisit(text); }
+  else { // ricerca: "voglio vedere siti di X" → cerca X su DuckDuckGo-onion
+    const q=text.replace(/^\s*(voglio vedere|cerca|trova|mostrami|siti( di)?)\s+/i,"").trim()||text;
+    $("#torStatus").textContent="🔎 Cerco «"+q+"» su DuckDuckGo (Tor)…";
+    torVisit("https://duckduckgogg42xjoc72x3sjasowoarfbgcmvfimaftt6twagswzczad.onion/html/?q="+encodeURIComponent(q));
+  }
+}
+async function torVisit(url){
+  if(!url) return;
+  $("#torStatus").textContent="🧅 Carico attraverso Tor… (può richiedere qualche secondo)";
+  $("#torContent").innerHTML='<div style="text-align:center;color:var(--dim);margin-top:40px">⏳ Connessione a Tor…</div>';
+  try{
+    const r=await fetch("/tor/page?u="+encodeURIComponent(url)+"&t="+encodeURIComponent(T));
+    const j=await r.json();
+    if(j.error){ $("#torStatus").textContent="⚠️ "+j.error; $("#torContent").innerHTML='<div style="color:var(--dim);margin-top:30px;text-align:center">'+esc(j.error)+'<br><br><button class="btn" onclick="torHome()">↩ Torna ai siti sicuri</button></div>'; return; }
+    torHistory.push(j.url);
+    $("#torUrl").value=j.url;
+    const rl=j.risk&&j.risk.level; $("#torStatus").textContent=(rl==="pericolo"?"⛔ ":rl==="attenzione"?"⚠️ ":"🧅 ")+(j.title||j.url);
+    $("#torContent").innerHTML=torRiskBanner(j.risk)+(j.html||"<i>(pagina vuota)</i>");
+    $("#torContent").scrollTop=0;
+  }catch(e){ $("#torStatus").textContent="⚠️ Errore di rete verso il server."; }
+}
+// clic su un link dentro una pagina Tor → riapre DENTRO Tor
+$("#torContent").addEventListener("click",e=>{
+  const a=e.target.closest("[data-tor-url]");
+  if(a){ e.preventDefault(); torVisit(a.getAttribute("data-tor-url")); }
+});
+$("#torBtn").onclick=torOpen;
+$("#torClose").onclick=torClose;
+$("#torGo").onclick=()=>torGoSmart($("#torUrl").value);
+$("#torUrl").addEventListener("keydown",e=>{ if(e.key==="Enter") torGoSmart($("#torUrl").value); });
+$("#torBack").onclick=()=>{ torHistory.pop(); const prev=torHistory.pop(); if(prev) torVisit(prev); else torHome(); };
+
+// ★ 2026-07-25 — Pulsante 🌓 (solo telefono): Automatico → Chiaro → Scuro.
+function themeIcon(mode){
+  var b=document.getElementById("themeBtn"); if(!b) return;
+  b.textContent = mode==="auto" ? "🌓" : mode==="light" ? "☀️" : "🌙";
+  b.title = mode==="auto" ? "Tema: automatico (segui il telefono)" : mode==="light" ? "Tema: chiaro (forzato)" : "Tema: scuro (forzato)";
+}
+if(document.documentElement.classList.contains("phone")){
+  themeIcon(window.__agThemeMode||"auto");
+  $("#themeBtn").addEventListener("click",function(){
+    var cur=window.__agThemeMode||"auto";
+    var next=cur==="auto"?"light":cur==="light"?"dark":"auto";
+    localStorage.setItem("ag-theme",next); window.__agThemeMode=next;
+    if(window.__agApplyTheme) window.__agApplyTheme(next);
+    themeIcon(next);
+  });
+}
+// ===== ★ 2026-07-30 — CANTIERE + PIATTAFORME ==============================
+// Il cantiere è la risposta a "me lo distruggono mentre lo costruisco": finché è
+// aperto, selfHeal / torna indietro / Hermes / la sync dell'estensione NON toccano
+// i file dichiarati. "Riprendi" rimanda al modello il punto esatto in cui eri.
+
+async function cantiereAggiorna(){
+  try{
+    const j = await (await fetch(apiUrl("/cantiere"))).json();
+    const c = j.cantiere || {};
+    const box = $("#cantiereStato");
+    if(!c.aperto){
+      box.textContent = "Nessun cantiere aperto: le manutenzioni automatiche sono libere di intervenire.";
+      $("#cantiereChiuso").style.display=""; $("#cantiereAperto").style.display="none";
+      return;
+    }
+    $("#cantiereChiuso").style.display="none"; $("#cantiereAperto").style.display="";
+    box.textContent =
+      "🔒 «"+c.titolo+"» — "+c.files.length+" file protetti, "+c.passi+" passi"
+      + (c.blocchi ? ", "+c.blocchi+" tentativi bloccati" : "")
+      + (c.sospeso ? "\n⚠️ fermo da più di 24h (resta protetto)" : "")
+      + (c.prossimo ? "\n➡️ prossimo: "+c.prossimo : "")
+      + (c.ultimoBlocco ? "\n🛡️ ultimo bloccato: "+c.ultimoBlocco.chi+" su "+c.ultimoBlocco.file : "");
+  }catch(e){ $("#cantiereStato").textContent = "Stato cantiere non leggibile: "+e.message; }
+}
+
+$("#cantApri").addEventListener("click", async () => {
+  const titolo = $("#cantTitolo").value.trim();
+  if(!titolo){ $("#cantiereStato").textContent = "Serve un titolo: è come ritrovi il lavoro quando riprendi."; return; }
+  const files = $("#cantFiles").value.split(",").map(s=>s.trim()).filter(Boolean);
+  try{
+    const r = await fetch(apiUrl("/cantiere/apri"), { method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ titolo, files, origine:"mobile" }) });
+    const j = await r.json();
+    if(j.nota) $("#cantiereStato").textContent = j.nota;
+    $("#cantTitolo").value=""; $("#cantFiles").value="";
+    cantiereAggiorna();
+  }catch(e){ $("#cantiereStato").textContent = "Errore: "+e.message; }
+});
+
+$("#cantSegna").addEventListener("click", async () => {
+  const testo = $("#cantPasso").value.trim();
+  if(!testo) return;
+  await fetch(apiUrl("/cantiere/passo"), { method:"POST", headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({ testo, prossimo: $("#cantProssimo").value.trim() || undefined }) });
+  $("#cantPasso").value="";
+  cantiereAggiorna();
+});
+
+// Un pulsante solo al posto di "procedi, continua, riprendi da dove ti eri
+// interrotto": il mandato lo ricostruisce il server dal diario e lo manda in coda.
+$("#cantRiprendi").addEventListener("click", async () => {
+  try{
+    const j = await (await fetch(apiUrl("/cantiere/ripresa")+"&invia=1")).json();
+    if(!j.ok) $("#cantiereStato").textContent = j.testo || "Nessun cantiere da riprendere.";
+  }catch(e){ $("#cantiereStato").textContent = "Errore: "+e.message; }
+});
+
+$("#cantChiudi").addEventListener("click", async () => {
+  if(!confirm("Chiudo il cantiere? Da quel momento le manutenzioni automatiche possono di nuovo toccare quei file.")) return;
+  await fetch(apiUrl("/cantiere/chiudi"), { method:"POST", headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({ esito: "chiuso dal telefono" }) });
+  cantiereAggiorna();
+});
+
+async function piattaformeAggiorna(){
+  const box = $("#piattElenco");
+  try{
+    const j = await (await fetch(apiUrl("/piattaforme/scelte"))).json();
+    box.innerHTML = "";
+    (j.piattaforme||[]).forEach(p => {
+      const riga = document.createElement("div");
+      riga.style.cssText = "display:flex;align-items:center;gap:6px;margin:4px 0;flex-wrap:wrap";
+      const et = document.createElement("span");
+      et.style.cssText = "flex:1;min-width:120px";
+      et.textContent = (p.stato==="acceso"?"🟢 ":p.cablata?"⚪ ":"🔧 ") + p.nome
+        + (p.uncensoredOk ? "" : " ⚠️ senza filtri vietati")
+        + (p.cablata ? "" : " (driver da scrivere)");
+      riga.appendChild(et);
+      if(p.cablata && p.configurato){
+        const on = document.createElement("button");
+        on.className="btn sm"; on.textContent = p.stato==="acceso" ? "spegni" : "accendi";
+        on.addEventListener("click", async () => {
+          on.disabled = true;
+          const rotta = p.stato==="acceso" ? "/piattaforme/spegni" : "/piattaforme/accendi";
+          try{ await fetch(apiUrl(rotta), { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ id: p.id }) }); }
+          finally{ on.disabled=false; piattaformeAggiorna(); }
+        });
+        riga.appendChild(on);
+      } else if(p.cablata){
+        const cfgb = document.createElement("button");
+        cfgb.className="btn sm"; cfgb.textContent="configura";
+        cfgb.addEventListener("click", async () => {
+          const d = await (await fetch(apiUrl("/piattaforme/domande")+"&id="+encodeURIComponent(p.id))).json();
+          const valori = {};
+          for(const c of (d.campi||[])){
+            const v = prompt(c.etichetta + "\n\nDove si prende:\n" + (c.dove||""), "");
+            if(v) valori[c.chiave] = v;
+          }
+          if(!Object.keys(valori).length) return;
+          const s = await (await fetch(apiUrl("/piattaforme/salva"), { method:"POST", headers:{"Content-Type":"application/json"},
+            body: JSON.stringify({ id: p.id, valori }) })).json();
+          alert(s.prossimo || s.error || "Salvato.");
+          piattaformeAggiorna();
+        });
+        riga.appendChild(cfgb);
+      }
+      box.appendChild(riga);
+    });
+    if(j.consigliata){
+      const n = document.createElement("div");
+      n.style.cssText="margin-top:6px;font-size:11px";
+      n.textContent = "Consigliata: " + j.consigliata.nome + " (gratis, sempre accesa, i tuoi modelli sono ammessi).";
+      box.appendChild(n);
+    }
+  }catch(e){ box.textContent = "Piattaforme non leggibili: "+e.message; }
+}
+$("#piattAggiorna").addEventListener("click", piattaformeAggiorna);
+
+cantiereAggiorna(); piattaformeAggiorna();
+setInterval(cantiereAggiorna, 60000);
+
+connect(); loadModels();
+</script>
+</body>
+</html>

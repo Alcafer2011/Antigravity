@@ -1,0 +1,10 @@
+{"t":"2026-07-30T15:46:43.334Z","tipo":"apertura","testo":"Prova","obiettivo":"verifica protezione","files":["_prova-cantiere-finto.js"]}
+{"t":"2026-07-30T15:46:43.342Z","tipo":"blocco","chi":"selfHeal","file":"_prova-cantiere-finto.js","testo":"tentativo di sovrascrittura bloccato"}
+{"t":"2026-07-30T15:46:43.348Z","tipo":"blocco","chi":"rollback (torna indietro)","file":"_prova-cantiere-finto.js","testo":"ripristino manuale dell'ultimo backup"}
+{"t":"2026-07-30T15:46:43.356Z","tipo":"blocco","chi":"rollback (torna indietro)","file":"_prova-cantiere-finto.js","testo":"ripristino manuale dell'ultimo backup"}
+{"t":"2026-07-30T15:46:47.210Z","tipo":"emergenza","file":"_prova-cantiere-finto.js","chi":"selfHeal","testo":"il file non compila: senza ripristino il server non parte"}
+{"t":"2026-07-30T15:46:47.218Z","tipo":"salvataggio","file":"_prova-cantiere-finto.js","testo":"versione non compilabile messa da parte prima della riparazione","dove":"C:\\Users\\infoa\\Antigravity\\src\\.cantiere\\ms7os5q8xtcl\\rotti\\_prova-cantiere-finto.js.ms7os8q9"}
+{"t":"2026-07-30T15:46:47.225Z","tipo":"blocco","chi":"Hermes","testo":"manutenzione rinviata: cantiere aperto"}
+{"t":"2026-07-30T15:46:47.328Z","tipo":"nota","testo":"corsia GPU appuntata su «modal»: il failover non la cambierà fino alla chiusura del cantiere"}
+{"t":"2026-07-30T15:46:47.335Z","tipo":"passo","testo":"scritto il modulo X","prossimo":"collegare la rotta Y"}
+{"t":"2026-07-30T15:46:47.340Z","tipo":"chiusura","testo":"prova finita"}

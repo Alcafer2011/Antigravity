@@ -1,0 +1,26 @@
+{
+  "id": "ms7os5q8xtcl",
+  "titolo": "Prova",
+  "obiettivo": "verifica protezione",
+  "prossimo": "collegare la rotta Y",
+  "origine": "mobile",
+  "files": [
+    "_prova-cantiere-finto.js"
+  ],
+  "stato": "chiuso",
+  "aperto": "2026-07-30T15:46:43.329Z",
+  "ultimoTocco": "2026-07-30T15:46:47.335Z",
+  "pinPiattaforma": "modal",
+  "passi": 1,
+  "blocchi": 4,
+  "sospeso": false,
+  "ultimoBlocco": {
+    "chi": "rollback (torna indietro)",
+    "file": "_prova-cantiere-finto.js",
+    "quando": "2026-07-30T15:46:43.356Z",
+    "motivo": "ripristino manuale dell'ultimo backup"
+  },
+  "ultimoPasso": "scritto il modulo X",
+  "chiuso": "2026-07-30T15:46:47.340Z",
+  "esito": "prova finita"
+}

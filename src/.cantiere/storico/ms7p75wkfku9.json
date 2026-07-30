@@ -1,0 +1,20 @@
+{
+  "id": "ms7p75wkfku9",
+  "titolo": "Prova dal vivo",
+  "obiettivo": "verifica",
+  "prossimo": "collegare la rotta Y",
+  "origine": "mobile",
+  "files": [
+    "_finto.js"
+  ],
+  "stato": "chiuso",
+  "aperto": "2026-07-30T15:58:23.396Z",
+  "ultimoTocco": "2026-07-30T15:58:23.480Z",
+  "pinPiattaforma": null,
+  "passi": 1,
+  "blocchi": 0,
+  "sospeso": false,
+  "ultimoPasso": "scritto il modulo",
+  "chiuso": "2026-07-30T15:58:23.927Z",
+  "esito": "prova dal vivo finita"
+}

@@ -1,0 +1,1123 @@
+comando	label_ribbon	form_dialogo	hint	descrizione
+CdAlgnPrt	CustomOp	CustomOp		
+CdCoolChnl	CdCoolChnl	CdCoolChnl		
+CdCorCavTrmPrt1	CustomOp	CustomOp		
+CdDefCorCavReg	CustomOp	CustomOp		
+CdEditMotion	CdEditMotion	CdEditMotion		
+CdFtrFcSplit	CustomOp	CustomOp		
+CdFtrFcSplit2	CustomOp	CustomOp		
+CdFtrPartSrf1	CustomOp	CustomOp		
+CdHolePlug	CdHolePlug	CdHolePlug		
+CdMSMTrans	CdMSMTrans	CdMSMTrans		
+CdMdAddLine	CdMdAddLine	CdMdAddLine		
+CdMdAirvent	CustomOp	CustomOp		
+CdMdAttr	CdMdAttr	CdMdAttr		
+CdMdBalBlock	CdMdBalBlock	CdMdBalBlock		
+CdMdCombComp	CdMdCombComp	CdMdCombComp		
+CdMdCompRef	CustomOp	CustomOp		
+CdMdCoordMov	CdMdCoordMov	CdMdCoordMov		
+CdMdCrPtFace	CdMdCrPtFace	CdMdCrPtFace		
+CdMdCustData	CustomOp	CustomOp		
+CdMdDefCCReg	CdMdDefCCReg	CdMdDefCCReg		
+CdMdDefCorCav	CdMdDefCorCav	CdMdDefCorCav		
+CdMdDowel	CdMdDowel	CdMdDowel		
+CdMdEGP	CdMdEGP	CdMdEGP		
+CdMdEPinAutoDraw	CdMdEPinAutoDraw	CdMdEPinAutoDraw		
+CdMdEditRunner	CdMdEditRunner	CdMdEditRunner		
+CdMdEditSurf	CdMdEditSurf	CdMdEditSurf		
+CdMdEjSleeves	CdMdEjSleeves	CdMdEjSleeves		
+CdMdEjectPin	CdMdEjectPin	CdMdEjectPin		
+CdMdElAutoDraw	CdMdElAutoDraw	CdMdElAutoDraw		
+CdMdEngrave	CustomOp	CustomOp		
+CdMdExportComp	CdMdExportComp	CdMdExportComp		
+CdMdExtStock	CdMdExtStock	CdMdExtStock		
+CdMdFlatEJP	CdMdFlatEJP	CdMdFlatEJP		
+CdMdFrame	CustomOp	CustomOp		
+CdMdGate	CustomOp	CustomOp		
+CdMdGerStd	CdMdGerStd	CdMdGerStd		
+CdMdGroove	CustomOp	CustomOp		
+CdMdGrooveProIn	CdMdGrooveProIn	CdMdGrooveProIn		
+CdMdGuideBlock	CdMdGuideBlock	CdMdGuideBlock		
+CdMdGuideLine	CdMdGuideLine	CdMdGuideLine		
+CdMdHolePatch	CdMdHolePatch	CdMdHolePatch		
+CdMdJoint	CdMdJoint	CdMdJoint		
+CdMdLayDtm	CdMdLayDtm	CdMdLayDtm		
+CdMdLayout	CustomOp	CustomOp		
+CdMdLayout2	CdMdLayout2	CdMdLayout2		
+CdMdLifter	CustomOp	CustomOp		
+CdMdLifterSet	CdMdLifterSet	CdMdLifterSet		
+CdMdLimPole	CdMdLimPole	CdMdLimPole		
+CdMdLocBSide	CdMdLocBSide	CdMdLocBSide		
+CdMdLocBTSide	CdMdLocBTSide	CdMdLocBTSide		
+CdMdLocBlock	CdMdLocBlock	CdMdLocBlock		
+CdMdLocRing	CdMdLocRing	CdMdLocRing		
+CdMdLoop	CustomOp	CustomOp		
+CdMdMerge	CustomOp	CustomOp		
+CdMdMoldBase	CdMdMoldBase	CdMdMoldBase		
+CdMdMoldEdit	CdMdMoldEdit	CdMdMoldEdit		
+CdMdMrkPtF	CustomOp	CustomOp		
+CdMdOilGroove	CustomOp	CustomOp		
+CdMdParLock	CdMdParLock	CdMdParLock		
+CdMdParaSlide	CdMdParaSlide	CdMdParaSlide		
+CdMdPartLines	CustomOp	CustomOp		
+CdMdPartLines2	CustomOp	CustomOp		
+CdMdPatchSrf	CustomOp	CustomOp		
+CdMdPocket	CdMdPocket	CdMdPocket		
+CdMdPrtSf2	CustomOp	CustomOp		
+CdMdPrtSfCrt	CdMdPrtSfCrt	CdMdPrtSfCrt		
+CdMdPullBlot	CdMdPullBlot	CdMdPullBlot		
+CdMdRefPocket	CustomOp	CustomOp		
+CdMdRefTrimEP	CdMdRefTrimEP	CdMdRefTrimEP		
+CdMdRegAutoDef	CdMdRegAutoDef	CdMdRegAutoDef		
+CdMdRegSeed	CdMdRegSeed	CdMdRegSeed		
+CdMdRing	CdMdJoint	CdMdJoint		
+CdMdRunner	CustomOp	CustomOp		
+CdMdScale	CustomOp	CustomOp		
+CdMdScrew	CdMdScrew	CdMdScrew		
+CdMdSetAt	CdMdSetAt	CdMdSetAt		
+CdMdSigCool	CustomOp	CustomOp		
+CdMdSimplify	CdMdSimplify	CdMdSimplify		
+CdMdSketch	CdMdSketch	CdMdSketch		
+CdMdSleeves	CdMdSleeves	CdMdSleeves		
+CdMdSlide	CustomOp	CustomOp		
+CdMdSpTypSet	CdMdSpTypSet	CdMdSpTypSet		
+CdMdSprBush	CdMdSprBush	CdMdSprBush		
+CdMdSpring	CdMdSpring	CdMdSpring		
+CdMdStdCopy	CdMdStdCopy	CdMdStdCopy		
+CdMdStdDel	CdMdStdDel	CdMdStdDel		
+CdMdStdEdit	CdMdStdEdit	CdMdStdEdit		
+CdMdStdLookup	CdMdStdLookup	CdMdStdLookup		
+CdMdStdMov	CdMdStdMov	CdMdStdMov		
+CdMdStdUpdate	CdMdStdUpdate	CdMdStdUpdate		
+CdMdStock	CdMdStock	CdMdStock		
+CdMdStock2	CustomOp	CustomOp		
+CdMdStopPin	CdMdStopPin	CdMdStopPin		
+CdMdSupPils	CdMdSupPils	CdMdSupPils		
+CdMdTPScrew	CdMdTPScrew	CdMdTPScrew		
+CdMdTenLinks	CdMdTenLinks	CdMdTenLinks		
+CdMdTrimEP	CustomOp	CustomOp		
+CdMdTrimEP1	CustomOp	CustomOp		
+CdMdTrimEP2	CdMdTrimEP2	CdMdTrimEP2		
+CdMdUserDefined	CdMdUserDefined	CdMdUserDefined		
+CdMdWeaBlock	CdMdWeaBlock	CdMdWeaBlock		
+CdMdWedLock	CdMdWedLock	CdMdWedLock		
+CdMdWell	CustomOp	CustomOp		
+CdMoldPatchSf	CdMoldPatchSf	CdMoldPatchSf		
+CdMoldRegAlz	CdMoldRegAlz	CdMoldRegAlz		
+CdMoldRegSplit	CdMoldRegSplit	CdMoldRegSplit		
+CdMotIsoComp	CdMotIsoComp	CdMotIsoComp		
+CdMotionBlank	CdMotionBlank	CdMotionBlank		
+CdMotionCmd	CdMotionCmd	CdMotionCmd		
+CdMotionNew	CdEditMotion	CdEditMotion		
+CdPrtLnShowGap	CdPrtLnShowGap	CdPrtLnShowGap		
+CdSplitCC	CustomOp	CustomOp		
+CdTRScale3D	CdScale3D	CdScale3D		
+CdTRStock	CustomOp	CustomOp		
+CdTrAlign	CustomOp	CustomOp		
+CdTrBreak	CustomOp	CustomOp		
+CdTrCavColor	CustomOp	CustomOp		
+CdTrCoreCave	CustomOp	CustomOp		
+CdTrCoreColor	CustomOp	CustomOp		
+CdTrEP1	CustomOp	CustomOp		
+CdTrEP2	CustomOp	CustomOp		
+CdTrHole1	CustomOp	CustomOp		
+CdTrHole2	CustomOp	CustomOp		
+CdTrHole3	CustomOp	CustomOp		
+CdTrImpPart	CdInsPart	CdInsPart		
+CdTrInsPart	CustomOp	CustomOp		
+CdTrInsPart2	CdTrMultCmp2	CdTrMultCmp2		
+CdTrMBAss2	CustomOp	CustomOp		
+CdTrMBase1	CustomOp	CustomOp		
+CdTrObjVis	CustomOp	CustomOp		
+CdTrPartPlane	CustomOp	CustomOp		
+CdTrSplite	CustomOp	CustomOp		
+CdTransform	CdTransform	CdTransform		
+DmPipFlow	DmPipFlow	DmPipFlow		
+Hrn2DFixViewSet	Hrn2DFixViewSet	Hrn2DFixViewSet		
+Hrn2DView	Hrn2DView	Hrn2DView		
+HrnActPart	HrnActPart	HrnActPart		
+HrnAtRtDebug	HrnAtRtDebug	HrnAtRtDebug		
+HrnAutoDimLin	HrnAutoDimLin	HrnAutoDimLin		
+HrnBranchCrt	HrnBranchCrt	HrnBranchCrt		
+HrnBranchMerge	HrnBranchMerge	HrnBranchMerge		
+HrnBundleTblCrt	HrnBundleTblCrt	HrnBundleTblCrt		
+HrnConnTblCrt	HrnConnTblCrt	HrnConnTblCrt		
+HrnContTblCrt	HrnContTblCrt	HrnContTblCrt		
+HrnDmLin	DmLin	DmLin		
+HrnDrawingDrag	HrnDrawingDrag	HrnDrawingDrag		
+HrnExtractPathKey	HrnExtractPathKey	HrnExtractPathKey		
+HrnGLConnTblCrt	HrnGLConnTblCrt	HrnGLConnTblCrt		
+HrnInqNum	HrnInqNum	HrnInqNum		
+HrnInsPnt	HrnInsPnt	HrnInsPnt		
+HrnLeadPath	HrnLeadPath	HrnLeadPath		
+HrnLeadPathSet	HrnLeadPathSet	HrnLeadPathSet		
+HrnMdRotSeg	HrnMdRotSeg	HrnMdRotSeg		
+HrnMdSrkSeg	HrnMdSrkSeg	HrnMdSrkSeg		
+HrnMgrScrollTo	HrnMgrScrollTo	HrnMgrScrollTo		
+HrnMtrlTblCrt	HrnMtrlTblCrt	HrnMtrlTblCrt		
+HrnNailBoard	HrnNailBoard	HrnNailBoard		
+HrnNailRegen	HrnNailRegen	HrnNailRegen		
+HrnNetworkMerge	HrnNetworkMerge	HrnNetworkMerge		
+HrnObjDeleteKey	HrnObjDeleteKey	HrnObjDeleteKey		
+HrnObjRename	HrnObjRename	HrnObjRename		
+HrnPin	HrnPin	HrnPin		
+HrnPubPort	HrnPubPort	HrnPubPort		
+HrnRefObjDeleteKey	HrnRefObjDeleteKey	HrnRefObjDeleteKey		
+HrnRemFromNetwork	HrnRemFromNetwork	HrnRemFromNetwork		
+HrnSegConcat	HrnSegConcat	HrnSegConcat		
+HrnSegReplace	HrnSegReplace	HrnSegReplace		
+HrnSegmentDel	HrnSegmentDel	HrnSegmentDel		
+HrnSelectPort	HrnSelectPort	HrnSelectPort		
+HrnStdPrtView	HrnStdPrtView	HrnStdPrtView		
+HrnStdTblCrt	HrnStdTblCrt	HrnStdTblCrt		
+HrnWireTblCrt	HrnWireTblCrt	HrnWireTblCrt		
+ID_!AnimAddAppKfrm	Animation			
+ID_!AnimAddMotor	Animation			
+ID_!AnimAddViewKfrm	Animation			
+ID_!AnimAlnKfrmCmd	Assembly			
+ID_!AnimBandAnal	Animation			
+ID_!AnimImportExp	Animation			
+ID_!AnimInferCrt	Animation			
+ID_!AnimNewAnimInst	Animation			
+ID_!AnimPosKfrmCmd	Animation			
+ID_!AnimTrkCrt	Animation			
+ID_!AsAlnAll2	Assembly			
+ID_!AsAlnFix	Assembly			
+ID_!AsMcmPulley	Assembly			
+ID_!AsMechAlnAll	Assembly			
+ID_!AsPipAlnAll	Piping			
+ID_!AsUnivAlign	Assembly			
+ID_!AsmExpAddStep	Exploded View			
+ID_!AsmExpAddTrail	Exploded View			
+ID_!AsmExpAutoTrail	Exploded View			
+ID_!AsmExpReuse	Exploded View			
+ID_!AsmExpViewAuto	Exploded View			
+ID_!AsmMirrorAll2	Assembly			
+ID_!AsmPtnAll	Assembly			
+ID_!AsmSwitchExp	Exploded View			
+ID_!CdAllCopy	Wireframe			
+ID_!CdAllMove	Wireframe			
+ID_!CdAnntTblCrt	Layout			
+ID_!CdAtPainter	Tools			
+ID_!CdAutoBalloon	Dimension			
+ID_!CdBalloonFtr	PMI			
+ID_!CdBlend2CrvsII	Sketch			
+ID_!CdBlend2CrvsII3	Wireframe			
+ID_!CdBlockAddTri	Point Cloud			
+ID_!CdBlockCurvePrjOnMesh	Point Cloud			
+ID_!CdBlockDelFace	Point Cloud			
+ID_!CdBlockDivEdge	Point Cloud			
+ID_!CdBlockDivMesh	Point Cloud			
+ID_!CdBlockFillHole	Point Cloud			
+ID_!CdBlockFlipEdge	Point Cloud			
+ID_!CdBlockFlipFace	Point Cloud			
+ID_!CdBomTblCrt	Layout			
+ID_!CdC3Drag	Sketch			
+ID_!CdCllctTsltNds	Point Cloud			
+ID_!CdClrChk	Assembly			
+ID_!CdCnsAll3DPrf	Sketch			
+ID_!CdCompExtract	Data Exchange			
+ID_!CdCompSetPart	Assembly			
+ID_!CdCr3dEllp	Wireframe			
+ID_!CdCrossSection	Point Cloud			
+ID_!CdCvCombTeeth	Inquire			
+ID_!CdCvCpDraw	Inquire			
+ID_!CdCvModII	Drawing			
+ID_!CdCvModII3D	Wireframe			
+ID_!CdCvModII3DPrf	Sketch			
+ID_!CdDeCopy	Direct Edit			
+ID_!CdDeMove	Direct Edit			
+ID_!CdDelTinyEdgs	Heal			
+ID_!CdDst2All	Inquire			
+ID_!CdDstAll	Inquire			
+ID_!CdDwgOrigin	Tools			
+ID_!CdDynSection	Inquire			
+ID_!CdDynSectionCm	Inquire			
+ID_!CdEditAllPrtCfg	Tools			
+ID_!CdEditCompPart	Assembly			
+ID_!CdEdmTblCrt	Layout			
+ID_!CdEnterAnim	Assembly			
+ID_!CdEnvScene	Visualize			
+ID_!CdEqCurve	Wireframe			
+ID_!CdEqCurve2D	Sketch			
+ID_!CdFaceBndRplc	Heal			
+ID_!CdFaceCnsMove	Direct Edit			
+ID_!CdFaceDimMove	Direct Edit			
+ID_!CdFaceEnlarge	Free Form			
+ID_!CdFaceExplode	Heal			
+ID_!CdFaceExt2	Heal			
+ID_!CdFacesetFlip	Heal			
+ID_!CdFcsPrimFix	Heal			
+ID_!CdFileOpen3	Quick Primer			
+ID_!CdFitCrv	Drawing			
+ID_!CdFitPlane	Point Cloud			
+ID_!CdFlatSrfII	Free Form			
+ID_!CdGapTighten	Heal			
+ID_!CdGeodesicPath	Point Cloud			
+ID_!CdGeomCopy	Data Exchange			
+ID_!CdGeomExportII	Data Exchange			
+ID_!CdHealTtAll	Heal			
+ID_!CdHoleCallMk	Dimension			
+ID_!CdHoleTblMk2	Layout			
+ID_!CdIferChk1	Piping			
+ID_!CdImportMesh	Point Cloud			
+ID_!CdInqAng2All	Inquire			
+ID_!CdInqAngAll	Inquire			
+ID_!CdInqEntity	Inquire			
+ID_!CdInqEntity2	Inquire			
+ID_!CdInqOpnEdg	Heal			
+ID_!CdInqPlistCrv	Inquire			
+ID_!CdInqPlistSrf	Inquire			
+ID_!CdInqSrfProp	Inquire			
+ID_!CdInqTarg	Drawing Packet			
+ID_!CdInsPart	Data Exchange			
+ID_!CdInsSketch	Data Exchange			
+ID_!CdInsSubPart	Tools			
+ID_!CdInstNewPart	Electrode			
+ID_!CdInstPart3	Electrode			
+ID_!CdLiteDel	Visualize			
+ID_!CdLiteDelAll	Visualize			
+ID_!CdLiteMod	Visualize			
+ID_!CdLites	Visualize			
+ID_!CdPMIBalloon	PMI			
+ID_!CdPMICoord	PMI			
+ID_!CdPMIDatumFs	PMI			
+ID_!CdPMIDatumT	PMI			
+ID_!CdPMIDimAll	PMI			
+ID_!CdPMIDimAng	PMI			
+ID_!CdPMIDimArc	PMI			
+ID_!CdPMIDimChamfer	PMI			
+ID_!CdPMIDimHole	PMI			
+ID_!CdPMIDimLin	PMI			
+ID_!CdPMIDimRad	PMI			
+ID_!CdPMIFCS	PMI			
+ID_!CdPMIIntsectSym	PMI			
+ID_!CdPMILabel	PMI			
+ID_!CdPMIStack	PMI			
+ID_!CdPMISym	PMI			
+ID_!CdPMISymInsert	PMI			
+ID_!CdPMISymSrf	PMI			
+ID_!CdPMISymWeldCrt	PMI			
+ID_!CdPartBounding	PMI			
+ID_!CdPartModDim	Wireframe			
+ID_!CdPartPickSet	Tools			
+ID_!CdPartPubSet	Data Exchange			
+ID_!CdPartRef	Harness			
+ID_!CdPlane	Sketch			
+ID_!CdPlistCrv	Wireframe			
+ID_!CdPrfDmBatch	Sketch			
+ID_!CdProfNew	Weldments			
+ID_!CdPtImport	Point Cloud			
+ID_!CdRefitEdgCrv	Heal			
+ID_!CdRevTblCrt	Layout			
+ID_!CdRootDel	Drawing Packet			
+ID_!CdRootRename2	Drawing Packet			
+ID_!CdRoughExpand	Point Cloud			
+ID_!CdScale3D	Wireframe			
+ID_!CdSectionAlz	Inquire			
+ID_!CdSewEdgGap	Heal			
+ID_!CdSf2Pln	Heal			
+ID_!CdSfFitBnd	Free Form			
+ID_!CdSfFitBnd2	Point Cloud			
+ID_!CdSfInqKrv	Inquire			
+ID_!CdSfMod	Free Form			
+ID_!CdShapeSew	Heal			
+ID_!CdSheetInst	Drawing Packet			
+ID_!CdShtProf	Drawing			
+ID_!CdSimplifyEdg	Heal			
+ID_!CdSmdAddBend	Sheet Metal			
+ID_!CdSmdAttrib	Tools			
+ID_!CdSmdBendEdit	Sheet Metal			
+ID_!CdSmdBendTaper	Sheet Metal			
+ID_!CdSmdCnvt1	Sheet Metal			
+ID_!CdSmdCut	Sheet Metal			
+ID_!CdSmdDrawBend	Sheet Metal			
+ID_!CdSmdDrawFlng	Sheet Metal			
+ID_!CdSmdFlat	Sheet Metal			
+ID_!CdSmdFlngExtend	Sheet Metal			
+ID_!CdSmdFold	Sheet Metal			
+ID_!CdSmdHem	Sheet Metal			
+ID_!CdSmdJog	Sheet Metal			
+ID_!CdSmdJointFlange	Sheet Metal			
+ID_!CdSmdLftdFlng2	Sheet Metal			
+ID_!CdSmdLnUnfold	Sheet Metal			
+ID_!CdSmdMergeFlange	Sheet Metal			
+ID_!CdSmdPartFlng	Sheet Metal			
+ID_!CdSmdRip	Sheet Metal			
+ID_!CdSmdSwpFlg	Sheet Metal			
+ID_!CdSmdUnFold	Sheet Metal			
+ID_!CdSmdVent	Sheet Metal			
+ID_!CdSmtMsr	Inquire			
+ID_!CdSplitBlock	Point Cloud			
+ID_!CdSrfAnalz2	Inquire			
+ID_!CdSrfAngSrf2	Free Form			
+ID_!CdSymImgCrt	Sketch			
+ID_!CdSymMarkCrt	Dimension			
+ID_!CdSymSrfCrt	Dimension			
+ID_!CdTblEdit	Layout			
+ID_!CdTblInsert	Layout			
+ID_!CdTblSyncAttr	Layout			
+ID_!CdTblUsrCrt	Layout			
+ID_!CdTextFtr	PMI			
+ID_!CdThinPntArray	Point Cloud			
+ID_!CdThkAnalz	Inquire			
+ID_!CdTolColor	Tools			
+ID_!CdTraceRegion	Point Cloud			
+ID_!CdTraceShpEdge	Point Cloud			
+ID_!CdTraceSilhou	Point Cloud			
+ID_!CdTrimBlock	Point Cloud			
+ID_!CdTssltSctDat	Point Cloud			
+ID_!CdUndercut	Inquire			
+ID_!CdV3AlterPos	Layout			
+ID_!CdV3Auto2	Layout			
+ID_!CdV3BrkLine	Layout			
+ID_!CdV3BrkSect	Layout			
+ID_!CdV3Detail	Layout			
+ID_!CdV3InsAux	Layout			
+ID_!CdV3InsPrj	Layout			
+ID_!CdV3RedefDet	Layout			
+ID_!CdV3RedefSec	Layout			
+ID_!CdV3SetPart	Layout			
+ID_!CdVFaceAppAt	Visualize			
+ID_!CdVFaceAppCpy	Visualize			
+ID_!CdViewRotate	Layout			
+ID_!CdVuAxis	Visualize			
+ID_!CdVuPnt	Visualize			
+ID_!CdVuPntReset	Visualize			
+ID_!CdWdSegTblCrt	Layout			
+ID_!CdWeldBeads	Weldments			
+ID_!CdWeldEndCap	Weldments			
+ID_!CdWeldGusset	Weldments			
+ID_!CdWeldStruct	Weldments			
+ID_!CdWeldTblCrt	Layout			
+ID_!CdWeldTrim	Weldments			
+ID_!CdWireText	Wireframe			
+ID_!CdWrCircles	Wireframe			
+ID_!CdWrap	Data Exchange			
+ID_!CmDelSk	Setup			
+ID_!CmQmSrvCfg	3x Quick			
+ID_!CmTpathDivide	Tool Path Editor			
+ID_!CmTpathTrim	Tool Path Editor			
+ID_!CmWatcher	Inquire			
+ID_!DmAll3D	Sketch			
+ID_!DmAll3DPrf	Sketch			
+ID_!DmAng3D	Sketch			
+ID_!DmArc	Dimension			
+ID_!DmBalloon	Dimension			
+ID_!DmChmf	Dimension			
+ID_!DmDatum	Dimension			
+ID_!DmDatumTc	Dimension			
+ID_!DmElevation	Dimension			
+ID_!DmFCS	Dimension			
+ID_!DmIntsectSym	Dimension			
+ID_!DmLabel	Dimension			
+ID_!DmLabelOrd	Dimension			
+ID_!DmModDogLeg	Dimension			
+ID_!DmModTol	Dimension			
+ID_!DmNotToScale	Inquire			
+ID_!DmOff	Dimension			
+ID_!DmPerimeter	Sketch			
+ID_!DmRadDia	Dimension			
+ID_!DmRefToggle	Dimension			
+ID_!DmRotCenter	Dimension			
+ID_!DmShowModelDim	Dimension			
+ID_!DmSym	Dimension			
+ID_!DmSym3D	Sketch			
+ID_!FtAllExt	Shape			
+ID_!FtAllRev	Shape			
+ID_!FtAllSub	Electrode			
+ID_!FtAssemChamfers	Assembly			
+ID_!FtAssemCut4	Assembly			
+ID_!FtAssemFillet	Assembly			
+ID_!FtAssemHole	Assembly			
+ID_!FtBridgeSrf	Free Form			
+ID_!FtChamfers2	Weldments			
+ID_!FtCrTrimPln	Free Form			
+ID_!FtDeDraft	Direct Edit			
+ID_!FtDeMirror	Direct Edit			
+ID_!FtDeOffset	Direct Edit			
+ID_!FtDePtn	Direct Edit			
+ID_!FtDivFcsToCvs	Heal			
+ID_!FtDome	Free Form			
+ID_!FtDraftAngChk	Inquire			
+ID_!FtEdMerge	Heal			
+ID_!FtEdSplit	Heal			
+ID_!FtExtStock2	Shape			
+ID_!FtFlltSrfSets	Free Form			
+ID_!FtGapFill	Heal			
+ID_!FtHoleMain	Weldments			
+ID_!FtPtnElectrode	Electrode			
+ID_!FtSelfX	Shape			
+ID_!FtSfInvert	Heal			
+ID_!FtSfMeshProf1	Free Form			
+ID_!FtSfNPatch	Free Form			
+ID_!FtSfSplit	Heal			
+ID_!FtSfUntrim	Heal			
+ID_!FtShell1	Shape			
+ID_!FtSlot	Shape			
+ID_!FtSmtSrf	Free Form			
+ID_!FtSpatula	Shape			
+ID_!FtThicken	Shape			
+ID_!FtWrapPtn	Shape			
+ID_!FtWrapShp	Shape			
+ID_!HarnessModify	Harness	HarnessModify		
+ID_!HarnessRoute	Harness	HarnessRoute		
+ID_!HrnAddToNetwork	Harness	HrnAddToNetwork		
+ID_!HrnAddtoBundle	Harness	HrnAddtoBundle		
+ID_!HrnAttach	Harness	HrnAttach		
+ID_!HrnBundleCrt	Harness	HrnBundleCrt		
+ID_!HrnDetach	Harness	HrnDetach		
+ID_!HrnExtractPath	Harness	HrnExtractPath		
+ID_!HrnInqDiam	Harness	HrnInqDiam		
+ID_!HrnNetCopy	Harness	HrnNetCopy		
+ID_!HrnNetPathCrt	Harness	HrnNetPathCrt		
+ID_!HrnNetworkCrt	Harness	HrnNetworkCrt		
+ID_!HrnObjCut	Harness	HrnObjCut		
+ID_!HrnObjDelete	Harness	HrnObjDelete		
+ID_!HrnPosPntModify	Harness	HrnPosPntModify		
+ID_!HrnRefLeadPath	Harness	HrnRefLeadPath		
+ID_!HrnRefPort	Harness	HrnRefPort		
+ID_!HrnSegSplit	Harness	HrnSegSplit		
+ID_!PipAutoLayout	Piping	PipAutoLayout		
+ID_!PipChangeNSize	Piping	PipChangeNSize		
+ID_!PipChangeSpec	Piping	PipChangeSpec		
+ID_!PipConnectPip	Piping	PipConnectPip		
+ID_!PipDrag	Piping	PipDrag		
+ID_!PipISOCreDivPnt	Piping	PipISOCreDivPnt		
+ID_!PipInstPipPart	Piping	PipInstPipPart		
+ID_!PipLayoutPip	Piping	PipLayoutPip		
+ID_!PipLytUPip	Piping	PipLytUPip		
+ID_!PipParallelRou	Piping	PipParallelRou		
+ID_!PipQuickDim	Piping	PipQuickDim		
+ID_!PipRefConPoint	Piping	PipRefConPoint		
+ID_!PipShtDmBalloon	Routing	PipShtDmBalloon		
+ID_!PipShtDmFlow	Routing	PipShtDmFlow		
+ID_!PipSpooling	Piping	PipSpooling		
+ID_!PipTblCrt	Routing	PipTblCrt		
+ID_!SmdBendInfo	Inquire			
+ID_!SmdClsCrnerList	Sheet Metal			
+ID_!SmdDimple	Sheet Metal			
+ID_!SmdLouver	Sheet Metal			
+ID_!SmdNormalCut	Sheet Metal			
+ID_!SmdPunch	Sheet Metal			
+ID_!SmdSetStatFc	Sheet Metal			
+ID_!WdFilletWeld	Weldments			
+ID_!WdGrooveWeld	Weldments			
+ID_!WdPlugWeldMulti	Weldments			
+ID_!WdSpotWeld	Weldments			
+ID_!WrCrBndBox	Drawing			
+ID_!WrCrCircles	Sketch			
+ID_!WrCrCircles3D	Sketch			
+ID_!WrCrEllp3D	Sketch			
+ID_!WrCrElps	Sketch			
+ID_!WrInqArc3	Inquire			
+ID_!WrInqArc3P	Inquire			
+ID_!WrInqArc3P-2D	Inquire			
+ID_!WrInqArea	Inquire			
+ID_!WrInqArea2	Inquire			
+ID_!WrInqCoord2	Inquire			
+ID_!WrInqCoord3	Inquire			
+ID_!WrInqCrv	Inquire			
+ID_!WrInqLen	Inquire			
+ID_!WrInqLen2	Inquire			
+ID_!WrInqLen3	Inquire			
+ID_!WrInqNrbCrv	Inquire			
+ID_!WrInqNrbSrf	Inquire			
+ID_!WrInqRad	Inquire			
+ID_!WrMdCp3D	Sketch			
+ID_!WrMdMove3D	Sketch			
+ID_!WrMdPtn	Sketch			
+ID_!WrMdScl3D	Sketch			
+ID_!WrSmtDraw2D	Sketch			
+ID_!ZwBondContact	ZWStructure			
+ID_!ZwCeAnStep	ZWStructure			
+ID_!ZwCeContact	ZWStructure			
+ID_!ZwCeMeshing	Geometry and Mesh	ZwCeMeshing		
+ID_!ZwCeTask	ZWStructure	ZwCeTask		
+ID_!ZwEnforceMotion	ZWStructure			
+ID_!ZwForceLoad	ZWStructure			
+ID_!ZwFtLoad	ZWStructure			
+ID_!ZwFtLoadHarmoni	ZWStructure			
+ID_!ZwFtLoadRanVib	ZWStructure			
+ID_!ZwFtLoadTmStep	ZWStructure			
+ID_!ZwFtLoadVar	ZWStructure			
+ID_!ZwGTopoFcTool	Geometry and Mesh			
+ID_!ZwGTopoOptLayer	Geometry and Mesh			
+ID_!ZwInitVelAcc	ZWStructure			
+ID_!ZwMGTopoConfig	Geometry and Mesh			
+ID_!ZwMesh1D	Geometry and Mesh	ZwMesh1D		
+ID_!ZwMesh2D	Geometry and Mesh	ZwMesh2D		
+ID_!ZwMesh3D	Geometry and Mesh	ZwMesh3D		
+ID_!ZwMeshCleanUp	Geometry and Mesh			
+ID_!ZwMeshCreElem	Geometry and Mesh			
+ID_!ZwMeshCreNode	Geometry and Mesh			
+ID_!ZwMeshDelete	Geometry and Mesh			
+ID_!ZwMeshDetach	Geometry and Mesh			
+ID_!ZwMeshFReverDir	Geometry and Mesh			
+ID_!ZwMeshGEdgeCtr	Geometry and Mesh			
+ID_!ZwMeshGTopoTool	Geometry and Mesh			
+ID_!ZwMeshMeasure	Geometry and Mesh			
+ID_!ZwMeshMergeNode	Geometry and Mesh			
+ID_!ZwMeshMirror	Geometry and Mesh			
+ID_!ZwMeshModNode	Geometry and Mesh			
+ID_!ZwMeshMoveNode	Geometry and Mesh			
+ID_!ZwMeshPosition	Geometry and Mesh			
+ID_!ZwMeshProject	Geometry and Mesh			
+ID_!ZwMeshRemap	Geometry and Mesh			
+ID_!ZwMeshRenumber	Geometry and Mesh			
+ID_!ZwMeshReorder	Geometry and Mesh			
+ID_!ZwMeshRotate	Geometry and Mesh			
+ID_!ZwMeshScale	Geometry and Mesh			
+ID_!ZwMeshTranslate	Geometry and Mesh			
+ID_!ZwPressureLoad	ZWStructure			
+ID_!ZwReloadGTopo	Geometry and Mesh			
+ID_!ZwRemesh	Geometry and Mesh			
+ID_!ZwSelectExcita	ZWStructure			
+ID_!ZwShowHideMesh	Geometry and Mesh			
+ID_!ZwStBaseExcita	ZWStructure			
+ID_!ZwStCreMass	Geometry and Mesh			
+ID_!ZwThConvecLoad	ZWStructure			
+ID_!ZwThHtFluxLoad	ZWStructure			
+ID_!ZwThHtPowLoad	ZWStructure			
+ID_!ZwThInterHtGen	ZWStructure			
+ID_!ZwThRadiaLoad	ZWStructure			
+ID_!ZwThTempLoad	ZWStructure			
+ID_$Another	Tools			
+ID_$CdAIAutoDim	Quick Primer			
+ID_$CdCancelExit	Sketch			
+ID_$CdEditParent	Sketch			
+ID_$CdFileConvert	Data Exchange			
+ID_$CdFileExport	Tools			
+ID_$CdFileImport	Data Exchange			
+ID_$CdFileInMulti	Quick Primer			
+ID_$CdFileIopView	Quick Primer			
+ID_$CdFileNew	Quick Primer			
+ID_$CdFileOpenInCAD_Top	Quick Primer			
+ID_$CdFileSTLImport	Point Cloud			
+ID_$CdModelImport	Quick Primer			
+ID_$CdPMIRegenAll	PMI			
+ID_$CdPrfClrStg	Tools			
+ID_$CdRedraw	Visualize			
+ID_$CdSetStep	Tools			
+ID_$CdSettings	Tools			
+ID_$CdStartFolderMgr	Tools			
+ID_$CdSwapLite	Visualize			
+ID_$CdUnitConvert	Tools			
+ID_$CdWorkFolder	Tools			
+ID_$CdZwAppLm	Tools			
+ID_$CloseUnusedFiles	Tools			
+ID_$NewObj=121	Root			
+ID_$NewObj=200	Root			
+ID_$NewObj=70	Root			
+ID_$NewObj=89	Root			
+ID_$NewObj=90	Drawing Packet			
+ID_$SF=AsInqAlnStat	Assembly			
+ID_$SF=CdStyleMgr	Tools			
+ID_$SF=CmConfigUpdate	Tools			
+ID_$SF=CmTaskScheduler	Tools			
+ID_$SF=CmVxQmBatchMgr	3x Quick			
+ID_$SF=HarnessExprMgrUi	Harness			
+ID_$SF=Hrn3DBom	Harness			
+ID_$SF=Hrn3DBomPrt	Harness			
+ID_$SF=HrnAtRtMain	Harness			
+ID_$SF=HrnColorDef	Harness			
+ID_$SF=HrnSheathMtlAtt	Harness			
+ID_$SF=HrnSheathMtlData	Harness			
+ID_$SF=HrnWireMtlAtt	Harness			
+ID_$SF=HrnWireMtlData	Harness			
+ID_$SF=Ui3DBom	Assembly			
+ID_$SF=UiAppMgr	Quick Primer			
+ID_$SF=UiAutoDraft	Tools			
+ID_$SF=UiBackgroundAt	Tools			
+ID_$SF=UiBatchAttribute	Tools			
+ID_$SF=UiBrBlock	Tools			
+ID_$SF=UiCompareParts	Assembly			
+ID_$SF=UiDmAt3D	Tools			
+ID_$SF=UiDxFileConvert	Tools			
+ID_$SF=UiInqFiles	Drawing Packet			
+ID_$SF=UiLineAt	Tools			
+ID_$SF=UiNotes	Tools			
+ID_$SF=UiPMIDmAt	PMI			
+ID_$SF=UiPartAt	Tools			
+ID_$SF=UiPartTable	Assembly			
+ID_$SF=UiPipBends	Piping			
+ID_$SF=UiPipBomExport	Piping			
+ID_$SF=UiPipISOGen	Piping			
+ID_$SF=UiPipISOSetting	Piping			
+ID_$SF=UiPipNesting	Piping			
+ID_$SF=UiPipShtAutoDraft	Piping			
+ID_$SF=UiPipSpecIndex	Piping			
+ID_$SF=UiPointAt	Tools			
+ID_$SF=UiShowOverlap	Inquire			
+ID_$SF=UiTextAt	Tools			
+ID_$SF=UiUpdName	Tools			
+ID_$SF=WdWeldConvert	Weldments			
+ID_$SF=ZwMGEdgeCtrMgr	Geometry and Mesh			
+ID_$ZwFtSolverOption	ZWStructure			
+ID_$ZwSolverOption	ZWStructure			
+ID_$ZwStdFunction	ZWStructure			
+ID_$ss	Tools			
+ID_$vport=6	Visualize			
+ID_ZwGTopoRegenVis	Geometry and Mesh			
+ID_^nextView	Visualize			
+ID_^prevView	Visualize			
+ID_plm_cacheManage	ZWTeammate			
+ID_plm_clone	ZWTeammate			
+ID_plm_customCancelCheckout	ZWTeammate			
+ID_plm_customCheckin	ZWTeammate			
+ID_plm_customCheckout	ZWTeammate			
+ID_plm_customRevise	ZWTeammate			
+ID_plm_insert	ZWTeammate			
+ID_plm_login	ZWTeammate			
+ID_plm_logout	ZWTeammate			
+ID_plm_newDoc	ZWTeammate			
+ID_plm_newDocFromTmpl	ZWTeammate			
+ID_plm_relatePart	ZWTeammate			
+ID_plm_teamManage	ZWTeammate			
+ID_plm_update	ZWTeammate			
+ID_plm_workflowManage	ZWTeammate			
+ID_~BrVarAll	Tools			
+ID_~CdCopy	Tools			
+ID_~CdCut	Tools			
+ID_~CdDynSection	Inquire			
+ID_~CdEditorFile	Tools			
+ID_~CdElecPrj	Electrode			
+ID_~CdEskdBom	Layout			
+ID_~CdFileInsert	Dimension			
+ID_~CdFontConv	Tools			
+ID_~CdInstPipe	Piping			
+ID_~CdMatlLibrary	Tools			
+ID_~CdPMIResize	PMI			
+ID_~CdPaste	Tools			
+ID_~CdProfShowEqnMgr	Sketch			
+ID_~CdRenameShow	Tools			
+ID_~CdShowEqnMgr	Tools			
+ID_~CdShowWdSegBom	Weldments			
+ID_~CdStyleAnnoShow	Tools			
+ID_~CdStyleDimShow	Tools			
+ID_~CdStyleHatShow	Tools			
+ID_~CdStyleLineShow	Tools			
+ID_~CdStylePointShow	Tools			
+ID_~CdStyleSymbsShow	Tools			
+ID_~CdStyleTblShow	Tools			
+ID_~CdStyleTextShow	Tools			
+ID_~CdStyleViewShow	Tools			
+ID_~CdUDFInsShow	Assembly			
+ID_~CdUDFWizardShow	Assembly			
+ID_~CmBrowserSolidVerify	Output			
+ID_~CmBrowserTpathDivide	Tool Path Editor			
+ID_~CmBrowserTpathTrim	Tool Path Editor			
+ID_~CmBrowserTransformationMirror	Tool Path Editor			
+ID_~CmBrowserTransformationMove	Tool Path Editor			
+ID_~CmBrowserTransformationPattern	Tool Path Editor			
+ID_~CmBrowserTransformationScale	Tool Path Editor			
+ID_~CmBrowserVerify	Output			
+ID_~CmEdAsm	CAD			
+ID_~CmEditSk	Setup			
+ID_~CmFramesPop(1)	Setup			
+ID_~CmFtrOpt(1)	Setup			
+ID_~CmFtrOpt(10)	Setup			
+ID_~CmFtrOpt(12)	Setup			
+ID_~CmFtrOpt(13)	Setup			
+ID_~CmFtrOpt(2)	Setup			
+ID_~CmFtrOpt(3)	Setup			
+ID_~CmFtrOpt(4)	Setup			
+ID_~CmFtrOpt(5)	Setup			
+ID_~CmFtrOpt(6)	Setup			
+ID_~CmFtrOpt(7)	Setup			
+ID_~CmFtrOpt(8)	Setup			
+ID_~CmFtrOpt(9)	Setup			
+ID_~CmInpClipMgr	Tools			
+ID_~CmInquirePop(0)	Inquire			
+ID_~CmInquirePop(1)	Inquire			
+ID_~CmInquirePop(2)	Inquire			
+ID_~CmInquirePop(3)	Inquire			
+ID_~CmInquirePop(4)	Inquire			
+ID_~CmInquirePop(5)	Inquire			
+ID_~CmLibExpObjFn	Tools			
+ID_~CmLibImpObjFn	Tools			
+ID_~CmNewSk	Setup			
+ID_~CmOpPop(3)	Output			
+ID_~CmOpPop(33)	Tool Path Editor			
+ID_~CmOpPop(34)	Tool Path Editor			
+ID_~CmOpPop(35)	Tool Path Editor			
+ID_~CmOpPop(36)	Tool Path Editor			
+ID_~CmOpPop(37)	Tool Path Editor			
+ID_~CmOpPop(38)	Tool Path Editor			
+ID_~CmOpsPop(15)	Output			
+ID_~CmOpsPop(20)	Output			
+ID_~CmQmCacheClean	3x Quick			
+ID_~CmQmDirClean	3x Quick			
+ID_~CmStartVxPost	Output			
+ID_~CmStartZwPost	Output			
+ID_~CreateFrame	Setup			
+ID_~HrnPartCreate	Harness			
+ID_~PipCreate	Piping			
+ID_~PipShowParam	Piping			
+ID_~PmAddStock	Setup			
+ID_~PmClear2	Setup			
+ID_~PmClearPop(11)	Setup			
+ID_~PmCmAddPlane	Setup			
+ID_~PmCmFtMirrorGeom	Setup			
+ID_~PmCmFtPtnGeom	Setup			
+ID_~PmCmPartDel	CAD			
+ID_~PmCompPop(21)	Setup			
+ID_~PmCopyEntity	Setup			
+ID_~PmEntCoordMov	Setup			
+ID_~PmFtrOpt(11)	Setup			
+ID_~PmGeomPop(11)	Setup			
+ID_~PmLCS	Setup			
+ID_~PmMachShow	Setup			
+ID_~PmMoveEntity	Setup			
+ID_~PmOp(201)	2x Mill			
+ID_~PmOp(202)	2x Mill			
+ID_~PmOp(203)	2x Mill			
+ID_~PmOp(204)	2x Mill			
+ID_~PmOp(205)	2x Mill			
+ID_~PmOp(206)	2x Mill			
+ID_~PmOp(207)	2x Mill			
+ID_~PmOp(208)	2x Mill			
+ID_~PmOp(209)	2x Mill			
+ID_~PmOp(210)	2x Mill			
+ID_~PmOp(211)	2x Mill			
+ID_~PmOp(212)	2x Mill			
+ID_~PmOp(213)	2x Mill			
+ID_~PmOp(322)	2x Mill			
+ID_~PmOp3x(301)	3x Nurbs			
+ID_~PmOp3x(302)	3x Nurbs			
+ID_~PmOp3x(303)	3x Nurbs			
+ID_~PmOp3x(304)	3x Nurbs			
+ID_~PmOp3x(305)	3x Nurbs			
+ID_~PmOp3x(306)	3x Nurbs			
+ID_~PmOp3x(307)	3x Nurbs			
+ID_~PmOp3x(308)	3x Nurbs			
+ID_~PmOp3x(309)	3x Nurbs			
+ID_~PmOp3x(310)	3x Nurbs			
+ID_~PmOp3x(311)	3x Nurbs			
+ID_~PmOp3x(312)	3x Nurbs			
+ID_~PmOp3x(313)	3x Nurbs			
+ID_~PmOp3x(314)	3x Nurbs			
+ID_~PmOp3x(315)	3x Nurbs			
+ID_~PmOp3x(316)	3x Nurbs			
+ID_~PmOp3x(317)	3x Nurbs			
+ID_~PmOp3x(318)	3x Nurbs			
+ID_~PmOp3x(319)	3x Nurbs			
+ID_~PmOp3x(321)	3x Nurbs			
+ID_~PmOp3x(323)	3x Quick			
+ID_~PmOp3x(324)	3x Quick			
+ID_~PmOp3x(325)	3x Quick			
+ID_~PmOp3x(326)	3x Quick			
+ID_~PmOp3x(327)	3x Quick			
+ID_~PmOp3x(328)	3x Quick			
+ID_~PmOp3x(329)	3x Quick			
+ID_~PmOp3x(330)	3x Quick			
+ID_~PmOp3x(331)	3x Quick			
+ID_~PmOp3x(332)	3x Quick			
+ID_~PmOp3x(333)	3x Quick			
+ID_~PmOp3x(334)	3x Quick			
+ID_~PmOp3x(335)	3x Quick			
+ID_~PmOp3x(336)	3x Quick			
+ID_~PmOp3x(337)	3x Quick			
+ID_~PmOp3x(339)	3x Nurbs			
+ID_~PmOp3x(340)	3x Quick			
+ID_~PmOp3x(341)	3x Quick			
+ID_~PmOp3x(342)	3x Quick			
+ID_~PmOp3x(343)	3x Quick			
+ID_~PmOp3x(344)	3x Quick			
+ID_~PmOp3x(345)	3x Quick			
+ID_~PmOp3x(501)	3x Quick			
+ID_~PmOp5x(401)	5x Mill			
+ID_~PmOp5x(402)	5x Mill			
+ID_~PmOp5x(403)	5x Mill			
+ID_~PmOp5x(404)	5x Mill			
+ID_~PmOp5x(405)	5x Mill			
+ID_~PmOp5x(406)	5x Mill			
+ID_~PmOp5x(407)	5x Mill			
+ID_~PmOpCreate3xChamferDebur	3x Quick			
+ID_~PmOpCreate3xChamferDebur2	3x Quick			
+ID_~PmOpCreate3xPointCurve	3x Quick			
+ID_~PmOpCreate3xTrackCrv	3x Quick			
+ID_~PmOpCreate4xFinishing	3x Quick			
+ID_~PmOpCreate4xRoughing	3x Quick			
+ID_~PmOpCreate5xFcurve	5x Mill			
+ID_~PmOpCreate5xGcurve	5x Mill			
+ID_~PmOpCreateAreaMill2	3x Quick			
+ID_~PmOpCreateChamferDebur	3x Quick			
+ID_~PmOpCreateChamferPlunge	3x Quick			
+ID_~PmOpCreateCornerFinish2	3x Quick			
+ID_~PmOpCreateCornerPlunge	3x Quick			
+ID_~PmOpCreateCtrText	2x Mill			
+ID_~PmOpCreateMachRegion	Setup			
+ID_~PmOpCreateMachVolume	Setup			
+ID_~PmOpCreateOff3dcut2	3x Quick			
+ID_~PmOpCreatePencilCut2	3x Quick			
+ID_~PmOpCreatePocketing	2x Mill			
+ID_~PmOpCreateProfileCut2	2x Mill			
+ID_~PmOpCreateQmRough	3x Quick			
+ID_~PmOpCreateRegionMill	3x Quick			
+ID_~PmOpCreateRegionMill2	3x Quick			
+ID_~PmOpCreateSpiralCut2	2x Mill			
+ID_~PmOpCreateZConstant	3x Quick			
+ID_~PmOpCreateZConstant2	3x Quick			
+ID_~PmOutPop(14)	Output			
+ID_~PmRSetsPop(1)	Drill			
+ID_~PmRSetsPop(2)	2x Mill			
+ID_~PmRSetsPop(3)	3x Quick			
+ID_~PmRelocate	Setup			
+ID_~PmShpCnsesMv	Setup			
+ID_~PmSpShPop(8)	Output			
+ID_~PmSpShPop(9)	Output			
+ID_~PmToolShow	Setup			
+ID_~PmToolShow2	Setup			
+ID_~PmTpVerifyBackFoward	Setup			
+ID_~PmTpVerifyFoward	Setup			
+ID_~PmTpVerifyPause	Setup			
+ID_~PmTpVerifyReset	Setup			
+ID_~PmTpVerifyStepBackfoward	Setup			
+ID_~PmTpVerifyStepFoward	Setup			
+ID_~PmTpathCutShow	Tool Path			
+ID_~PmTpathNonCutShow	Tool Path			
+ID_~PmTpathShowToolAxis	Tool Path			
+ID_~PmTpathShowToolEnd	Tool Path			
+ID_~ZwCustomCstr	ZWStructure			
+ID_~ZwEnterPost	ZWStructure			
+ID_~ZwFullCstr	ZWStructure			
+ID_~ZwGTopoLayerMgr	Geometry and Mesh			
+ID_~ZwMeshFRecover	Geometry and Mesh	ZwMeshFRecover		
+ID_~ZwProElmBeamMngr	ZWStructure			
+ID_~ZwShowAllMesh	Geometry and Mesh			
+ID_~ZwSimCalculateUI	ZWStructure			
+ID_~ZwStClearNode	Geometry and Mesh			
+MSMModMd	MSMModMd	MSMModMd		
+MSMModPr	MSMModPr	MSMModPr		
+MdFaceDefReg	MdFaceDefReg	MdFaceDefReg		
+MdLayPart	MdLayPart	MdLayPart		
+MdLaySubDtm	MdLaySubDtm	MdLaySubDtm		
+MdShpDefReg	MdShpDefReg	MdShpDefReg		
+MotBandAnal	MotBandAnal	MotBandAnal		
+MotBasicJntCrt	MotBasicJntCrt	MotBasicJntCrt		
+MotBodyCrt	MotBodyCrt	MotBodyCrt		
+MotCSYSChld	CdCSYS	CdCSYS		
+MotConsJntCrt	MotConsJntCrt	MotConsJntCrt		
+MotCplrJntCrt	MotCplrJntCrt	MotCplrJntCrt		
+MotDriverCrt	MotDriverCrt	MotDriverCrt		
+MotInferCrt	MotInferCrt	MotInferCrt		
+MotInferList	MotInferList	MotInferList		
+MotInitGest	MotInitGest	MotInitGest		
+MotMainModel	MotMainModel	MotMainModel		
+MotMarkerCrt	MotMarkerCrt	MotMarkerCrt		
+MotMeaAnal	MotMeaAnal	MotMeaAnal		
+MotSensorCrt	MotSensorCrt	MotSensorCrt		
+MotSlnCrt	MotSlnCrt	MotSlnCrt		
+MotTest	MotTest	MotTest		
+MotTrkCrt	MotTrkCrt	MotTrkCrt		
+PipAdjBendRad	PipAdjBendRad	PipAdjBendRad		
+PipAlnSettings	PipAlnSettings	PipAlnSettings		
+PipBendElbowExc	PipBendElbowExc	PipBendElbowExc		
+PipConRotLock	PipConRotLock	PipConRotLock		
+PipConRotUnLock	PipConRotUnLock	PipConRotUnLock		
+PipDelComp	PipDelComp	PipDelComp		
+PipEditQuickDim	PipEditQuickDim	PipEditQuickDim		
+PipFlexPipePnt	PipFlexPipePnt	PipFlexPipePnt		
+PipFlipPipComp	PipFlipPipComp	PipFlipPipComp		
+PipFlowCheck2	PipFlowCheck2	PipFlowCheck2		
+PipFlowPick	PipFlowPick	PipFlowPick		
+PipHiOnly	PipHiOnly	PipHiOnly		
+PipISODmBalloon	PipISODmBalloon	PipISODmBalloon		
+PipISODmLin	PipISODmLin	PipISODmLin		
+PipISOLineProj	PipISOLineProj	PipISOLineProj		
+PipISOProjMod	PipISOProjMod	PipISOProjMod		
+PipISOSlope	PipISOSlope	PipISOSlope		
+PipInqCompSpec	PipInqCompSpec	PipInqCompSpec		
+PipInstBreakPnt	PipInstBreakPnt	PipInstBreakPnt		
+PipInstHanger	PipInstHanger	PipInstHanger		
+PipInsuEdit	PipInsuEdit	PipInsuEdit		
+PipInsuFtr	PipInsuFtr	PipInsuFtr		
+PipInsulation	PipInsulation	PipInsulation		
+PipLytFlexPipe	PipLytFlexPipe	PipLytFlexPipe		
+PipMergBreakPnt	PipMergBreakPnt	PipMergBreakPnt		
+PipReverseFlow	PipReverseFlow	PipReverseFlow		
+PipRigid	PipRigid	PipRigid		
+PipRouteLine	PipRouteLine	PipRouteLine		
+PipRoutingCopy	PipRoutingCopy	PipRoutingCopy		
+PipRoutingMir	PipRoutingMir	PipRoutingMir		
+PipRoutingMove	PipRoutingMove	PipRoutingMove		
+PipSetRange	PipSetRange	PipSetRange		
+PipTblBendMch	PipTblBendMch	PipTblBendMch		
+PipTblConnect	PipTblConnect	PipTblConnect		
+PipTblEndPnt	PipTblEndPnt	PipTblEndPnt		
+PipV3HideBySpo	PipV3HideBySpo	PipV3HideBySpo		
+PipVariational	PipVariational	PipVariational		
+PipWelding	PipWelding	PipWelding		
+PreModeOpt	CustomOp	CustomOp		
+Stt3DFrame	Stt3DFrame	Stt3DFrame		
+SttDelInvalidJt	SttDelInvalidJt	SttDelInvalidJt		
+SttDtm	SttDtm	SttDtm		
+SttEditJtEleRib	SttEditJtEleRib	SttEditJtEleRib		
+SttEditSteJtEle	SttEditSteJtEle	SttEditSteJtEle		
+SttExtrude	SttExtrude	SttExtrude		
+SttJntDelete	SttJntDelete	SttJntDelete		
+SttJtCross	SttJtCross	SttJtCross		
+SttJtEdit	SttJtEdit	SttJtEdit		
+SttJtEleBrkt	SttJtEleBrkt	SttJtEleBrkt		
+SttJtEleCap	SttJtEleCap	SttJtEleCap		
+SttJtEleEPlt	SttJtEleEPlt	SttJtEleEPlt		
+SttJtEleEdtBrkt	SttJtEleEdtBrkt	SttJtEleEdtBrkt		
+SttJtEleEdtCap	SttJtEleEdtCap	SttJtEleEdtCap		
+SttJtEleEdtEPlt	SttJtEleEdtEPlt	SttJtEleEdtEPlt		
+SttJtEleEdtRec	SttJtEleEdtRec	SttJtEleEdtRec		
+SttJtEleEdtSRec	SttJtEleEdtSRec	SttJtEleEdtSRec		
+SttJtEleEdtSTri	SttJtEleEdtSTri	SttJtEleEdtSTri		
+SttJtEleEdtTri	SttJtEleEdtTri	SttJtEleEdtTri		
+SttJtEleIPlt	SttJtEleIPlt	SttJtEleIPlt		
+SttJtEleInsBrkt	SttJtEleInsBrkt	SttJtEleInsBrkt		
+SttJtEleInsCap	SttJtEleInsCap	SttJtEleInsCap		
+SttJtEleInsEPlt	SttJtEleInsEPlt	SttJtEleInsEPlt		
+SttJtEleInsRec	SttJtEleInsRec	SttJtEleInsRec		
+SttJtEleInsSRec	SttJtEleInsSRec	SttJtEleInsSRec		
+SttJtEleInsSTri	SttJtEleInsSTri	SttJtEleInsSTri		
+SttJtEleInsTri	SttJtEleInsTri	SttJtEleInsTri		
+SttJtEleRec	SttJtEleRec	SttJtEleRec		
+SttJtEleSRec	SttJtEleSRec	SttJtEleSRec		
+SttJtEleSTri	SttJtEleSTri	SttJtEleSTri		
+SttJtEleTri	SttJtEleTri	SttJtEleTri		
+SttJtEleUPlt	SttJtEleUPlt	SttJtEleUPlt		
+SttJtEndDatum	SttJtEndDatum	SttJtEndDatum		
+SttJtEndToFace	SttJtEndToFace	SttJtEndToFace		
+SttJtEndTrim	SttJtEndTrim	SttJtEndTrim		
+SttJtFaceTrim	SttJtFaceTrim	SttJtFaceTrim		
+SttJtLap	SttJtLap	SttJtLap		
+SttJtMiter	SttJtMiter	SttJtMiter		
+SttJtTJoint	SttJtTJoint	SttJtTJoint		
+SttJtToolFace	SttJtToolFace	SttJtToolFace		
+SttLapRemove	SttLapRemove	SttLapRemove		
+SttLytAluJtEle	SttLytAluJtEle	SttLytAluJtEle		
+SttLytSttEle	SttLytSttEle	SttLytSttEle		
+SttMemReplace	SttMemReplace	SttMemReplace		
+SttMemReuse	SttMemReuse	SttMemReuse		
+SttMemberEdit	SttMemberEdit	SttMemberEdit		
+SttMemberLyt	SttMemberLyt	SttMemberLyt		
+SttPlnOnCrv	SttPlnOnCrv	SttPlnOnCrv		
+SttSelectPoint	SttSelectPoint	SttSelectPoint		
+SttShtSegBOM	SttShtSegBOM	SttShtSegBOM		
+SttSlotLine	SttSlotLine	SttSlotLine		
+SttStMbrLocCrv	SttStMbrLocCrv	SttStMbrLocCrv		
+SttStMbrStock	SttStMbrStock	SttStMbrStock		
+SttStockLine	SttStockLine	SttStockLine		
+SttStructDel	SttStructDel	SttStructDel		
+TRCS1	CustomOp	CustomOp		
+TRCS2	CustomOp	CustomOp		
+TRCU1	CustomOp	CustomOp		
+TRCopy	CustomOp	CustomOp		
+TRCpRot	CustomOp	CustomOp		
+TRDP1	CustomOp	CustomOp		
+TRDel	TRDel	TRDel		
+TREB1	CustomOp	CustomOp		
+TREP1	CustomOp	CustomOp		
+TREP2	CustomOp	CustomOp		
+TREP3	CustomOp	CustomOp		
+TREP4	CustomOp	CustomOp		
+TREPTRIM	CustomOp	CustomOp		
+TRES1	CustomOp	CustomOp		
+TRExportIges	TRExportIges	TRExportIges		
+TRGS1	CustomOp	CustomOp		
+TRGS2	CustomOp	CustomOp		
+TRH1	CustomOp	CustomOp		
+TRImportIges	TRImportIges	TRImportIges		
+TRLP1	CustomOp	CustomOp		
+TRLP2	CustomOp	CustomOp		
+TRLP3	CustomOp	CustomOp		
+TRLPB1	CustomOp	CustomOp		
+TRLPB2	CustomOp	CustomOp		
+TRLR1	CustomOp	CustomOp		
+TRLR2	CustomOp	CustomOp		
+TRLR3	CustomOp	CustomOp		
+TRMassProp	CustomOp	CustomOp		
+TROR1	CustomOp	CustomOp		
+TRPLG1	CustomOp	CustomOp		
+TRPLG2	CustomOp	CustomOp		
+TRPLG3	CustomOp	CustomOp		
+TRPLG4	CustomOp	CustomOp		
+TRPLT1	CustomOp	CustomOp		
+TRPLT2	CustomOp	CustomOp		
+TRSB1	CustomOp	CustomOp		
+TRSD1	CustomOp	CustomOp		
+TRSHCS1	CustomOp	CustomOp		
+TRSHCS2	CustomOp	CustomOp		
+TRSHCS3	CustomOp	CustomOp		
+TRSP1	CustomOp	CustomOp		
+TRSPL1	CustomOp	CustomOp		
+TRStock	CustomOp	CustomOp		
+TrCorner	CustomOp	CustomOp		
+TrCutBox	CustomOp	CustomOp		
+TrSk2	CdTrSk2	CdTrSk2		
+TubCrvMod	TubCrvMod	TubCrvMod		
+TubLength	AsAlnAll	AsAlnAll		
+TubLengthRedef	AsAlnRedefine	AsAlnRedefine		
+TubThruClip	TubThruClip	TubThruClip		
+ZwAddVirWall	ZwAddVirWall	ZwAddVirWall		
+ZwBoolAuto2D	ZwBoolAuto2D	ZwBoolAuto2D		
+ZwBoolAuto3D	ZwBoolAuto3D	ZwBoolAuto3D		
+ZwCeAddGeom	ZwCeAddGeom	ZwCeAddGeom		
+ZwCeAddPnt	ZwCeAddPnt	ZwCeAddPnt		
+ZwCeAddPnt2	ZwCeAddPnt2	ZwCeAddPnt2		
+ZwCeChkElem	ZwCeChkElem	ZwCeChkElem		
+ZwCeDispCtrl	ZwCeDispCtrl	ZwCeDispCtrl		
+ZwCeMeshQual	ZwCeMeshQual	ZwCeMeshQual		
+ZwCeMidSurface	ZwCeMidSurface	ZwCeMidSurface		
+ZwCeRenameGroup	ZwCeRenameGroup	ZwCeRenameGroup		
+ZwCreatIprt	ZwCreatIprt	ZwCreatIprt		
+ZwCreateSim	ZwCreateSim	ZwCreateSim		
+ZwDelOpenEdge	ZwDelOpenEdge	ZwDelOpenEdge		
+ZwDelSelfXFace	ZwDelSelfXFace	ZwDelSelfXFace		
+ZwDelSliverFace	ZwDelSliverFace	ZwDelSliverFace		
+ZwDelSmallFace	ZwDelSmallFace	ZwDelSmallFace		
+ZwDelTinyEdge	ZwDelTinyEdge	ZwDelTinyEdge		
+ZwEmMdlAdd	ZwEmMdlAdd	ZwEmMdlAdd		
+ZwEmMdlIntesect	ZwEmMdlIntesect	ZwEmMdlIntesect		
+ZwEmMdlSubtract	ZwEmMdlSubtract	ZwEmMdlSubtract		
+ZwFluidsBaseGPolObject	ZwFluidsBaseGPolObject	ZwFluidsBaseGPolObject		
+ZwFluidsMeshBox	ZwFluidsMeshBox	ZwFluidsMeshBox		
+ZwGeomPrism	ZwGeomPrism	ZwGeomPrism		
+ZwGeomSplitTry	ZwGeomSplitTry	ZwGeomSplitTry		
+ZwGeomTorus	ZwGeomTorus	ZwGeomTorus		
+ZwLFAnimation	ZwLFAnimation	ZwLFAnimation		
+ZwLFTask2D	ZwLFTask2D	ZwLFTask2D		
+ZwLFTask3D	ZwLFTask3D	ZwLFTask3D		
+ZwMesh3DAirbox	ZwMesh3DAirbox	ZwMesh3DAirbox		
+ZwMeshAirBox	ZwMeshAirBox	ZwMeshAirBox		
+ZwMeshAirBoxAd	ZwMeshAirBoxAd	ZwMeshAirBoxAd		
+ZwMeshFRecover	ZwMeshFRecover	ZwMeshFRecover		
+ZwMeshGBox	ZwMeshGBox	ZwMeshGBox		
+ZwMeshGCircle	ZwMeshGCircle	ZwMeshGCircle		
+ZwMeshGCyl	ZwMeshGCyl	ZwMeshGCyl		
+ZwMeshGRect	ZwMeshGRect	ZwMeshGRect		
+ZwMeshMate	ZwMeshMate	ZwMeshMate		
+ZwMeshPickCir	ZwMeshPickCir	ZwMeshPickCir		
+ZwMeshPickPoly	ZwMeshPickPoly	ZwMeshPickPoly		
+ZwMeshRightShade	ZwMeshRightShade	ZwMeshRightShade		
+ZwMeshSweepAuto	ZwMeshSweepAuto	ZwMeshSweepAuto		
+ZwMeshVoxel	ZwMeshVoxel	ZwMeshVoxel		
+ZwMetasMatEdit	ZwMetasMatEdit	ZwMetasMatEdit		
+ZwPOPickCurve	ZwPOPickCurve	ZwPOPickCurve		
+ZwPOPickDimen	ZwPOPickDimen	ZwPOPickDimen		
+ZwPOPickFace	ZwPOPickFace	ZwPOPickFace		
+ZwPOPickShape	ZwPOPickShape	ZwPOPickShape		
+ZwPickSetMerge	ZwPickSetMerge	ZwPickSetMerge		
+ZwReactForceRes	ZwReactForceRes	ZwReactForceRes		
+ZwRemove2DHoles	ZwRemove2DHoles	ZwRemove2DHoles		
+ZwRemoveHoles	ZwRemoveHoles	ZwRemoveHoles		
+ZwRemoveLogo	ZwRemoveLogo	ZwRemoveLogo		
+ZwResAnimation	ZwResAnimation	ZwResAnimation		
+ZwSaveImage	ZwSaveImage	ZwSaveImage		
+ZwSimImportDxf	ZwSimImportDxf	ZwSimImportDxf		
+ZwSimSupFile	ZwSimSupFile	ZwSimSupFile		
+ZwSimplifyCyl	ZwSimplifyCyl	ZwSimplifyCyl		
+ZwSkSector	ZwSkSector	ZwSkSector		
+ZwSketchImprnt	ZwSketchImprnt	ZwSketchImprnt		
+ZwStRemeshRule	ZwStRemeshRule	ZwStRemeshRule		
+ZwStepAnimation	ZwStepAnimation	ZwStepAnimation		
+ZwTaskTransform	ZwTaskTransform	ZwTaskTransform		
+ZwTrimInfoAdd	ZwTrimInfoAdd	ZwTrimInfoAdd		
+ZwUiCoorSystem	ZwUiCoorSystem	ZwUiCoorSystem		
+ZwWireFrmImprnt	ZwWireFrmImprnt	ZwWireFrmImprnt		
