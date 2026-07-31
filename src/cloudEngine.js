@@ -128,9 +128,13 @@ class CloudEngine {
      * RICARICA i provider a caldo. Se providerId è dato, usa la sua variabile;
      * altrimenti la rileva dalla chiave. Ritorna { ok, provider, env } o { ok:false }.
      */
-    saveKey(key, providerId) {
-        key = String(key || "").trim();
+    saveKey(key, providerId, opts = {}) {
+        key = registry.normalizeKey(key);            // ★ toglie spazi/virgolette/Bearer/"NOME="
         if (!key) return { ok: false, error: "chiave vuota" };
+        // ★ 2026-07-31 — un provider scelto/rilevato dev'essere ESPLICITO. Il fallback
+        //   "indovina dalla forma" resta solo quando manca del tutto una scelta, MA
+        //   non deve poter finire su un provider a caso: se non c'è un best chiaro,
+        //   meglio fermarsi e chiedere che sovrascrivere la variabile sbagliata.
         let def = providerId ? registry.byId(providerId) : (registry.detectProvider(key).best || null);
         if (def && !def.env) def = registry.byId(def.id); // publicView → voce piena
         if (!def) return { ok: false, error: "provider non riconosciuto: specifica quale" };
@@ -138,10 +142,34 @@ class CloudEngine {
         const envPath = path.join(this.rootDir, ".env");
         let txt = "";
         try { txt = fs.readFileSync(envPath, "utf8"); } catch (_) { txt = ""; }
+        // ★ 2026-07-31 — RETE DI SICUREZZA: non toccare mai il .env senza un backup.
+        //   Se una risoluzione sbagliata sovrascrive la chiave di un altro provider
+        //   (è quello che è successo con groq), la copia .env.bak permette di
+        //   recuperarla. Teniamo l'ultima copia buona prima di ogni scrittura.
+        if (txt) { try { fs.writeFileSync(envPath + ".bak", txt, "utf8"); } catch (_) {} }
+        // ★ 2026-07-31 — SALVAGUARDIA ANTI-CORRUZIONE: se questa variabile contiene
+        //   GIÀ una chiave DIVERSA e la risoluzione è solo AUTOMATICA (nessuna
+        //   conferma esplicita dell'utente), NON la sovrascriviamo alla cieca:
+        //   segnaliamo il conflitto così il chiamante può chiedere conferma. Con
+        //   opts.confirmOverwrite (l'utente ha scelto quel provider) si procede.
+        {
+            const prev = this._loadEnv()[envName];
+            if (prev && prev !== key && !opts.confirmOverwrite) {
+                return { ok: false, conflict: true, provider: def.id, env: envName, label: def.label,
+                         error: "«" + envName + "» contiene già una chiave diversa (" + def.label + "). Conferma per sovrascriverla." };
+            }
+        }
+        // ★ 2026-07-30 — NORMALIZZA I FINE-RIGA prima di cercare/sostituire. Un .env
+        // con un \r solitario (vecchio stile Mac, o incollato da certi editor) teneva
+        // la riga della chiave "incollata" a un commento: non veniva né trovata qui
+        // (→ chiave duplicata) né letta da _loadEnv (→ "salvata ma non attiva"). È
+        // esattamente il bug ArliAI. Ora ogni riga è separata da un \n vero.
+        txt = txt.replace(/\r\n?/g, "\n");
         const line = envName + "=" + key;
-        const rx = new RegExp("^\\s*#?\\s*" + envName + "\\s*=.*$", "m");
+        // [ \t] invece di \s: non deve mai attraversare più righe.
+        const rx = new RegExp("^[ \\t]*#?[ \\t]*" + envName + "[ \\t]*=.*$", "m");
         if (rx.test(txt)) txt = txt.replace(rx, line);
-        else txt = txt.replace(/\s*$/, "") + "\n" + line + "\n";
+        else txt = txt.replace(/\n*$/, "") + "\n" + line + "\n";
         try { fs.writeFileSync(envPath, txt, "utf8"); }
         catch (e) { return { ok: false, error: "scrittura .env fallita: " + e.message }; }
         // ricarica a caldo
@@ -151,13 +179,121 @@ class CloudEngine {
         return { ok: true, provider: def.id, env: envName, label: def.label };
     }
 
+    // ---- Identificazione DAL VIVO (autorevole) ----------------------------
+    //
+    // ★ 2026-07-30 — Il rilevamento per FORMA sbaglia quando più provider usano
+    // lo stesso formato (sk-, hex-32, JWT, UUID…) o quando una chiave nuova non
+    // matcha nessuna regex. La verità la sa solo l'endpoint: qui PROVIAMO la
+    // chiave contro i provider plausibili e vediamo chi risponde 200. Così
+    // "incolla e basta" diventa preciso: la chiave finisce sul provider giusto
+    // anche se la forma è ambigua o l'utente ha scelto quello sbagliato.
+
+    /** Prova una chiave (non ancora salvata) contro UN provider.
+     *  @returns {Promise<'live'|'quota'|'dead'|'unreachable'|'maybe'>}
+     *   live = autentica e usabile · quota = autentica ma senza credito ·
+     *   dead = 401/403 (non è di questo provider) · maybe = passa ma endpoint/
+     *   modello non combacia (404) · unreachable = rete/timeout/5xx. */
+    _probeKeyAgainst(def, key, timeoutMs = 12000) {
+        return new Promise((resolve) => {
+            const https = require("https");
+            if (!def || !def.host) return resolve("unreachable");
+            const ngrok = /ngrok/i.test(def.host) ? { "ngrok-skip-browser-warning": "true" } : {};
+            const usaModels = !!def.modelsPath;
+            const p = usaModels ? def.modelsPath : def.chatPath;
+            if (!p) return resolve("unreachable");
+            const method = usaModels ? "GET" : "POST";
+            const body = usaModels ? null : JSON.stringify({
+                model: (def.models && def.models[0]) || "gpt-4o-mini",
+                messages: [{ role: "user", content: "ok" }], max_tokens: 1
+            });
+            const headers = Object.assign({ "Authorization": "Bearer " + key, "User-Agent": "Antigravity/1.0" }, ngrok);
+            if (body) { headers["Content-Type"] = "application/json"; headers["Content-Length"] = Buffer.byteLength(body); }
+            let done = false;
+            const finish = (v) => { if (!done) { done = true; resolve(v); } };
+            const req = https.request({ host: def.host, path: p, method, timeout: timeoutMs, headers }, (rs) => {
+                let d = ""; rs.on("data", c => { if (d.length < 4000) d += c; });
+                rs.on("end", () => {
+                    const code = rs.statusCode || 0;
+                    if (code === 401 || code === 403) return finish("dead");
+                    if (code === 402 || code === 429 || /insufficient|not enough|balance|quota|payment required|out of funds/i.test(d)) return finish("quota");
+                    if (code >= 200 && code < 300) return finish("live");
+                    // 410 / messaggi di manutenzione = SERVIZIO giù (non colpa della
+                    // chiave): es. GitHub Models "retirement_brownout".
+                    if (code === 0 || code >= 500 || code === 410 || /unavailable|retirement|brownout|maintenance|temporarily/i.test(d)) return finish("unreachable");
+                    return finish("maybe"); // 404 & co: la chiave è PASSATA (non 401), ma endpoint/modello non combacia
+                });
+            });
+            req.on("error", () => finish("unreachable"));
+            req.on("timeout", () => { req.destroy(); finish("unreachable"); });
+            if (body) req.write(body); req.end();
+        });
+    }
+
+    /** Identifica dal vivo a chi appartiene una chiave incollata.
+     *  Prova i provider PLAUSIBILI (per forma) e restituisce quello che autentica.
+     *  @returns {Promise<{key, best, tested:[{id,label,status}], candidates}>}
+     *   best = provider vincente (con liveStatus) o null se nessuno autentica. */
+    async identifyKeyLive(rawKey, opts = {}) {
+        const key = registry.normalizeKey(rawKey);
+        if (!key) return { key: "", best: null, tested: [], candidates: [] };
+        const det = registry.detectProvider(key);
+        // Ordine di prova: prima la scelta ESPLICITA dell'utente (se c'è), poi il
+        // rilevato, poi gli altri candidati per forma. Così se l'utente ha scelto
+        // un provider e la chiave lì funziona, NON gliela spostiamo altrove.
+        let ids = [];
+        if (opts.prefer) ids.push(opts.prefer);
+        if (det.best && ids.indexOf(det.best.id) < 0) ids.push(det.best.id);
+        for (const c of det.candidates) if (ids.indexOf(c.id) < 0) ids.push(c.id);
+        // Aggiungi SEMPRE ogni provider la cui regex accetta la chiave, anche quando
+        // il rilevamento si era fermato a un prefisso "forte". Es.: un UUID matcha sia
+        // Scaleway sia ArliAI → vanno provati entrambi, decide il test dal vivo. Senza
+        // questo, la short-circuit di detectProvider ne provava uno solo (quello
+        // sbagliato) e si arrendeva.
+        for (const p of registry.PROVIDERS)
+            if (p.detect && p.detect.test(key) && ids.indexOf(p.id) < 0) ids.push(p.id);
+        ids = ids.slice(0, opts.max || 6);
+        const tested = [];
+        for (const id of ids) {
+            const def = registry.byId(id);
+            if (!def || def.needsEnv) continue;   // needsEnv (es. Cloudflare) non è testabile senza l'ID account
+            const status = await this._probeKeyAgainst(def, key);
+            tested.push({ id, label: def.label, status });
+            // ★ 2026-07-31 — LA SCELTA ESPLICITA È AUTOREVOLE. Se l'utente ha
+            //   indicato un provider e la chiave lì AUTENTICA (live OPPURE quota:
+            //   quota = chiave valida, manca solo il credito), ci fermiamo SUBITO.
+            //   Prima il ciclo proseguiva e poteva "preferire" un altro provider
+            //   che rispondeva live, spostando la chiave altrove e sovrascrivendo
+            //   la chiave già presente lì (è così che spariva la chiave di groq).
+            if (id === opts.prefer && (status === "live" || status === "quota")) break;
+            if (status === "live") break;         // vinto: risposta autorevole, ci fermiamo
+        }
+        // Vincitore: se c'è una scelta esplicita che ha autenticato, vince LEI.
+        // Altrimenti il primo live, altrimenti il primo quota.
+        const preferOk = opts.prefer && tested.find(t => t.id === opts.prefer && (t.status === "live" || t.status === "quota"));
+        const live = tested.find(t => t.status === "live");
+        const quota = tested.find(t => t.status === "quota");
+        const win = preferOk || live || quota || null;
+        return {
+            key,
+            best: win ? Object.assign(registry.publicView(registry.byId(win.id)), { liveStatus: win.status }) : null,
+            tested,
+            candidates: det.candidates,
+            // stato del provider ESPLICITamente scelto (se c'è): serve al chiamante
+            // per decidere se una "correzione" è lecita (solo se lì è morto).
+            preferStatus: opts.prefer ? ((tested.find(t => t.id === opts.prefer) || {}).status || "untested") : null
+        };
+    }
+
     // ---- .env -------------------------------------------------------------
 
     _loadEnv() {
         const out = {};
         try {
             const txt = fs.readFileSync(path.join(this.rootDir, ".env"), "utf8");
-            for (const line of txt.split(/\r?\n/)) {
+            // ★ split anche sul \r SOLITARIO (vecchio stile Mac): senza, una riga
+            // "commento\rNOME=chiave" resterebbe un unico commento e la chiave non
+            // verrebbe mai letta (bug ArliAI).
+            for (const line of txt.split(/\r\n|\r|\n/)) {
                 const s = line.trim();
                 if (!s || s.startsWith("#")) continue;
                 const eq = s.indexOf("=");

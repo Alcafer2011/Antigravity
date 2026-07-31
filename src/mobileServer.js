@@ -456,6 +456,10 @@ class MobileServer {
         if (p === "/freeProviders/hunt") return this._huntProviders(req, res);
         if (p === "/gpuPlatforms") return this._gpuPlatforms(req, res);
         if (p === "/translate") return this._translate(req, res);
+        if (p === "/music/search") return this._musicSearch(req, res);
+        if (p === "/music/lyrics") return this._musicLyrics(req, res);
+        if (p === "/music/spotify") return this._musicSpotifyEmbed(req, res);
+        if (p === "/music/youtube") return this._musicYouTube(req, res);
         if (p === "/upload")   return this._upload(req, res);
 
         // ---- Comandi GPU Kaggle (4 pulsanti UI) ----
@@ -868,9 +872,47 @@ class MobileServer {
         const b = await this._body(req);
         const cloud = this.orchestrator && this.orchestrator.cloud;
         if (!cloud) return this._json(res, { ok: false, error: "motore cloud non disponibile" }, 500);
-        const r = cloud.saveKey(String(b.key || ""), b.provider || null);
-        if (r.ok) this.orchestrator.discoverCloud(true).catch(() => {}); // aggiorna il catalogo
-        this._json(res, r, r.ok ? 200 : 400);
+        const rawKey = String(b.key || "");
+        const chosen = b.provider || null;   // provider scelto a mano dall'utente (può mancare)
+        const confirmOverwrite = !!b.confirmOverwrite; // l'utente ha confermato la sovrascrittura
+        let provider = chosen, corrected = null, liveStatus = null;
+
+        // ★ 2026-07-31 — AUTO-IDENTIFICAZIONE DAL VIVO, ma la SCELTA MANUALE VINCE.
+        //   Proviamo la chiave contro gli endpoint per capire dove autentica, però:
+        //   - se l'utente NON ha scelto → salviamo sul provider che autentica dal vivo;
+        //   - se l'utente HA scelto e lì la chiave AUTENTICA (live/quota) o il
+        //     servizio è giù/non testabile → RISPETTIAMO la sua scelta, non la spostiamo;
+        //   - la "correzione" automatica scatta SOLO se il provider scelto è
+        //     davvero MORTO (401/403) e un altro autentica: e anche allora avvisiamo.
+        try {
+            const ident = await cloud.identifyKeyLive(rawKey, { prefer: chosen });
+            if (!chosen) {
+                // nessuna scelta: prendi il provider vivo (se c'è)
+                if (ident.best) { provider = ident.best.id; liveStatus = ident.best.liveStatus; }
+            } else if (ident.preferStatus === "live" || ident.preferStatus === "quota") {
+                // il provider scelto autentica: è quello giusto, punto.
+                provider = chosen; liveStatus = ident.preferStatus;
+            } else if (ident.preferStatus === "dead" && ident.best && ident.best.id !== chosen) {
+                // scelto = morto, ma la chiave autentica ALTROVE → correzione motivata
+                corrected = { from: chosen, to: ident.best.id, toLabel: ident.best.label };
+                provider = ident.best.id; liveStatus = ident.best.liveStatus;
+            } else {
+                // servizio giù / non testabile / esito incerto: rispetta la scelta
+                provider = chosen; liveStatus = null;
+            }
+        } catch (_) { /* test live non riuscito: si prosegue col provider scelto/rilevato */ }
+
+        // La conferma di sovrascrittura vale quando l'utente ha scelto lui il provider
+        // (o ha esplicitamente confermato): in quel caso può sovrascrivere la variabile.
+        const r = cloud.saveKey(rawKey, provider, { confirmOverwrite: confirmOverwrite || (!!chosen && provider === chosen) });
+        if (r.ok) {
+            this.orchestrator.discoverCloud(true).catch(() => {}); // aggiorna il catalogo
+            r.liveStatus = liveStatus;            // 'live' | 'quota' | null (servizio giù/non testato)
+            if (corrected) r.corrected = corrected;
+        }
+        // conflict = la variabile ha già una chiave diversa e la risoluzione è automatica:
+        // 409 così il frontend può chiedere conferma senza distruggere nulla.
+        this._json(res, r, r.ok ? 200 : (r.conflict ? 409 : 400));
     }
 
     /**
@@ -963,6 +1005,125 @@ class MobileServer {
             const tUrl = "https://translate.google.com/translate?sl=auto&tl=it&u=" + encodeURIComponent(target);
             return this._json(res, { url: tUrl });
         } catch (e) { return this._json(res, { error: e.message }, 400); }
+    }
+
+    // ---- 🎵 MUSICA (ricerca brano + testo + anteprima 30s) ------------------
+    //
+    // ★ 2026-07-30 — "Spotify che funziona davvero" senza uscire dalla pagina, nella
+    // parte che NON richiede né login né Premium: cerca il brano, mostra il testo,
+    // suona l'anteprima di 30s (mp3), e offre "Apri in Spotify" per il brano intero.
+    // Fonti gratuite senza chiave (lyrics.ovh / Deezer). Il telefono non contatta i
+    // siti: il PC fa da tramite, come per Tor. La riproduzione INTERA nel tuo Spotify
+    // (Premium, controllo via Web API) è un secondo passo che si attiva quando metti
+    // le credenziali della tua app developer.
+
+    /** GET esterno → JSON (nessuna chiave). Ritorna null se fallisce, mai eccezioni. */
+    _musicHttpJson(target, timeoutMs = 15000) {
+        return new Promise((resolve) => {
+            let done = false; const fin = v => { if (!done) { done = true; resolve(v); } };
+            try {
+                const https = require("https");
+                const r = https.get(target, { timeout: timeoutMs, headers: { "User-Agent": "Antigravity/1.0" } }, (rs) => {
+                    let d = ""; rs.on("data", c => { if (d.length < 500000) d += c; });
+                    rs.on("end", () => { try { fin(JSON.parse(d)); } catch (_) { fin(null); } });
+                });
+                r.on("error", () => fin(null));
+                r.on("timeout", () => { r.destroy(); fin(null); });
+            } catch (_) { fin(null); }
+        });
+    }
+
+    /** /music/search?q=… → { results:[{title,artist,album,cover,preview,spotify}] } */
+    async _musicSearch(req, res) {
+        try {
+            const u = new URL(req.url, "http://localhost");
+            const q = (u.searchParams.get("q") || "").trim();
+            if (!q) return this._json(res, { results: [] });
+            const j = await this._musicHttpJson("https://api.lyrics.ovh/suggest/" + encodeURIComponent(q));
+            const results = ((j && j.data) || []).slice(0, 12).map(x => {
+                const artist = (x.artist && x.artist.name) || "";
+                return {
+                    title: x.title || "", artist,
+                    album: (x.album && x.album.title) || "",
+                    cover: (x.album && (x.album.cover_medium || x.album.cover)) || "",
+                    preview: x.preview || "",   // mp3 30s: suonabile in-pagina, niente login
+                    spotify: "https://open.spotify.com/search/" + encodeURIComponent((artist + " " + (x.title || "")).trim())
+                };
+            });
+            return this._json(res, { results });
+        } catch (e) { return this._json(res, { results: [], error: e.message }, 500); }
+    }
+
+    /** /music/spotify?q=… → { ok, embed, url } — trova l'ID del brano su Spotify
+     *  (keyless, via ricerca web: site:open.spotify.com/track) e ritorna l'URL del
+     *  PLAYER EMBED ufficiale. È l'approccio di EfestoAI: niente OAuth/Client-ID,
+     *  l'iframe suona l'anteprima per tutti e il brano intero se sei loggato in
+     *  Spotify nel browser/webview. */
+    async _musicSpotifyEmbed(req, res) {
+        try {
+            const u = new URL(req.url, "http://localhost");
+            const q = (u.searchParams.get("q") || "").trim();
+            if (!q) return this._json(res, { ok: false, error: "manca q" }, 400);
+            let web; try { web = require("./webSearch"); } catch (_) { return this._json(res, { ok: false, error: "ricerca web non disponibile" }, 500); }
+            const tentativi = ["site:open.spotify.com/track " + q, "site:open.spotify.com " + q + " song", q + " spotify track"];
+            for (const query of tentativi) {
+                let ris = [];
+                try { ris = await web.search(query, 8); } catch (_) { continue; }
+                for (const r of ris || []) {
+                    const m = String(r.url || "").match(/open\.spotify\.com\/(?:intl-\w+\/)?(track|album|playlist|episode)\/([A-Za-z0-9]+)/);
+                    if (m) return this._json(res, { ok: true, embed: "https://open.spotify.com/embed/" + m[1] + "/" + m[2], url: r.url });
+                }
+            }
+            return this._json(res, { ok: false, error: "brano non trovato su Spotify" });
+        } catch (e) { return this._json(res, { ok: false, error: e.message }, 500); }
+    }
+
+    /** GET pagina (HTML) con User-Agent da browser. Per lo scraping keyless di YouTube. */
+    _musicPageHtml(target, timeoutMs = 15000) {
+        return new Promise((resolve) => {
+            let done = false; const fin = v => { if (!done) { done = true; resolve(v); } };
+            try {
+                const https = require("https");
+                const r = https.get(target, { timeout: timeoutMs, headers: {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36",
+                    "Accept-Language": "it-IT,it;q=0.9,en;q=0.8"
+                } }, (rs) => {
+                    let d = ""; rs.on("data", c => { if (d.length < 3000000) d += c; });
+                    rs.on("end", () => fin(d));
+                });
+                r.on("error", () => fin(""));
+                r.on("timeout", () => { r.destroy(); fin(""); });
+            } catch (_) { fin(""); }
+        });
+    }
+
+    /** /music/youtube?q=… → { ok, videoId, embed, title } — trova il video del brano
+     *  su YouTube (keyless: interroga la pagina risultati ed estrae il primo videoId)
+     *  e ritorna l'URL dell'iframe player. YouTube ha il BRANO INTERO, gratis: è la
+     *  riproduzione completa per chi non ha Spotify Premium. */
+    async _musicYouTube(req, res) {
+        try {
+            const u = new URL(req.url, "http://localhost");
+            const q = (u.searchParams.get("q") || "").trim();
+            if (!q) return this._json(res, { ok: false, error: "manca q" }, 400);
+            const html = await this._musicPageHtml("https://www.youtube.com/results?search_query=" + encodeURIComponent(q) + "&hl=it");
+            const m = html.match(/"videoId":"([A-Za-z0-9_-]{11})"/);
+            if (!m) return this._json(res, { ok: false, error: "nessun video trovato su YouTube" });
+            const t = html.match(/"title":\{"runs":\[\{"text":"([^"]{1,90})"/);
+            return this._json(res, { ok: true, videoId: m[1], title: t ? t[1] : "", embed: "https://www.youtube.com/embed/" + m[1] });
+        } catch (e) { return this._json(res, { ok: false, error: e.message }, 500); }
+    }
+
+    /** /music/lyrics?artist=…&title=… → { lyrics, found } */
+    async _musicLyrics(req, res) {
+        try {
+            const u = new URL(req.url, "http://localhost");
+            const artist = (u.searchParams.get("artist") || "").trim();
+            const title = (u.searchParams.get("title") || "").trim();
+            if (!artist || !title) return this._json(res, { error: "servono artist e title", found: false }, 400);
+            const j = await this._musicHttpJson("https://api.lyrics.ovh/v1/" + encodeURIComponent(artist) + "/" + encodeURIComponent(title));
+            return this._json(res, { lyrics: (j && j.lyrics) || "", found: !!(j && j.lyrics) });
+        } catch (e) { return this._json(res, { error: e.message, found: false }, 500); }
     }
 
     /** ★ 2026-07-24 — CACCIA VERA: interroga online l'elenco aggiornato dei provider

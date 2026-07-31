@@ -298,6 +298,7 @@
   <span class="hstat lim" id="climit" style="display:none" title="Limiti di utilizzo di Claude"></span>
   <span class="hbtns">
     <button class="hbtn" id="torBtn" title="Navigatore Tor (rete .onion)">🧅</button>
+    <button class="hbtn" id="musicBtn" title="Musica (stile Spotify): cerca brano, testo, anteprima" style="display:inline-flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 168 168" aria-hidden="true"><path fill="#1ED760" d="M83.996.277C37.747.277.253 37.77.253 84.019c0 46.251 37.494 83.742 83.743 83.742 46.254 0 83.744-37.491 83.744-83.742 0-46.246-37.49-83.738-83.745-83.738l.001-.004zm38.404 120.78a5.217 5.217 0 01-7.18 1.73c-19.662-12.01-44.414-14.73-73.564-8.07a5.222 5.222 0 01-6.249-3.93 5.213 5.213 0 013.926-6.25c31.9-7.291 59.263-4.15 81.337 9.34 2.46 1.51 3.24 4.72 1.73 7.18zm10.25-22.805c-1.89 3.075-5.91 4.045-8.98 2.155-22.51-13.839-56.823-17.846-83.448-9.764-3.453 1.043-7.1-.903-8.148-4.35a6.538 6.538 0 014.354-8.143c30.413-9.228 68.222-4.758 94.072 11.127 3.07 1.89 4.04 5.91 2.15 8.98v-.005zm.88-23.744c-26.99-16.031-71.52-17.505-97.289-9.684-4.138 1.255-8.514-1.081-9.768-5.219a7.835 7.835 0 015.221-9.771c29.581-8.98 78.756-7.245 109.83 11.202a7.823 7.823 0 012.74 10.733c-2.2 3.722-7.02 4.949-10.73 2.739z"/></svg></button>
     <button class="hbtn" id="keysBtn" title="Chiavi API dei provider">🔑</button>
     <button class="hbtn" id="clearBtn" title="Pulisci lo schermo (la memoria resta)">🧹</button>
     <button class="hbtn" id="exportBtn" title="Esporta la chat in Markdown">⤓</button>
@@ -464,6 +465,32 @@
   </div>
   <div id="torStatus" style="font-size:12px;color:var(--dim);padding:6px 12px;border-bottom:1px solid var(--line);min-height:16px"></div>
   <div id="torContent" style="flex:1;overflow-y:auto;padding:16px;font-size:15px;line-height:1.5;color:var(--txt);word-break:break-word"></div>
+</div>
+
+<!-- ★ 2026-07-30 — 🎵 Pannello MUSICA in stile Spotify (nero/verde) -->
+<div id="musicPanel" style="display:none;position:fixed;inset:0;z-index:50;background:#121212;color:#fff;flex-direction:column;font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
+  <style>
+    #musicPanel .mrow{transition:background .15s}
+    #musicPanel .mrow:hover{background:#1a1a1a}
+    #musicPanel .mplay:hover{transform:scale(1.06)}
+    #musicPanel ::placeholder{color:#8b8b8b}
+    #musicPanel #musicQuery:focus{outline:none}
+  </style>
+  <div style="display:flex;align-items:center;gap:11px;padding:13px 15px;background:linear-gradient(#282828,#121212)">
+    <svg width="26" height="26" viewBox="0 0 168 168" aria-hidden="true"><path fill="#1ED760" d="M83.996.277C37.747.277.253 37.77.253 84.019c0 46.251 37.494 83.742 83.743 83.742 46.254 0 83.744-37.491 83.744-83.742 0-46.246-37.49-83.738-83.745-83.738l.001-.004zm38.404 120.78a5.217 5.217 0 01-7.18 1.73c-19.662-12.01-44.414-14.73-73.564-8.07a5.222 5.222 0 01-6.249-3.93 5.213 5.213 0 013.926-6.25c31.9-7.291 59.263-4.15 81.337 9.34 2.46 1.51 3.24 4.72 1.73 7.18zm10.25-22.805c-1.89 3.075-5.91 4.045-8.98 2.155-22.51-13.839-56.823-17.846-83.448-9.764-3.453 1.043-7.1-.903-8.148-4.35a6.538 6.538 0 014.354-8.143c30.413-9.228 68.222-4.758 94.072 11.127 3.07 1.89 4.04 5.91 2.15 8.98v-.005zm.88-23.744c-26.99-16.031-71.52-17.505-97.289-9.684-4.138 1.255-8.514-1.081-9.768-5.219a7.835 7.835 0 015.221-9.771c29.581-8.98 78.756-7.245 109.83 11.202a7.823 7.823 0 012.74 10.733c-2.2 3.722-7.02 4.949-10.73 2.739z"/></svg>
+    <span style="font-weight:700;font-size:18px;letter-spacing:-.3px">Musica</span>
+    <button id="musicClose" title="Chiudi" style="margin-left:auto;background:none;border:none;color:#b3b3b3;font-size:20px;cursor:pointer;width:36px;height:36px;border-radius:50%">✕</button>
+  </div>
+  <div style="padding:6px 15px 10px">
+    <div style="display:flex;align-items:center;gap:9px;background:#242424;border-radius:500px;padding:10px 15px">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="#b3b3b3" aria-hidden="true"><path d="M10 2a8 8 0 105.293 14.293l4.853 4.854 1.415-1.415-4.854-4.853A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"/></svg>
+      <input id="musicQuery" placeholder="Cosa vuoi ascoltare?" style="flex:1;background:none;border:none;color:#fff;font-size:15px" autocapitalize="off" autocorrect="off" spellcheck="false">
+      <button id="musicGo" style="background:#1ED760;color:#000;border:none;border-radius:500px;padding:8px 18px;font-weight:700;font-size:13px;cursor:pointer">Cerca</button>
+    </div>
+  </div>
+  <div id="musicStatus" style="font-size:12px;color:#b3b3b3;padding:0 16px 6px;min-height:14px"></div>
+  <div id="musicContent" style="flex:1;overflow-y:auto;padding:2px 8px 24px"></div>
+  <audio id="musicAudio" style="display:none"></audio>
 </div>
 
 <script>
@@ -1633,8 +1660,26 @@ $("#keySave").addEventListener("click",async()=>{
       }catch(_){ probeNote=" · (test live saltato)"; }
     }
     $("#keySave").textContent="Salvo…";
-    const r=await api("/addKey",{key,provider:keyPick}); const j=await r.json();
-    if(j.ok){ $("#keyInput").value=""; $("#keyDetect").innerHTML='<span style="color:var(--ok)">✓ '+(j.label||j.provider)+' salvato e attivo.'+probeNote+'</span>'; $("#keyProvider").style.display="none"; _allProvs=null; loadKeys(); loadModels&&loadModels(); }
+    let r=await api("/addKey",{key,provider:keyPick}); let j=await r.json();
+    // ★ 2026-07-31 — CONFLITTO: la variabile .env ha già una chiave DIVERSA. Non
+    // sovrascriviamo alla cieca (era così che spariva la chiave di groq): chiediamo
+    // conferma esplicita e solo allora reinviamo con confirmOverwrite.
+    if(!j.ok && j.conflict){
+      const ok=confirm((j.error||"Sovrascrivere la chiave esistente?")+"\n\nLa vecchia chiave viene salvata in .env.bak, ma verrà sostituita. Procedo?");
+      if(!ok){ $("#keyDetect").innerHTML='<span style="color:var(--dim)">Salvataggio annullato: chiave esistente intatta.</span>'; $("#keySave").textContent="Salva chiave"; $("#keySave").disabled=false; return; }
+      r=await api("/addKey",{key,provider:keyPick,confirmOverwrite:true}); j=await r.json();
+    }
+    if(j.ok){
+      $("#keyInput").value="";
+      // ★ 2026-07-30 — stato AUTOREVOLE dal server (ha provato la chiave NUOVA dal
+      // vivo). Se c'è, vince sul probeNote (che testava la chiave già salvata).
+      const smap={live:["🟢","funziona"],quota:["🟠","autentica ma senza credito/quota"]};
+      const sm=j.liveStatus&&smap[j.liveStatus];
+      const liveTxt=sm?(' · '+sm[0]+' '+sm[1]):probeNote;
+      const corr=j.corrected?('<div style="font-size:12px;color:var(--warn,#b8860b);margin-top:3px">↔︎ Avevi indicato «'+escapeHtml(String(j.corrected.from||'?'))+'», ma la chiave autentica su <b>'+escapeHtml(j.corrected.toLabel||j.corrected.to)+'</b>: salvata lì.</div>'):"";
+      $("#keyDetect").innerHTML='<span style="color:var(--ok)">✓ '+escapeHtml(j.label||j.provider)+' salvato e attivo.'+liveTxt+'</span>'+corr;
+      $("#keyProvider").style.display="none"; _allProvs=null; loadKeys(); loadModels&&loadModels();
+    }
     else $("#keyDetect").innerHTML='<span style="color:var(--err)">Errore: '+(j.error||"")+'</span>';
   }catch(e){ $("#keyDetect").textContent="Errore di rete."; }
   $("#keySave").textContent="Salva chiave"; $("#keySave").disabled=false;
@@ -1707,6 +1752,81 @@ $("#torClose").onclick=torClose;
 $("#torGo").onclick=()=>torGoSmart($("#torUrl").value);
 $("#torUrl").addEventListener("keydown",e=>{ if(e.key==="Enter") torGoSmart($("#torUrl").value); });
 $("#torBack").onclick=()=>{ torHistory.pop(); const prev=torHistory.pop(); if(prev) torVisit(prev); else torHome(); };
+
+/* ===== 🎵 MUSICA (cerca brano · testo · anteprima 30s · apri in Spotify) ===== */
+let _musicResults=[];
+function musicOpen(){ $("#musicPanel").style.display="flex"; setTimeout(()=>{try{$("#musicQuery").focus();}catch(_){}} ,50); }
+function musicClose(){ try{$("#musicAudio").pause();}catch(_){}; $("#musicPanel").style.display="none"; }
+async function musicSearch(){
+  const q=$("#musicQuery").value.trim(); if(!q) return;
+  $("#musicStatus").textContent="Cerco «"+q+"»…"; $("#musicContent").innerHTML="";
+  let r;
+  try{ r=await fetch("/music/search?q="+encodeURIComponent(q)+"&t="+encodeURIComponent(T)); }
+  catch(e){ $("#musicStatus").textContent="Nessuna connessione al server."; return; }
+  // ★ errori PARLANTI: la causa più comune è il server non ancora riavviato (404).
+  if(!r.ok){
+    $("#musicStatus").textContent =
+      r.status===404 ? "⚠️ Riavvia l'estensione: la funzione Musica non è ancora caricata nel server." :
+      r.status===401 ? "Sessione scaduta: ricarica la pagina." :
+      "Errore del server ("+r.status+")."; return;
+  }
+  let j; try{ j=await r.json(); }catch(_){ $("#musicStatus").textContent="Risposta non valida dal server (prova a riavviare)."; return; }
+  if(j.error){ $("#musicStatus").textContent="Errore: "+j.error; return; }
+  _musicResults=j.results||[];
+  if(!_musicResults.length){ $("#musicStatus").textContent="Nessun risultato per «"+q+"»."; return; }
+  $("#musicStatus").textContent=_musicResults.length+" risultati";
+  $("#musicContent").innerHTML=_musicResults.map((s,i)=>
+    '<div class="mrow" style="display:flex;gap:12px;align-items:center;padding:8px;border-radius:6px">'
+    + (s.cover?('<img src="'+escapeAttr(s.cover)+'" style="width:52px;height:52px;border-radius:4px;object-fit:cover;flex-shrink:0" loading="lazy">'):'<div style="width:52px;height:52px;border-radius:4px;background:#282828;display:flex;align-items:center;justify-content:center;flex-shrink:0">🎵</div>')
+    + '<div style="flex:1;min-width:0;cursor:pointer" onclick="musicLyrics('+i+')">'
+    +   '<div style="font-weight:600;font-size:15px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+escapeHtml(s.title)+'</div>'
+    +   '<div style="font-size:13px;color:#b3b3b3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+escapeHtml(s.artist)+(s.album?(" · "+escapeHtml(s.album)):"")+'</div>'
+    + '</div>'
+    + '<div style="display:flex;gap:8px;align-items:center;flex-shrink:0">'
+    +   '<button class="mplay" title="Riproduci brano intero" onclick="musicLyrics('+i+')" style="background:#1ED760;border:none;width:38px;height:38px;border-radius:50%;color:#000;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .12s">▶</button>'
+    + '</div></div>').join("");
+}
+function musicPlay(i){
+  const s=_musicResults[i]; if(!s||!s.preview) return;
+  const a=$("#musicAudio"); a.src=s.preview; a.play().catch(()=>{});
+  $("#musicStatus").textContent="▶️ Anteprima 30s: "+s.title+" — "+s.artist;
+}
+async function musicLyrics(i){
+  const s=_musicResults[i]; if(!s) return;
+  $("#musicStatus").textContent=s.title+" — "+s.artist;
+  const cover=s.cover?('<img src="'+escapeAttr(s.cover)+'" style="width:80px;height:80px;border-radius:6px;object-fit:cover;flex-shrink:0">'):'';
+  const spBtn='<a href="'+escapeAttr(s.spotify)+'" target="_blank" rel="noopener" style="text-decoration:none;color:#b3b3b3;font-size:12px;padding:6px 12px;border:1px solid #444;border-radius:500px">Apri in Spotify</a>';
+  // Vista brano: PLAYER YOUTUBE (brano intero, gratis) in cima + testo sotto.
+  $("#musicContent").innerHTML='<div style="padding:6px 8px 24px">'
+    + '<button onclick="musicSearch()" style="background:#282828;color:#fff;border:none;border-radius:500px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:14px">‹ Risultati</button>'
+    + '<div style="display:flex;gap:14px;align-items:center;margin-bottom:14px">'+cover
+    +   '<div style="min-width:0"><div style="font-weight:800;font-size:21px;color:#fff;letter-spacing:-.5px;line-height:1.15">'+escapeHtml(s.title)+'</div>'
+    +   '<div style="font-size:14px;color:#b3b3b3;margin-top:3px">'+escapeHtml(s.artist)+'</div></div>'
+    + '</div>'
+    + '<div id="musicPlayer" style="margin-bottom:12px"><div style="color:#b3b3b3;font-size:13px">▶ Carico il brano intero da YouTube…</div></div>'
+    + '<div style="margin-bottom:18px">'+spBtn+'</div>'
+    + '<div id="musicLyricsBox" style="color:#b3b3b3;font-size:13px">Carico il testo…</div>'
+    + '</div>';
+  $("#musicContent").scrollTop=0;
+  // 1) Player YOUTUBE: il brano INTERO, gratis, dentro la pagina (autoplay).
+  fetch("/music/youtube?q="+encodeURIComponent(s.artist+" "+s.title)+"&t="+encodeURIComponent(T))
+    .then(r=>r.ok?r.json():null).then(d=>{
+      const box=$("#musicPlayer"); if(!box) return;
+      if(d&&d.videoId){ box.innerHTML='<iframe src="https://www.youtube.com/embed/'+encodeURIComponent(d.videoId)+'?autoplay=1&rel=0" style="width:100%;aspect-ratio:16/9;border:0;border-radius:12px" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>'; }
+      else { box.innerHTML='<div style="color:#8b8b8b;font-size:13px">Brano non trovato su YouTube. Prova «Apri in Spotify».</div>'; }
+    }).catch(()=>{ const box=$("#musicPlayer"); if(box) box.innerHTML='<div style="color:#8b8b8b;font-size:13px">Player non caricato (riavvia l\'estensione?).</div>'; });
+  // 2) Testo canzone.
+  fetch("/music/lyrics?artist="+encodeURIComponent(s.artist)+"&title="+encodeURIComponent(s.title)+"&t="+encodeURIComponent(T))
+    .then(r=>r.ok?r.json():null).then(j=>{
+      const box=$("#musicLyricsBox"); if(!box) return;
+      if(j&&j.found){ box.style.color="#e8e8e8"; box.innerHTML='<pre style="white-space:pre-wrap;font-family:inherit;font-size:15px;line-height:1.75;color:#e8e8e8;margin:0">'+escapeHtml(j.lyrics)+'</pre>'; }
+      else { box.style.color="#8b8b8b"; box.textContent="Testo non trovato per questo brano."; }
+    }).catch(()=>{ const box=$("#musicLyricsBox"); if(box){ box.style.color="#8b8b8b"; box.textContent="Testo non caricato."; } });
+}
+$("#musicBtn").onclick=musicOpen;
+$("#musicClose").onclick=musicClose;
+$("#musicGo").onclick=musicSearch;
+$("#musicQuery").addEventListener("keydown",e=>{ if(e.key==="Enter") musicSearch(); });
 
 // ★ 2026-07-25 — Pulsante 🌓 (solo telefono): Automatico → Chiaro → Scuro.
 function themeIcon(mode){
