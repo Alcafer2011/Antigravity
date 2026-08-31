@@ -14,6 +14,11 @@
 *.env
 !*.env.example
 
+# --- Upload dell'utente (foto/screenshot dal telefono) ---
+# ★ 2026-07-30 — possono contenere segreti (es. screenshot con Client Secret
+#   Spotify): NON devono mai finire su git.
+uploads/
+
 # --- Dipendenze e pacchetti ---
 node_modules/
 *.vsix
@@ -55,3 +60,22 @@ nul
 .cache/
 coverage/
 .nyc_output/
+
+# --- STATO DELL'APP, non codice (★ 2026-08-31) -------------------------------
+# Queste cose cambiano da sole a ogni avvio: se restano versionate, `git status`
+# e' sempre sporco, i diff sono illeggibili e non si capisce piu' cosa hai
+# cambiato TU. Peggio: mobile-conversations.json sono le tue chat vere (centinaia
+# di KB di conversazioni personali) e non hanno niente da fare in un repository.
+# I file restano sul disco: qui si smette solo di versionarli.
+mobile-conversations.json
+antigravity.db
+cloud-catalog.json
+cloud-usage.json
+cloud-rate.json
+cloud-cooldown.json
+bounty-hunt.json
+.chroma/
+src/.undo/
+src/.checkpoints/
+src/.bugHunter/
+src/.permessi-strumenti.json

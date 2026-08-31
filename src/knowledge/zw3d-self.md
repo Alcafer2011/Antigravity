@@ -9,7 +9,7 @@
 ## 0. Cos'è (per l'agente)
 Il plugin ZW3D (SuperAssistente) vive in `C:\Users\infoa\src\` come parte di Antigravity
 (nativeAgent.js ha l'op `zw3d`, localOrchestrator.js lo instrada). Conoscenza/regole in
-`C:\Users\infoa\src\knowledge\` (zw3d-rules.md, ZW3D-WORKLOG.md, questo file).
+`C:\Users\infoa\Antigravity\src\knowledge\` (zw3d-rules.md, ZW3D-WORKLOG.md, questo file).
 Fonti esterne utili: `Logitrace_Funzioni_Catalogo.md` (208 forme), `Logibarre_Logitole_Catalogo.md` (134 profili),
 `HERMES_TASK_ferro_battuto.md` (catalogo ferro battuto da generare).
 

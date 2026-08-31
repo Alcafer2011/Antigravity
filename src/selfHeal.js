@@ -177,7 +177,10 @@ const CRITICAL_FILES = [
     // se sparisse, il registro tornerebbe alla sola lista curata senza crash.
     "providerCatalog.js", "webSearch.js",
     "learningMemory.js", "mobileServer.js", "mobile-page.html", "kaggleToolProxy.js", "kaggleWaker.js",
-    "kaggleEngine.js", "nousClient.js", "whatsappBridge.js", "gpuPlatforms.js",
+    // ★ 2026-08-01 — whatsappBridge.js tolto dai file critici: il bridge WhatsApp
+    // e' stato rimosso (utente non usa l'app). Se restasse qui, il self-heal lo
+    // ricreerebbe dalla copia di backup a ogni avvio.
+    "kaggleEngine.js", "nousClient.js", "gpuPlatforms.js",
     // ★ 2026-07-30 — cantiere.js è il modulo che PROTEGGE il lavoro in corso:
     // se si corrompe, spariscono anche le protezioni, quindi è il primo che deve
     // poter tornare sano. (Nessun cortocircuito: se è rotto, il require qui sopra

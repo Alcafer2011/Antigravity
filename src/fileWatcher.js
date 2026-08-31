@@ -40,8 +40,7 @@ function _alert(msg) {
     if (arr.length > 50) arr = arr.slice(-50);
     fs.writeFileSync(ALERTS, JSON.stringify(arr, null, 2), "utf8");
   } catch (_) {}
-  // notifica WhatsApp se il bridge è pronto
-  try { const wb = require("./whatsappBridge"); wb.notify("⚠️ Antigravity: " + msg); } catch (_) {}
+  // ★ 2026-08-01 — notifica WhatsApp rimossa insieme al bridge (non usato).
 }
 
 function start(intervalMs = 15000) {

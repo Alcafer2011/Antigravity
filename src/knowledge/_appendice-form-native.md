@@ -1,4 +1,27 @@
 # FORM NATIVE ZW3D — pannelli agganciati, non finestre volanti
+
+## 0. ★★★ AGGIORNAMENTO 2026-08-01: IL PANNELLO NATIVO SI PUO' FARE
+Il §16 diceva "strada abbandonata" perche' i callback dei campi restavano muti.
+La strada e' stata ripresa e il pannello nativo di Efesto COMPILA e si installa
+(`EfestoAI\zw3d-plugin\`, vedi `EfestoAI\EFESTO-NUCLEO.md`). Cosa e' cambiato:
+non ci si affida PIU' ai soli callback. Si mettono ENTRAMBE le strade insieme:
+ (a) `ZwCommandCallbackLoad` + `cvxFormCallback` (§14), e
+ (b) il RIPIEGO a polling gia' descritto in fondo al §16: il timer Win32 legge
+     `cvxItemSelected` e deseleziona con `cvxItemSelect(form, campo, -1)`.
+Con (b) presente, se (a) e' muto il pannello funziona lo stesso. Era questo il
+pezzo che mancava per non abbandonare la strada.
+
+★ TRAPPOLA NUOVA (costata una compilazione): `cvxItemAdd` prende **TRE**
+argomenti — `void cvxItemAdd(char *Form, int idField, const char *Text)`
+(zwapi_ui_form.h:922). Non ha il parametro `idItem` finale che verrebbe da
+supporre per simmetria con `cvxItemSet`/`cvxItemDel`. Conferma la regola del
+progetto: **le firme non si sanno a memoria, si PESCANO dall'indice.**
+
+★ TRAPPOLA NUOVA 2: il `.zcui` chiamava `~Efesto_Apri` mentre la funzione
+registrata era `EfestoApri`. Bottone che non fa niente, nessun errore visibile.
+Da allora c'e' una prova automatica (`engine\collaudo.js`) che confronta il nome
+nello `<Script>` con quello passato a `ZwCommandFunctionLoad`.
+
 *(scoperto e verificato il 2026-07-26 costruendo il pannello di Efesto. Regola dell'utente:
 ogni lavoro su ZW3D va scritto qui, perché l'agente lo ritrovi da solo la volta dopo.)*
 

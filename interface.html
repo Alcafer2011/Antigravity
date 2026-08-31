@@ -3,17 +3,72 @@
 <head>
 <meta charset="utf-8">
 <!-- La chat di VS Code mostra LA STESSA pagina del telefono, servita dal server
-     locale: stessa grafica, stesse funzioni, stessa conversazione condivisa. -->
+     locale: stessa grafica, stesse funzioni, stessa conversazione condivisa.
+
+     ★ 2026-08-02 — L'iframe non parte più da subito: prima si vede lo stato
+     ("collegamento…"), poi l'estensione manda {tipo:"pronto",url} e solo allora
+     l'iframe si carica. Se il server non risponde arriva {tipo:"errore"} e si
+     legge cosa fare, invece di restare davanti a un pannello nero e muto. -->
 <meta http-equiv="Content-Security-Policy"
-      content="default-src 'none'; frame-src http://127.0.0.1:* http://localhost:*; style-src 'unsafe-inline';">
+      content="default-src 'none'; frame-src http://127.0.0.1:* http://localhost:*; style-src 'unsafe-inline'; script-src 'nonce-${nonce}';">
 <style>
-  html,body{margin:0;padding:0;height:100%;background:#262624}
+  html,body{margin:0;padding:0;height:100%;background:#262624;overflow:hidden}
   iframe{border:0;width:100%;height:100vh;display:block}
-  .fallback{color:#a8a49c;font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:24px;line-height:1.6}
+  #stato{color:#a8a49c;font:14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+         padding:24px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+  #stato b{color:#ececec;font-weight:600}
+  #stato code{background:#1c1b19;color:#ececec;padding:2px 6px;border-radius:5px;
+              font:12px ui-monospace,Consolas,monospace;user-select:all}
+  .pallino{display:inline-block;width:8px;height:8px;border-radius:50%;background:#d97757;
+           margin-right:8px;animation:p 1.2s ease-in-out infinite}
+  @keyframes p{0%,100%{opacity:.25}50%{opacity:1}}
+  .nascosto{display:none}
 </style>
 </head>
 <body>
-  <iframe src="${serverUrl}" allow="clipboard-read; clipboard-write"></iframe>
-  <noscript><div class="fallback">Abilita gli script per usare Antigravity.</div></noscript>
+  <div id="stato"><div><span class="pallino"></span><b>Antigravity</b> — collegamento al server…</div></div>
+  <iframe id="telaio" class="nascosto" allow="clipboard-read; clipboard-write"></iframe>
+  <script nonce="${nonce}">
+  (function(){
+    var stato = document.getElementById("stato");
+    var telaio = document.getElementById("telaio");
+    var agganciato = false;
+
+    function mostraErrore(testo, porta){
+      stato.innerHTML = "";
+      var d1 = document.createElement("div");
+      d1.innerHTML = "<b>Antigravity non è raggiungibile.</b>";
+      var d2 = document.createElement("div");
+      d2.textContent = testo || "Il server locale non risponde.";
+      var d3 = document.createElement("div");
+      d3.textContent = "Riavvialo da un terminale con:";
+      var d4 = document.createElement("code");
+      d4.textContent = "node \"" + "%USERPROFILE%\\Antigravity\\src\\heal-and-run.js\"";
+      var d5 = document.createElement("div");
+      d5.textContent = "Poi chiudi e riapri questo pannello. Porta attesa: " + (porta || 8790) + ".";
+      [d1,d2,d3,d4,d5].forEach(function(n){ stato.appendChild(n); });
+    }
+
+    window.addEventListener("message", function(ev){
+      var m = ev.data || {};
+      if (m.tipo === "pronto" && !agganciato) {
+        agganciato = true;
+        telaio.addEventListener("load", function(){
+          stato.classList.add("nascosto");
+          telaio.classList.remove("nascosto");
+        }, { once: true });
+        telaio.src = m.url;
+      } else if (m.tipo === "errore") {
+        mostraErrore(m.testo, m.porta);
+      }
+    });
+
+    // Rete di sicurezza: se entro 25 s non è arrivato nulla, dillo invece di
+    // lasciare l'animazione a girare per sempre.
+    setTimeout(function(){
+      if (!agganciato) mostraErrore("Nessuna risposta dal server entro 25 secondi.", null);
+    }, 25000);
+  })();
+  </script>
 </body>
 </html>

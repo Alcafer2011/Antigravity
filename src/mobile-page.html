@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <title>Antigravity</title>
+<!-- 2026-08-31 - ICONA SULLA HOME DELL'IPHONE.
+     Senza questi tag iOS tratta l'icona come un semplice segnalibro e su iOS 26
+     puo' non aprire nulla. Con "apple-mobile-web-app-capable" la pagina si apre
+     a schermo intero come una vera app, senza la barra di Safari, e il link
+     salvato conserva il token nell'indirizzo. -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Antigravity">
 <!-- Rileva l'ambiente PRIMA del CSS: iPhone → cornice-telefono confinata (430×932);
      tutto il resto (pannello VS Code, browser desktop) → layout FLUIDO che riempie
      lo spazio e si ri-adatta quando allarghi/stringi. Fallback: fluido. -->
@@ -286,6 +295,19 @@
   .conv .cd{opacity:0;border:0;background:transparent;color:var(--dim);cursor:pointer;font-size:15px;padding:2px 6px;border-radius:6px}
   .conv:hover .cd{opacity:1}
   .conv .cd:hover{color:var(--err);background:var(--line)}
+
+  /* 2026-08-31 - APERTA COME APP DALLA HOME (iPhone).
+     Senza la barra di Safari la pagina arriva fino al bordo alto e finisce
+     sotto l'orologio e la batteria. Qui si recupera lo spazio della zona di
+     sistema. Vale SOLO in modalita' app: dentro Safari non cambia nulla,
+     perche' li' ci pensa gia' la barra del browser. */
+  /* SENZA media query, di proposito: su iPhone le icone aggiunte alla Home col
+     metodo Apple NON fanno scattare "(display-mode: standalone)", quindi una
+     regola condizionata non entrerebbe mai in funzione. env(safe-area-inset-top)
+     vale gia' 0 dentro Safari (li' lo spazio se lo prende la barra del browser)
+     e vale l'altezza della zona di sistema solo quando la pagina arriva davvero
+     al bordo: si regola da solo, su qualunque modello di telefono. */
+  header{padding-top:calc(10px + env(safe-area-inset-top))}
 </style>
 </head>
 <body>
@@ -357,6 +379,7 @@
       <button class="chip" data-mode="coding">Codice</button>
       <select class="sel" id="provider"><option value="local">💻 Locale</option><option value="cloud">☁️ Cloud</option><option value="comfy">🎨 ComfyUI</option><option value="ghidra">🐉 Ghidra RE</option><option value="zw3d">🔧 ZW3D</option><option value="maintenance">🛠️ Manutenzione</option></select>
       <select class="sel" id="llmProvider" title="Provider: chi ospita il modello"><option value="auto">Provider: tutti</option></select>
+      <input class="sel" id="modelCerca" type="search" placeholder="🔎 cerca modello" autocomplete="off" title="Scrivi qui per cercare fra TUTTI i modelli">
       <select class="sel" id="model"><option value="auto">Modello: Auto</option></select>
       <select class="sel" id="policy"><option value="ask-writes">Chiedi</option><option value="read-only">Sola lettura</option><option value="auto-allow">Autonomo</option></select>
     </div>
@@ -503,16 +526,31 @@ const T = new URLSearchParams(location.search).get("t") || "";
    rifiutata finiscono nel log del server.
    Volutamente minimale e a prova di errore: se fallisce l'invio, si tace —
    la diagnostica non deve MAI diventare essa stessa la causa del guasto.      */
+// ★ 2026-08-06 — TIMBRO DI VERSIONE. Serve a sapere con CERTEZZA quale pagina ha in
+// mano il telefono: senza, "ho ricaricato" e "Safari mi ha dato la copia vecchia"
+// sono indistinguibili e si indaga sul codice sbagliato.
+window.AG_VERSIONE = "20260806-traccia";
 (function(){
-  var inviati = 0;                      // tetto: niente valanghe se l'errore si ripete
+  // ★ 2026-08-06 — DUE BORSELLINI SEPARATI, e non è un dettaglio.
+  // C'era UN solo tetto da 20 invii per tutto. I falsi BLOCCO (20 di fila, generati
+  // dal risparmio energetico a scheda nascosta) lo esaurivano, e da lì in poi gli
+  // errori VERI venivano scartati in silenzio: nel log restava il nulla, e il nulla
+  // è stato letto per giorni come "nessun errore, quindi la pagina è sana".
+  // Il guasto cancellava le proprie tracce. Ora gli eventi chiacchieroni (i tocchi,
+  // utili ma abbondanti) hanno un tetto BASSO e SEPARATO, e non possono più mangiare
+  // il budget di errori/blocchi/canale caduto, che restano sempre segnalabili.
+  var inviatiRumore = 0, inviatiSeri = 0;
+  var CHIACCHIERE = { TOCCO: 1, apertura: 1, prontoJS: 1, canaleAperto: 1, historyResa: 1 };
   function segnala(tipo, dati){
-    if (inviati++ > 20) return;
+    if (CHIACCHIERE[tipo]) { if (inviatiRumore++ > 60) return; }
+    else                   { if (inviatiSeri++  > 200) return; }
     try{
       fetch("/clientError?t="+encodeURIComponent(T), {
         method:"POST",
         headers:{"Content-Type":"application/json"},
         body: JSON.stringify(Object.assign({
           tipo: tipo,
+          versione: window.AG_VERSIONE,
           quando: new Date().toISOString(),
           ua: navigator.userAgent,
           memoria: (performance && performance.memory) ? performance.memory.usedJSHeapSize : null
@@ -530,16 +568,91 @@ const T = new URLSearchParams(location.search).get("t") || "";
     segnala("promise", { messaggio: r && r.message ? String(r.message) : String(r),
                          stack: r && r.stack ? String(r.stack).slice(0,1500) : "" });
   });
+
+  /* ★ 2026-08-04 — SCATOLA NERA DEI BLOCCHI.
+     Un congelamento NON è un errore JS: nessun handler qui sopra lo vede, e infatti
+     nel log comparivano solo le aperture. Questo battito misura quanto ritarda il
+     thread principale: se salta più di 3 secondi vuol dire che la pagina era
+     inchiodata, e lo racconta appena torna a respirare — con l'ultima cosa che
+     l'utente aveva toccato. Costa un timer da 1 secondo: nulla.                */
+  var ULTIMO_GESTO = "(nessuno)";
+  ["click","change","touchstart"].forEach(function(ev){
+    document.addEventListener(ev, function(e){
+      var t = e.target || {};
+      ULTIMO_GESTO = ev + " su " + (t.id ? "#"+t.id : (t.tagName||"?")) +
+                     ((t.textContent||"").trim() ? " «"+(t.textContent||"").trim().slice(0,30)+"»" : "");
+      // ★ 2026-08-06 — TRACCIA DEL TOCCO. Questo handler è registrato in cattura e
+      // PRIMA di tutto il resto dello script: se il tocco arriva qui ma non succede
+      // niente, i pulsanti non sono collegati (script morto a metà); se non arriva
+      // nemmeno qui, il dito non raggiunge il JS (overlay invisibile sopra, oppure
+      // la pagina è un fotogramma congelato). Distingue due guasti opposti che
+      // dall'esterno sembrano identici: "clicco e non va niente".
+      if (ev === "click" || ev === "touchstart") {
+        segnala("TOCCO", {
+          evento: ev,
+          id: t.id || "(senza id)",
+          tag: t.tagName || "?",
+          testo: (t.textContent||"").trim().slice(0,40),
+          // cosa c'è DAVVERO sotto il dito al centro dell'elemento: se è diverso
+          // dal bersaglio, c'è qualcosa sopra che intercetta i tocchi.
+          sopra: (function(){
+            try{
+              var r = t.getBoundingClientRect ? t.getBoundingClientRect() : null;
+              if(!r || !r.width) return "?";
+              var q = document.elementFromPoint(r.left+r.width/2, r.top+r.height/2);
+              return q ? (q.id ? "#"+q.id : q.tagName) : "(niente)";
+            }catch(_){ return "?"; }
+          })()
+        });
+      }
+    }, true);
+  });
+  var battito = Date.now(), bloccoInCorso = 0;
+  setInterval(function(){
+    var ora = Date.now(), ritardo = ora - battito - 1000;
+    battito = ora;
+    // ★ 2026-08-06 — a scheda NASCOSTA non è un blocco, è il risparmio energetico.
+    // A pagina in background il browser rallenta i timer a 1 al minuto: il battito
+    // da 1 s tornava "fermo da 59 s" e segnalava un congelamento inesistente. Il log
+    // del 05/08 ne ha 20 di fila, tutti da VS Code e tutti con visibile:"hidden",
+    // tutti ~59000 ms esatti. Peggio: quei 20 falsi allarmi esaurivano il tetto di
+    // 20 invii, quindi gli errori VERI dopo di loro sparivano in silenzio.
+    if (ritardo > 3000 && document.visibilityState === "visible") {
+      bloccoInCorso++;
+      segnala("BLOCCO", {
+        bloccatoPerMs: Math.round(ritardo),
+        quanteVolte: bloccoInCorso,
+        ultimoGesto: ULTIMO_GESTO,
+        opzioniModello: (document.getElementById("model")||{options:[]}).options.length,
+        nodiPagina: document.getElementsByTagName("*").length,
+        visibile: document.visibilityState
+      });
+    }
+  }, 1000);
   // Traccia anche l'apertura: cosi' so se la pagina e' arrivata a eseguire il JS
   // (pagina bianca CON questa riga = si e' rotta dopo; SENZA = non e' mai partita).
   segnala("apertura", { schermo: (screen.width+"x"+screen.height) });
+  window.AG_segnala = segnala;   // ★ 06/08: lo usano api() e l'EventSource qui sotto
 })();
 const $ = s => document.querySelector(s);
 const scrollEl=$("#scroll"), thread=$("#thread"), empty=$("#empty"), input=$("#input"), sendBtn=$("#send"), fab=$("#fab");
 let mode="auto", running=false, streamEl=null, streamRaw="", curAssist=null, lastUser=null, stick=true;
 const toolCards={};
 
-function api(p,b){ return fetch(p+"?t="+encodeURIComponent(T),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(b||{})}); }
+// ★ 2026-08-06 — ogni chiamata al server che fallisce ora si vede nel log del server.
+// Prima api() restituiva la promise nuda: un 401 (token scaduto/assente) o una rete
+// caduta non producevano NESSUN segno — il pulsante sembrava semplicemente morto.
+function api(p,b){
+  return fetch(p+"?t="+encodeURIComponent(T),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(b||{})})
+    .then(function(r){
+      if(!r.ok && window.AG_segnala) window.AG_segnala("apiKO",{ rotta:p, stato:r.status });
+      return r;
+    })
+    .catch(function(e){
+      if(window.AG_segnala) window.AG_segnala("apiErrore",{ rotta:p, messaggio:String(e&&e.message||e) });
+      throw e;
+    });
+}
 function apiUrl(p){ return p+"?t="+encodeURIComponent(T); }
 
 /* ---- autoscroll intelligente ---- */
@@ -596,6 +709,17 @@ function renderMd(src){
       if(/^\s*[-*+]\s+/.test(ln)){ let items=[]; while(i<lines.length&&/^\s*[-*+]\s+/.test(lines[i])){ items.push(lines[i].replace(/^\s*[-*+]\s+/,"")); i++; } out+="<ul>"+items.map(x=>"<li>"+inline(x)+"</li>").join("")+"</ul>"; continue; }
       if(/^\s*\d+[.)]\s+/.test(ln)){ let items=[]; while(i<lines.length&&/^\s*\d+[.)]\s+/.test(lines[i])){ items.push(lines[i].replace(/^\s*\d+[.)]\s+/,"")); i++; } out+="<ol>"+items.map(x=>"<li>"+inline(x)+"</li>").join("")+"</ol>"; continue; }
       let para=[]; while(i<lines.length&&!/^\s*$/.test(lines[i])&&!/^\s*(#{1,4}\s|>|[-*+]\s|\d+[.)]\s|\|)/.test(lines[i])){ para.push(lines[i]); i++; }
+      // ★ 2026-08-31 — SECONDO LOOP INFINITO, stessa famiglia di quello del 19/07.
+      // La guardia qui sopra si ferma davanti a una riga che inizia con "|", ma il
+      // ramo tabella più su la consuma SOLO se la riga dopo è il separatore
+      // (|---|---|). Quindi ogni riga "|…" senza separatore sotto non veniva presa
+      // da nessun ramo: `para` restava vuoto, `i` non avanzava mai, e il ciclo
+      // continuava ad accodare "<p></p>" finché la stringa sfondava il limite di V8
+      // → "Error: Invalid string length", pagina bloccata, pulsanti morti.
+      // Succedeva con QUALSIASI tabella: durante lo streaming arriva prima la riga
+      // di intestazione e solo dopo il separatore — nel mezzo la pagina moriva.
+      // Regola di sicurezza: ogni giro deve consumare almeno una riga.
+      if(!para.length){ para.push(lines[i]); i++; }
       out+="<p>"+para.map(inline).join("<br>")+"</p>";
     }
   }
@@ -691,7 +815,12 @@ function startStream(){
 // e la pagina si "blocca" — pulsanti inclusi, incliccabili. Ora si ridisegna al
 // massimo ogni 120ms (~8 volte/sec): scorre fluido e l'interfaccia resta viva.
 // Il disegno FINALE completo lo fa endStream, quindi nessuna perdita di qualità.
-function _flushPaint(){ _paintPending=false; _paintTimer=null; if(!curAssist) return; _lastPaint=Date.now(); paintAssist(curAssist, streamRaw); scrollDown(); }
+// ★ 2026-08-04 — ANTI-BLOCCO SAFARI: durante lo streaming non parso markdown
+// completo. Altrimenti un singolo token in più su una risposta lunga → RangeError
+// → Safari uccide la scheda e l'utente vede solo ricariche. Alla fine del turno
+// resta il render completo.
+let _streamRawSnapshot="";
+function _flushPaint(){ _paintPending=false; _paintTimer=null; if(!curAssist) return; _lastPaint=Date.now(); if(streamRaw.length>8000){ streamEl.textContent=streamRaw+" ▌"; scrollDown(); return; } paintAssist(curAssist, streamRaw); scrollDown(); }
 function appendStream(t){
   if(!streamEl) startStream();
   streamRaw+=t; streamEl.classList.add("caret");
@@ -770,6 +899,10 @@ function approvalResolved(m){
 /* ---- render conversazione condivisa ---- */
 function clearThread(){ hideThinking(); thread.querySelectorAll(".row,.tool,.appr,.plan").forEach(e=>e.remove()); for(const k in toolCards)delete toolCards[k]; curAssist=null; streamEl=null; streamRaw=""; planEl=null; }
 function renderHistory(msgs){
+  // ★ 2026-08-06 — misura il costo REALE del disegno sul telefono. Questo ciclo è
+  // sincrono: finché gira, la pagina non risponde a nessun tocco. Se "ms" è alto,
+  // è QUI che il telefono muore, e nel log si vede come silenzio dopo canaleAperto.
+  const _t0 = Date.now();
   clearThread();
   if(!msgs||!msgs.length){ if(empty) empty.style.display=""; return; }
   hideEmpty();
@@ -778,12 +911,26 @@ function renderHistory(msgs){
     else if(m.role==="assistant"){ const a=newAssist(); const ans=paintAssist(a, m.content||""); actionsFor(a.row, ans); }
   }
   scrollDown(true);
+  try{
+    if(window.AG_segnala) window.AG_segnala("historyResa",{
+      messaggi: msgs.length,
+      caratteri: msgs.reduce((s,x)=>s+String((x&&x.content)||"").length,0),
+      ms: Date.now()-_t0,
+      nodiPagina: document.getElementsByTagName("*").length
+    });
+  }catch(_){}
 }
 
 /* ---- eventi dal server ---- */
 function onMsg(m){
   switch(m.type){
-    case "history": renderHistory(m.messages); break;
+    // ★ 2026-08-06 — non ridisegnare la history MENTRE una risposta sta arrivando.
+    // La history del server non contiene la risposta in corso: renderHistory chiama
+    // clearThread(), che azzera streamEl e cancella il testo già scritto sotto gli
+    // occhi. Poi streamEnd non trova più nulla, `running` resta true e #send resta
+    // inchiodato su "■" (il tocco dopo chiama /stop invece di inviare).
+    case "history": if(streamEl){ break; } renderHistory(m.messages); break;
+    case "ping": break;   // battito del server: serve solo a tenere vivo lastBeat
     case "conversations": renderConvList(m.list); break;
     case "userMessage": stick=true; planEl=null; addUser(m.value); lastUser=m.value; showThinking(); break;
     case "cleared": clearThread(); if(empty) empty.style.display=""; setStatus("pronto",true); break;
@@ -866,26 +1013,66 @@ function renderConvList(list){
 /* ---- SSE ---- */
 // Su telefono, quando cambi pagina/app la connessione SSE viene sospesa e spesso
 // NON si riaggancia da sola: al ritorno restavi con una chat vecchia. Ora, appena
-// la pagina torna visibile (o riprende il focus), se il canale è chiuso lo
+// la pagina torna visibile (o riprende il focus), se il canale è inattivo lo
 // riapriamo: il server rimanda subito history + elenco chat → contesto ripristinato.
-let ev=null, reconnTimer=null;
+//
+// ★ 2026-08-05 — FIX canale morto dopo sospensione/chiusura app.
+// Il vecchio controllo verificava SOLO readyState===2 (CLOSED): ma su iOS dopo lo
+// scroll-completo dell'app, Safari lascia EventSource in CONNECTING(1) o OPEN(0)
+// con canale inerte — nessun dato, nessun ping — e il client non percepiva la morte.
+// Risultato: restavi con il canale "aperto" che non riceveva più nulla, il pulsante
+// #send rimaneva in "■" (running) e nessun click rispondeva più.
+// Ora c'è un WATCHDOG client: se non arriva NULLA (dato o ping) per 8 secondi il
+// canale è considerato morto e viene chiuso + riconnesso. EventSource rilegge la
+// history appena sopra → interfaccia di nuovo viva.
+let ev=null, reconnTimer=null, lastBeat=0, watchdog=null;
 function connect(){
   if(ev){ try{ ev.close(); }catch(_){} }
   ev=new EventSource("/events?t="+encodeURIComponent(T));
-  ev.onopen=()=>setStatus("pronto",true);
-  ev.onmessage=e=>{ try{ onMsg(JSON.parse(e.data)); }catch(_){} };
+  ev.onopen=()=>{ setStatus("pronto",true); lastBeat=Date.now();
+    if(window.AG_segnala) window.AG_segnala("canaleAperto",{}); };
+  ev.onmessage=e=>{
+    lastBeat=Date.now();
+    try{ onMsg(JSON.parse(e.data)); }catch(_){}
+  };
   ev.onerror=()=>{
     setStatus("riconnessione…",false);
+    if(window.AG_segnala) window.AG_segnala("canaleErrore",{ readyState: ev?ev.readyState:-1 });
     // EventSource riprova da solo sugli errori transitori, ma se il canale è
-    // rimasto CHIUSO (es. dopo lo sblocco del telefono) lo riapriamo noi.
+    // rimasto inerte (es. dopo lo sblocco del telefono) lo riapriamo noi.
     clearTimeout(reconnTimer);
-    reconnTimer=setTimeout(()=>{ if(!ev || ev.readyState===2) connect(); }, 1500);
+    reconnTimer=setTimeout(tryReconnect, 1500);
   };
 }
-function ensureConnected(){ if(!ev || ev.readyState===2) connect(); }
+// Riconnetti se il canale è chiuso O se il watchdog lo ha giudicato morto.
+function tryReconnect(){
+  if(!ev || ev.readyState===2 || Date.now()-lastBeat>20000){
+    // Evita loop tight: aspetta appena se l'ultimo tentativo è stato poco fa.
+    clearTimeout(reconnTimer);
+    reconnTimer=setTimeout(()=>{ connect(); }, 1500);
+  }
+}
+function ensureConnected(){
+  // Non limitarti a readyState===2: riconnetti anche se il canale è aperto ma
+  // inerte (nessun beat da >20s = 4 ping saltati → canale sospeso/morto su iOS).
+  if(!ev || ev.readyState===2 || Date.now()-lastBeat>20000){ connect(); }
+}
+// Watchdog: ogni 3s controlla l'ultimo beat. Se il canale non ha dato/ping da
+// molto (#send bloccato su "■" e nessun response mai arrivato), riconnetti.
+function startWatchdog(){
+  if(watchdog) clearInterval(watchdog);
+  watchdog=setInterval(()=>{ tryReconnect(); }, 3000);
+  if(watchdog.unref) watchdog.unref();
+}
+function stopWatchdog(){ if(watchdog){ clearInterval(watchdog); watchdog=null; } }
 document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible") ensureConnected(); });
 window.addEventListener("focus",ensureConnected);
 window.addEventListener("pageshow",ensureConnected);
+// Se la pagina sta per essere scaricata (es. chiudi l'app) chiudi l'EventSource
+// pulita così il server non tiene un canale fantasma in vita.
+window.addEventListener("pagehide",()=>{ stopWatchdog(); if(ev){ try{ ev.close(); }catch(_){} ev=null; lastBeat=0; } });
+window.addEventListener("beforeunload",()=>{ stopWatchdog(); if(ev){ try{ ev.close(); }catch(_){} ev=null; lastBeat=0; } });
+startWatchdog();
 let CATALOG={local:[],claude:[],hermes:[],nous:[],cloud:[],cloudUnc:[],cloudNorm:[],provMeta:{}};
 async function loadModels(){
   try{
@@ -952,6 +1139,7 @@ function fillModels(){
   // Gratis/a pagamento NON è più deciso qui: arriva dal motore (campo `free`),
   // che è l'unico a saperlo davvero. Prima un elenco scritto a mano nella pagina
   // marcava "a pagamento" ogni provider nuovo (GitHub e Cloudflare, che sono gratis).
+  const _prima=sel.value||"auto";      // il modello già scelto non va perso (vedi tetto sotto)
   sel.innerHTML="";
   const addOpt=(par,v,t)=>{ const o=document.createElement("option"); o.value=v; o.textContent=t; par.appendChild(o); };
   const provOf=(v)=>{ const s=String(v||""); const i=s.indexOf("::"); return i>=0?s.slice(0,i):""; };
@@ -969,22 +1157,55 @@ function fillModels(){
   const scelto=$("#llmProvider").value||"auto";
   const lista=(scelto==="auto")?all:all.filter(m=>m.prov===scelto);
 
+  // ★ 2026-08-04 — TETTO ALLE OPZIONI. Con "Provider: tutti" qui finivano ~1500
+  // <option> in un colpo solo. Su iPhone toccare quel menu apre una ruota nativa
+  // da 1500 righe: la pagina resta visibile ma non risponde più, poi Safari
+  // uccide la scheda. Ora si mostrano i primi TETTO per provider e per trovare
+  // gli altri si scrive in #modelCerca (cerca su TUTTO il catalogo, niente perso).
+  const TETTO=15, TETTO_CERCA=200;
+  const q=(($("#modelCerca")||{}).value||"").trim().toLowerCase();
+
   addOpt(sel,"auto","⚙️ Auto — sceglie il migliore (consigliato)");
-  if(scelto==="auto"){
+  if(q){
+    const trovati=lista.filter(m=>((m.label||"")+" "+m.value).toLowerCase().includes(q)).sort(byLabel);
+    trovati.slice(0,TETTO_CERCA).forEach(m=>addOpt(sel,m.value,(m.free?"🆓 ":"💳 ")+(m.label||m.value)+" · "+provName(m.prov)));
+    if(!trovati.length) addOpt(sel,"auto","(nessun modello contiene «"+q+"»)");
+    else if(trovati.length>TETTO_CERCA) addOpt(sel,"auto","… altri "+(trovati.length-TETTO_CERCA)+": restringi la ricerca");
+  } else if(scelto==="auto"){
     // "tutti": resta il raggruppamento per provider, alfabetico, con 🆓/💳
     const byProv={}; lista.forEach(m=>{ (byProv[m.prov]=byProv[m.prov]||[]).push(m); });
     Object.keys(byProv).sort((a,b)=>provName(a).localeCompare(provName(b))).forEach(pr=>{
       const g=document.createElement("optgroup");
       const nFree=byProv[pr].filter(m=>m.free).length;
       g.label=(nFree===byProv[pr].length?"🆓 ":(nFree?"🆓/💳 ":"💳 "))+provName(pr)+" ("+byProv[pr].length+")";
-      byProv[pr].sort(byLabel).forEach(m=>addOpt(g,m.value,(m.free?"🆓 ":"💳 ")+(m.label||m.value)));
+      const ord=byProv[pr].sort(byLabel);
+      ord.slice(0,TETTO).forEach(m=>addOpt(g,m.value,(m.free?"🆓 ":"💳 ")+(m.label||m.value)));
+      if(ord.length>TETTO) addOpt(g,"auto","… altri "+(ord.length-TETTO)+" — usa 🔎 cerca");
       sel.appendChild(g);
     });
   } else {
-    lista.sort(byLabel).forEach(m=>addOpt(sel,m.value,(m.free?"🆓 ":"💳 ")+(m.label||m.value)));
-    if(!lista.length) addOpt(sel,"auto","(nessun modello per questo provider)");
+    const ord=lista.sort(byLabel);
+    ord.slice(0,TETTO_CERCA).forEach(m=>addOpt(sel,m.value,(m.free?"🆓 ":"💳 ")+(m.label||m.value)));
+    if(!ord.length) addOpt(sel,"auto","(nessun modello per questo provider)");
+    else if(ord.length>TETTO_CERCA) addOpt(sel,"auto","… altri "+(ord.length-TETTO_CERCA)+" — usa 🔎 cerca");
   }
+
+  // Il modello già in uso resta selezionabile anche se il tetto lo escluderebbe.
+  const esc=(v)=>(window.CSS&&CSS.escape)?CSS.escape(v):String(v).replace(/["\\]/g,"\\$&");
+  if(_prima && _prima!=="auto" && !sel.querySelector('option[value="'+esc(_prima)+'"]')){
+    const m=all.find(x=>x.value===_prima);
+    addOpt(sel,_prima,(m?((m.free?"🆓 ":"💳 ")+(m.label||_prima)):_prima)+" ✓");
+  }
+  if(sel.querySelector('option[value="'+esc(_prima)+'"]')) sel.value=_prima;
 }
+/* La ricerca ridisegna solo il menu modelli, con un respiro per non lavorare a
+   ogni tasto premuto (sul telefono conta). */
+(function(){
+  const c=document.getElementById("modelCerca");
+  if(!c) return;
+  let t=null;
+  c.addEventListener("input",()=>{ clearTimeout(t); t=setTimeout(fillModels,200); });
+})();
 /* Nomi leggibili dei provider (per ordinare e mostrare). Il resto arriva dal server. */
 const PROV_NAMES={openrouter:"OpenRouter",groq:"Groq",cerebras:"Cerebras",nvidia:"NVIDIA",sambanova:"SambaNova",hf:"HuggingFace",google:"Gemini (Google)",mistral:"Mistral",hyperbolic:"Hyperbolic",kaggle:"Kaggle (tuo)",alibaba:"Alibaba Qwen",openai:"OpenAI",deepseek:"DeepSeek",nous:"Nous",novita:"Novita",chutes:"Chutes",cloudflare:"Cloudflare",github:"GitHub Models",ollama:"Ollama (locale)","ollama-cloud":"Ollama Cloud"};
 function provName(p){ const m=(CATALOG.provMeta||{})[p]; if(m&&m.name) return m.name; return PROV_NAMES[p]||(p?p.charAt(0).toUpperCase()+p.slice(1):"Altro"); }
@@ -1198,8 +1419,8 @@ $("#bugHunterBtn").addEventListener("click", async () => {
     if (j.issues.length) j.issues.forEach(i => lines.push("  " + (i.severity === "high" ? "🔴" : i.severity === "medium" ? "🟠" : "🟡") + " [" + i.id + "] " + i.detail));
     lines.push(j.issues.length === 0 ? "💚 App sana." : "⚠️ Alcune cose richiedono attenzione manuale.");
     out.textContent = lines.join("\n");
+    loadTickets();
   } catch (err) { out.textContent = "Errore cacciatore: " + err.message; }
-  loadTickets();
 });
 
 // ★ 2026-07-30 — CODA TICKET, adesso collegata davvero. I problemi che il
@@ -1299,7 +1520,10 @@ async function loadTickets() {
 }
 // Ricarica periodica finché c'è un ticket in lavorazione da Hermes.
 setInterval(() => { if ($("#ticketBox") && $("#ticketBox").style.display === "block") loadTickets(); }, 20000);
-loadTickets();
+// ★ 2026-08-04 — AVVIO LAZY: non caricare i ticket subito, solo quando l'utente
+// preme il bottone bugHunter o interagisce. Così la pagina non fa fetch inutili
+// all'apertura e il telefono non si blocca.
+// loadTickets();
 
 // ★ 2026-07-27 — TASTO "TORNA INDIETRO": ripristina l'ultimo backup sano di un file.
 // Chiede quale file (default mobileServer.js, il cuore). Salva la versione attuale
@@ -1966,6 +2190,26 @@ cantiereAggiorna(); piattaformeAggiorna();
 setInterval(cantiereAggiorna, 60000);
 
 connect(); loadModels();
+
+// ★ 2026-08-06 — PROVA CHE LO SCRIPT È ARRIVATO IN FONDO.
+// "apertura" scatta dopo ~70 righe: dice solo che il JS è PARTITO. Se lo script
+// muore a metà (un $("#tizio") che non esiste → TypeError), tutti i pulsanti
+// registrati sotto restano scollegati e la pagina sembra viva ma è morta.
+// Questa riga è l'ULTIMA di tutte: se nel log arriva "prontoJS", i pulsanti CI SONO
+// e il guasto è altrove; se arriva solo "apertura", lo script è morto nel mezzo e
+// l'errore JS è nella riga di log subito prima.
+try{
+  if(window.AG_segnala) window.AG_segnala("prontoJS", {
+    canale: (typeof ev!=="undefined" && ev) ? ev.readyState : -1,   // 0=connessione 1=aperto 2=chiuso
+    // controllo che i bersagli dei pulsanti principali esistano davvero
+    haSend:   !!document.getElementById("send"),
+    haInput:  !!document.getElementById("input"),
+    haMenu:   !!document.getElementById("menuBtn"),
+    haModel:  !!document.getElementById("model"),
+    opzioniModello: (document.getElementById("model")||{options:[]}).options.length,
+    nodiPagina: document.getElementsByTagName("*").length
+  });
+}catch(_){}
 </script>
 </body>
 </html>

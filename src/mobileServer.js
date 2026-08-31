@@ -32,31 +32,12 @@ try {
     verifyAndRepair({ srcDir: __dirname, files: CRITICAL_FILES, logger: console });
 } catch (_) { /* selfHeal assente/rotto: si prosegue comunque */ }
 
-// ★ 2026-07-27 — CACCIATORE DI BUG INTERNO: dopo il selfHeal fisico, esegue una
-// diagnosi + auto-riparazione LOGICA dell'app (whitelist chiusa, con backup +
-// node --check + riavvio gestiti da apply-change.ps1). Se trova anomalie note le
-// corregge da solo, seguendo le regole anti-danno. Silenzioso se tutto ok.
-try {
-    const { scan } = require("./bugHunter");
-    const r = scan({ autoFix: true });
-    if (r.fixed > 0) console.log("[bugHunter] auto-corretti " + r.fixed + " problema/i: " + r.fixes.join("; "));
-} catch (_) { /* bugHunter opzionale: mai bloccare l'avvio */ }
+// ★ 2026-07-27 — Cacciatore di bug: disattivato all'avvio per non bloccare il server.
+// Resta disponibile on-demand tramite l'interfaccia (chiama /bugHunter/scan).
+// try { ... } catch (_) {}
 
-// ★ 2026-07-27 — BRIDGE WHATSAPP: avvia il bridge che inoltra i messaggi
-// dell'utente (+393391231150) a Hermes e permette le notifiche. Al primo avvio
-// stampa un QR da scansionare (obbligatorio WhatsApp). Mai blocca l'avvio.
-try {
-    const { start: startWhatsapp } = require("./whatsappBridge");
-    startWhatsapp();
-    console.log("[whatsapp] bridge avviato (se serve, scansiona il QR al primo avvio).");
-} catch (_) { /* whatsapp opzionale */ }
-
-// ★ 2026-07-27 — WATCHER FILE (blocco 7, punto 27): allarma se file toccati da estraneo.
-try {
-    const { start: startWatcher } = require("./fileWatcher");
-    startWatcher(15000);
-    console.log("[watcher] monitoraggio file src\\ attivo.");
-} catch (_) { /* watcher opzionale */ }
+// ★ 2026-07-27 — FileWatcher: disattivato all'avvio. Si attiva solo se richiesto.
+// try { ... } catch (_) {}
 
 const LocalOrchestrator = require("./localOrchestrator");
 let TorBrowser = null;
@@ -97,6 +78,13 @@ class MobileServer {
         // ha fatto il server anche senza tenera aperta la console. Nessun segreto:
         // gli errori client (CLIENT-ERROR) sono già loggati altrove; qui solo runtime.
         this._logFile = path.join(this.storageDir, "antigravity-server.log");
+        this._components = {
+            discovery: false,
+            fileWatcher: false,
+            bugHunter: false
+        };
+        this._fileWatcherInstance = null;
+        this._bugHunterInstance = null;
         const _origLog = this.logger.log ? this.logger.log.bind(this.logger) : (...a) => console.log(...a);
         const _self = this;
         this.logger.log = function (...args) {
@@ -142,6 +130,56 @@ class MobileServer {
     /** Messaggi VISIBILI della chat attiva: quelli dopo l'ultimo "pulisci schermo".
      *  La memoria (this.conversation) resta intera; qui filtriamo solo la vista. */
     _visibleMessages(c) { const a = c || this._active(); const i = a.clearedIndex || 0; return a.messages.slice(i); }
+
+    /**
+     * ★ 2026-08-06 — CRONOLOGIA ALLEGGERITA **SOLO PER LA VISTA**.
+     *
+     * Misurato oggi su questa chat: 194 messaggi, 359.513 caratteri (~351 KB), di cui
+     * DUE messaggi da 101.814 caratteri l'uno. Il client li riceve tutti insieme
+     * all'apertura del canale e `renderHistory` li costruisce in un ciclo SINCRONO,
+     * con parsing markdown a regex su stringhe da 100 KB. Su iPhone il thread
+     * principale resta inchiodato: la pagina si vede (lo scheletro è già disegnato)
+     * ma non risponde più a niente, e poi Safari uccide la scheda. Nel log si vede
+     * come un silenzio totale dopo `canaleAperto` — nessun errore, perché quando il
+     * thread muore non resta nessuno che possa segnalarlo.
+     *
+     * ATTENZIONE: questo tocca SOLO cosa viene DISEGNATO. La memoria della
+     * conversazione (`a.messages`) resta intatta: il contesto dell'agente, /history
+     * e l'esportazione continuano a vedere tutto.
+     *
+     * L'ULTIMO messaggio utente non viene mai troncato: `regenerate()` nel client
+     * rispedisce `lastUser` preso da qui, e un prompt tagliato sarebbe una corruzione
+     * silenziosa (rigenereresti una domanda diversa da quella che avevi fatto).
+     */
+    _historyForView(c) {
+        const MAX_MSG = 40;        // quanti messaggi disegnare
+        const MAX_CHARS = 6000;    // tetto per singolo messaggio disegnato
+        const tutti = this._visibleMessages(c);
+        const tagliati = Math.max(0, tutti.length - MAX_MSG);
+        const ultimi = tagliati ? tutti.slice(-MAX_MSG) : tutti.slice();
+
+        // indice dell'ultimo messaggio utente: intoccabile (lo usa "rigenera")
+        let ultimoUtente = -1;
+        for (let k = ultimi.length - 1; k >= 0; k--) { if (ultimi[k] && ultimi[k].role === "user") { ultimoUtente = k; break; } }
+
+        const out = ultimi.map((m, k) => {
+            const testo = String((m && m.content) || "");
+            if (k === ultimoUtente || testo.length <= MAX_CHARS) return m;
+            return Object.assign({}, m, {
+                content: testo.slice(0, MAX_CHARS) +
+                    "\n\n*[… messaggio lungo: mostrati i primi " + MAX_CHARS.toLocaleString("it-IT") +
+                    " caratteri su " + testo.length.toLocaleString("it-IT") +
+                    ". Il testo completo è intatto nella memoria della chat.]*"
+            });
+        });
+
+        if (tagliati) out.unshift({
+            role: "assistant",
+            content: "*[Cronologia lunga: disegnati gli ultimi " + MAX_MSG + " messaggi su " +
+                     tutti.length + ". I " + tagliati + " precedenti restano in memoria e l'agente li vede.]*"
+        });
+        return out;
+    }
     _titleOf(msgs) {
         const u = (msgs || []).find(m => m.role === "user");
         const t = (u && u.content ? u.content : "Nuova chat").replace(/\s+/g, " ").trim();
@@ -204,14 +242,14 @@ class MobileServer {
         this.activeId = id;
         this.conversation = c.messages;
         this._saveConversations();
-        this._broadcast({ type: "history", messages: this._visibleMessages(c) });
+        this._broadcast({ type: "history", messages: this._historyForView(c) });
         this._broadcastList();
     }
     // Elimina una chat; se era attiva, passa alla più recente (o ne crea una vuota).
     _deleteChat(id) {
         this.convs = this.convs.filter(c => c.id !== id);
         if (!this.convs.length) return this._newChat();
-        if (this.activeId === id) { this.activeId = this.convs[0].id; this.conversation = this._active().messages; this._broadcast({ type: "history", messages: this._visibleMessages() }); }
+        if (this.activeId === id) { this.activeId = this.convs[0].id; this.conversation = this._active().messages; this._broadcast({ type: "history", messages: this._historyForView() }); }
         this._saveConversations();
         this._broadcastList();
     }
@@ -245,10 +283,37 @@ class MobileServer {
 
     // ---- Avvio / stop ------------------------------------------------------
 
+    // ★ 2026-07-31 — RETE ANTI-CRASH. Prima non c'era NESSUN gestore globale: una
+    // Promise di background rifiutata (discovery cloud, kaggle, tor…) o un errore di
+    // socket bastavano a uccidere il processo. Sul telefono la connessione SSE cadeva
+    // e la pagina si "riavviava"; peggio, il motivo restava invisibile. Ora:
+    //   • unhandledRejection → si logga e si TIENE VIVO il server (background non critico);
+    //   • errori di rete benigni (telefono che chiude) → ignorati, sono normali;
+    //   • errore davvero grave → si logga la causa e si esce pulito, così il supervisor
+    //     (VBS) riavvia — ma stavolta il perché è scritto nel log.
+    _installCrashGuards() {
+        if (global.__antigravityGuards) return;   // una sola volta per processo
+        global.__antigravityGuards = true;
+        const log = (...a) => { try { this.logger.log("[CRASH-GUARD] " + a.join(" ")); } catch (_) { try { console.error("[CRASH-GUARD]", ...a); } catch (_) {} } };
+        const BENIGN = /EPIPE|ECONNRESET|ECANCELED|ERR_STREAM_WRITE_AFTER_END|write after end/i;
+        process.on("unhandledRejection", (reason) => {
+            log("unhandledRejection (ignorata, server vivo):", reason && reason.stack ? reason.stack : String(reason));
+        });
+        process.on("uncaughtException", (err) => {
+            const msg = err && err.stack ? err.stack : String(err);
+            if (BENIGN.test(msg)) { log("errore di rete non fatale (ignorato):", msg); return; }
+            log("uncaughtException FATALE — esco per riavvio pulito:", msg);   // append sincrono su file: flush garantito prima di exit
+            process.exit(1);
+        });
+    }
+
     async start() {
-        // Scalda la discovery così il telefono trova subito modelli e ruoli.
-        this.orchestrator.discover(true).catch(() => {});
-        if (this.orchestrator.cloudConfigured()) this.orchestrator.discoverCloud(true).catch(() => {});
+        this._installCrashGuards();   // ★ installa la rete anti-crash prima di tutto
+        // ★ 2026-08-04 — DISCOVERY LAZY: non blocca l'avvio.
+        // LeDiscovery verranno avviate alla prima richiesta /models o quando
+        // l'utente interagisce, così il server risponde subito e la pagina non
+        // resta nera/bloccata su PC e telefono.
+        this._discoveryStarted = false;
 
         this.server = http.createServer((req, res) => this._route(req, res));
         await new Promise((resolve, reject) => {
@@ -259,6 +324,26 @@ class MobileServer {
         this.logger.log && this.logger.log("[MobileServer] in ascolto su " + this.host + ":" + this.port);
         this.logger.log && this.logger.log("[MobileServer] TOKEN = " + this.token);
         for (const u of urls) this.logger.log && this.logger.log("[MobileServer] apri sul telefono: " + u);
+
+        // ★ 2026-08-31 — COLLAUDO AUTOMATICO. Non blocca l'avvio: parte subito
+        // dopo che la porta e' aperta e scrive l'esito nel log. Se qualcosa non
+        // passa, l'esito resta qui e viene DETTO in chat al primo client che si
+        // collega (vedi _sse). Serve contro l'unico guasto che non da' mai un
+        // errore: un pezzo di lavoro che si scollega e l'app che continua a
+        // rispondere, solo peggio. Vedi src/collaudo.js per la storia.
+        this._collaudo = null;
+        setTimeout(async () => {
+            try {
+                const c = require("./collaudo");
+                const res = await c.esegui({ engine: this.orchestrator && this.orchestrator.engine });
+                this._collaudo = res;
+                const riga = c.riassunto(res);
+                this.logger.log && this.logger.log("[collaudo] " + riga.replace(/\n/g, " | "));
+                if (!res.ok) this._broadcast({ type: "status", value: riga });
+            } catch (e) {
+                this.logger.log && this.logger.log("[collaudo] non eseguito: " + e.message);
+            }
+        }, 1500);
 
         // ★ 2026-07-30 — Lo snapshot "sano" NON si fa più appena la porta si apre.
         // "Il file compila" e "il server si avvia" non significano "funziona": un file
@@ -383,6 +468,23 @@ class MobileServer {
         // basename (niente path traversal). Pubbliche come la pagina.
         if (p.startsWith("/img/")) return this._serveImage(decodeURIComponent(p.slice(5)), res);
 
+        // ★ 2026-08-06 — PROVA DI VITA, pubblica e cortissima da digitare.
+        // Serve a separare due guasti che l'utente non puo' distinguere dal telefono:
+        // "la rete non arriva al PC" e "la rete arriva ma la pagina non si disegna".
+        // Nessun token (il token e' lungo e sbagliarlo a mano e' facilissimo), nessun
+        // JavaScript, nessuna dipendenza: se sul telefono compare la scritta, il
+        // tragitto telefono→server FUNZIONA e il guasto e' nella pagina.
+        // Logga chi ha chiamato, cosi' lo vedo anche se il telefono non mostra nulla.
+        if (p === "/vivo") {
+            this.logger.log && this.logger.log(`[VIVO] richiesta da ${req.socket.remoteAddress} — UA: ${req.headers["user-agent"] || "?"}`);
+            res.writeHead(200, {
+                "Content-Type": "text/plain; charset=utf-8",
+                "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"
+            });
+            res.end("SERVER VIVO — " + new Date().toLocaleTimeString("it-IT") + "\nIl telefono raggiunge il PC.\n");
+            return;
+        }
+
         if (!this._authOk(req, url)) { res.writeHead(401, { "Content-Type": "text/plain" }).end("token mancante o errato"); return; }
 
         // DIAGNOSTICA CLIENT: la pagina manda qui i propri errori JavaScript.
@@ -437,7 +539,6 @@ class MobileServer {
         if (p === "/agents/run") return this._agentsRun(req, res);
         if (p === "/gpu/pull") return this._gpuPull(req, res);
         if (p === "/gpu/status") return this._gpuStatus(req, res);
-        if (p === "/hermes/inbound") return this._hermesInbound(req, res);
         if (p === "/plan") return this._plan(req, res);
         if (p === "/models/compare") return this._modelsCompare(req, res);
         if (p === "/ghidra/decompile") return this._ghidra(req, res, "decompile");
@@ -520,6 +621,7 @@ class MobileServer {
         if (p === "/server/logs")    return this._serverLogs(req, res);
         if (p === "/server/restart") return this._serverRestart(req, res);
         if (p === "/server/engines") return this._serverEngines(req, res);
+        if (p === "/system/toggle")  return this._systemToggle(req, res);
 
         res.writeHead(404).end();
     }
@@ -739,10 +841,28 @@ class MobileServer {
         res.write(": connesso\n\n");
         // Manda SUBITO la conversazione attiva + l'elenco delle chat: il client
         // (telefono o VS Code) ridisegna la STESSA chat e la stessa lista.
-        res.write("data: " + JSON.stringify({ type: "history", messages: this._visibleMessages() }) + "\n\n");
+        res.write("data: " + JSON.stringify({ type: "history", messages: this._historyForView() }) + "\n\n");
         res.write("data: " + JSON.stringify({ type: "conversations", list: this._convList() }) + "\n\n");
+        // Se il collaudo all'avvio ha trovato qualcosa fuori posto, lo dice QUI:
+        // al primo sguardo, senza doverlo andare a cercare nel log.
+        if (this._collaudo && !this._collaudo.ok) {
+            try {
+                const riga = require("./collaudo").riassunto(this._collaudo);
+                res.write("data: " + JSON.stringify({ type: "status", value: riga }) + "\n\n");
+            } catch (_) { }
+        }
         this.clients.add(res);
-        const ping = setInterval(() => { try { res.write(": ping\n\n"); } catch (_) {} }, 20000);
+        // ★ 2026-08-06 — IL PING DEVE ESSERE UN DATO, NON UN COMMENTO.
+        // ": ping" è un commento SSE: per specifica NON fa scattare onmessage, quindi
+        // il client non aggiornava mai `lastBeat` a chat ferma. Il suo watchdog (9 s)
+        // dichiarava morto un canale sanissimo e riconnetteva ogni ~11 s; ogni
+        // riconnessione rimanda la history, che fa clearThread() e cancella la
+        // risposta in corso lasciando #send inchiodato su "■". Era questo il
+        // "sul telefono clicco un pulsante e poi non va più niente".
+        // Ora è un evento vero (onmessage scatta) e più fitto del timeout del client.
+        const ping = setInterval(() => {
+            try { res.write("data: " + JSON.stringify({ type: "ping" }) + "\n\n"); } catch (_) {}
+        }, 5000);
         req.on("close", () => { clearInterval(ping); this.clients.delete(res); });
     }
 
@@ -1370,19 +1490,6 @@ class MobileServer {
         try { const { status } = require("./gpuWaker"); return this._json(res, { ok: true, free: status() }); }
         catch (e) { return this._json(res, { ok: false, error: e.message }, 500); }
     }
-    /** ★ 2026-07-27 — Punto di arrivo dei messaggi da WhatsApp (inoltrati dal bridge). */
-    async _hermesInbound(req, res) {
-        try {
-            const body = await this._body(req);
-            // Qui Hermes (questo stesso agente) riceverebbe il testo. Poiché il
-            // bridge gira sullo stesso PC, possiamo rispondere in echo o delegare.
-            // Per ora rispondiamo che abbiamo ricevuto (il cron/agente Hermes legge
-            // poi i ticket). TODO: integrare con delegate_task per risposta viva.
-            console.log("[hermes/inbound]", body && body.body);
-            return this._json(res, { ok: true, received: true, reply: "Messaggio ricevuto. Hermes lo elabora." });
-        } catch (e) { return this._json(res, { ok: false, error: e.message }, 500); }
-    }
-
     /** ★ 2026-07-27 — PIANIFICAZIONE A STEP (CORE AI): scompone ed esegue un task. */
     async _plan(req, res) {
         try {
@@ -1564,7 +1671,7 @@ class MobileServer {
 
     async _models(req, res) {
         try {
-            await this.orchestrator.discover(false);
+            this._startDiscoveryIfNeeded();
             const payload = {
                 models: this.orchestrator.getModelChoices(),
                 roles: this.orchestrator.getRoleAssignments(),
@@ -1589,6 +1696,16 @@ class MobileServer {
             };
             this._json(res, payload);
         } catch (err) { this._json(res, { error: err.message }, 500); }
+    }
+
+    _startDiscoveryIfNeeded() {
+        if (this._discoveryStarted) return;
+        this._discoveryStarted = true;
+        const run = async () => {
+            try { await this.orchestrator.discover(true); } catch (_) {}
+            try { if (this.orchestrator.cloudConfigured()) await this.orchestrator.discoverCloud(true); } catch (_) {}
+        };
+        run().catch(() => {});
     }
 
     async _send(req, res) {
@@ -1749,7 +1866,21 @@ class MobileServer {
     // libera la VRAM quando non servono. action=stop | start (default stop).
     // Su Windows usa taskkill (no distruttivo: solo i NOSTRI processi).
     async _serverEngines(req, res) {
-        const action = /(\?|&)action=start/i.test(req.url || "") ? "start" : "stop";
+        // 2026-08-31 - PRIMA: qualunque GET nudo a /server/engines valeva "stop" e
+        // ammazzava Ollama (taskkill /F). Bastava aprire l'indirizzo per sbaglio, o
+        // un controllo di stato, per spegnere il motore sotto ai piedi dell'agente.
+        // Ora l'azione va CHIESTA: senza action= si risponde solo con lo stato.
+        const m = /(?:\?|&)action=(start|stop|status)/i.exec(req.url || "");
+        const action = m ? m[1].toLowerCase() : "status";
+        if (action === "status") {
+            const { execSync } = require("child_process");
+            let ollamaUp = false;
+            try { ollamaUp = /ollama\.exe/i.test(execSync("tasklist /FI \"IMAGENAME eq ollama.exe\"", { windowsHide: true }).toString()); } catch (_) {}
+            return this._json(res, {
+                ok: true, action: "status", ollama: ollamaUp,
+                note: "Sola lettura. Per agire servono ?action=start oppure ?action=stop (stop ferma Ollama e ComfyUI)."
+            });
+        }
         try {
             const { execSync } = require("child_process");
             if (action === "stop") {
@@ -1765,6 +1896,55 @@ class MobileServer {
             }
         } catch (e) {
             this._json(res, { ok: false, error: e.message }, 500);
+        }
+    }
+
+    async _systemToggle(req, res) {
+        try {
+            const b = await this._body(req);
+            const comp = String(b.component || "").trim();
+            const enabled = !!b.enabled;
+            const allowed = ["discovery", "fileWatcher", "bugHunter"];
+            if (!allowed.includes(comp)) {
+                return this._json(res, { ok: false, error: "componente non valido: " + comp + ". Usa: " + allowed.join(", ") }, 400);
+            }
+            const prev = this._components[comp];
+            this._components[comp] = enabled;
+            if (comp === "discovery") {
+                if (enabled && !this._discoveryStarted) {
+                    this._startDiscoveryIfNeeded();
+                }
+                return this._json(res, { ok: true, component: comp, enabled, action: enabled ? "started" : "stopped" });
+            }
+            if (comp === "fileWatcher") {
+                if (enabled) {
+                    if (!this._fileWatcherInstance) {
+                        try {
+                            const { start } = require("./fileWatcher");
+                            start();
+                            this._fileWatcherInstance = true;
+                        } catch (_) { this._components.fileWatcher = false; return this._json(res, { ok: false, error: "fileWatcher non disponibile" }, 500); }
+                    }
+                } else {
+                    this._fileWatcherInstance = null;
+                }
+                return this._json(res, { ok: true, component: comp, enabled, action: enabled ? "started" : "stopped" });
+            }
+            if (comp === "bugHunter") {
+                if (enabled) {
+                    if (!this._bugHunterInstance) {
+                        try {
+                            this._bugHunterInstance = require("./bugHunter");
+                        } catch (_) { this._components.bugHunter = false; return this._json(res, { ok: false, error: "bugHunter non disponibile" }, 500); }
+                    }
+                } else {
+                    this._bugHunterInstance = null;
+                }
+                return this._json(res, { ok: true, component: comp, enabled, action: enabled ? "enabled" : "disabled", note: "Per avviare la scansione: POST /bugHunter/scan" });
+            }
+            return this._json(res, { ok: true, component: comp, enabled });
+        } catch (e) {
+            return this._json(res, { ok: false, error: e.message }, 500);
         }
     }
 

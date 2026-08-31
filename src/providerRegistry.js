@@ -82,7 +82,11 @@ const PROVIDERS = [
         // ArliAI: specializzato in modelli UNCENSORED/RP (senza filtri), piano free con
         // limite di richieste. Endpoint api.arliai.com/v1 (401 senza chiave = vivo).
         // Chiave: alphanumerica, 40+ caratteri, senza prefisso fisso.
-        { keyFmt: "Chiave alfanumerica lunga (40+ caratteri, es. abcdef123456...)", id: "arliai", label: "ArliAI (uncensored/RP)", env: "ARLIAI_API_KEY", host: "api.arliai.com", chatPath: "/v1/chat/completions", modelsPath: "/v1/models", detect: /^[A-Za-z0-9]{40,}$/, signup: "https://www.arliai.com/", free: true, note: "Modelli UNCENSORED/roleplay illimitati sul piano (Mistral-Nemo, Llama-3.1-8B abliterated, Qwen2.5-Coder (varie)). Piano free disponibile.", uncensored: true },
+        // ★ 2026-07-30 — la chiave ArliAI puo' essere alfanumerica lunga OPPURE un
+        // UUID coi trattini (es. 64e12d03-17bc-...): la vecchia regex accettava solo
+        // la prima e rifiutava l'UUID (i trattini). Ora accetta entrambe; a decidere
+        // davvero e' comunque il test dal vivo (identifyKeyLive).
+        { keyFmt: "Chiave alfanumerica lunga (40+) o UUID (xxxxxxxx-xxxx-...)", id: "arliai", label: "ArliAI (uncensored/RP)", env: "ARLIAI_API_KEY", host: "api.arliai.com", chatPath: "/v1/chat/completions", modelsPath: "/v1/models", detect: /^[A-Za-z0-9]{40,}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i, signup: "https://www.arliai.com/", free: true, note: "Modelli UNCENSORED/roleplay illimitati sul piano (Mistral-Nemo, Llama-3.1-8B abliterated, Qwen2.5-Coder (varie)). Piano free disponibile.", uncensored: true },
         // DeepInfra: catalogo enorme open-weight, credito iniziale gratuito, OpenAI-compat.
         // Chiave: alphanumerica, 40+ caratteri, senza prefisso fisso.
         { keyFmt: "Chiave alfanumerica lunga (40+ caratteri, es. abcdef123456...)", id: "deepinfra", label: "DeepInfra", env: "DEEPINFRA_API_KEY", host: "api.deepinfra.com", chatPath: "/v1/openai/chat/completions", modelsPath: "/v1/openai/models", detect: /^[A-Za-z0-9]{40,}$/, signup: "https://deepinfra.com/dash/api_keys", free: true, note: "Tanti modelli open (llama, qwen, deepseek, mixtral). Credito iniziale gratuito, poi economico. Chiave alfanumerica lunga.", billed: true },
@@ -129,12 +133,35 @@ function candRank(p) {
 }
 
 /**
+ * ★ 2026-07-30 — NORMALIZZAZIONE CHIAVE (causa #1 di "chiave non riconosciuta").
+ * L'utente incolla spesso più della chiave nuda: spazi, a-capo, virgolette, il
+ * prefisso "Bearer "/"Authorization:", oppure copia dall'ambiente la riga intera
+ * `ARLIAI_API_KEY=xxx` (o `export NAME=xxx`). Qui riduciamo tutto alla sola chiave.
+ * Conserviamo la punteggiatura INTERNA (i JWT hanno i punti, github_pat gli _,
+ * sk-... i trattini): togliamo solo il rumore ai bordi.
+ * @param {string} raw
+ * @returns {string} la chiave pulita
+ */
+function normalizeKey(raw) {
+    let k = String(raw == null ? "" : raw);
+    k = k.replace(/[\u200B-\u200D\uFEFF]/g, "").replace(/\u00A0/g, " ").trim();  // via zero-width / no-break space
+    k = k.replace(/^(?:export|set)\s+/i, "");                                    // "export NAME=..."
+    const kv = /^[A-Za-z_][A-Za-z0-9_]*\s*[:=]\s*([\s\S]+)$/.exec(k);            // "NAME=valore" / "NAME: valore"
+    if (kv) k = kv[1].trim();
+    k = k.replace(/^[`'"<[(]+/, "").replace(/[`'">\])]+$/, "").trim();           // virgolette/parentesi ai bordi
+    k = k.replace(/^Authorization\s*:\s*/i, "").replace(/^(?:Bearer|Token)\s+/i, "").trim(); // header auth
+    const first = /^(\S+)/.exec(k);                                              // una chiave non ha spazi interni
+    if (first) k = first[1];
+    return k;
+}
+
+/**
  * Rileva il/i provider da una chiave incollata. Ritorna:
  *   { best, candidates:[{id,label,...,ambiguous}], value }
  * best = miglior candidato (o null). candidates = tutti i plausibili (ordinati).
  */
 function detectProvider(rawKey) {
-    const key = String(rawKey || "").trim();
+    const key = normalizeKey(rawKey);
     if (!key) return { best: null, candidates: [] };
 
     // 1) Prefissi FORTI (un solo provider possibile) — controllati in ordine.
@@ -377,4 +404,4 @@ function freeProviders(type) {
     return list.map(p => Object.assign({}, p));
 }
 
-module.exports = { PROVIDERS, detectProvider, publicView, byId, byEnv, all, freeSuggestions, FREE_PROVIDERS, freeProviders };
+module.exports = { PROVIDERS, detectProvider, normalizeKey, publicView, byId, byEnv, all, freeSuggestions, FREE_PROVIDERS, freeProviders };

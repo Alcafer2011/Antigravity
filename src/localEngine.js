@@ -411,7 +411,10 @@ class LocalEngine {
      * Lo streaming è volutamente OFF: il tool-calling nativo di Ollama è
      * affidabile solo in non-streaming.
      */
-    async chatTools(model, messages, tools, { temperature = 0.3 } = {}) {
+    // Default 0.2 (non 0.3): allineato allo "script temperatura 0.2" dell'utente in
+    // localOrchestrator._runDirect — bassa temperatura per ridurre moralismi e verbosità.
+    // Prima l'agente su Ollama girava a 0.3 e ignorava quella politica; ora la rispetta.
+    async chatTools(model, messages, tools, { temperature = 0.2 } = {}) {
         const body = JSON.stringify({ model, messages: LocalEngine._toMultiModal(messages), tools, stream: false, temperature, keep_alive: "30m" });
         const json = await this._post("/v1/chat/completions", body);
         const msg = (json.choices && json.choices[0] && json.choices[0].message) || {};
@@ -463,6 +466,55 @@ class LocalEngine {
             if (!local) throw err;
             onFallback && onFallback(model, local, err.message);
             return await this.chatTools(local, messages, tools, rest);
+        }
+    }
+
+    // ---- Corsia CLOUD GRATIS (Ollama) --------------------------------------
+    // Alcuni modelli :cloud girano GRATIS sui server Ollama (gpt-oss, gemma,
+    // nemotron-nano); altri (deepseek-v4-pro, qwen3.5, kimi, glm, minimax,
+    // mistral-large) richiedono il piano Pro e rispondono "requires a
+    // subscription". Questa corsia trova — UNA VOLTA, con cache — il miglior
+    // modello cloud GRATUITO e con i tool: potenza (fino a 120B) senza pesare
+    // sul PC e SENZA il muro TPM dei provider free-API (Groq & C.), che è la
+    // causa vera dei "superamento utilizzo" quando si analizza un progetto grosso.
+
+    /**
+     * Nome del miglior modello :cloud gratuito con tool, o null. Probe cache-ata
+     * (1h sul successo, 5 min sul buco) per non pingare a ogni messaggio.
+     * Ordine di preferenza: i noti-gratis dal grande al piccolo, poi qualunque
+     * altro :cloud presente (così se Ollama ne aggiunge di nuovi li scopre da sé).
+     */
+    async pickFreeCloud({ toolsOnly = true } = {}) {
+        const c = this._freeCloud;
+        if (c && Date.now() - c.at < (c.name ? 3600000 : 300000)) return c.name;
+        await this.discover().catch(() => {});
+        const present = new Set(this.models.map(m => m.name));
+        const toolsOk = new Set(this.models.filter(m => m.tools).map(m => m.name));
+        const known = LocalEngine.FREE_CLOUD_PRIORITY.filter(n => present.has(n));
+        const others = this.models
+            .filter(m => m.remote && !LocalEngine.FREE_CLOUD_PRIORITY.includes(m.name))
+            .map(m => m.name);
+        for (const name of known.concat(others)) {
+            if (toolsOnly && !toolsOk.has(name)) continue;
+            if (await this._cloudIsFree(name)) {
+                this._freeCloud = { name, at: Date.now() };
+                return name;
+            }
+        }
+        this._freeCloud = { name: null, at: Date.now() };
+        return null;
+    }
+
+    /** True se il modello :cloud risponde senza chiedere un abbonamento Pro. */
+    async _cloudIsFree(model) {
+        try {
+            await this._post("/v1/chat/completions", JSON.stringify({
+                model, messages: [{ role: "user", content: "ok" }], max_tokens: 1, stream: false
+            }));
+            return true;
+        } catch (_) {
+            // 4xx "requires a subscription" / rete assente → non usabile gratis ora.
+            return false;
         }
     }
 
@@ -533,5 +585,17 @@ class LocalEngine {
         });
     }
 }
+
+// Modelli :cloud noti come GRATUITI su Ollama (dal grande al piccolo), con i tool.
+// I "grossi" a pagamento (deepseek-v4-pro, qwen3.5, kimi, glm, minimax,
+// mistral-large-3:675b) NON sono qui: rispondono "requires a subscription".
+// pickFreeCloud() prova questi per primi, poi qualunque altro :cloud presente.
+LocalEngine.FREE_CLOUD_PRIORITY = [
+    "gpt-oss:120b-cloud",
+    "gemma4:31b-cloud",
+    "nemotron-3-nano:30b-cloud",
+    "gpt-oss:20b-cloud",
+    "gemma4:cloud"
+];
 
 module.exports = { LocalEngine, CATEGORY, parseSizeB, isRemoteModel };

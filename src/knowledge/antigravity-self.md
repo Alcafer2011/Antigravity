@@ -186,7 +186,7 @@ Questa è la trappola numero 1: esistono **DUE copie del codice**. Sbagliare cop
   orchestrator, kaggle*, knowledge). Verifica il node vivo:
   `Get-CimInstance Win32_Process -Filter "Name='node.exe'" | ? {$_.CommandLine -like '*heal-and-run*'}`
 - **`C:\Users\infoa\src\.self-heal-backup\`** = backup dei CRITICAL_FILES (§4).
-- **`C:\Users\infoa\src\knowledge\`** = i .md di conoscenza (incluso questo).
+- **`C:\Users\infoa\Antigravity\src\knowledge\`** = i .md di conoscenza (incluso questo).
 - **`C:\Users\infoa\src\kaggle-notebook\` (14B)** e **`kaggle-notebook-big\` (30B)** =
   i notebook che `kaggleWaker` pusha per l'on-demand.
 

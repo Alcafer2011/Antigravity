@@ -2,7 +2,7 @@
   "name": "antigravity",
   "displayName": "Antigravity",
   "description": "Copilot AI locale e senza filtri per VS Code: chat unificata (anche sul telefono), agente con strumenti, generazione immagini e motori locali + cloud con instradamento automatico.",
-  "version": "1.0.36",
+  "version": "1.0.40",
   "publisher": "local-developer",
   "icon": "icon.png",
   "icons": {
@@ -108,5 +108,9 @@
   "dependencies": {
     "opencode-ai": "^1.18.8",
     "playwright": "^1.61.1"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.js\"",
+    "collaudo": "node src/collaudo.js"
   }
 }

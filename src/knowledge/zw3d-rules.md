@@ -54,7 +54,7 @@ Principi non negoziabili:
 
 ## 3. BUILD & DEPLOY (verificato)
 - MSBuild: `C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe`, `-p:Configuration=Release -p:Platform=x64`.
-- Due progetti nel plugin FINALE (`Downloads\SuperAssistentePlugin_FINALE (3)\FINALE\`): `SuperAssistenteEngine.vcxproj` (la DLL) e `SuperAssistenteBridge.vcxproj` (nel PostBuild rigenera `AUTOMAZIONE.zrc` con `zrc.exe`).
+- Due progetti nel plugin FINALE (`Downloads\03_PLUGIN_ZW3D\SuperAssistentePlugin_FINALE_3\FINALE\`): `SuperAssistenteEngine.vcxproj` (la DLL) e `SuperAssistenteBridge.vcxproj` (nel PostBuild rigenera `AUTOMAZIONE.zrc` con `zrc.exe`).
 - Deploy in `C:\Program Files\ZWSOFT\ZW3D 2025\apilibs\`: DLL → `Core\SuperAssistenteEngine.dll`, `.zrc` → `apilibs\`, i `.tcmd` → `apilibs\Resource\Commands\`.
 - ⚠️ La DLL NON è bloccata con ZW3D aperto: l'Engine gira da una copia SHADOW in `%TEMP%\_shadow_SuperAssistenteEngine_<pid>_v1.dll`. Puoi sostituire il file su disco anche con ZW3D acceso; il cambio si carica al riavvio di ZW3D.
 - ⚠️⚠️ ZW3D legge i `.tcmd` DA DISCO in `apilibs\Resource\Commands\`, NON solo dal `.zrc`: rigenerare il .zrc NON basta, copia anche i .tcmd lì.
@@ -90,7 +90,95 @@ ezwErrors SA_EseguiMacro(const char *statements, char **outMsg /*può essere NUL
 // if (msg) ZwMemoryFree((void**)&msg);
 ```
 - Sequenza `CdWeldStruct`: `!CdWeldStruct` → `[vxSend,"*X,Y,Z,LMB_DN"] # Curve` (seleziona il segmento cliccando un PUNTO 3D SU di esso — il plugin conosce le coordinate perché crea lui i segmenti: usa il punto medio) → `[vxSendEvt,"WeldSelProfForm",2,<cat>,2]` (campo 2 = categoria = quale contenitore profilo) → `[vxSendEvt,"WeldSelProfForm",3,<size>,2]` (campo 3 = misura) → opz `[vxSendEvtOpt,6,0,1,6,"<angolo>"]` → `[vxSendEvtOpt,-3,0,1,2] # apply`. Il comando RESTA ATTIVO e accetta un segmento dopo l'altro.
-- ⚠️ DA VERIFICARE DAL VIVO: che `ZwCommandMacroExecute(ZW_MACRO_STATEMENTS, ...)` rigiochi i `vxSendEvt` della form + i pick per coordinate. È il test che sblocca l'automazione (serve ZW3D aperto con una parte + una linea). La firma/uso sono confermati sugli header; resta da provare che la sequenza completa vada a segno.
+- ★★★ **SEQUENZA WELDMENT REALE — CATTURATA DAL VIVO IL 2026-08-01.** Non serve
+  nessun registratore di macro: **ZW3D scrive da solo i comandi eseguiti** nel log
+  di sessione `%APPDATA%\ZWSOFT\ZW3D\ZW3D 2025\output\logs\<PC>__<data>__<ora>.log`,
+  già nel formato macro e **con i commenti che dicono cosa è ogni riga**. È il modo
+  più rapido per catturare QUALSIASI sequenza nativa: la si esegue a mano una volta
+  e la si legge dal log. (Nella ribbon 2025 un comando "registra macro" NON esiste:
+  cercato in tutte le 43435 righe di Actions.zcui.)
+
+  **CASO 1 — profilo su UNA linea:**
+  ```
+  [vxSend,"!CdWeldStruct"]
+  [vxInitCmd,CdWeldStruct,<12,0><6,0><12,0><9,0><10,0><11,0>]
+  [vxSendEvt,"WeldSelProfForm",2,10,2]      # campo 2 = CATEGORIA (contenitore .Z3)
+  [vxSendEvt,"WeldSelProfForm",3,10,2]      # campo 3 = MISURA (root dentro il contenitore)
+  [vxSend,"*X,Y,Z,LMB_DN"]                  # Curve: pick SULLA linea
+  [vxSend,"*X,Y,Z,LMB_UP"]
+  [vxSendEvtOpt,-3,0,1,2]                   # apply
+  ```
+  ⚠️ I valori 2 e 3 sono **INDICI di lista**, non nomi: serve mappare
+  nome-profilo → indice categoria/misura. È il pezzo ancora da risolvere.
+
+  **CASO 2 — due linee (es. a 45°) con TAGLIO ANGOLI AUTOMATICO:**
+  stessa apertura, poi **un pick per ogni linea**, e prima dell'apply:
+  ```
+  [vxSendEvtOpt,9,0,1,2]                    # "Gestisci estremità" = trim automatico
+  ```
+  È questo il comando che fa il taglio d'angolo: non serve calcolarlo noi.
+
+  **CASO 3 — come il 2 ma con POSIZIONAMENTO del profilo sulla retta:**
+  ```
+  [vxInitCmd,CdWeldStruct,<12,0><6,0><12,0><9,1><10,0><11,0>]   # nota <9,1> non <9,0>
+  ... i due pick delle curve ...
+  [vxSendOptFocus,7,0]                      # entra nel campo "Posiziona profilato"
+  [vxSend,"*X,Y,Z,LMB_DN"]                  # pick del PUNTO DI ANCORAGGIO
+  [vxSendEvtOpt,-3,0,1,2]                   # apply
+  ```
+  `<9,1>` in `vxInitCmd` preimposta la gestione estremità; il campo **7** è il
+  posizionamento.
+
+  **PUNTI DI ANCORAGGIO disponibili** (dall'utente, sui DXF importati nei weldment
+  profile): il centro esatto del profilo; i 4 vertici esterni (senza considerare il
+  raggio di curvatura); il centro di ognuno dei 4 lati esterni; e gli stessi punti
+  ripetuti sulla linea interna dettata dallo spessore. In tutto 9 punti sul
+  perimetro esterno + 9 sull'interno.
+
+  ★★ **LEZIONE 2026-08-02 (MANDATO 03) — IL TAGLIO D'ANGOLO VUOLE UN SOLO
+  CdWeldStruct PER PIÙ SEGMENTI.** Prima il plugin mandava un comando separato
+  per ogni membro, col `[vxSendEvtOpt,9,0,1,2]` dentro: **non taglia niente**,
+  perché "Gestisci estremità" ha bisogno di ALTRI membri nella STESSA
+  operazione per sapere cosa tagliare contro cosa. La sequenza giusta è:
+  apertura → campi 2 e 3 del profilo → **un pick (DN+UP) per OGNI linea** →
+  `[vxSendEvtOpt,9,0,1,2]` → apply. Un membro solo a 45° non deve accendere il
+  9,0,1,2. Attenzione anche all'ORDINE: nel log reale i campi del profilo
+  vengono PRIMA dei pick, non dopo.
+  Implementato in `src/WeldmentExecutor.cpp`: `BuildMacroForGroup` +
+  `RaggruppaMembri` (raggruppa per profilo+ruolo; il telaio esterno insieme, il
+  telaietto di ogni anta per conto suo perché sono rettangoli separati).
+  Collaudo a freddo senza CAD: `test_macro_weldment.bat` (serve uno stub di
+  `SA_Report` nel test, altrimenti il link fallisce; e il .exe vuole
+  `ZW3D.dll` nel PATH).
+  ★ La strada "weldment prima, estrusione solo sulle barre piene" sta ORA in un
+  posto solo: `src/DisegnoPezzi.cpp` (`DisegnoPezzi::DisegnaMisto`). Prima era
+  ricopiata in 4 punti e in `EfestoEseguiCommands.cpp` MANCAVA del tutto —
+  ecco perché l'inferriata lanciata da Efesto nasceva estrusa.
+
+  Uso previsto: comporre questi statement e passarli a `ZwCommandMacroExecute(
+  ZW_MACRO_STATEMENTS, ...)`. Resta da provare che rigiocati via API vadano a segno
+  come quando li esegue l'utente.
+- ★★ IL LINGUAGGIO MACRO — ESEMPI REALI TROVATI (2026-07-31). Non era più teoria:
+  ci sono 4 macro Computes VERE, sorgente in chiaro con descrizione in italiano, in
+  `Downloads\03_PLUGIN_ZW3D\SuperAssistentePlugin_FINALE (3) - Copia\COMPU\Plugin Compu\APILIBS\`
+  (`no_format.mac`, `copiavista.mac`, `copiavista_2024.mac`, `Testo_nome_parte.mac`).
+  Struttura: `MACRO main` … `ENDMACRO`. Statement verificati sugli esempi:
+  ```
+  [vxSend,"!CdDrawingFmAttr"]                 lancia un comando nativo
+  [vxSend,"*160.085,45.5241,0,MMB_DN"]        pick: clic in un punto 3D (DN/UP)
+  [vxSend,"|Enter"]                           tasto
+  [vxSendEvt,"CdDrawingFmAt",32,1,6,"0"]      SCRIVE in un campo della form
+  [vxGetEntity,"seleziona la vista","",vista] CHIEDE all'utente di selezionare
+  [vxFormItemGet,"UiV3StdAttr",9,1,6,scala1]  ★ LEGGE un valore da una form
+  [StringCompose,numerovista,"#",vista]       composizione stringhe
+  ```
+  `vxFormItemGet` è il pezzo che mancava: si possono anche LEGGERE le form, non solo
+  scriverle → si può fare automazione condizionale. Queste macro sono la prova che
+  la ricetta weldment (`CdWeldStruct`, sopra) è realizzabile: stesso linguaggio.
+  Uso previsto: comporre gli statement e passarli a `ZwCommandMacroExecute`.
+  NB: le tre voci `CEB*` nel profilo utente (`TUBOLARE`/`FORATURA`/`ELIMINA LAVORAZIONE`)
+  puntano a `.mac` su `D:\CLIENTI\CEB\` — disco di un ALTRO cliente del fornitore, non
+  esiste su questa macchina: bottoni morti, non ricostruibili, da togliere.
 - `CdWeldEndCap` (tappi): funziona SOLO su profili CAVI CHIUDIBILI (quadro/tondo/rettangolo). FALLISCE sui CORRIMANO SAGOMATI (sezione aperta/complessa non tappabile). Regola: tappi solo sui tubi, mai sui corrimano.
 - I 18 file `.Z3` in `languages\it_IT\resource\weldment profiles\ISO\` sono CONTENITORI, non profili: le misure sono le ROOT dentro (1424 totali). Si leggono SOLO da dentro ZW3D con `cvxRootList(file,&count,&names)` (+`cvxMemFree`, include `zwapi_root.h`+`zwapi_memory.h`). Il comando `~SuperAssistente_ListaProfili` scrive l'inventario in `%TEMP%\profili_zw3d.txt`.
 
@@ -102,7 +190,7 @@ ezwErrors SA_EseguiMacro(const char *statements, char **outMsg /*può essere NUL
 - Le sezioni si leggono dal nome profilo (`SectionOf`): "QUADRO STUTTURALE/40x40x2" → w=40,h=40,spessore=2. Il 3° numero = spessore parete → tubolare CAVO.
 
 ## 6bis. STATO ATTUALE DEL PLUGIN (dove siamo — leggi PRIMA di lavorare)
-Il plugin VIVE in `C:\Users\infoa\Downloads\SuperAssistentePlugin_FINALE (3)\FINALE\`.
+Il plugin VIVE in `C:\Users\infoa\Downloads\03_PLUGIN_ZW3D\SuperAssistentePlugin_FINALE_3\FINALE\`.
 Sorgenti chiave: `src/SuperAssistenteEngine.cpp` (comandi principali), `src/SheetUnfoldCommands.cpp` (sviluppi lamiera), `src/SheetUnfold.cpp`+`include/SheetUnfold.h` (motore matematico), `src/SteelParametric.cpp` (carpenteria: ringhiera ecc.), `src/GeometryExecutor.cpp` (disegna i GeometryCommand come geometria reale), `src/Shape3D.cpp` (costruzione 3D via Zw*).
 - ✅ FUNZIONANO DAVVERO: `SuperAssistente_Inferriata`, `_DisegnaRinghiera`, `_Distinta` (include già NESTING+preventivo+ordine materiale), `_Preventivo`, `_AnalizzaFoto`, `_ReadGeometry`, `_ExportBOM`, `_ListaProfili` (inventario 1424 profili). + 8 SVILUPPI LAMIERA: `SA_SvilCono/Tramoggia/QuadroTondo/AsolaTondo/Flangia/Gomito/Piquage/Sfera` + `SA_SvilGeneraDXF`.
 - ❌ STUB (bottoni MUTI, solo ShowNotImplemented): `SuperAssistente_Cancello`, `_Recinzione`, `_Scala`, `_GenerateModel`. MANCANO del tutto: BALCONE, TETTOIA.
@@ -158,7 +246,7 @@ Prima potevi solo chiedere all'utente di tenere ZW3D aperto con una parte. Ora p
 - I NOSTRI plugin (Efesto, SuperAssistente Bridge+Engine) RICOMPILANO contro la 2027
   SENZA modifiche al codice sorgente (verificato 2026-07-26: 0 errori su tutti e 3).
   Build: zw3d-plugin\build2027.bat (Efesto->Efesto2027.dll) e
-  ...\SuperAssistentePlugin_FINALE (3)\FINALE\build2027.bat (usa *.2027.vcxproj,
+  ...\SuperAssistentePlugin_FINALE_3\FINALE\build2027.bat (usa *.2027.vcxproj,
   ZW3D_DIR->2027, OutDir bin2027). Output in cartelle DI LAVORO, MAI in apilibs 2025.
 - COESISTENZA: la 2025 resta l'ambiente di PRODUZIONE dell'utente. I binari 2027 vanno
   in apilibs DELLA 2027, NON mischiare con quelli 2025 (rischio crash da DLL eterogenee).

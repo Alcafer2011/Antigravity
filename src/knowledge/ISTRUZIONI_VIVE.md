@@ -1,4 +1,4 @@
-﻿VERSION: 1.0.33
+﻿VERSION: 1.0.40
 
 # ISTRUZIONI VIVE di Antigravity — riassunto auto-aggiornato
 

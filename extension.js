@@ -11,7 +11,10 @@ try {
     verifyAndRepair({ srcDir: path.join(__dirname, "src"), files: CRITICAL_FILES, logger: console });
 } catch (_) { /* selfHeal assente: si prosegue */ }
 
-const { MobileServer } = require("./src/mobileServer");
+// ★ 2026-08-02 — NIENTE require di mobileServer qui. Non serviva piu' a nulla
+// (MobileServer non e' mai istanziato dal 19/07: il server e' standalone), ma
+// costava 1,4 s a ogni attivazione e avviava un SECONDO fileWatcher dentro
+// l'extension host, duplicato di quello del server. Era il pannello "nero".
 const { ServerClient } = require("./src/serverClient");
 
 // L'estensione e il telefono usano LO STESSO server locale: il pannello di VS Code
@@ -66,11 +69,17 @@ function tailscaleIp() {
 }
 
 // Garantisce che un server condiviso sia in ascolto; ritorna quando è raggiungibile.
-async function ensureServer(context) {
+// Legge porta/token dal .env (sincrono, pochi ms): serve PRIMA di qualunque attesa,
+// così il pannello può disegnarsi subito invece di restare nero.
+function loadCfg(context) {
     const env = loadEnv(context.extensionPath);
     cfg.port = parseInt(env.MOBILE_PORT || "8790", 10);
     cfg.token = env.MOBILE_TOKEN || "";
     client = new ServerClient({ port: cfg.port, token: cfg.token });
+}
+
+async function ensureServer(context) {
+    if (!client) loadCfg(context);
 
     if (await client.ping()) return true;
 
@@ -92,10 +101,22 @@ async function ensureServer(context) {
     try {
         const { spawn } = require("child_process");
         const home = require("os").homedir();
-        const runner = path.join(home, "src", "heal-and-run.js");
+        // ★ 2026-08-01 — PERCORSO CORRETTO. Puntava a ~/src/heal-and-run.js, cartella
+        // che il riordino del 30/07 ha eliminato (tutto sta in ~/Antigravity). Il
+        // fallback quindi non partiva MAI: a server spento il pannello restava vuoto
+        // e "non rispondeva", con un solo warning nella Dev Console.
+        // Ora si parte dalla cartella dell'estensione (che E' ~/Antigravity via junction).
+        const candidati = [
+            path.join(context.extensionPath, "src", "heal-and-run.js"),
+            path.join(home, "Antigravity", "src", "heal-and-run.js"),
+            path.join(home, "src", "heal-and-run.js")   // storico, pre-riordino
+        ];
+        const runner = candidati.find(p => fs.existsSync(p)) || candidati[0];
         if (fs.existsSync(runner)) {
             const child = spawn(process.execPath, [runner], {
-                cwd: home,
+                // radice del progetto (la cartella che contiene src/), non la home:
+                // il server legge .env e node_modules da li'.
+                cwd: path.dirname(path.dirname(runner)),
                 detached: true,          // sopravvive alla morte dell'extension host
                 stdio: "ignore",
                 windowsHide: true
@@ -113,22 +134,35 @@ async function ensureServer(context) {
 }
 
 function activate(context) {
+    loadCfg(context);
     readyPromise = ensureServer(context).catch(err => { logger.error("ensureServer", { message: err.message }); return false; });
 
     const provider = {
         async resolveWebviewView(webviewView) {
             const wv = webviewView.webview;
             wv.options = { enableScripts: true, localResourceRoots: [vscode.Uri.file(context.extensionPath)] };
-            await readyPromise;
+            // ★ 2026-08-02 — SI DISEGNA SUBITO. Prima si aspettava readyPromise PRIMA
+            // di scrivere l'HTML: finché il server non rispondeva il pannello restava
+            // nero e indistinguibile da un guasto. Ora la pagina appare all'istante con
+            // "collegamento in corso", e l'iframe viene agganciato quando il server c'è.
             // ★ 2026-07-19 — ANTI-CACHE. Il server manda già no-store, ma la webview
             // di VS Code riusava la pagina vecchia in memoria (URL identico = stessa
             // risorsa). Aggiungendo un parametro che cambia a ogni apertura, la
             // webview è COSTRETTA a riscaricare: si vede sempre la versione nuova.
             const serverUrl = `http://127.0.0.1:${cfg.port}/?t=${encodeURIComponent(cfg.token)}&v=${Date.now()}`;
+            const nonce = require("crypto").randomBytes(16).toString("base64");
             const htmlPath = path.join(context.extensionPath, "interface.html");
             let html = fs.existsSync(htmlPath) ? fs.readFileSync(htmlPath, "utf8") : '<iframe src="${serverUrl}" style="border:0;width:100%;height:100vh"></iframe>';
-            html = html.replace(/\$\{serverUrl\}/g, serverUrl);
+            html = html.replace(/\$\{serverUrl\}/g, serverUrl).replace(/\$\{nonce\}/g, nonce);
             wv.html = html;
+
+            // Il server è pronto? Allora aggancia l'iframe. Altrimenti mostra il perché.
+            const ok = await readyPromise;
+            try {
+                wv.postMessage(ok
+                    ? { tipo: "pronto", url: serverUrl }
+                    : { tipo: "errore", porta: cfg.port, testo: "Il server Antigravity non risponde sulla porta " + cfg.port + "." });
+            } catch (_) { /* pannello già chiuso */ }
         }
     };
     context.subscriptions.push(vscode.window.registerWebviewViewProvider("antigravityUnifiedChat", provider, {

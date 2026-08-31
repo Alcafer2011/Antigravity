@@ -15,8 +15,8 @@
 | **Estensione VS Code (solo UI)** | `C:\Users\infoa\.vscode\extensions\local-developer.antigravity-1.0.1\` | Interfaccia. NON avvia il server (fa solo `ping` su 8790 dal 2026-07-19). Il suo `src\` DEVE essere speculare al cuore. |
 | **Pagina web (UI mobile)** | `C:\Users\infoa\src\mobile-page.html` | Lettura otra ogni richiesta. Modifiche solo-CSS si vedono col refresh. |
 | **Versione app** | `C:\Users\infoa\src\mcpServer.js` riga 84 (`version: "1.0.35"`) + `package.json` estensione | La versione si dichiara QUI, non in src\.env. |
-| **Log obbligatorio modifiche** | `C:\Users\infoa\src\knowledge\MAINTENANCE-LOG.md` | Ogni modifica va annotata qui (formato in fondo). |
-| **Regola assoluta (questo file)** | `C:\Users\infoa\src\knowledge\ANTIGRAVITY-REGOLA-ASSOLUTA.md` | |
+| **Log obbligatorio modifiche** | `C:\Users\infoa\Antigravity\src\knowledge\MAINTENANCE-LOG.md` | Ogni modifica va annotata qui (formato in fondo). |
+| **Regola assoluta (questo file)** | `C:\Users\infoa\Antigravity\src\knowledge\ANTIGRAVITY-REGOLA-ASSOLUTA.md` | |
 | **Backup self-heal** | `C:\Users\infoa\src\.self-heal-backup\` | Copie sane dei file critici; selfHeal le ripristina se un file si corrompe. |
 | **Staging copie eliminate** | `C:\Users\infoa\ANTIGRAVITY_COPIE_ELIMINATE\` | Copie reversibili (Antigravity-Clone, Codice-Estensione, vecchi src). NON toccare se non sai. |
 | **.vsix (installer)** | `C:\Users\infoa\antigravity-*.vsix` | Pacchetto installazione. NON modificare a mano. |
