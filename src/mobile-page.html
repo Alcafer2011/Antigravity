@@ -518,6 +518,16 @@
 
 <script>
 const T = new URLSearchParams(location.search).get("t") || "";
+// ★ 2026-08-31 — Il token sparisce dalla barra degli indirizzi appena la pagina
+// e' aperta. Prima restava li' e finiva nella cronologia di Safari (e da li' in
+// iCloud): chiunque riaprisse la cronologia aveva la chiave di casa. Il server
+// ha gia' posato un cookie, quindi da qui in poi le richieste passano lo stesso;
+// T resta in memoria per questa sessione, cosi' non si rischia di restare fuori
+// nemmeno se il cookie non attecchisce. Il collegamento salvato sul telefono
+// continua a funzionare: e' proprio quello che innesca il cookie.
+try {
+  if (T && window.history && history.replaceState) history.replaceState({}, "", location.pathname);
+} catch (_) {}
 
 /* ---- DIAGNOSTICA: manda gli errori JS al server ----------------------------
    Safari sull'iPhone non si puo' ispezionare dal PC: senza questo, davanti a
@@ -2190,6 +2200,49 @@ cantiereAggiorna(); piattaformeAggiorna();
 setInterval(cantiereAggiorna, 60000);
 
 connect(); loadModels();
+
+/* ★ 2026-08-31 — LA TENDINA DEI PROVIDER DICE LA VERITÀ.
+   Prima elencava sei voci tutte uguali, come se fossero tutte pronte: ComfyUI
+   poteva essere spento, il Cloud senza chiavi, l'SDK ZW3D non installato — lo
+   scoprivi solo dopo aver premuto e aspettato. Ora il server manda con /status
+   se ciascuna è pronta e, se non lo è, perché; qui le voci si dividono da sole
+   in due gruppi. Chi non è pronto resta selezionabile (magari lo sistemi in un
+   minuto), ma non ti promette più niente. Se /status non risponde, la tendina
+   resta esattamente com'era prima: niente si rompe. */
+(async function tendinaOnesta(){
+  try{
+    const sel = document.getElementById("provider");
+    if(!sel) return;
+    const s = await (await fetch("/status?t=" + encodeURIComponent(T))).json();
+    const st = s && s.providers;
+    if(!st) return;
+
+    const voci = Array.from(sel.options).map(o => ({ value:o.value, testo:o.textContent, sel:o.selected }));
+    const pronto = (v) => !st[v] || st[v].pronto !== false;
+
+    const gPronti = document.createElement("optgroup"); gPronti.label = "Pronti";
+    const gNo     = document.createElement("optgroup"); gNo.label     = "Non pronti / sperimentali";
+
+    for(const v of voci){
+      const o = document.createElement("option");
+      o.value = v.value;
+      const info = st[v.value];
+      if(pronto(v.value)){
+        o.textContent = v.testo;
+        if(info && info.motivo) o.title = info.motivo;
+        gPronti.appendChild(o);
+      }else{
+        o.textContent = v.testo + " — " + (info.motivo || "non pronto");
+        o.title = info.motivo || "non pronto";
+        gNo.appendChild(o);
+      }
+      if(v.sel) o.selected = true;
+    }
+    sel.innerHTML = "";
+    if(gPronti.children.length) sel.appendChild(gPronti);
+    if(gNo.children.length)     sel.appendChild(gNo);
+  }catch(_){ /* la tendina resta com'era: mai peggio di prima */ }
+})();
 
 // ★ 2026-08-06 — PROVA CHE LO SCRIPT È ARRIVATO IN FONDO.
 // "apertura" scatta dopo ~70 righe: dice solo che il JS è PARTITO. Se lo script

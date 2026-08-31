@@ -398,9 +398,31 @@ class MobileServer {
 
     // ---- Routing -----------------------------------------------------------
 
+    // ★ 2026-08-31 — IL TOKEN NON DEVE PIU' VIVERE NELL'INDIRIZZO.
+    // Finche' viaggia come "?t=…" finisce nella cronologia del browser (e da li'
+    // in iCloud), nei log, e in qualunque schermata condivisa. Ora ci sono tre
+    // strade, in ordine: il cookie (la normale, invisibile), l'intestazione
+    // x-token (per gli script), e la query — che RESTA valida perche' e' quella
+    // dei collegamenti gia' salvati sul telefono. Alla prima apertura con "?t="
+    // il server posa il cookie e la pagina cancella il token dalla barra degli
+    // indirizzi: da li' in avanti l'indirizzo e' pulito e continua a funzionare.
+    _leggiCookie(req, nome) {
+        const raw = req.headers.cookie || "";
+        for (const pezzo of raw.split(";")) {
+            const i = pezzo.indexOf("=");
+            if (i > 0 && pezzo.slice(0, i).trim() === nome) return decodeURIComponent(pezzo.slice(i + 1).trim());
+        }
+        return null;
+    }
+
     _authOk(req, url) {
-        const t = url.searchParams.get("t") || req.headers["x-token"];
+        const t = url.searchParams.get("t") || req.headers["x-token"] || this._leggiCookie(req, "ag_t");
         return t && t === this.token;
+    }
+
+    /** Intestazione che posa il cookie del token (un anno, non leggibile da JS). */
+    _cookieToken() {
+        return "ag_t=" + encodeURIComponent(this.token) + "; Path=/; Max-Age=31536000; HttpOnly; SameSite=Lax";
     }
 
     /** Serve un PNG generato da ComfyUI (solo dalla cartella output, per basename). */
@@ -454,12 +476,19 @@ class MobileServer {
             // ★ 2026-07-19 — anti-cache RINFORZATO: no-store da solo non bastava con
             // Safari/webview testardi. Aggiunti no-cache/must-revalidate + Pragma +
             // Expires (per i client vecchi) → la pagina nuova arriva SEMPRE.
-            res.writeHead(200, {
+            const intestazioni = {
                 "Content-Type": "text/html; charset=utf-8",
                 "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
                 "Pragma": "no-cache",
                 "Expires": "0"
-            });
+            };
+            // Se sei arrivato col token nell'indirizzo (il collegamento salvato sul
+            // telefono), posiamo il cookie: le aperture successive funzionano con un
+            // indirizzo pulito. NON si fa una redirezione: se il cookie non
+            // attecchisse (Safari in navigazione privata) resteresti chiuso fuori.
+            // Cosi' invece il peggio che puo' succedere e' restare come prima.
+            if (url.searchParams.get("t") === this.token) intestazioni["Set-Cookie"] = this._cookieToken();
+            res.writeHead(200, intestazioni);
             res.end(this._page());
             return;
         }
@@ -829,6 +858,8 @@ class MobileServer {
                 out.keys_configured = Array.isArray(provs) ? provs.filter(p => p.configured).length : 0;
             }
         } catch (_) {}
+        // Pronto/non pronto per ogni provider: vedi _statoProvider.
+        try { out.providers = this._statoProvider(out); } catch (_) { out.providers = null; }
         return this._json(res, out);
     }
 
@@ -1965,7 +1996,61 @@ class MobileServer {
                 out.keys_configured = Array.isArray(provs) ? provs.filter(p => p.configured).length : 0;
             }
         } catch (_) {}
+        try { out.providers = this._statoProvider(out); } catch (_) { out.providers = null; }
         return out;
+    }
+
+    /**
+     * ★ 2026-08-31 — PRONTO oppure NO, detto prima di premere.
+     *
+     * La tendina dei provider elencava sei voci tutte uguali, come se fossero
+     * tutte pronte. Non lo erano: ComfyUI puo' essere spento, Kaggle idem, il
+     * Cloud senza chiavi non va da nessuna parte. Uno strumento professionale
+     * non promette quello che non puo' fare: qui ogni voce dice se e' pronta e,
+     * se non lo e', perche'. Il controllo e' sui FATTI (file, porte, chiavi), non
+     * su un elenco scritto a mano che invecchia.
+     */
+    _statoProvider(dash) {
+        const fs2 = require("fs");
+        const esiste = (p) => { try { return fs2.existsSync(p); } catch (_) { return false; } };
+        const home = require("os").homedir();
+        const path2 = require("path");
+
+        const ghidra = ["C:/Program Files", home].some(base => {
+            try { return fs2.readdirSync(base).some(n => /^ghidra[_-]/i.test(n)); } catch (_) { return false; }
+        });
+        const zw3d = esiste("C:/Program Files/ZWSOFT/ZW3D 2025/api/inc");
+        // Per ComfyUI NON si indovina il percorso: si chiede a chi lo sa gia'
+        // (comfyClient.installed(), che controlla il suo python e main.py).
+        // Una risposta inventata qui varrebbe meno di nessuna risposta.
+        const comfy = (() => {
+            try {
+                const { ComfyClient } = require("./comfyClient");
+                const c = this.orchestrator && this.orchestrator.comfy;
+                if (c && typeof c.installed === "function") return !!c.installed();
+                if (ComfyClient) return !!new ComfyClient().installed();
+                return false;
+            } catch (_) { return false; }
+        })();
+
+        return {
+            local: dash.models_local > 0
+                ? { pronto: true }
+                : { pronto: false, motivo: "Ollama non ha modelli installati" },
+            cloud: dash.keys_configured > 0
+                ? { pronto: true }
+                : { pronto: false, motivo: "nessuna chiave API configurata (pannello 🔑)" },
+            ghidra: ghidra
+                ? { pronto: true }
+                : { pronto: false, motivo: "Ghidra non trovato in Programmi" },
+            zw3d: zw3d
+                ? { pronto: true }
+                : { pronto: false, motivo: "SDK ZW3D 2025 non trovato" },
+            maintenance: { pronto: true },
+            comfy: comfy
+                ? { pronto: true, motivo: "si accende alla prima immagine" }
+                : { pronto: false, motivo: "ComfyUI non installato" }
+        };
     }
 
     async _approve(req, res) {
