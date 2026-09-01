@@ -7,6 +7,50 @@
 
 ---
 
+## 0-bis. OpenRouter acceso + Hermes con internet (2026-09-01) — v1.0.42
+
+**Cosa è cambiato.** Sul conto OpenRouter ci sono 10 $ (verificato: chiave viva,
+9,75 $ residui). Da luglio OpenRouter era di fatto un provider morto: `_discoverOpenRouter`
+pescava **solo** i `:free`, e i `:free` grossi erano passati a pagamento.
+
+1. **Antigravity — corsia uncensored del cloud.** `cloudEngine._discoverOpenRouter`
+   ora prende anche i modelli a pagamento, con tre paletti nel `.env`:
+   `OPENROUTER_MAX_USD_PER_M=3` (tetto di prezzo), `OPENROUTER_MAX_PAID=40` (quante
+   voci non-uncensored entrano) e `OPENROUTER_MIN_CREDIT=0.20` (sotto questa cifra il
+   router smette da solo di provarci). Si accende con `OPENROUTER_ENABLE=1`.
+   Risultato dal vivo: **72 modelli, 11 senza filtri** (dolphin-mistral-venice,
+   hermes-4-70b/405b, euryale, wizardlm-2, mythomax, weaver).
+2. **`tools` non è più ottimistico.** Prima ogni modello OpenRouter veniva marcato
+   `tools: true`; molti uncensored NON fanno tool-calling e l'agente ci sbatteva
+   contro a vuoto. Ora si legge da `supported_parameters`.
+3. **Guardiano del portafoglio.** `cloudEngine.refreshOpenRouterCredit()` legge
+   `/api/v1/credits` (gratis) ogni 10 minuti; `openrouterVivo()` decide se la corsia
+   entra nel failover. A credito finito niente più secondi persi in 402.
+4. **Bonus uncensored da +40 a +120.** A +40 non vinceva mai: chi chiedeva "senza
+   filtri" si ritrovava gpt-oss-120b. Ora chiedendolo esplicitamente i veri
+   senza-filtri vanno in testa (euryale è #2, dietro solo alla corsia Kaggle locale).
+5. **Hermes: chiave OpenRouter sostituita.** Quella nel suo `.env` era **morta**
+   (401 "User not found"). Sincronizzata con quella buona.
+6. **Hermes: alias senza filtri** in `config.yaml` → `uncensored` (dolphin-venice),
+   `hermes4`, `hermes4max`, `euryale`; OpenRouter aggiunto in coda ai
+   `fallback_providers` (si paga solo se le corsie gratis sono cadute).
+7. **`auto-uncensored` non pesca più a caso.** `hermesClient` ora legge gli alias di
+   `config.yaml` PRIMA della cache di Hermes (`provider_models_cache.json` è potata e
+   ferma al 06/08: dei veri uncensored non c'era traccia, e sceglieva
+   `deepseek/deepseek-v4-pro` — a pagamento **e** filtrato).
+8. **Hermes ha internet.** Cercava già via anello keyless; ora è esplicito e stabile:
+   installato `ddgs` (ricerca senza chiave) e messo `web.search_backend: ddgs`.
+   ⚠️ **Trappola:** installare `ddgs` da solo **spegne `web_extract`** ("search-only
+   backend"), perché l'auto-detect lo sceglie anche per l'estrazione. Per questo
+   c'è anche `web.extract_backend: firecrawl` (anello keyless, senza chiave).
+   Verificato dal vivo: ricerca ✅, estrazione ✅, e un run completo di Hermes su
+   dolphin-venice che cerca in rete e riporta il prezzo giusto.
+
+**Verifiche:** `npm test` 32/32 · `node src/collaudo.js` 9/9 · chat reale su
+dolphin-mistral-venice ✅ · costo del collaudo: circa 0,0003 $.
+
+---
+
 ## 0. ⚠️ LEGGERE PRIMA — LA CAUSA VERA (2026-08-06)
 
 **Le sezioni 1 e 2-bis qui sotto NON spiegano il guasto del telefono. Sono vere ma

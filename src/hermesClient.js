@@ -39,11 +39,23 @@ const SEP = "::";
 // cloudEngine, che già marca i deepseek come uncensored+coder. NB: i modelli
 // openai-codex (gpt-5.6-*) restano NON uncensored — sono ospitati da OpenAI, chiusi.
 // Serve per la voce "Auto — senza censura": si sceglie il primo che Hermes ha davvero.
-const UNCENSORED_RX = /abliterat|uncensored|dolphin|deepseek|heretic|venice/i;
+// ★ 2026-09-01 — allineata a cloudEngine.UNCENSORED_RX ora che OpenRouter ha
+// credito e porta i veri senza-filtri (hermes-4, euryale, magnum, wizardlm...).
+// 'deepseek' resta dentro perche' filtra pochissimo, ma non deve piu' VINCERE:
+// prima l'auto-uncensored pescava deepseek-v4-pro (a pagamento, e filtrato) al
+// posto di un dolphin. L'ordine sta in UNCENSORED_PREFER, qui sotto.
+const UNCENSORED_RX = /abliterat|uncensor|dolphin|venice|heretic|unfiltered|nous-?hermes|nousresearch|hermes-3|hermes-4|euryale|magnum|mythomax|lumimaid|rocinante|anubis|wizard-?lm|airoboros|sao10k|anthracite|deepseek/i;
 
 // Ordine di preferenza per l'auto-uncensored: prima gli abliterated (uncensored E
 // con tool-calling), poi i dolphin. Stessa logica di localEngine.MODEL_PREFERENCES.
-const UNCENSORED_PREFER = [/abliterat/i, /dolphin.*(mixtral|mistral|qwen|coder)/i, /dolphin/i];
+const UNCENSORED_PREFER = [
+    /abliterat/i,                              // uncensored E con tool-calling
+    /dolphin.*(venice|mixtral|mistral|qwen|coder)/i,
+    /dolphin/i,
+    /hermes-4/i, /nous-?hermes|hermes-3/i,     // Nous: senza filtri e capaci
+    /euryale|magnum|wizard-?lm|mythomax/i,
+    /deepseek/i                                // ultima spiaggia, non prima scelta
+];
 
 const PROVIDER_ICON = { ollama: "💻", openrouter: "☁️", huggingface: "🤗", gemini: "✨", anthropic: "🤖", "openai-codex": "🧠", nous: "🜂" };
 
@@ -106,6 +118,49 @@ class HermesClient {
         const oll = /^[ \t]+models:[ \t]*\r?\n((?:[ \t]+-[ \t]+.+\r?\n)+)/m.exec(txt);
         if (oll) out.ollamaModels = oll[1].split(/\r?\n/).map(l => (/^[ \t]+-[ \t]+(.+?)[ \t]*$/.exec(l) || [])[1]).filter(Boolean);
         return out;
+    }
+
+    /**
+     * Gli alias di modello scritti in config.yaml (blocco model.aliases).
+     * ★ 2026-09-01 — serve all'auto-uncensored. La cache dei modelli di Hermes
+     * (provider_models_cache.json) e' una lista POTATA e vecchia: dei veri
+     * senza-filtri di OpenRouter non c'e' traccia, cosi' "auto-uncensored" finiva
+     * a pescare il primo id che assomigliava a un uncensored (deepseek, o un
+     * nous-hermes 13B del 2023). Gli alias invece li scrivi tu e valgono subito.
+     * @returns {Array<{nome:string, provider:string, id:string}>}
+     */
+    _readAliases() {
+        let txt;
+        try { txt = fs.readFileSync(path.join(HERMES_HOME, "config.yaml"), "utf8"); } catch (_) { return []; }
+        // Il blocco aliases sta dentro "model:"; prendiamo da "  aliases:" fino alla
+        // prima riga con indentazione <= 2 (cioe' la chiave di primo o secondo livello
+        // successiva). Fine-riga Windows messe in conto, come nel resto del file.
+        const m = /^[ \t]{2,}aliases:[ \t]*\r?\n((?:[ \t]{4,}.*\r?\n|[ \t]*\r?\n)+)/m.exec(txt);
+        if (!m) return [];
+        const righe = m[1].split(/\r?\n/);
+        const out = [];
+        let corrente = null;
+        for (const r of righe) {
+            const capo = /^[ \t]{4}([A-Za-z0-9_.-]+):[ \t]*\r?$/.exec(r);
+            if (capo) { corrente = { nome: capo[1], provider: null, id: null }; out.push(corrente); continue; }
+            if (!corrente) continue;
+            const campo = /^[ \t]{6,}(model|provider):[ \t]*(.+?)[ \t]*\r?$/.exec(r);
+            if (!campo) continue;
+            if (campo[1] === "model") corrente.id = campo[2];
+            else corrente.provider = campo[2];
+        }
+        return out.filter(a => a.id && a.provider);
+    }
+
+    /** Il miglior alias senza filtri scritto in config.yaml, o null. */
+    _pickAliasUncensored() {
+        const alias = this._readAliases().filter(a => UNCENSORED_RX.test(a.id) || UNCENSORED_RX.test(a.nome));
+        if (!alias.length) return null;
+        for (const rx of UNCENSORED_PREFER) {
+            const hit = alias.find(a => rx.test(a.id) || rx.test(a.nome));
+            if (hit) return { provider: hit.provider, id: hit.id };
+        }
+        return { provider: alias[0].provider, id: alias[0].id };
     }
 
     /** I provider per cui Hermes ha davvero una chiave (li ha già interrogati almeno una volta). */
@@ -229,7 +284,8 @@ class HermesClient {
             const byProvider = this._readProviderCache();
             const cfg = this._readConfig();
             if (cfg.ollamaModels.length) byProvider.ollama = cfg.ollamaModels;
-            const pick = this._pickUncensored(byProvider) || this._pickNousFreeUncensored();
+            // Prima gli alias di config.yaml (scelta esplicita), poi la cache di Hermes.
+            const pick = this._pickAliasUncensored() || this._pickUncensored(byProvider) || this._pickNousFreeUncensored();
             if (!pick) return { args: [], label: null };
             return { args: ["--provider", pick.provider, "-m", pick.id], label: pick.id };
         }

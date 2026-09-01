@@ -29,10 +29,13 @@
 
 const PROVIDERS = [
     // ---- GRATIS, ottimi per coding/reverse engineering -------------------
+    // ★ 2026-09-01 — RIACCESO: c'è credito sul conto. I :free grossi restano morti,
+    // ma i modelli a pagamento (uncensored e coder) ora entrano nel catalogo sotto il
+    // tetto OPENROUTER_MAX_USD_PER_M. Com'era prima:
     // ⚠️ 2026-07-24 — i :free grossi (llama-3.3-70b, hermes-405b) sono passati a
     // PAGAMENTO: rispondono 404 "use the paid slug". Tenuto nel registro (il giorno
     // che c'è budget si riaccende con OPENROUTER_ENABLE=1) ma fuori dal failover free.
-    { keyFmt: "Inizia con sk-or-v1- (es. «redacted:sk-or-v1-...»)", id: "openrouter", label: "OpenRouter (aggregatore)", env: "OPENROUTER_API_KEY", host: "openrouter.ai", chatPath: "/api/v1/chat/completions", modelsPath: "/api/v1/models", detect: /^sk-or-v1-/, signup: "https://openrouter.ai/keys", free: false, note: "⚠️ i modelli :free grossi ora sono a pagamento. Riattivabile con OPENROUTER_ENABLE=1 nel .env." },
+    { keyFmt: "Inizia con sk-or-v1- (es. «redacted:sk-or-v1-...»)", id: "openrouter", label: "OpenRouter (aggregatore)", env: "OPENROUTER_API_KEY", host: "openrouter.ai", chatPath: "/api/v1/chat/completions", modelsPath: "/api/v1/models", detect: /^sk-or-v1-/, signup: "https://openrouter.ai/keys", free: false, note: "A consumo (credito caricato). Acceso con OPENROUTER_ENABLE=1: porta i modelli uncensored (dolphin-venice, hermes-4, euryale, magnum) e i coder sotto il tetto di prezzo." },
     { keyFmt: "Inizia con gsk_ (es. gsk_xxxx)", id: "groq", label: "Groq", env: "GROQ_API_KEY", host: "api.groq.com", chatPath: "/openai/v1/chat/completions", modelsPath: "/openai/v1/models", detect: /^gsk_/, signup: "https://console.groq.com/keys", free: true, note: "Velocissimo, gratis: llama-3.3-70b, qwen, gpt-oss-120b, deepseek-distill." },
     { keyFmt: "Inizia con csk- (es. csk-xxxx)", id: "cerebras", label: "Cerebras", env: "CEREBRAS_API_KEY", host: "api.cerebras.ai", chatPath: "/v1/chat/completions", modelsPath: "/v1/models", detect: /^csk-/, signup: "https://cloud.cerebras.ai/", free: true, note: "Gratis e ULTRA-veloce: llama-3.3-70b, qwen-3-32b/coder. Ottimo per l'agente." },
     { keyFmt: "Inizia con nvapi- (es. nvapi-xxxx)", id: "nvidia", label: "NVIDIA NIM", env: "NVIDIA_API_KEY", host: "integrate.api.nvidia.com", chatPath: "/v1/chat/completions", modelsPath: "/v1/models", detect: /^nvapi-/, signup: "https://build.nvidia.com/", free: true, note: "Gratis: modelli GROSSI (nemotron, deepseek, qwen-coder, llama-405b). Ottimo per RE." },
@@ -285,9 +288,10 @@ function freeSuggestions() { return PROVIDERS.filter(p => p.free).map(publicView
  *   uncensored true per provider/modelli senza filtri (dolphin/abliterated)
  */
 const FREE_PROVIDERS = [
-    { id: "openrouter", name: "OpenRouter ⚠️ (ora a pagamento)", keyUrl: "https://openrouter.ai/keys",
+    { id: "openrouter", name: "OpenRouter (a consumo, credito caricato)", keyUrl: "https://openrouter.ai/keys",
       freeModels: [],
-      note: "⚠️ Verificato 2026-07-24: i modelli :free grossi sono passati a pagamento (404 → 'use the paid slug'). Escluso dal failover gratuito per non creare buchi. Si riattiva con OPENROUTER_ENABLE=1 nel .env." },
+      note: "A CONSUMO, non gratis: si accende con OPENROUTER_ENABLE=1 nel .env. È la corsia UNCENSORED del cloud (dolphin-mistral-venice, hermes-4-70b/405b, euryale, magnum, wizardlm) più i coder sotto il tetto di prezzo. Il router lo prova solo DOPO le corsie gratis e si spegne da solo quando il credito scende sotto OPENROUTER_MIN_CREDIT.",
+      uncensored: true },
     { id: "github", name: "GitHub Models (gratis col tuo account)", keyUrl: "https://github.com/settings/tokens",
       freeModels: ["openai/gpt-4o-mini", "meta/llama-3.3-70b-instruct", "microsoft/phi-4", "deepseek/deepseek-v3", "mistral-ai/codestral-2501"],
       note: "Gratis con un token GitHub (nessuna carta). Metti il token come GITHUB_TOKEN: diventa subito una corsia del failover." },

@@ -25,7 +25,7 @@ const CATALOG_TTL = 10 * 60 * 1000;
 const DEFAULT_PRICE_PER_MTOK = 0.20;
 const SEP = "::"; // separatore provider::modelId nel value
 
-const UNCENSORED_RX = /abliterat|uncensor|dolphin|lumimaid|mythomax|nous-?hermes|hermes-3|venice|heretic|unfiltered|neuraldaredevil|tiger.?gemma|wizard-?lm|airoboros/i;
+const UNCENSORED_RX = /abliterat|uncensor|dolphin|lumimaid|mythomax|nous-?hermes|nousresearch|hermes-3|hermes-4|venice|heretic|unfiltered|neuraldaredevil|tiger.?gemma|wizard-?lm|airoboros|magnum|euryale|rocinante|anubis|weaver|sao10k|anthracite/i;
 
 // Provider HF: raggiungibili dal free (featherless escluso, ospita gli uncensored).
 const HF_REACHABLE = [
@@ -315,6 +315,9 @@ class CloudEngine {
             && Date.now() - this.lastDiscovery < CATALOG_TTL) {
             return this.channels;
         }
+        // Credito OpenRouter prima di tutto: serve a _discoverOpenRouter (che
+        // decide se pescare anche i modelli a pagamento) e al router resiliente.
+        await this.refreshOpenRouterCredit();
         const seen = new Set();
         const uncensored = [];
         const normal = [];
@@ -343,6 +346,47 @@ class CloudEngine {
         }
         this.logger.log && this.logger.log(`[CloudEngine] catalogo: ${uncensored.length} uncensored, ${normal.length} normali (provider: ${this.getProviderIds().join(",")})`);
         return this.channels;
+    }
+
+    // ---- Credito OpenRouter (il solo provider a consumo che teniamo acceso) ----
+    // ★ 2026-09-01 — GUARDIANO DEL PORTAFOGLIO. OpenRouter è l'unica corsia a
+    // pagamento nel failover: se il credito finisce, ogni tentativo diventa un 402 e
+    // un buco di secondi prima di ripiegare. Qui leggiamo quanto resta (una volta
+    // ogni 10 minuti, gratis: /api/v1/credits non costa token) e `openrouterVivo()`
+    // dice al router se vale ancora la pena provarci. Se la lettura fallisce NON
+    // spegniamo nulla: meglio un tentativo di troppo che una corsia persa per un
+    // errore di rete.
+    async refreshOpenRouterCredit(force = false) {
+        const prov = this._provider("openrouter");
+        if (!prov) return null;
+        const c = this._orCredit;
+        if (!force && c && Date.now() - c.ts < 10 * 60 * 1000) return c;
+        try {
+            const json = await this._get(prov.host, "/api/v1/credits", prov.key);
+            const d = (json && json.data) || {};
+            const tot = parseFloat(d.total_credits) || 0;
+            const uso = parseFloat(d.total_usage) || 0;
+            this._orCredit = { ts: Date.now(), total: tot, usage: uso, remaining: tot - uso, ok: true };
+            this.logger.log && this.logger.log(`[CloudEngine] OpenRouter: restano ${(tot - uso).toFixed(2)}$ di ${tot.toFixed(2)}$`);
+        } catch (err) {
+            this._orCredit = { ts: Date.now(), remaining: null, ok: false, error: err.message };
+        }
+        return this._orCredit;
+    }
+
+    /** Quanto resta sul conto OpenRouter, o null se non l'abbiamo (mai) letto. */
+    openrouterCredito() { return this._orCredit || null; }
+
+    /**
+     * true se OpenRouter va ancora usato: acceso nel .env e con credito sopra la
+     * soglia OPENROUTER_MIN_CREDIT (default 0.20 $). Credito ignoto = sì.
+     */
+    openrouterVivo() {
+        if (!/^(1|true|si|yes)$/i.test(String(this.env.OPENROUTER_ENABLE || ""))) return false;
+        const c = this._orCredit;
+        if (!c || !c.ok || c.remaining == null) return true;   // ignoto → si prova
+        const soglia = parseFloat(this.env.OPENROUTER_MIN_CREDIT || "0.20");
+        return c.remaining > (isNaN(soglia) ? 0.20 : soglia);
     }
 
     _discoverProvider(prov) {
@@ -466,26 +510,52 @@ class CloudEngine {
         return out;
     }
 
-    // OpenRouter: SOLO i modelli :free (gratis). Uncensored via regex sul nome.
+    // OpenRouter: i modelli :free SEMPRE; quelli A PAGAMENTO solo se nel .env c'è
+    // OPENROUTER_ENABLE=1 (cioè c'è credito sul conto).
+    // ★ 2026-09-01 — prima qui passavano SOLO i :free, e dal 2026-07-24 i :free grossi
+    // erano spariti: OpenRouter era di fatto un provider morto. Con credito caricato
+    // riapriamo la corsia, ma con tre paletti perché i 10 $ non evaporino:
+    //   • tetto di prezzo: OPENROUTER_MAX_USD_PER_M (default 3 $ per milione in uscita)
+    //   • solo modelli che servono davvero: uncensored (la corsia senza filtri) oppure
+    //     le famiglie utili a codice/RE; il resto del listino (400+ voci) resta fuori
+    //   • tetto al numero di voci a pagamento non-uncensored (OPENROUTER_MAX_PAID, 40)
+    // tools: NON più ottimistico. Lo leggiamo da supported_parameters, perché molti
+    // uncensored non fanno tool-calling e l'agente ci sbatteva contro a vuoto.
     async _discoverOpenRouter(prov) {
         const json = await this._get(prov.host, "/api/v1/models", prov.key);
         const data = (json && json.data) || [];
-        const out = [];
+        const paidOn = /^(1|true|si|yes)$/i.test(String(this.env.OPENROUTER_ENABLE || ""));
+        const maxOut = parseFloat(this.env.OPENROUTER_MAX_USD_PER_M || "3") || 3;
+        const maxPaid = parseInt(this.env.OPENROUTER_MAX_PAID || "40", 10) || 40;
+        // Famiglie che vale la pena pagare: coding, reverse engineering, contesti lunghi.
+        const UTILI_RX = /qwen|deepseek|kimi|glm|minimax|codestral|devstral|llama-3\.3|mistral|gpt-oss|command-a|grok-code/i;
+        const gratuiti = [], paidUnc = [], paidUtil = [];
         for (const m of data) {
             const pr = m.pricing || {};
-            const free = String(m.id).endsWith(":free") || (pr.prompt === "0" && pr.completion === "0");
-            if (!free) continue;
-            const name = m.id;
-            const unc = UNCENSORED_RX.test(name + " " + (m.name || ""));
-            out.push({
+            const inM = (parseFloat(pr.prompt) || 0) * 1e6;
+            const outM = (parseFloat(pr.completion) || 0) * 1e6;
+            const gratis = String(m.id).endsWith(":free") || (inM === 0 && outM === 0);
+            const testo = m.id + " " + (m.name || "");
+            const unc = UNCENSORED_RX.test(testo);
+            if (!gratis) {
+                if (!paidOn) continue;                       // niente credito → solo i :free
+                if (!outM || outM > maxOut) continue;        // troppo caro per il budget
+                if (!unc && !UTILI_RX.test(testo)) continue; // fuori tema → fuori catalogo
+            }
+            const ctx = m.context_length ? " " + Math.round(m.context_length / 1000) + "k" : "";
+            const prezzo = gratis ? "" : " · " + outM.toFixed(2) + "$/M";
+            const e = {
                 value: "openrouter" + SEP + m.id,
                 id: m.id, provider: "openrouter",
-                label: this._short(m.id).replace(/:free$/, "") + " · OpenRouter" + (m.context_length ? ` ${Math.round(m.context_length / 1000)}k` : ""),
+                label: this._short(m.id).replace(/:free$/, "") + " · OpenRouter" + ctx + prezzo,
                 uncensored: unc, rank: (m.context_length || 0) / 1000,
-                tools: true
-            });
+                tools: (m.supported_parameters || []).includes("tools"),
+                priceInPerM: inM, priceOutPerM: outM
+            };
+            if (gratis) gratuiti.push(e); else if (unc) paidUnc.push(e); else paidUtil.push(e);
         }
-        return out;
+        paidUtil.sort((a, b) => b.rank - a.rank);
+        return gratuiti.concat(paidUnc, paidUtil.slice(0, maxPaid));
     }
 
     // Groq: tutti gratis, tutti "normali" (filtrati). Velocissimi.
@@ -1052,7 +1122,10 @@ class CloudEngine {
         // Non li cancello (restano nel registro e nel menù a mano): li riaccendi con
         // OPENROUTER_ENABLE=1 / HYPERBOLIC_ENABLE=1 nel .env il giorno che li paghi.
         const FREE = new Set(["kaggle", "groq", "google", "nvidia", "sambanova", "cerebras", "mistral", "alibaba", "cloudflare", "github", "kilo", "opencode"]);
-        if (/^(1|true|si|yes)$/i.test(String(this.env.OPENROUTER_ENABLE || ""))) FREE.add("openrouter");
+        // ★ 2026-09-01 — OpenRouter entra nel failover solo se e acceso E ha ancora
+        // credito: senza il controllo, a portafoglio vuoto ogni richiesta perdeva
+        // secondi in 402 prima di ripiegare sulle corsie gratis.
+        if (this.openrouterVivo()) FREE.add("openrouter");
         if (/^(1|true|si|yes)$/i.test(String(this.env.HYPERBOLIC_ENABLE || ""))) FREE.add("hyperbolic");
         // Rank = affidabilità/velocità del free tier (più alto = provato prima).
         // ★ 2026-07-19 — ricalibrato su test reali con le chiavi vere:
@@ -1121,7 +1194,12 @@ class CloudEngine {
             // in coda, come ultima risorsa).
             if (needTools && isReasoning(it.value)) sc -= 60;
             if (isPreferred(it.value)) sc += 45;      // qwen / deepseek / hermes in cima
-            if (o.uncensored && it.unc) sc += 40;
+            // ★ 2026-09-01 — il bonus uncensored passa da +40 a +120. A +40 non
+            // vinceva mai: bastava la differenza di affidabilità fra due provider
+            // (×10) a rimetterlo dietro, e chi chiedeva "senza filtri" si ritrovava
+            // gpt-oss-120b, che filtrato lo è eccome. Se lo chiedi esplicitamente,
+            // ora i modelli senza filtri vanno davvero in testa.
+            if (o.uncensored && it.unc) sc += 120;
             if (o.coder && it.coder) sc += 40;
             // ★ 2026-07-19 — TETTO ALLA TAGLIA. Prima era "b/4 senza tetto": un
             // modello da 480B prendeva +120 e vinceva sempre, così il failover
