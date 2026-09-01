@@ -546,6 +546,10 @@ class MobileServer {
         if (p === "/history") return this._json(res, { messages: this._visibleMessages() });
         if (p === "/conversations") return this._json(res, { list: this._convList() });
         if (p === "/models") return this._models(req, res);
+        // ★ 2026-09-01 — PONTE COL TELEFONO: elenca e riprende le conversazioni di
+        // Claude Code salvate sul PC, così dal letto continui il filo lasciato qui.
+        if (p === "/claude/sessions") return this._claudeSessions(res);
+        if (p === "/claude/resume")   return this._claudeResume(req, res);
         if (p === "/send")   return this._send(req, res);
         if (p === "/stop")   { this.orchestrator.stop(); this.busy = false; this._queue = []; this._broadcast({ type: "status", value: "⏹️ Fermato (coda svuotata) — puoi scrivere un nuovo messaggio." }); return this._json(res, { ok: true }); }
         if (p === "/approve") return this._approve(req, res);
@@ -1776,6 +1780,16 @@ class MobileServer {
         this._appendMessage({ role: "user", content: prompt });
         const history = this.conversation.slice(0, -1).map(m => ({ role: m.role, content: m.content }));
 
+        // ★ 2026-09-01 — RIPRESA di una conversazione di Claude Code scelta dal
+        // telefono: se questa chat ne ha una agganciata, Claude riparte da QUEL
+        // filo e con IL SUO cwd (le sessioni sono legate alla cartella d'origine,
+        // e --resume le cerca lì). Vale solo col provider Claude.
+        const active = this._active();
+        const ripresa = provider === "claude" ? (active && active.claudeResume) : null;
+        if (ripresa && this.orchestrator.claude) {
+            this.orchestrator.claude.primeResume(this.activeId, ripresa.sessionId);
+        }
+
         try {
             // Per il locale (e per Hermes, che gira su Ollama) serve Ollama: se spento,
             // prova ad avviarlo. Cloud e Claude Code non ne hanno bisogno.
@@ -1794,7 +1808,9 @@ class MobileServer {
                 channel: body.channel || "normal",
                 history,
                 conversationId: this.activeId,   // Claude riprende la SUA sessione per questa chat
-                workspaceRoot: body.workspaceRoot || this.workspaceRoot,
+                // Se stai riprendendo un filo salvato, il cwd è quello della sessione
+                // originale; altrimenti quello di sempre.
+                workspaceRoot: (ripresa && ripresa.cwd) || body.workspaceRoot || this.workspaceRoot,
                 webview: this.webview
             });
         } catch (err) {
@@ -1807,6 +1823,39 @@ class MobileServer {
                 this._drainQueue();
             }
         }
+    }
+
+    // ── PONTE COL TELEFONO ────────────────────────────────────────────────
+    /** Elenco delle conversazioni di Claude Code salvate sul PC (le più recenti). */
+    _claudeSessions(res) {
+        const claude = this.orchestrator.claude;
+        if (!claude || !claude.available()) return this._json(res, { available: false, list: [] });
+        let list = [];
+        try { list = claude.listSessions({ limit: 60 }); }
+        catch (e) { return this._json(res, { available: true, list: [], error: e.message }); }
+        // Non mando l'id nudo in chiaro più del necessario: basta id, titolo, data,
+        // progetto e cwd (serve alla ripresa). Niente contenuto dei messaggi.
+        return this._json(res, { available: true, list });
+    }
+
+    /**
+     * Aggancia una conversazione di Claude Code alla chat ATTIVA: dal messaggio
+     * successivo, con provider "claude", riprende quel filo. Corpo: {sessionId, cwd}.
+     */
+    async _claudeResume(req, res) {
+        let body = {};
+        try { body = await this._body(req); } catch (_) { /* corpo vuoto */ }
+        const sessionId = String(body.sessionId || "").trim();
+        if (!sessionId) return this._json(res, { ok: false, error: "manca sessionId" }, 400);
+        const active = this._active();
+        active.claudeResume = { sessionId, cwd: body.cwd || null, title: body.title || "" };
+        active.updatedAt = Date.now();
+        // Il titolo della chat prende quello della sessione ripresa, se ne ha uno.
+        if (body.title && (!active.title || active.title === "Nuova chat")) active.title = "↩ " + String(body.title).slice(0, 40);
+        if (this.orchestrator.claude) this.orchestrator.claude.primeResume(this.activeId, sessionId);
+        this._saveConversations();
+        this._broadcastList();
+        return this._json(res, { ok: true, resumed: sessionId });
     }
 
     _clear(res) {

@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Antigravity — console</title>
+<style>
+:root{
+  --ground:#070A0B; --panel:#0D1214; --raised:#121A1D; --sunken:#050708;
+  --ink:#D6E4E7; --dim:#6C8288; --faint:#43555A;
+  --hair:rgba(255,255,255,.07); --hair2:rgba(69,200,216,.16);
+  /* Palette VALIDATA (dataviz — dark, surface #0D1214, coppie: tutte)
+     CVD 10.8 · vista normale 17.1 · contrasto tutti >= 3:1 */
+  --sig:#45C8D8;    /* macchina / nominale / gratis */
+  --costa:#E0A44A;  /* consuma credito / attenzione */
+  --morto:#E85D5D;  /* esaurito / fallito */
+  --tu:#D97757;     /* TU: messaggi e invio — contesto disgiunto dagli stati */
+  /* rampa sequenziale un-tono per le barre (monotona, ogni passo verificato) */
+  --r1:#22606F; --r2:#2A7A8B; --r3:#3494A6; --r4:#3EAFC2; --r5:#45C8D8;
+  --mono:ui-monospace,"JetBrains Mono","SF Mono",Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font:14px/1.55 var(--sans);
+     -webkit-font-smoothing:antialiased;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+/* etichette micro: il singolo gesto tipografico che dice "strumento" */
+.lab{font:10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+
+/* HUD: tacche agli angoli invece di bordi pieni e arrotondati */
+.hud{position:relative}
+.hud::before,.hud::after{content:"";position:absolute;width:9px;height:9px;pointer-events:none;z-index:2}
+.hud::before{top:0;left:0;border-top:1px solid var(--sig);border-left:1px solid var(--sig)}
+.hud::after{bottom:0;right:0;border-bottom:1px solid var(--sig);border-right:1px solid var(--sig)}
+
+/* ── fascia telemetria ─────────────────────────────────────────────── */
+.rail{display:flex;border-bottom:1px solid var(--hair);position:relative;overflow:hidden;flex:0 0 auto;
+      background:linear-gradient(180deg,var(--raised),var(--panel))}
+.rail::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(69,200,216,.055),transparent);
+  transform:translateX(-100%);animation:scan 9s linear infinite}
+@keyframes scan{to{transform:translateX(100%)}}
+.cell{padding:9px 14px;border-right:1px solid var(--hair);min-width:0}
+.cell:last-child{border-right:0}
+.val{font:16px/1.2 var(--mono);letter-spacing:-.01em;margin-top:3px;white-space:nowrap}
+.val .u{font-size:11px;color:var(--dim);margin-left:3px}
+/* METRO: traccia = passo piu' scuro dello STESSO tono, cosi' lo stato si legge
+   lungo tutta la barra e non solo nella parte piena. */
+.meter{height:3px;background:var(--r1);margin-top:7px;position:relative;overflow:hidden}
+.meter i{position:absolute;inset:0 auto 0 0;background:var(--sig);display:block}
+.meter.warn i{background:var(--costa)}
+.meter.bad i{background:var(--morto)}
+/* barre token: UN SOLO tono, ordinate per grandezza. 19 provider non sono 19
+   colori — l'identita' la porta l'etichetta, la tinta porta la magnitudine. */
+.bars{display:grid;grid-template-columns:auto 1fr auto;gap:3px 8px;align-items:center;margin-top:6px}
+.bars b{font:10px/1.4 var(--mono);color:var(--dim);font-weight:400;text-align:right}
+.bars i{height:6px;display:block}
+.bars s{font:10px/1.4 var(--mono);color:var(--faint);text-decoration:none;font-variant-numeric:tabular-nums}
+.dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--sig);margin-right:6px}
+.dot.bad{background:var(--morto)}
+
+/* ── chat ──────────────────────────────────────────────────────────── */
+.scroll{flex:1;overflow:auto;padding:22px 18px}
+.thread{max-width:720px;margin:0 auto}
+.msg{margin-bottom:24px}
+.who{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.msg.io .bd{background:var(--raised);border:1px solid var(--hair);border-left:2px solid var(--tu);padding:10px 13px}
+.bd{font-size:14.5px;line-height:1.62}
+.bd code{font:12.5px var(--mono);background:var(--sunken);border:1px solid var(--hair);padding:1px 5px;color:var(--sig)}
+.trace{font:10.5px/1.75 var(--mono);color:var(--faint);margin-top:9px;border-left:1px solid var(--hair);padding-left:10px}
+.trace em{color:var(--sig);font-style:normal}
+
+/* ── composer ──────────────────────────────────────────────────────── */
+.comp{flex:0 0 auto;border-top:1px solid var(--hair);background:var(--panel);padding:10px 14px 12px}
+.row{display:flex;gap:6px;align-items:center;margin-bottom:9px;flex-wrap:wrap}
+.chip{font:11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dim);
+      background:transparent;border:1px solid var(--hair);padding:7px 11px;cursor:pointer}
+.chip.on{color:var(--ground);background:var(--sig);border-color:var(--sig)}
+.pick{margin-left:auto;display:flex;align-items:center;gap:9px;background:var(--sunken);
+      border:1px solid var(--hair2);padding:6px 11px;cursor:pointer;font:12px var(--mono);color:var(--ink)}
+.inp{display:flex;align-items:center;gap:10px;background:var(--sunken);border:1px solid var(--hair);padding:11px 13px}
+.inp input{flex:1;background:none;border:0;outline:0;color:var(--ink);font:14px var(--sans)}
+.inp input::placeholder{color:var(--faint)}
+.go{width:30px;height:30px;border:0;background:var(--tu);color:#0B0906;cursor:pointer;font-size:14px}
+
+/* ── pannello corsie ───────────────────────────────────────────────── */
+.sheet{position:absolute;inset:0;background:rgba(4,7,8,.72);display:none;z-index:5}
+.sheet.open{display:block}
+.drawer{position:absolute;top:0;right:0;bottom:0;width:min(430px,92%);background:var(--panel);
+        border-left:1px solid var(--hair2);display:flex;flex-direction:column}
+.dhead{display:flex;align-items:center;justify-content:space-between;padding:15px 16px;border-bottom:1px solid var(--hair)}
+.x{background:none;border:1px solid var(--hair);color:var(--dim);width:26px;height:26px;cursor:pointer;font:12px var(--mono)}
+.dbody{flex:1;overflow:auto;padding:15px 16px 22px}
+
+.lane{display:grid;grid-template-columns:auto 1fr auto;gap:2px 11px;align-items:center;width:100%;
+      text-align:left;background:var(--raised);border:1px solid var(--hair);border-left:2px solid transparent;
+      padding:10px 12px;margin-bottom:5px;cursor:pointer;color:var(--ink);
+      transition:border-color .14s ease,background .14s ease}
+.lane:hover{border-color:var(--hair2)}
+.lane.on{border-left-color:var(--sig);background:var(--sunken)}
+.lane .g{grid-column:1;grid-row:1/3;width:22px;text-align:center;font:15px var(--mono);color:var(--sig)}
+.lane .t{grid-column:2;grid-row:1;font-size:13.5px;font-weight:600}
+.lane .ms{grid-column:3;grid-row:1;text-align:right;font:11px var(--mono);color:var(--faint);white-space:nowrap}
+.lane .d{grid-column:2/4;grid-row:2;font-size:11.5px;color:var(--dim)}
+/* LA RIGA VIVA: cosa sceglierebbe ADESSO. Non e' decorazione — e' il primo
+   candidato reale di resilientCandidates per quella corsia. */
+.live{grid-column:2/4;margin-top:6px;padding-top:6px;border-top:1px dashed var(--hair);
+      font:10.5px/1.5 var(--mono);color:var(--faint)}
+.live em{color:var(--sig);font-style:normal;letter-spacing:.1em}
+.live .cost{color:var(--costa)}
+
+.sep{display:flex;align-items:center;gap:10px;margin:22px 0 10px}
+.sep::after{content:"";flex:1;height:1px;background:var(--hair)}
+.find{display:flex;align-items:center;gap:9px;background:var(--sunken);border:1px solid var(--hair);padding:9px 11px;margin-bottom:9px}
+.find input{flex:1;background:none;border:0;outline:0;color:var(--ink);font:12.5px var(--mono)}
+.find input::placeholder{color:var(--faint)}
+.fam{border:1px solid var(--hair);border-left:2px solid var(--hair);margin-bottom:4px;background:var(--raised)}
+.fam>summary{list-style:none;cursor:pointer;padding:9px 11px;display:grid;
+             grid-template-columns:1fr auto auto;gap:10px;align-items:center}
+.fam>summary::-webkit-details-marker{display:none}
+.fam[open]{border-left-color:var(--sig)}
+.fam .fn{font:12.5px var(--mono)}
+.fam .fc{font:10px var(--mono);color:var(--faint);letter-spacing:.08em}
+.fam .fp{font:10px var(--mono);letter-spacing:.06em;color:var(--dim);border:1px solid var(--hair);padding:2px 6px}
+.mrow{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;width:100%;text-align:left;
+      background:none;border:0;border-top:1px solid var(--hair);padding:7px 11px;cursor:pointer;color:var(--dim)}
+.mrow:hover{background:var(--sunken);color:var(--ink)}
+.mrow .id{font:11.5px var(--mono);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mrow .sp{font:10px var(--mono);color:var(--faint);white-space:nowrap;font-variant-numeric:tabular-nums}
+.mrow .sp b{font-weight:400;color:var(--sig)}
+.mrow .sp b.c{color:var(--costa)}
+.mrow .sp b.x{color:var(--morto)}
+.foot{font:10.5px/1.7 var(--mono);color:var(--faint);margin-top:14px}
+</style></head><body>
+
+<div class="rail">
+  <div class="cell hud" style="flex:0 0 auto">
+    <div class="lab">Credito · OpenRouter</div>
+    <div class="val">9.75<span class="u">/ 10.00 USD</span></div>
+    <div class="meter"><i style="width:97.5%"></i></div>
+  </div>
+  <div class="cell" style="flex:1 1 auto;max-width:280px">
+    <div class="lab">Token questo mese</div>
+    <div class="bars">
+      <b>groq</b><i style="width:100%;background:var(--r5)"></i><s>412k</s>
+      <b>cerebras</b><i style="width:61%;background:var(--r4)"></i><s>251k</s>
+      <b>sambanova</b><i style="width:33%;background:var(--r3)"></i><s>136k</s>
+      <b>openrouter</b><i style="width:11%;background:var(--r2)"></i><s>44k</s>
+    </div>
+  </div>
+  <div class="cell" style="flex:0 0 auto">
+    <div class="lab">Corsia attiva</div>
+    <div class="val" style="color:var(--sig)">VELOCE</div>
+    <div class="lab" style="margin-top:7px"><span class="dot"></span>groq · 0.41 s</div>
+  </div>
+  <div class="cell" style="flex:0 0 auto">
+    <div class="lab">Corsie vive</div>
+    <div class="val">17<span class="u">/ 19</span></div>
+    <div class="lab" style="margin-top:7px"><span class="dot bad"></span>nvidia · hyperbolic giù</div>
+  </div>
+</div>
+
+<div class="scroll"><div class="thread">
+  <div class="msg io"><div class="who"><span class="lab" style="color:var(--tu)">TU</span></div>
+    <div class="bd">Leggi <code>src/envFile.js</code> e dimmi cosa fa</div></div>
+  <div class="msg"><div class="who"><span class="lab">ANTIGRAVITY</span>
+      <span class="lab" style="color:var(--sig)">groq / qwen3.6-27b</span></div>
+    <div class="bd">Gestisce la ricerca del file <code>.env</code> del progetto, restituendo il percorso
+      della prima copia trovata — prima nella radice, poi in <code>src/</code>, poi nella home — per
+      consentire al resto dell'applicazione di leggere le chiavi da un punto solo.</div>
+    <div class="trace">
+      <em>&#9656;</em> corsia VELOCE · 3 candidati valutati<br>
+      <em>&#9656;</em> groq/qwen3.6-27b · 0.41 s · 1 240 token · gratis<br>
+      <em>&#9656;</em> lettura src/envFile.js · 121 righe
+    </div></div>
+</div></div>
+
+<div class="comp">
+  <div class="row">
+    <button class="chip on">Auto</button><button class="chip">Agente</button>
+    <button class="chip">Reverse</button><button class="chip">Codice</button>
+    <button class="pick" onclick="document.getElementById('s').classList.add('open')">
+      <span class="lab" style="color:var(--sig)">CORSIA</span> &#8811; VELOCE
+      <span style="color:var(--faint)">&#8964;</span></button>
+  </div>
+  <div class="inp"><span style="color:var(--faint);font:13px var(--mono)">&#9656;</span>
+    <input placeholder="Scrivi un messaggio…"><button class="go">&#10148;</button></div>
+</div>
+
+<div class="sheet" id="s" onclick="if(event.target===this)this.classList.remove('open')">
+ <div class="drawer hud">
+  <div class="dhead"><div><div class="lab">Selettore</div>
+      <div style="font-size:15px;font-weight:600;margin-top:3px">Come deve rispondere</div></div>
+    <button class="x" onclick="document.getElementById('s').classList.remove('open')">&#10005;</button></div>
+  <div class="dbody">
+
+   <button class="lane"><span class="g">&#9672;</span><span class="t">Auto</span><span class="ms">consigliata</span>
+     <span class="d">Sceglie da solo il migliore disponibile</span>
+     <span class="live"><em>ora</em> &nbsp;kaggle/Qwen2.5-Coder-14B-abliterated · 14B · locale</span></button>
+
+   <button class="lane on"><span class="g">&#8811;</span><span class="t">Veloce</span><span class="ms">~0.4 s</span>
+     <span class="d">I provider gratis più rapidi, senza giganti lenti</span>
+     <span class="live"><em>ora</em> &nbsp;groq/qwen3.6-27b · 27B · 131k · gratis</span></button>
+
+   <button class="lane"><span class="g">&#9673;</span><span class="t">Grosso</span><span class="ms">~4 s</span>
+     <span class="d">Ragiona meglio, ci mette di più</span>
+     <span class="live"><em>ora</em> &nbsp;alibaba/qwen3-coder-480b · 480B · 262k · gratis</span></button>
+
+   <button class="lane"><span class="g">&#9671;</span><span class="t">Senza filtri</span><span class="ms">~2 s</span>
+     <span class="d">Modelli che non rifiutano e non fanno prediche</span>
+     <span class="live"><em>ora</em> &nbsp;openrouter/hermes-4-405b · 405B · <span class="cost">3.00 $/M</span></span></button>
+
+   <button class="lane"><span class="g">&#9635;</span><span class="t">Col credito</span><span class="ms">9.75 $</span>
+     <span class="d">Usa i soldi caricati su OpenRouter</span>
+     <span class="live"><em>ora</em> &nbsp;openrouter/hermes-4-405b · 405B · <span class="cost">3.00 $/M</span></span></button>
+
+   <div class="sep"><span class="lab">Oppure un modello preciso</span></div>
+   <div class="find"><span style="color:var(--faint);font:12px var(--mono)">&#8981;</span>
+     <input placeholder="cerca fra 1 612 modelli su 19 provider"></div>
+
+   <details class="fam" open><summary><span class="fn">gpt-oss-120b</span>
+       <span class="fc">4 CORSIE</span><span class="fp">GRATIS</span></summary>
+     <button class="mrow"><span class="id">groq/gpt-oss-120b</span><span class="sp">120B · 131k · <b>gratis</b> · 0.4 s</span></button>
+     <button class="mrow"><span class="id">cerebras/gpt-oss-120b</span><span class="sp">120B · 131k · <b>gratis</b> · 0.5 s</span></button>
+     <button class="mrow"><span class="id">sambanova/gpt-oss-120b</span><span class="sp">120B · 131k · <b>gratis</b> · 0.9 s</span></button>
+     <button class="mrow"><span class="id">cloudflare/gpt-oss-120b</span><span class="sp">120B · 128k · <b>gratis</b> · 1.2 s</span></button>
+   </details>
+   <details class="fam"><summary><span class="fn">hermes-4</span>
+       <span class="fc">2 VARIANTI</span><span class="fp">SENZA FILTRI</span></summary>
+     <button class="mrow"><span class="id">openrouter/hermes-4-405b</span><span class="sp">405B · 131k · <b class="c">3.00 $/M</b></span></button>
+     <button class="mrow"><span class="id">openrouter/hermes-4-70b</span><span class="sp">70B · 131k · <b class="c">0.40 $/M</b></span></button>
+   </details>
+   <details class="fam"><summary><span class="fn">qwen3-coder-480b</span>
+       <span class="fc">2 CORSIE</span><span class="fp">GRATIS</span></summary>
+     <button class="mrow"><span class="id">alibaba/qwen3-coder-480b-a35b</span><span class="sp">480B · 262k · <b>gratis</b></span></button>
+     <button class="mrow"><span class="id">hyperbolic/Qwen3-Coder-480B-A35B</span><span class="sp">480B · 262k · <b class="x">esaurito</b></span></button>
+   </details>
+   <details class="fam"><summary><span class="fn">Gemma-4-31B</span>
+       <span class="fc">14 VARIANTI</span><span class="fp">ARLIAI</span></summary>
+     <button class="mrow"><span class="id">arliai/Gemma-4-31B-Agares-v1</span><span class="sp">31B · 32k · <b>trial</b></span></button>
+     <button class="mrow"><span class="id">arliai/Gemma-4-31B-Animus-V14.1</span><span class="sp">31B · 32k · <b>trial</b></span></button>
+   </details>
+
+   <div class="foot">1 612 modelli · 19 provider · raggruppati per famiglia<br>
+     ordinati per quello che il router userebbe per primo, non alfabeticamente</div>
+  </div>
+ </div>
+</div>
+</body></html>

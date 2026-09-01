@@ -7,6 +7,36 @@
 
 ---
 
+## 0-quater. Il ponte col telefono: riprendere una chat di Claude Code (2026-09-01) — v1.0.44
+
+**Bisogno.** Dal letto, col solo Antigravity sul telefono, continuare a lavorare con
+Claude Code lasciato al PC — non solo aprire una chat nuova, ma **riprendere il filo**.
+
+**Come funziona.** Le conversazioni di Claude Code sono file `.jsonl` in
+`~/.claude/projects/<progetto>/`: il nome del file E' l'id da passare a `--resume`,
+e dentro ci sono `cwd` e il primo messaggio (per titolo e data).
+1. `claudeEngine.listSessions()` scorre tutti i progetti, legge solo la TESTA (~48 KB)
+   di ogni file per titolo/cwd/data. `primeResume(convId, sessionId)` aggancia la sessione.
+2. Server: rotte `GET /claude/sessions` e `POST /claude/resume`. La ripresa si salva
+   sulla conversazione (`claudeResume:{sessionId,cwd}`) e sopravvive al riavvio.
+3. In `_drainQueue`, col provider `claude`, se la chat ha un aggancio: `primeResume` +
+   **cwd della sessione d'origine** (le sessioni sono legate alla cartella, `--resume` le
+   cerca li' — questa chat sta sotto `mia estensione vs code`, non sotto Antigravity).
+4. Pagina: pulsante colon-arrow nell'header apre un pannello che elenca le sessioni;
+   toccarne una la aggancia e passa la chat a Claude Code.
+
+**Verificato end-to-end** (non solo a lettura): ripresa reale di una sessione vecchia
+(783e7e68, laser di taglio) — Claude ha riassunto correttamente quel filo, quindi aveva
+tutto il contesto. `npm test` 46/46 (6 test nuovi di cablaggio), collaudo 9/9.
+
+**Limiti, detti chiari:** il PC deve restare acceso con Tailscale su (indirizzo
+100.106.75.61); riprende il *filo* non il *processo* (nuova esecuzione che rilegge la
+trascrizione); consuma l'abbonamento Claude via CLI.
+
+AVVISO: serve **riavviare il server** perche' le rotte nuove rispondano (quello attivo
+e' ancora la versione vecchia: `/claude/sessions` da' 404 finche' non riparte).
+
+---
 ## 0-ter. La scelta modello riordinata + la barra chat tagliata (2026-09-01) — v1.0.43
 
 **Due cose, una nata dall'altra.**

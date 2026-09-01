@@ -76,6 +76,85 @@ class ClaudeEngine {
     /** Dimentica la sessione di una chat (dopo "svuota"/"nuova chat"): riparte pulita. */
     forgetSession(conversationId) { this.sessions.delete(conversationId || "default"); }
 
+    /**
+     * ★ 2026-09-01 — IL PONTE COL TELEFONO. Elenca le conversazioni di Claude Code
+     * salvate su disco, così dal telefono puoi RIPRENDERE il filo lasciato al PC
+     * (non solo aprirne uno nuovo). Ogni conversazione è un file .jsonl dentro
+     * ~/.claude/projects/<progetto>/: il nome del file È l'id da passare a --resume.
+     *
+     * Per non leggere file da megabyte interi, di ciascuno si legge solo la TESTA
+     * (i primi ~48 KB): lì stanno già il cwd e il primo messaggio, che bastano per
+     * titolo, data e progetto. Il conteggio messaggi è una stima dalla dimensione.
+     * @returns {Array<{id,title,cwd,project,ts,mtime,sizeKB}>} recenti per prime
+     */
+    listSessions({ limit = 60 } = {}) {
+        const base = path.join(os.homedir(), ".claude", "projects");
+        let progetti = [];
+        try { progetti = fs.readdirSync(base); } catch (_) { return []; }
+        const out = [];
+        for (const prog of progetti) {
+            const dir = path.join(base, prog);
+            let files = [];
+            try { files = fs.readdirSync(dir).filter(f => f.endsWith(".jsonl")); } catch (_) { continue; }
+            for (const f of files) {
+                const full = path.join(dir, f);
+                let st;
+                try { st = fs.statSync(full); } catch (_) { continue; }
+                if (!st.size) continue;   // sessione vuota: saltala
+                const info = this._peekSession(full);
+                out.push({
+                    id: f.replace(/\.jsonl$/, ""),
+                    title: info.title || "(senza titolo)",
+                    cwd: info.cwd || null,
+                    project: prog,
+                    ts: info.ts || st.mtime.toISOString(),
+                    mtime: st.mtimeMs,
+                    sizeKB: Math.round(st.size / 1024)
+                });
+            }
+        }
+        out.sort((a, b) => b.mtime - a.mtime);
+        return out.slice(0, limit);
+    }
+
+    /** Legge la testa di un .jsonl e ne ricava cwd, primo messaggio utente, data. */
+    _peekSession(full) {
+        let testa = "";
+        try {
+            const fd = fs.openSync(full, "r");
+            const buf = Buffer.alloc(49152);           // ~48 KB bastano per la testa
+            const n = fs.readSync(fd, buf, 0, buf.length, 0);
+            fs.closeSync(fd);
+            testa = buf.slice(0, n).toString("utf8");
+        } catch (_) { return {}; }
+        let cwd = null, title = null, ts = null;
+        for (const riga of testa.split("\n")) {
+            if (!riga.trim()) continue;
+            let j; try { j = JSON.parse(riga); } catch (_) { continue; }   // ultima riga tronca: ignorala
+            if (!cwd && j.cwd) cwd = j.cwd;
+            if (!ts && j.timestamp) ts = j.timestamp;
+            if (!title && j.type === "user" && j.message) {
+                const c = j.message.content;
+                let t = typeof c === "string" ? c : (Array.isArray(c) ? ((c.find(x => x && x.type === "text") || {}).text || "") : "");
+                t = String(t).replace(/\s+/g, " ").trim();
+                // Salta i messaggi-strumento (tool_result) e le note di sistema.
+                if (t && !/^<[a-z-]+>/i.test(t) && !/^Caveat:|^\[Request interrupted/.test(t)) title = t.slice(0, 80);
+            }
+            if (cwd && title && ts) break;
+        }
+        return { cwd, title, ts };
+    }
+
+    /**
+     * Prepara la ripresa di una conversazione salvata: al prossimo messaggio di
+     * questa chat, Claude riparte da QUEL filo (--resume) invece che da zero.
+     * Il cwd va abbinato: le sessioni sono legate alla cartella in cui sono nate,
+     * e --resume le cerca lì. Chi chiama passa quel cwd al prossimo chat().
+     */
+    primeResume(conversationId, sessionId) {
+        if (sessionId) this.sessions.set(conversationId || "default", sessionId);
+    }
+
     /** Ultimo stato dei limiti d'uso, pronto per la barra della UI. */
     getLimit() { return this.lastLimit; }
 

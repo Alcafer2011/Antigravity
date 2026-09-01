@@ -353,6 +353,7 @@
     <button class="hbtn" id="torBtn" title="Navigatore Tor (rete .onion)">🧅</button>
     <button class="hbtn" id="musicBtn" title="Musica (stile Spotify): cerca brano, testo, anteprima" style="display:inline-flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 168 168" aria-hidden="true"><path fill="#1ED760" d="M83.996.277C37.747.277.253 37.77.253 84.019c0 46.251 37.494 83.742 83.743 83.742 46.254 0 83.744-37.491 83.744-83.742 0-46.246-37.49-83.738-83.745-83.738l.001-.004zm38.404 120.78a5.217 5.217 0 01-7.18 1.73c-19.662-12.01-44.414-14.73-73.564-8.07a5.222 5.222 0 01-6.249-3.93 5.213 5.213 0 013.926-6.25c31.9-7.291 59.263-4.15 81.337 9.34 2.46 1.51 3.24 4.72 1.73 7.18zm10.25-22.805c-1.89 3.075-5.91 4.045-8.98 2.155-22.51-13.839-56.823-17.846-83.448-9.764-3.453 1.043-7.1-.903-8.148-4.35a6.538 6.538 0 014.354-8.143c30.413-9.228 68.222-4.758 94.072 11.127 3.07 1.89 4.04 5.91 2.15 8.98v-.005zm.88-23.744c-26.99-16.031-71.52-17.505-97.289-9.684-4.138 1.255-8.514-1.081-9.768-5.219a7.835 7.835 0 015.221-9.771c29.581-8.98 78.756-7.245 109.83 11.202a7.823 7.823 0 012.74 10.733c-2.2 3.722-7.02 4.949-10.73 2.739z"/></svg></button>
     <button class="hbtn" id="keysBtn" title="Chiavi API dei provider">🔑</button>
+    <button class="hbtn" id="resumeBtn" title="Riprendi una conversazione di Claude Code lasciata al PC">↩️</button>
     <button class="hbtn" id="clearBtn" title="Pulisci lo schermo (la memoria resta)">🧹</button>
     <button class="hbtn" id="exportBtn" title="Esporta la chat in Markdown">⤓</button>
     <button class="hbtn" id="newChat" title="Nuova chat">✚</button>
@@ -427,6 +428,22 @@
     <div class="hint">Invio per inviare · Maiusc+Invio per andare a capo</div>
   </div>
 </div>
+
+<!-- ★ 2026-09-01 — PONTE COL TELEFONO. Dal letto, col solo Antigravity in mano,
+     riprendi il filo di una conversazione di Claude Code lasciata al PC (non solo
+     aprirne una nuova). Le sessioni sono i file .jsonl salvati da Claude: qui le
+     elenchi (titolo, data, cartella) e ne agganci una alla chat attiva. Dal
+     messaggio dopo, con provider «Claude Code», riprende da lì. -->
+<div class="drawer-overlay" id="resumeOverlay"></div>
+<aside class="drawer right" id="resumeDrawer" style="width:90%;max-width:400px">
+  <div class="drawer-head"><span>↩️ Riprendi una conversazione</span><button class="btn" id="resumeClose">Chiudi</button></div>
+  <div class="drawer-list">
+    <div style="font-size:12.5px;color:var(--dim);margin:2px 4px 10px;line-height:1.5">
+      Conversazioni di <b>Claude Code</b> salvate sul PC. Tocca una voce: la chat qui
+      passa a Claude e riparte da quel filo. Il PC deve restare acceso.</div>
+    <div id="resumeList"><div style="color:var(--dim);padding:16px 4px">Carico…</div></div>
+  </div>
+</aside>
 
 <!-- ★ 2026-09-01 — PANNELLO MODELLI. Prima la scelta stava tutta nella barra: tre
      controlli sempre a vista (provider, cerca, modello) e una <select> che poteva
@@ -1550,6 +1567,55 @@ function closeKeys(){ $("#keysDrawer").classList.remove("open"); $("#keysOverlay
 $("#keysBtn").addEventListener("click",openKeys);
 $("#keysClose").addEventListener("click",closeKeys);
 $("#keysOverlay").addEventListener("click",closeKeys);
+
+// ★ 2026-09-01 — PONTE COL TELEFONO: riprendi una conversazione di Claude Code.
+function openResume(){ $("#resumeDrawer").classList.add("open"); $("#resumeOverlay").classList.add("open"); loadSessions(); }
+function closeResume(){ $("#resumeDrawer").classList.remove("open"); $("#resumeOverlay").classList.remove("open"); }
+$("#resumeBtn").addEventListener("click",openResume);
+$("#resumeClose").addEventListener("click",closeResume);
+$("#resumeOverlay").addEventListener("click",closeResume);
+function quando(ts){
+  const d=new Date(ts), o=(Date.now()-d.getTime())/1000;
+  if(o<3600) return Math.max(1,Math.round(o/60))+" min fa";
+  if(o<86400) return Math.round(o/3600)+" h fa";
+  const g=Math.round(o/86400); if(g<30) return g+(g===1?" giorno fa":" giorni fa");
+  return d.toLocaleDateString("it-IT");
+}
+function cartellina(cwd){ if(!cwd) return ""; const p=String(cwd).replace(/[\\/]+$/,"").split(/[\\/]/); return p[p.length-1]||cwd; }
+async function loadSessions(){
+  const box=$("#resumeList");
+  box.innerHTML='<div style="color:var(--dim);padding:16px 4px">Carico le conversazioni dal PC…</div>';
+  let j;
+  try{ const r=await fetch("/claude/sessions?t="+encodeURIComponent(T)); j=await r.json(); }
+  catch(_){ box.innerHTML='<div style="color:var(--err);padding:16px 4px">Non riesco a leggere le sessioni. Il PC è acceso?</div>'; return; }
+  if(!j || j.available===false){ box.innerHTML='<div style="color:var(--dim);padding:16px 4px">Claude Code non è installato sul PC: il ponte non è disponibile.</div>'; return; }
+  const list=j.list||[];
+  if(!list.length){ box.innerHTML='<div style="color:var(--dim);padding:16px 4px">Nessuna conversazione salvata ancora.</div>'; return; }
+  box.innerHTML="";
+  list.forEach(function(s){
+    const el=document.createElement("button");
+    el.className="conv"; el.style.cssText="width:100%;text-align:left;border:1px solid var(--line);margin:0 0 7px;background:var(--panel);flex-direction:column;align-items:stretch;gap:3px";
+    el.innerHTML=
+      '<div class="ct" style="white-space:normal;font-weight:600">'+esc(s.title||"(senza titolo)")+'</div>'+
+      '<div style="font-size:11px;color:var(--dim);display:flex;gap:8px;flex-wrap:wrap">'+
+        '<span>🕓 '+esc(quando(s.mtime))+'</span>'+
+        (s.cwd?'<span>📁 '+esc(cartellina(s.cwd))+'</span>':'')+
+        '<span>'+esc(String(s.sizeKB))+' KB</span></div>';
+    el.onclick=function(){ riprendi(s); };
+    box.appendChild(el);
+  });
+}
+async function riprendi(s){
+  try{
+    const r=await api("/claude/resume",{ sessionId:s.id, cwd:s.cwd, title:s.title });
+    const j=await r.json();
+    if(!j.ok){ setStatus("⚠️ Ripresa non riuscita: "+(j.error||"errore"),true); return; }
+  }catch(_){ setStatus("⚠️ Ripresa non riuscita (PC irraggiungibile?)",true); return; }
+  // Passa la chat a Claude Code, così il prossimo messaggio riprende quel filo.
+  $("#provider").value="claude"; fillModels(); updateModelBtn();
+  closeResume();
+  setStatus("↩️ Riprendo «"+(s.title||"conversazione").slice(0,40)+"» — scrivi per continuare col filo del PC.",true);
+}
 
 // ★ FEATURE C: dashboard stato — chiama /status e mostra cosa è vivo.
 $("#statusBtn").addEventListener("click", async () => {

@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Antigravity — console v2</title>
+<style>
+/* ══════════════════════════════════════════════════════════════════════════
+   REGOLA CHE TIENE INSIEME TUTTO:
+   • I DATI (metri, barre, stati) usano solo la palette validata: ciano = gratis
+     e nominale, ambra = costa, rosso = esaurito. Quella non si tocca: e' stata
+     passata al validatore (CVD 10.8 · vista normale 17.1 · contrasto > 3:1).
+   • La SCOCCA (fondali, cornici, bagliori, movimento) e' libera. Il viola qui
+     sotto e' SOLO scocca: non codifica mai un dato. Se un giorno serve un
+     quarto stato, non si prende il viola: si torna al validatore.
+   ══════════════════════════════════════════════════════════════════════════ */
+:root{
+  --void:#06060F; --deep:#070B12; --panel:rgba(14,20,30,.72); --raised:rgba(20,28,42,.66);
+  --ink:#DCE8EE; --dim:#7B90A0; --faint:#4A5D6E;
+  /* dati (validati) */
+  --sig:#45C8D8; --costa:#E0A44A; --morto:#E85D5D; --tu:#D97757;
+  /* scocca (liberi) */
+  --viola:#8B7CF6; --magenta:#C86DD7; --acqua:#5EEAD4;
+  --edge:rgba(139,124,246,.28); --edge2:rgba(69,200,216,.34);
+  --r1:#22606F; --r2:#2A7A8B; --r3:#3494A6; --r4:#3EAFC2; --r5:#45C8D8;
+  --mono:ui-monospace,"JetBrains Mono","SF Mono",Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --chamfer:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--void);color:var(--ink);font:14px/1.55 var(--sans);
+     -webkit-font-smoothing:antialiased;display:flex;flex-direction:column;overflow:hidden;position:relative}
+
+/* ── FONDALE VIVO: due aurore che derivano lentamente + griglia in fuga.
+      E' il movimento "a pagina ferma": non chiede attenzione, ma la stanza
+      non e' mai morta. ─────────────────────────────────────────────────── */
+.sfondo{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aur{position:absolute;border-radius:50%;filter:blur(80px);opacity:.55}
+.aur.a{width:70vw;height:70vw;left:-18vw;top:-28vw;
+  background:radial-gradient(circle,rgba(139,124,246,.80),transparent 68%);animation:derA 46s ease-in-out infinite alternate}
+.aur.b{width:62vw;height:62vw;right:-20vw;bottom:-26vw;
+  background:radial-gradient(circle,rgba(69,200,216,.62),transparent 68%);animation:derB 61s ease-in-out infinite alternate}
+.aur.c{width:46vw;height:46vw;left:34vw;top:28vh;opacity:.34;
+  background:radial-gradient(circle,rgba(200,109,215,.75),transparent 70%);animation:derC 78s ease-in-out infinite alternate}
+@keyframes derA{to{transform:translate(14vw,10vh) scale(1.18)}}
+@keyframes derB{to{transform:translate(-12vw,-9vh) scale(1.13)}}
+@keyframes derC{to{transform:translate(-9vw,12vh) scale(.86)}}
+/* griglia in prospettiva che scorre piano verso l'osservatore */
+.grid{position:absolute;left:-25%;right:-25%;bottom:-6%;height:52%;opacity:.32;
+  background-image:linear-gradient(rgba(94,234,212,.42) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(94,234,212,.24) 1px,transparent 1px);
+  background-size:100% 34px,44px 100%;
+  transform:perspective(340px) rotateX(72deg);transform-origin:bottom center;
+  animation:scorri 5.5s linear infinite;
+  -webkit-mask-image:linear-gradient(transparent,#000 62%);mask-image:linear-gradient(transparent,#000 62%)}
+@keyframes scorri{to{background-position:0 34px,0 0}}
+/* velo di rumore + scanline: toglie la piattezza del nero pieno */
+.velo{position:absolute;inset:0;opacity:.30;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.030) 0 1px,transparent 1px 3px)}
+
+.app{position:relative;z-index:1;display:flex;flex-direction:column;height:100%}
+
+.lab{font:10px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
+
+/* ── FASCIA TELEMETRIA ─────────────────────────────────────────────────── */
+.rail{display:flex;flex:0 0 auto;position:relative;overflow:hidden;
+  background:linear-gradient(180deg,rgba(20,28,42,.80),rgba(7,11,18,.62));
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--edge)}
+.rail::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--sig),var(--viola),transparent);opacity:.85}
+.rail::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(94,234,212,.10),transparent);
+  transform:translateX(-100%);animation:scan 7s linear infinite}
+@keyframes scan{to{transform:translateX(100%)}}
+.cell{padding:10px 16px;min-width:0;position:relative}
+.cell+.cell::before{content:"";position:absolute;left:0;top:14%;bottom:14%;width:1px;
+  background:linear-gradient(180deg,transparent,var(--edge),transparent)}
+.val{font:17px/1.2 var(--mono);margin-top:4px;white-space:nowrap;
+  text-shadow:0 0 14px rgba(69,200,216,.35)}
+.val .u{font-size:11px;color:var(--dim);margin-left:4px;text-shadow:none}
+.meter{height:4px;background:var(--r1);margin-top:8px;position:relative;overflow:hidden;clip-path:var(--chamfer)}
+.meter i{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,var(--r3),var(--sig));display:block;
+  box-shadow:0 0 12px rgba(69,200,216,.6)}
+/* la testa del metro respira: dice "questo numero e' vivo" */
+.meter i::after{content:"";position:absolute;right:0;top:0;bottom:0;width:2px;background:#CFF9FF;
+  animation:respira 2.4s ease-in-out infinite}
+@keyframes respira{0%,100%{opacity:.35}50%{opacity:1}}
+.bars{display:grid;grid-template-columns:auto 1fr auto;gap:4px 9px;align-items:center;margin-top:7px}
+.bars b{font:10px/1.4 var(--mono);color:var(--dim);font-weight:400;text-align:right}
+.bars i{height:6px;display:block;clip-path:polygon(0 0,100% 0,calc(100% - 3px) 100%,0 100%)}
+.bars s{font:10px/1.4 var(--mono);color:var(--faint);text-decoration:none;font-variant-numeric:tabular-nums}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--sig);margin-right:7px;
+  box-shadow:0 0 8px var(--sig);animation:battito 1.9s ease-in-out infinite}
+.dot.bad{background:var(--morto);box-shadow:0 0 8px var(--morto);animation:none}
+@keyframes battito{0%,100%{opacity:.45;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+
+/* ── CHAT ──────────────────────────────────────────────────────────────── */
+.scroll{flex:1;overflow:auto;padding:26px 20px}
+.thread{max-width:730px;margin:0 auto}
+.msg{margin-bottom:26px}
+.who{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.msg.io .bd{background:var(--raised);border:1px solid var(--edge);padding:11px 14px;clip-path:var(--chamfer);
+  position:relative;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.msg.io .bd::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,var(--tu),transparent)}
+.bd{font-size:14.5px;line-height:1.64}
+.bd code{font:12.5px var(--mono);background:rgba(69,200,216,.10);border:1px solid var(--edge2);
+  padding:1px 6px;color:var(--acqua)}
+.trace{font:10.5px/1.8 var(--mono);color:var(--faint);margin-top:10px;padding-left:11px;
+  border-left:1px solid var(--edge)}
+.trace em{color:var(--sig);font-style:normal}
+
+/* ── COMPOSER ──────────────────────────────────────────────────────────── */
+.comp{flex:0 0 auto;padding:11px 16px 14px;border-top:1px solid var(--edge);
+  background:linear-gradient(0deg,rgba(7,11,18,.92),rgba(14,20,30,.55));
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.row{display:flex;gap:7px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.chip{font:11px/1 var(--mono);letter-spacing:.11em;text-transform:uppercase;color:var(--dim);
+  background:rgba(255,255,255,.03);border:1px solid var(--edge);padding:8px 12px;cursor:pointer;
+  clip-path:var(--chamfer);transition:color .16s,border-color .16s,box-shadow .16s}
+.chip:hover{color:var(--ink);border-color:var(--edge2)}
+.chip.on{color:#04121A;background:linear-gradient(135deg,var(--acqua),var(--sig));border-color:transparent;
+  box-shadow:0 0 20px rgba(69,200,216,.35)}
+.pick{margin-left:auto;display:flex;align-items:center;gap:10px;cursor:pointer;color:var(--ink);
+  font:12px var(--mono);padding:8px 13px;clip-path:var(--chamfer);position:relative;
+  background:linear-gradient(135deg,rgba(139,124,246,.20),rgba(69,200,216,.14));
+  border:1px solid var(--edge2)}
+.pick::after{content:"";position:absolute;inset:0;clip-path:var(--chamfer);pointer-events:none;
+  background:linear-gradient(115deg,transparent 38%,rgba(255,255,255,.16) 50%,transparent 62%);
+  transform:translateX(-120%);animation:luccica 6.5s ease-in-out infinite}
+@keyframes luccica{0%,72%{transform:translateX(-120%)}88%,100%{transform:translateX(120%)}}
+.inp{display:flex;align-items:center;gap:11px;padding:12px 14px;clip-path:var(--chamfer);
+  background:rgba(4,8,14,.72);border:1px solid var(--edge);transition:border-color .18s,box-shadow .18s}
+.inp:focus-within{border-color:var(--edge2);box-shadow:0 0 26px rgba(69,200,216,.16)}
+.inp input{flex:1;background:none;border:0;outline:0;color:var(--ink);font:14px var(--sans)}
+.inp input::placeholder{color:var(--faint)}
+.caret{width:7px;height:15px;background:var(--acqua);animation:lampeggia 1.15s steps(2) infinite;flex:0 0 auto}
+@keyframes lampeggia{50%{opacity:0}}
+.go{width:34px;height:34px;border:0;cursor:pointer;clip-path:var(--chamfer);
+  background:linear-gradient(135deg,var(--tu),#C2603F);color:#12070A;display:grid;place-items:center;
+  box-shadow:0 0 18px rgba(217,119,87,.32)}
+
+/* ── PANNELLO ──────────────────────────────────────────────────────────── */
+.sheet{position:fixed;inset:0;z-index:9;display:none;background:rgba(3,5,9,.62);
+  backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.sheet.open{display:block;animation:sfuma .18s ease}
+@keyframes sfuma{from{opacity:0}}
+.drawer{position:absolute;top:0;right:0;bottom:0;width:min(440px,94%);display:flex;flex-direction:column;
+  background:linear-gradient(160deg,rgba(18,25,38,.94),rgba(6,9,15,.96));
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-left:1px solid var(--edge2);box-shadow:-30px 0 70px rgba(0,0,0,.55);
+  animation:entra .26s cubic-bezier(.2,.8,.25,1)}
+@keyframes entra{from{transform:translateX(26px);opacity:0}}
+/* raggio che attraversa il pannello all'apertura, poi ogni tanto */
+.drawer::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,transparent,rgba(94,234,212,.09),transparent);height:36%;
+  animation:raggio 11s ease-in-out infinite}
+@keyframes raggio{0%{transform:translateY(-40%);opacity:0}8%{opacity:1}30%{transform:translateY(300%);opacity:0}100%{opacity:0}}
+.dhead{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;
+  border-bottom:1px solid var(--edge);position:relative}
+.dhead h2{margin:3px 0 0;font-size:16px;font-weight:600;letter-spacing:.01em}
+.x{background:rgba(255,255,255,.04);border:1px solid var(--edge);color:var(--dim);width:28px;height:28px;
+  cursor:pointer;clip-path:var(--chamfer);display:grid;place-items:center}
+.x:hover{color:var(--ink);border-color:var(--edge2)}
+.dbody{flex:1;overflow:auto;padding:16px 18px 24px}
+
+.lane{display:grid;grid-template-columns:auto 1fr auto;gap:3px 13px;align-items:center;width:100%;
+  text-align:left;padding:12px 14px;margin-bottom:7px;cursor:pointer;color:var(--ink);position:relative;
+  background:var(--raised);border:1px solid var(--edge);clip-path:var(--chamfer);
+  transition:border-color .16s,background .16s,transform .16s}
+.lane:hover{border-color:var(--edge2);transform:translateX(-2px)}
+.lane.on{background:linear-gradient(115deg,rgba(69,200,216,.14),rgba(139,124,246,.10));border-color:var(--edge2)}
+/* il bordo sinistro della corsia attiva RESPIRA: e' l'unico elemento che
+   attira l'occhio a pagina ferma, e lo fa perche' quella corsia e' viva. */
+.lane.on::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,var(--acqua),var(--viola));animation:respira 2.6s ease-in-out infinite}
+.lane .g{grid-column:1;grid-row:1/3;width:30px;height:30px;display:grid;place-items:center;position:relative}
+.lane .g svg{width:20px;height:20px;stroke:var(--sig);fill:none;stroke-width:1.4;
+  stroke-linecap:round;stroke-linejoin:round}
+.lane.on .g svg{stroke:var(--acqua);filter:drop-shadow(0 0 6px rgba(94,234,212,.7))}
+/* reticolo che ruota piano attorno al glifo della corsia attiva */
+.lane.on .g::after{content:"";position:absolute;inset:-3px;border:1px dashed rgba(94,234,212,.45);
+  border-radius:50%;animation:ruota 9s linear infinite}
+@keyframes ruota{to{transform:rotate(360deg)}}
+.lane .t{grid-column:2;grid-row:1;font-size:14px;font-weight:600}
+.lane .ms{grid-column:3;grid-row:1;text-align:right;font:11px var(--mono);color:var(--faint);white-space:nowrap}
+.lane .d{grid-column:2/4;grid-row:2;font-size:11.5px;color:var(--dim)}
+.live{grid-column:1/4;grid-row:3;margin-top:8px;padding-top:8px;border-top:1px solid var(--edge);
+  font:10.5px/1.5 var(--mono);color:var(--faint)}
+.live em{color:var(--acqua);font-style:normal;letter-spacing:.14em}
+.live .cost{color:var(--costa)}
+
+.sep{display:flex;align-items:center;gap:11px;margin:24px 0 11px}
+.sep::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--edge),transparent)}
+.find{display:flex;align-items:center;gap:10px;padding:10px 13px;margin-bottom:10px;clip-path:var(--chamfer);
+  background:rgba(4,8,14,.66);border:1px solid var(--edge)}
+.find:focus-within{border-color:var(--edge2)}
+.find input{flex:1;background:none;border:0;outline:0;color:var(--ink);font:12.5px var(--mono)}
+.find input::placeholder{color:var(--faint)}
+.find svg{width:14px;height:14px;stroke:var(--faint);fill:none;stroke-width:1.5}
+.fam{border:1px solid var(--edge);margin-bottom:5px;background:var(--raised);clip-path:var(--chamfer)}
+.fam>summary{list-style:none;cursor:pointer;padding:10px 13px;display:grid;
+  grid-template-columns:auto 1fr auto auto;gap:11px;align-items:center}
+.fam>summary::-webkit-details-marker{display:none}
+.fam .car{width:9px;height:9px;border-right:1.4px solid var(--sig);border-bottom:1.4px solid var(--sig);
+  transform:rotate(-45deg);transition:transform .18s}
+.fam[open] .car{transform:rotate(45deg)}
+.fam .fn{font:12.5px var(--mono)}
+.fam .fc{font:10px var(--mono);color:var(--faint);letter-spacing:.09em}
+.fam .fp{font:10px var(--mono);letter-spacing:.07em;color:var(--acqua);border:1px solid var(--edge2);padding:2px 7px}
+.fam .fp.c{color:var(--costa);border-color:rgba(224,164,74,.4)}
+.mrow{display:grid;grid-template-columns:1fr auto;gap:11px;align-items:center;width:100%;text-align:left;
+  background:none;border:0;border-top:1px solid var(--edge);padding:8px 13px;cursor:pointer;color:var(--dim)}
+.mrow:hover{background:rgba(69,200,216,.07);color:var(--ink)}
+.mrow .id{font:11.5px var(--mono);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mrow .sp{font:10px var(--mono);color:var(--faint);white-space:nowrap;font-variant-numeric:tabular-nums}
+.mrow .sp b{font-weight:400;color:var(--sig)}
+.mrow .sp b.c{color:var(--costa)} .mrow .sp b.x{color:var(--morto)}
+.foot{font:10.5px/1.7 var(--mono);color:var(--faint);margin-top:16px}
+</style></head><body>
+
+<div class="sfondo"><div class="aur a"></div><div class="aur b"></div><div class="aur c"></div>
+  <div class="grid"></div><div class="velo"></div></div>
+
+<svg style="display:none">
+  <symbol id="i-auto" viewBox="0 0 24 24"><path d="M12 3l2.6 6.4L21 12l-6.4 2.6L12 21l-2.6-6.4L3 12l6.4-2.6z"/></symbol>
+  <symbol id="i-fast" viewBox="0 0 24 24"><path d="M4 7l6 5-6 5"/><path d="M13 7l6 5-6 5"/></symbol>
+  <symbol id="i-big" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.4"/><circle cx="12" cy="12" r="4.4"/><circle cx="12" cy="12" r="1"/></symbol>
+  <symbol id="i-unc" viewBox="0 0 24 24"><path d="M8 10V7.4A4 4 0 0 1 15.6 6"/><rect x="4.6" y="10" width="14.8" height="9.6" rx="1.4"/><path d="M12 13.6v2.6"/></symbol>
+  <symbol id="i-paid" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="1.6"/><path d="M3 10.4h18"/><path d="M6.6 14.4h3.4"/></symbol>
+  <symbol id="i-find" viewBox="0 0 24 24"><circle cx="10.6" cy="10.6" r="6.4"/><path d="M15.4 15.4L20 20"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M4 12h13M12 6l6 6-6 6" stroke-width="1.8"/></symbol>
+</svg>
+
+<div class="app">
+ <div class="rail">
+  <div class="cell">
+    <div class="lab">Credito · OpenRouter</div>
+    <div class="val"><span id="cred">9.75</span><span class="u">/ 10.00 USD</span></div>
+    <div class="meter"><i style="width:97.5%"></i></div>
+  </div>
+  <div class="cell" style="flex:1 1 auto;max-width:290px">
+    <div class="lab">Token questo mese</div>
+    <div class="bars">
+      <b>groq</b><i style="width:100%;background:linear-gradient(90deg,var(--r3),var(--r5))"></i><s>412k</s>
+      <b>cerebras</b><i style="width:61%;background:linear-gradient(90deg,var(--r2),var(--r4))"></i><s>251k</s>
+      <b>sambanova</b><i style="width:33%;background:linear-gradient(90deg,var(--r2),var(--r3))"></i><s>136k</s>
+      <b>openrouter</b><i style="width:11%;background:var(--r2)"></i><s>44k</s>
+    </div>
+  </div>
+  <div class="cell">
+    <div class="lab">Corsia attiva</div>
+    <div class="val" style="color:var(--acqua)">VELOCE</div>
+    <div class="lab" style="margin-top:8px"><span class="dot"></span>groq · <span id="lat">0.41</span> s</div>
+  </div>
+  <div class="cell">
+    <div class="lab">Corsie vive</div>
+    <div class="val">17<span class="u">/ 19</span></div>
+    <div class="lab" style="margin-top:8px"><span class="dot bad"></span>nvidia · hyperbolic giù</div>
+  </div>
+ </div>
+
+ <div class="scroll"><div class="thread">
+  <div class="msg io"><div class="who"><span class="lab" style="color:var(--tu)">TU</span></div>
+    <div class="bd">Leggi <code>src/envFile.js</code> e dimmi cosa fa</div></div>
+  <div class="msg"><div class="who"><span class="lab">ANTIGRAVITY</span>
+      <span class="lab" style="color:var(--acqua)">groq / qwen3.6-27b</span></div>
+    <div class="bd">Gestisce la ricerca del file <code>.env</code> del progetto, restituendo il percorso
+      della prima copia trovata — prima nella radice, poi in <code>src/</code>, poi nella home — per
+      consentire al resto dell'applicazione di leggere le chiavi da un punto solo.</div>
+    <div class="trace">
+      <em>&#9656;</em> corsia VELOCE · 3 candidati valutati<br>
+      <em>&#9656;</em> groq/qwen3.6-27b · 0.41 s · 1 240 token · gratis<br>
+      <em>&#9656;</em> lettura src/envFile.js · 121 righe
+    </div></div>
+ </div></div>
+
+ <div class="comp">
+  <div class="row">
+    <button class="chip on">Auto</button><button class="chip">Agente</button>
+    <button class="chip">Reverse</button><button class="chip">Codice</button>
+    <button class="pick" onclick="apri()"><span class="lab" style="color:var(--acqua)">CORSIA</span>
+      <svg style="width:14px;height:14px;stroke:var(--acqua);fill:none;stroke-width:1.5"><use href="#i-fast"/></svg>
+      VELOCE</button>
+  </div>
+  <div class="inp"><span class="caret"></span>
+    <input placeholder="Scrivi un messaggio…">
+    <button class="go"><svg style="width:17px;height:17px;stroke:#12070A;fill:none"><use href="#i-send"/></svg></button></div>
+ </div>
+</div>
+
+<div class="sheet" id="s" onclick="if(event.target===this)chiudi()">
+ <div class="drawer">
+  <div class="dhead"><div><div class="lab">Selettore</div><h2>Come deve rispondere</h2></div>
+    <button class="x" onclick="chiudi()">&#10005;</button></div>
+  <div class="dbody">
+
+   <button class="lane"><span class="g"><svg><use href="#i-auto"/></svg></span>
+     <span class="t">Auto</span><span class="ms">consigliata</span>
+     <span class="d">Sceglie da solo il migliore disponibile</span>
+     <span class="live"><em>ora</em> &nbsp;kaggle/Qwen2.5-Coder-14B-abliterated · 14B · locale</span></button>
+
+   <button class="lane on"><span class="g"><svg><use href="#i-fast"/></svg></span>
+     <span class="t">Veloce</span><span class="ms">~0.4 s</span>
+     <span class="d">I provider gratis più rapidi, senza giganti lenti</span>
+     <span class="live"><em>ora</em> &nbsp;groq/qwen3.6-27b · 27B · 131k · gratis</span></button>
+
+   <button class="lane"><span class="g"><svg><use href="#i-big"/></svg></span>
+     <span class="t">Grosso</span><span class="ms">~4 s</span>
+     <span class="d">Ragiona meglio, ci mette di più</span>
+     <span class="live"><em>ora</em> &nbsp;alibaba/qwen3-coder-480b · 480B · 262k · gratis</span></button>
+
+   <button class="lane"><span class="g"><svg><use href="#i-unc"/></svg></span>
+     <span class="t">Senza filtri</span><span class="ms">~2 s</span>
+     <span class="d">Modelli che non rifiutano e non fanno prediche</span>
+     <span class="live"><em>ora</em> &nbsp;openrouter/hermes-4-405b · 405B · <span class="cost">3.00 $/M</span></span></button>
+
+   <button class="lane"><span class="g"><svg><use href="#i-paid"/></svg></span>
+     <span class="t">Col credito</span><span class="ms">9.75 $</span>
+     <span class="d">Usa i soldi caricati su OpenRouter</span>
+     <span class="live"><em>ora</em> &nbsp;openrouter/hermes-4-405b · 405B · <span class="cost">3.00 $/M</span></span></button>
+
+   <div class="sep"><span class="lab">Oppure un modello preciso</span></div>
+   <div class="find"><svg><use href="#i-find"/></svg>
+     <input placeholder="cerca fra 1 612 modelli su 19 provider"></div>
+
+   <details class="fam" open><summary><span class="car"></span><span class="fn">gpt-oss-120b</span>
+       <span class="fc">4 CORSIE</span><span class="fp">GRATIS</span></summary>
+     <button class="mrow"><span class="id">groq/gpt-oss-120b</span><span class="sp">120B · 131k · <b>gratis</b> · 0.4 s</span></button>
+     <button class="mrow"><span class="id">cerebras/gpt-oss-120b</span><span class="sp">120B · 131k · <b>gratis</b> · 0.5 s</span></button>
+     <button class="mrow"><span class="id">sambanova/gpt-oss-120b</span><span class="sp">120B · 131k · <b>gratis</b> · 0.9 s</span></button>
+     <button class="mrow"><span class="id">cloudflare/gpt-oss-120b</span><span class="sp">120B · 128k · <b>gratis</b> · 1.2 s</span></button>
+   </details>
+   <details class="fam"><summary><span class="car"></span><span class="fn">hermes-4</span>
+       <span class="fc">2 VARIANTI</span><span class="fp c">A CONSUMO</span></summary>
+     <button class="mrow"><span class="id">openrouter/hermes-4-405b</span><span class="sp">405B · 131k · <b class="c">3.00 $/M</b></span></button>
+     <button class="mrow"><span class="id">openrouter/hermes-4-70b</span><span class="sp">70B · 131k · <b class="c">0.40 $/M</b></span></button>
+   </details>
+   <details class="fam"><summary><span class="car"></span><span class="fn">qwen3-coder-480b</span>
+       <span class="fc">2 CORSIE</span><span class="fp">GRATIS</span></summary>
+     <button class="mrow"><span class="id">alibaba/qwen3-coder-480b-a35b</span><span class="sp">480B · 262k · <b>gratis</b></span></button>
+     <button class="mrow"><span class="id">hyperbolic/Qwen3-Coder-480B-A35B</span><span class="sp">480B · 262k · <b class="x">esaurito</b></span></button>
+   </details>
+   <details class="fam"><summary><span class="car"></span><span class="fn">Gemma-4-31B</span>
+       <span class="fc">14 VARIANTI</span><span class="fp">ARLIAI</span></summary>
+     <button class="mrow"><span class="id">arliai/Gemma-4-31B-Agares-v1</span><span class="sp">31B · 32k · <b>trial</b></span></button>
+     <button class="mrow"><span class="id">arliai/Gemma-4-31B-Animus-V14.1</span><span class="sp">31B · 32k · <b>trial</b></span></button>
+   </details>
+
+   <div class="foot">1 612 modelli · 19 provider · raggruppati per famiglia<br>
+     ordinati per quello che il router userebbe per primo, non alfabeticamente</div>
+  </div>
+ </div>
+</div>
+
+<script>
+function apri(){ document.getElementById("s").classList.add("open"); }
+function chiudi(){ document.getElementById("s").classList.remove("open"); }
+document.querySelectorAll(".lane").forEach(function(b){
+  b.onclick=function(){ document.querySelectorAll(".lane").forEach(function(x){x.classList.remove("on");}); b.classList.add("on"); };
+});
+document.querySelectorAll(".chip").forEach(function(c){
+  c.onclick=function(){ document.querySelectorAll(".chip").forEach(function(x){x.classList.remove("on");}); c.classList.add("on"); };
+});
+/* Telemetria che si muove perche' i numeri si muovono davvero: la latenza
+   oscilla come oscilla un provider vero, il credito cala di frazioni. */
+setInterval(function(){
+  var l=document.getElementById("lat");
+  if(l) l.textContent=(0.33+Math.random()*0.22).toFixed(2);
+},2600);
+setInterval(function(){
+  var c=document.getElementById("cred");
+  if(!c) return;
+  var v=parseFloat(c.textContent)-0.01;
+  c.textContent=(v>9?v:9.75).toFixed(2);
+},5200);
+</script>
+</body></html>
