@@ -273,8 +273,10 @@
   .lane:hover{border-color:var(--accent)}
   .lane.on{border-color:var(--accent);background:var(--bg2);box-shadow:inset 3px 0 0 var(--accent)}
   .lane .ic{font-size:18px;line-height:1.3;flex:0 0 auto}
-  .lane .tt{font-weight:600}
-  .lane .ds{font-size:12px;color:var(--dim);font-weight:400;margin-top:1px}
+  /* display:block su ENTRAMBI: erano due <span> dentro uno <span>, quindi in linea,
+     e uscivano incollati - "AutoSceglie da solo il migliore disponibile". */
+  .lane .tt{display:block;font-weight:600}
+  .lane .ds{display:block;font-size:12px;line-height:1.45;color:var(--dim);font-weight:400;margin-top:2px}
   /* ELENCO MODELLI: bottoni, non <option>. È il punto: una <select> con 1635 voci
      apriva su iPhone una ruota nativa da 1500 righe e Safari uccideva la scheda.
      Qui scorre una lista normale, e il numero di righe disegnate è comunque
