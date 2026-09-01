@@ -7,6 +7,56 @@
 
 ---
 
+## 0-ter. La scelta modello riordinata + la barra chat tagliata (2026-09-01) — v1.0.43
+
+**Due cose, una nata dall'altra.**
+
+### a) La barra della chat spariva in VS Code
+`interface.html` aveva `iframe{height:100vh}`. Dentro una webview di VS Code **vh non
+è l'altezza del pannello**: è quella del viewport della webview, più alta. L'iframe
+sbordava sotto, e finché la pagina poteva scorrere non si notava. Il 31/08 è arrivato
+`overflow:hidden` su html,body (serviva a togliere la doppia barra di scorrimento) e
+quel pezzo in eccesso è diventato irraggiungibile: se n'è andata giù proprio la barra
+dove si scrive. **Sul telefono non si vedeva** perché lì il viewport È la finestra.
+Rimedio: l'iframe non si misura più sul viewport, riempie il contenitore (flex).
+Misurato con Playwright riproducendo il caso: prima iframe **900 px in un pannello da
+404** (496 tagliati), dopo **400 su 400**.
+
+### b) Provider e modello: da 9 controlli a 7, e da 1635 voci a 5 corsie
+Diagnosi: **la parola «provider» significava due cose in due tendine affiancate** —
+`#provider` è la MODALITÀ (Locale/Cloud/ComfyUI/Ghidra/ZW3D/Manutenzione),
+`#llmProvider` il provider vero. E il menu modelli arrivava a **1635 voci su 19
+provider** (aimlapi 569, deepinfra 162, novita 153): tanto che serviva un tetto
+anti-crash (TETTO=15) perché su iPhone la ruota nativa uccideva Safari. Un menu che ha
+bisogno di un tetto anti-crash sta chiedendo di non essere un menu.
+
+Ora la barra dice solo **cosa sta usando**; la scelta sta in un pannello, e si fa per
+**intenzione**: ⚙️ Auto · ⚡ Veloce · 🧠 Grosso · 🔓 Senza filtri · 💳 Col credito.
+L'elenco modelli preciso resta in fondo al pannello, fatto di **bottoni e non di
+`<option>`**: niente ruota nativa, niente tetto anti-crash.
+
+**Le corsie non sono etichette.** Ognuna è un'opzione vera del motore
+(`cloudEngine.resilientCandidates`, campo `lane`) e attraversa quattro file:
+pagina → `mobileServer` → `localOrchestrator` → `cloudEngine`/`nativeAgent`.
+Verificato dal vivo che spostano la classifica: fast→groq, big→qwen3-coder-480b,
+unc→hermes-4, paid→i modelli a pagamento.
+
+**Due bachi trovati mentre lo costruivo:**
+- la pagina mandava `channel:"normal"` **fisso**: il canale uncensored, che esiste da
+  luglio, era **irraggiungibile dal telefono**. Ora la corsia lo accende.
+- la corsia «grosso» apriva il portafoglio da sola (metteva hermes-4-405b a 3 $/M
+  davanti a qwen3-coder-480b, che è più grande ED è gratis). Aggiunto: **a parità di
+  tutto vince il gratis**; il credito si spende solo con la corsia «col credito».
+
+**Verifiche:** `npm test` **40/40** (8 test nuovi, tutti di cablaggio: la corsia è
+esattamente il tipo di filo che si stacca senza dare errore) · `collaudo` 9/9 ·
+pannello provato in browser: corsie, ricerca, pin del modello, sgancio del pin.
+
+⚠️ **Serve riavviare il server** perché le modifiche ai motori abbiano effetto
+(la pagina invece si rilegge da sola a ogni richiesta), e ricaricare la finestra di
+VS Code per il fix dell'altezza.
+
+---
 ## 0-bis. OpenRouter acceso + Hermes con internet (2026-09-01) — v1.0.42
 
 **Cosa è cambiato.** Sul conto OpenRouter ci sono 10 $ (verificato: chiave viva,

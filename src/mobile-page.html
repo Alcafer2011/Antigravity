@@ -257,6 +257,35 @@
   .chip{flex:0 0 auto;border:1px solid var(--line2);background:var(--bg2);color:var(--dim);border-radius:20px;padding:6px 12px;font-size:13px;cursor:pointer}
   .chip.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
   select.sel{flex:1 1 auto;min-width:104px;max-width:190px;background:var(--bg2);color:var(--txt);border:1px solid var(--line2);border-radius:20px;padding:6px 10px;font-size:13px}
+  /* ★ 2026-09-01 — barra ridotta: qui dentro resta solo "cosa sta usando ora".
+     Il bottone è vestito come le tendine accanto, così la barra resta una riga
+     sola e non sembra un elemento estraneo. */
+  input.sel{flex:1 1 auto;min-width:104px;background:var(--bg2);color:var(--txt);border:1px solid var(--line2);border-radius:20px;padding:6px 10px;font-size:13px}
+  .selbtn{flex:0 1 auto;max-width:230px;background:var(--bg2);color:var(--txt);border:1px solid var(--line2);border-radius:20px;padding:6px 12px;font-size:13px;cursor:pointer;
+          white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left}
+  .selbtn:hover{border-color:var(--accent)}
+  /* CORSIE: righe grandi, tocco comodo, e sotto il nome la frase che dice cosa fa.
+     Le corsie sono cinque perché cinque sono le intenzioni vere; non è un elenco
+     di fornitori travestito. */
+  .lane{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;margin:0 0 6px;
+        border:1px solid var(--line2);background:var(--panel);color:var(--txt);
+        border-radius:11px;padding:10px 12px;cursor:pointer;font-size:14px}
+  .lane:hover{border-color:var(--accent)}
+  .lane.on{border-color:var(--accent);background:var(--bg2);box-shadow:inset 3px 0 0 var(--accent)}
+  .lane .ic{font-size:18px;line-height:1.3;flex:0 0 auto}
+  .lane .tt{font-weight:600}
+  .lane .ds{font-size:12px;color:var(--dim);font-weight:400;margin-top:1px}
+  /* ELENCO MODELLI: bottoni, non <option>. È il punto: una <select> con 1635 voci
+     apriva su iPhone una ruota nativa da 1500 righe e Safari uccideva la scheda.
+     Qui scorre una lista normale, e il numero di righe disegnate è comunque
+     limitato (vedi TETTO_LISTA in renderModelList). */
+  .mrow{display:flex;align-items:center;gap:8px;width:100%;text-align:left;margin:0 0 4px;
+        border:1px solid var(--line);background:var(--panel);color:var(--txt);
+        border-radius:9px;padding:8px 10px;cursor:pointer;font-size:13px}
+  .mrow:hover{border-color:var(--accent)}
+  .mrow.on{border-color:var(--accent);background:var(--bg2)}
+  .mrow .nm{flex:1 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .mrow .pv{flex:0 0 auto;font-size:11px;color:var(--dim)}
   .inputbar{display:flex;align-items:flex-end;gap:9px;background:var(--bg2);border:1px solid var(--line2);border-radius:24px;padding:7px 8px 7px 16px}
   .inputbar:focus-within{border-color:var(--accent)}
   textarea{flex:1;background:transparent;border:0;color:var(--txt);font:16px/1.5 var(--font);resize:none;max-height:180px;outline:none;padding:6px 0}
@@ -377,11 +406,13 @@
       <button class="chip" data-mode="agent">Agente</button>
       <button class="chip" data-mode="reverse">Reverse</button>
       <button class="chip" data-mode="coding">Codice</button>
-      <select class="sel" id="provider"><option value="local">💻 Locale</option><option value="cloud">☁️ Cloud</option><option value="comfy">🎨 ComfyUI</option><option value="ghidra">🐉 Ghidra RE</option><option value="zw3d">🔧 ZW3D</option><option value="maintenance">🛠️ Manutenzione</option></select>
-      <select class="sel" id="llmProvider" title="Provider: chi ospita il modello"><option value="auto">Provider: tutti</option></select>
-      <input class="sel" id="modelCerca" type="search" placeholder="🔎 cerca modello" autocomplete="off" title="Scrivi qui per cercare fra TUTTI i modelli">
-      <select class="sel" id="model"><option value="auto">Modello: Auto</option></select>
+      <select class="sel" id="provider" title="Dove lavora: sul PC, nel cloud, o dentro uno strumento"><option value="local">💻 Locale</option><option value="cloud">☁️ Cloud</option><option value="comfy">🎨 ComfyUI</option><option value="ghidra">🐉 Ghidra RE</option><option value="zw3d">🔧 ZW3D</option><option value="maintenance">🛠️ Manutenzione</option></select>
+      <button class="sel selbtn" id="modelBtn" title="Come deve rispondere (tocca per scegliere)"><span id="modelBtnTxt">⚙️ Auto</span> ⌄</button>
       <select class="sel" id="policy"><option value="ask-writes">Chiedi</option><option value="read-only">Sola lettura</option><option value="auto-allow">Autonomo</option></select>
+      <!-- Reggono lo STATO, non si vedono più: il modello scelto vive qui dentro così
+           tutto il codice che legge $("#model").value continua a funzionare uguale.
+           La scelta vera si fa nel pannello #modelPanel, che li aggiorna. -->
+      <select id="model" hidden><option value="auto">Modello: Auto</option></select>
     </div>
     <div id="attachRow" style="display:none;flex-wrap:wrap;gap:6px;padding:4px 2px"></div>
     <input type="file" id="fileInput" style="display:none">
@@ -394,6 +425,30 @@
     <div class="hint">Invio per inviare · Maiusc+Invio per andare a capo</div>
   </div>
 </div>
+
+<!-- ★ 2026-09-01 — PANNELLO MODELLI. Prima la scelta stava tutta nella barra: tre
+     controlli sempre a vista (provider, cerca, modello) e una <select> che poteva
+     arrivare a 1635 <option>. Su iPhone quella tendina apriva una ruota nativa da
+     1500 righe e Safari uccideva la scheda: da lì il tetto a 15 voci per provider,
+     che era una toppa giusta su un problema che stava a monte.
+     Ora: la barra mostra SOLO cosa sta usando; qui dentro si sceglie, e si sceglie
+     per INTENZIONE ("come vuoi che risponda") invece che per fornitore. Le corsie
+     non sono etichette: ognuna cambia davvero l'ordine del failover, lato motore
+     (cloudEngine.resilientCandidates, opzione `lane`). L'elenco è fatto di bottoni,
+     non di <option>: niente ruota nativa, niente tetto anti-crash. -->
+<div class="drawer-overlay" id="modelOverlay"></div>
+<aside class="drawer right" id="modelDrawer" style="width:88%;max-width:380px">
+  <div class="drawer-head"><span>Come deve rispondere</span><button class="btn" id="modelClose">Chiudi</button></div>
+  <div class="drawer-list">
+    <div id="laneWrap"></div>
+
+    <div style="font-weight:600;font-size:13px;margin:16px 4px 6px">Oppure scegli il modello preciso</div>
+    <input class="sel" id="modelCerca" type="search" placeholder="🔎 cerca fra tutti i modelli" autocomplete="off" style="width:100%;margin:0 0 6px">
+    <select class="sel" id="llmProvider" style="width:100%;margin:0 0 8px"><option value="auto">Da qualsiasi provider</option></select>
+    <div id="modelList"></div>
+    <div id="modelNota" style="font-size:12px;color:var(--dim);margin:8px 4px 4px"></div>
+  </div>
+</aside>
 
 <div class="drawer-overlay" id="keysOverlay"></div>
 <aside class="drawer right" id="keysDrawer">
@@ -977,7 +1032,8 @@ function send(){
   }
   input.value=""; input.style.height="auto";
   stick=true; setRunning(true); setStatus("invio…",true);
-  api("/send",{ prompt:text, mode, model:$("#model").value, provider:$("#provider").value, channel:"normal" });
+  api("/send",{ prompt:text, mode, model:$("#model").value, provider:$("#provider").value,
+    lane:LANE, channel: LANE==="unc"?"uncensored":"normal" });
 }
 /* ---- allega file ---- */
 function renderAttach(){
@@ -1002,7 +1058,8 @@ $("#fileInput").addEventListener("change",async e=>{
   }
   setStatus("pronto",true);
 });
-function regenerate(){ if(running||!lastUser) return; stick=true; setRunning(true); setStatus("rigenero…",true); api("/send",{ prompt:lastUser, mode, model:$("#model").value, provider:$("#provider").value, channel:"normal" }); }
+function regenerate(){ if(running||!lastUser) return; stick=true; setRunning(true); setStatus("rigenero…",true); api("/send",{ prompt:lastUser, mode, model:$("#model").value, provider:$("#provider").value,
+  lane:LANE, channel: LANE==="unc"?"uncensored":"normal" }); }
 function newChat(){ api("/newChat",{}); closeDrawer(); }
 
 /* ---- cassetto chat salvate ---- */
@@ -1128,6 +1185,7 @@ async function loadModels(){
     }
     if(j.claude&&j.claude.limit) renderLimit(j.claude.limit);
     fillModels();
+    updateModelBtn();
     if(j.policy) $("#policy").value=j.policy;
   }catch(_){}
 }
@@ -1214,7 +1272,7 @@ function fillModels(){
   const c=document.getElementById("modelCerca");
   if(!c) return;
   let t=null;
-  c.addEventListener("input",()=>{ clearTimeout(t); t=setTimeout(fillModels,200); });
+  c.addEventListener("input",()=>{ clearTimeout(t); t=setTimeout(()=>{ fillModels(); renderModelList(); },200); });
 })();
 /* Nomi leggibili dei provider (per ordinare e mostrare). Il resto arriva dal server. */
 const PROV_NAMES={openrouter:"OpenRouter",groq:"Groq",cerebras:"Cerebras",nvidia:"NVIDIA",sambanova:"SambaNova",hf:"HuggingFace",google:"Gemini (Google)",mistral:"Mistral",hyperbolic:"Hyperbolic",kaggle:"Kaggle (tuo)",alibaba:"Alibaba Qwen",openai:"OpenAI",deepseek:"DeepSeek",nous:"Nous",novita:"Novita",chutes:"Chutes",cloudflare:"Cloudflare",github:"GitHub Models",ollama:"Ollama (locale)","ollama-cloud":"Ollama Cloud"};
@@ -1241,6 +1299,130 @@ function fillProviders(all){
   });
   if([...ps.options].some(o=>o.value===prima)) ps.value=prima;
 }
+
+/* ═══ CORSIE + PANNELLO MODELLI (2026-09-01) ═══════════════════════════════
+   Prima la barra chiedeva tre cose prima ancora di poter scrivere: provider,
+   ricerca, modello — e il menu modelli poteva contenere 1635 voci.
+   Adesso la barra dice solo COSA STA USANDO; la scelta si fa qui, e si fa per
+   INTENZIONE. Ogni corsia corrisponde a un'opzione vera del motore
+   (cloudEngine.resilientCandidates, campo `lane`): non sono etichette.
+   Il modello preciso resta raggiungibile, in fondo al pannello. */
+const LANES=[
+  {id:"auto", ic:"⚙️", tt:"Auto",         ds:"Sceglie da solo il migliore disponibile"},
+  {id:"fast", ic:"⚡",  tt:"Veloce",       ds:"Risposta subito: i provider gratis più rapidi"},
+  {id:"big",  ic:"🧠", tt:"Grosso",       ds:"Ragiona meglio, ci mette un po' di più"},
+  {id:"unc",  ic:"🔓", tt:"Senza filtri", ds:"Modelli che non rifiutano e non fanno prediche"},
+  {id:"paid", ic:"💳", tt:"Col credito",  ds:"Usa i soldi caricati su OpenRouter"}
+];
+let LANE="auto";
+
+/* Etichetta del bottone in barra: se hai pinnato un modello preciso vince quello,
+   altrimenti si vede la corsia. Deve rispondere sempre a "cosa sto usando adesso". */
+function updateModelBtn(){
+  const m=$("#model").value||"auto";
+  const t=$("#modelBtnTxt"); if(!t) return;
+  if(m && m!=="auto"){
+    const o=optFor(m);
+    t.textContent="📌 "+((o?o.textContent:m).replace(/^[🆓💳]\s*/,"").split(" · ")[0]);
+    return;
+  }
+  const L=LANES.find(x=>x.id===LANE)||LANES[0];
+  t.textContent=L.ic+" "+L.tt;
+}
+/* L'<option> di un certo valore, senza passare da un selettore CSS: i value dei
+   modelli contengono ":", "/" e "." e andavano scortati con un escape a mano. */
+function optFor(v){ const s=$("#model"); return [].slice.call(s.options).filter(function(o){return o.value===v;})[0]||null; }
+
+function renderLanes(){
+  const w=$("#laneWrap"); if(!w) return;
+  w.innerHTML="";
+  LANES.forEach(L=>{
+    const b=document.createElement("button");
+    b.className="lane"+(L.id===LANE&&($("#model").value||"auto")==="auto"?" on":"");
+    b.innerHTML='<span class="ic"></span><span><span class="tt"></span><span class="ds"></span></span>';
+    b.querySelector(".ic").textContent=L.ic;
+    b.querySelector(".tt").textContent=L.tt;
+    b.querySelector(".ds").textContent=L.ds;
+    b.onclick=()=>{
+      LANE=L.id;
+      $("#model").value="auto";     // scegliere una corsia SGANCIA il modello pinnato
+      renderLanes(); renderModelList(); updateModelBtn();
+      setStatus(L.ic+" "+L.tt+" — "+L.ds, false);
+    };
+    w.appendChild(b);
+  });
+}
+
+/* Tutti i modelli disponibili, in una forma sola. Serve sia alla lista del
+   pannello sia al <select> nascosto: prima questa costruzione stava dentro
+   fillModels e non era riusabile. */
+function allModels(){
+  const provOf=(v)=>{ const s=String(v||""); const i=s.indexOf("::"); return i>=0?s.slice(0,i):""; };
+  const out=[];
+  (CATALOG.cloudUnc||[]).concat(CATALOG.cloudNorm||[]).forEach(m=>{ if(m&&m.value!=="auto")
+    out.push({value:m.value,label:m.label||m.value,prov:m.provider||provOf(m.value)||"altro",free:!!m.free}); });
+  (CATALOG.local||[]).forEach(m=>{ if(m&&m.value!=="auto") out.push({value:m.value,label:m.label||m.value,prov:"ollama",free:true}); });
+  (CATALOG.nous||[]).forEach(m=>{ if(m&&m.value!=="auto") out.push({value:m.value,label:m.label||m.value,prov:"nous",free:true}); });
+  return out;
+}
+
+/* La lista visibile del pannello. Tetto ALTO (300) perché qui sono <button> in
+   una lista che scorre, non <option> in una ruota nativa: il tetto serve solo a
+   non disegnare migliaia di nodi, non a evitare il crash di Safari. */
+function renderModelList(){
+  const box=$("#modelList"), nota=$("#modelNota"); if(!box) return;
+  const p=$("#provider").value;
+  box.innerHTML="";
+  // Hermes e Claude portano la LORO lista: niente provider, niente filtri.
+  if(p==="hermes"||p==="claude"){
+    const src=(p==="hermes")?(CATALOG.hermes||[]):(CATALOG.claude||[]);
+    $("#llmProvider").style.display="none"; $("#modelCerca").style.display=src.length>12?"":"none";
+    dipingi(src.map(m=>({value:m.value,label:m.label||m.value,prov:p,free:true})));
+    return;
+  }
+  $("#llmProvider").style.display=""; $("#modelCerca").style.display="";
+  const all=allModels();
+  fillProviders(all);
+  const scelto=$("#llmProvider").value||"auto";
+  dipingi(scelto==="auto"?all:all.filter(m=>m.prov===scelto));
+
+  function dipingi(lista){
+    const q=(($("#modelCerca")||{}).value||"").trim().toLowerCase();
+    let v=q?lista.filter(m=>((m.label||"")+" "+m.value).toLowerCase().includes(q)):lista.slice();
+    v.sort((a,b)=>(a.label||a.value).localeCompare(b.label||b.value));
+    const TETTO_LISTA=300, tot=v.length;
+    v=v.slice(0,TETTO_LISTA);
+    const cur=$("#model").value||"auto";
+    v.forEach(m=>{
+      const b=document.createElement("button");
+      b.className="mrow"+(m.value===cur?" on":"");
+      b.innerHTML='<span></span><span class="nm"></span><span class="pv"></span>';
+      b.children[0].textContent=m.free?"🆓":"💳";
+      b.children[1].textContent=(m.label||m.value).replace(/\s*·\s*[^·]+$/,"");
+      b.children[2].textContent=provName(m.prov);
+      b.onclick=()=>{
+        // Il <select> nascosto resta la verità: tutto il resto del codice legge lì.
+        let o=optFor(m.value);
+        if(!o){ o=document.createElement("option"); o.value=m.value; o.textContent=m.label||m.value; $("#model").appendChild(o); }
+        $("#model").value=m.value;
+        renderLanes(); renderModelList(); updateModelBtn();
+        setStatus("📌 fisso su "+(m.label||m.value),false);
+        closeModelPanel();
+      };
+      box.appendChild(b);
+    });
+    if(nota) nota.textContent = !tot ? (q?'Nessun modello contiene «'+q+'»':"Nessun modello disponibile.")
+      : (tot>TETTO_LISTA ? "Mostrati "+TETTO_LISTA+" di "+tot+" — scrivi nella ricerca per restringere."
+                         : tot+" modell"+(tot===1?"o":"i")+" · tocca per fissarne uno, oppure lascia fare a una corsia qui sopra.");
+  }
+}
+
+function openModelPanel(){ $("#modelDrawer").classList.add("open"); $("#modelOverlay").classList.add("open"); renderLanes(); renderModelList(); }
+function closeModelPanel(){ $("#modelDrawer").classList.remove("open"); $("#modelOverlay").classList.remove("open"); }
+$("#modelBtn").addEventListener("click",openModelPanel);
+$("#modelClose").addEventListener("click",closeModelPanel);
+$("#modelOverlay").addEventListener("click",closeModelPanel);
+
 /* ---- limiti di utilizzo dell'abbonamento Claude (come li mostra Claude Code) ---- */
 function renderLimit(l){
   if(!l) return;
@@ -1276,10 +1458,10 @@ input.addEventListener("input",()=>{ input.style.height="auto"; input.style.heig
 })();
 document.querySelectorAll(".chip[data-mode]").forEach(ch=>ch.onclick=()=>{ document.querySelectorAll(".chip[data-mode]").forEach(x=>x.classList.remove("on")); ch.classList.add("on"); mode=ch.dataset.mode; });
 $("#policy").addEventListener("change",e=>api("/policy",{policy:e.target.value}));
-$("#provider").addEventListener("change",fillModels);
+$("#provider").addEventListener("change",()=>{ fillModels(); renderModelList(); updateModelBtn(); });
 // Il selettore MODELLO si aggancia sempre al PROVIDER scelto: cambiando provider
 // si ricostruisce la lista dei suoi modelli (fresca, dal catalogo auto-aggiornato).
-$("#llmProvider").addEventListener("change",fillModels);
+$("#llmProvider").addEventListener("change",()=>{ fillModels(); renderModelList(); });
 $("#newChat").addEventListener("click",newChat);
 /* ---- contatore uso cloud + barre token per provider ---- */
 let _usageMonth=null;

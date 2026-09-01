@@ -1110,7 +1110,20 @@ class CloudEngine {
      * @param {object} o  minB (default 32), uncensored (bias), coder (bias), needTools (default true)
      */
     resilientCandidates(o = {}) {
-        const minB = o.minB != null ? o.minB : 32;
+        // * 2026-09-01 - CORSIE PER INTENZIONE (o.lane). La pagina non chiede piu'
+        // "quale provider / quale modello" (1635 voci: nessuno sceglie davvero fra
+        // 1635 voci) ma "come vuoi che risponda". Le corsie non sono etichette
+        // decorative: ognuna sposta per davvero questa classifica.
+        //   fast  - i free tier verificati veloci, senza giganti lenti
+        //   big   - i modelli grossi, anche se ci mettono di piu'
+        //   unc   - senza filtri (equivale a o.uncensored)
+        //   paid  - usa il credito: prima i modelli a pagamento
+        //   auto  - la classifica di sempre
+        const lane = String(o.lane || "auto");
+        const laneUnc = lane === "unc" || !!o.uncensored;
+        // "Grosso" alza la soglia, "veloce" la toglie: chiedendo velocita' un 8B che
+        // risponde in mezzo secondo e' una risposta giusta, non un ripiego.
+        const minB = o.minB != null ? o.minB : (lane === "big" ? 70 : lane === "fast" ? 0 : 32);
         const needTools = o.needTools !== false;
         // Tutti i provider GRATUITI configurabili (con tool-calling). Prima erano
         // solo 3 → il failover ignorava NVIDIA/SambaNova/Hyperbolic/Cerebras/Mistral
@@ -1152,7 +1165,10 @@ class CloudEngine {
             .map(e => ({
                 value: e.value, provider: e.provider,
                 b: this._sizeB(e.value) || this._sizeB(e.label) || 0,
-                unc: !!e.uncensored, coder: /coder|code|deepseek/i.test(e.value)
+                unc: !!e.uncensored, coder: /coder|code|deepseek/i.test(e.value),
+                // Serve alla corsia "col credito": senza il campo free non c'e' modo
+                // di distinguere un modello pagato da uno gratuito a parita' di nome.
+                free: e.free != null ? !!e.free : this.isFreeModel(e.provider, e.id)
             }));
 
         // 2) semi noti (rete di sicurezza)
@@ -1166,7 +1182,8 @@ class CloudEngine {
                 const live = liveByProv[p];
                 return !live || live.has(s.value);
             })
-            .map(s => ({ value: s.value, provider: String(s.value).split(SEP)[0], b: s.b, unc: s.unc, coder: s.coder }));
+            .map(s => ({ value: s.value, provider: String(s.value).split(SEP)[0], b: s.b, unc: s.unc, coder: s.coder,
+                free: this.isFreeModel(String(s.value).split(SEP)[0], String(s.value).split(SEP)[1] || "") }));
 
         // unione (catalogo prima), dedup per value
         const seen = new Set();
@@ -1199,8 +1216,21 @@ class CloudEngine {
             // (×10) a rimetterlo dietro, e chi chiedeva "senza filtri" si ritrovava
             // gpt-oss-120b, che filtrato lo è eccome. Se lo chiedi esplicitamente,
             // ora i modelli senza filtri vanno davvero in testa.
-            if (o.uncensored && it.unc) sc += 120;
+            if (laneUnc && it.unc) sc += 120;
             if (o.coder && it.coder) sc += 40;
+            // VELOCE: contano i provider verificati rapidi, non la taglia. I giganti
+            // vengono spinti indietro: ai 400 ms di Groq non ci arrivano comunque.
+            if (lane === "fast") { sc -= Math.min(it.b, 140) / 4; sc += (provRank[it.provider] || 0) * 6; if (it.b > 200) sc -= 80; }
+            // GROSSO: qui la taglia torna a pesare e la fretta conta meno.
+            if (lane === "big") { sc += Math.min(it.b, 400) / 4; sc -= (provRank[it.provider] || 0) * 4; }
+            // COL CREDITO: hai caricato dei soldi e vuoi usarli. Sopra ai gratis, ma
+            // solo per questa richiesta: non cambia il default di nessun'altra.
+            if (lane === "paid") { if (!it.free) sc += 150; else sc -= 40; }
+            // GRATIS PRIMA, a parita' di tutto il resto. Senza questo la corsia
+            // "grosso" apriva il portafoglio da sola: metteva hermes-4-405b (3 $/M)
+            // davanti a qwen3-coder-480b, che e' piu' grande ED e' gratis. Il credito
+            // si spende quando lo chiedi tu (corsia "col credito"), non per inerzia.
+            if (lane !== "paid" && !it.free) sc -= 25;
             // ★ 2026-07-19 — TETTO ALLA TAGLIA. Prima era "b/4 senza tetto": un
             // modello da 480B prendeva +120 e vinceva sempre, così il failover
             // provava PRIMA i giganti da 405-671B (lenti o MORTI, tipo i :free di

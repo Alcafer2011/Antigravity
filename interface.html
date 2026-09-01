@@ -12,8 +12,20 @@
 <meta http-equiv="Content-Security-Policy"
       content="default-src 'none'; frame-src http://127.0.0.1:* http://localhost:*; style-src 'unsafe-inline'; script-src 'nonce-${nonce}';">
 <style>
+  /* ★ 2026-09-01 — LA BARRA DELLA CHAT TAGLIATA IN VS CODE.
+     L'iframe era alto 100vh. Dentro una webview di VS Code "vh" NON e' l'altezza
+     del pannello: e' quella del viewport della webview, che nella barra laterale
+     e' piu' alta del pannello visibile. L'iframe sbordava quindi sotto, e finche'
+     la pagina poteva scorrere non si notava. Il 31/08 e' arrivato `overflow:hidden`
+     su html,body (serviva a togliere la barra di scorrimento doppia) e quel pezzo
+     in eccesso ha smesso di essere raggiungibile: la parte bassa - cioe' proprio
+     la barra dove si scrive - e' sparita sotto il bordo.
+     Sul telefono non si vedeva perche' li' il viewport E' la finestra.
+     Rimedio: l'iframe non si misura piu' sul viewport ma RIEMPIE il contenitore
+     (flex), che e' alto quanto il pannello, qualunque pannello sia. */
   html,body{margin:0;padding:0;height:100%;background:#262624;overflow:hidden}
-  iframe{border:0;width:100%;height:100vh;display:block}
+  body{display:flex;flex-direction:column}
+  iframe{border:0;width:100%;flex:1 1 auto;min-height:0;display:block}
   #stato{color:#a8a49c;font:14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
          padding:24px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
   #stato b{color:#ececec;font-weight:600}

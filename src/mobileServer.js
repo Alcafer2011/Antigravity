@@ -1786,6 +1786,10 @@ class MobileServer {
             await this.orchestrator.handle(prompt, {
                 mode: body.mode || "auto",
                 model: body.model || "auto",
+                // Corsia scelta nel pannello modelli: "come vuoi che risponda"
+                // (fast/big/unc/paid/auto). Non e' un modello: e' un modo di
+                // ordinare i candidati. Vedi cloudEngine.resilientCandidates.
+                lane: body.lane || "auto",
                 provider,
                 channel: body.channel || "normal",
                 history,

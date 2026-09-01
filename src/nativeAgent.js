@@ -872,6 +872,10 @@ class NativeAgent {
         this.engine = opts.engine;
         this.cwd = opts.workspaceRoot || process.cwd();
         this.model = opts.model;
+        // Corsia per intenzione scelta dall'utente (fast/big/unc/paid/auto): non
+        // cambia QUALE modello e' pinnato, cambia l'ordine in cui il failover
+        // prova gli altri. Vedi cloudEngine.resilientCandidates.
+        this.lane = String(opts.lane || "auto");
         this.permissionPolicy = opts.permissionPolicy || "auto-allow";
         this.onEvent = opts.onEvent || (() => {});
         this.askApproval = opts.askApproval || (async () => true);
@@ -966,8 +970,11 @@ class NativeAgent {
             const uncensored = /uncensored|unc|abliter/i.test(m);
             const minB = (m.match(/(\d+)\s*b/i) || [])[1];
             const resp = await this.engine.chatToolsResilient(messages, tools, {
-                coder, uncensored,
-                minB: minB ? parseFloat(minB) : 32,
+                lane: this.lane,
+                coder, uncensored: uncensored || this.lane === "unc",
+                // La corsia "grosso" alza la soglia; per le altre resta il 32B
+                // storico, che e' la taglia minima per un tool-calling affidabile.
+                minB: minB ? parseFloat(minB) : (this.lane === "big" ? 70 : 32),
                 temperature: 0.2, // script anti-moralismi dell'utente: esplicito su ogni percorso
                 onFailover: (f) => this.onEvent({ type: "status", text: "↻ cambio modello (" + f.reason + "): " + String(f.from).replace(/^.*::/, "") })
             });

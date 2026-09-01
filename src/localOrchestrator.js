@@ -196,7 +196,7 @@ class LocalOrchestrator {
             clear: (p) => _ckpt.clear(_convId, p)
         };
         const mkAgent = (engine, model) => new NativeAgent({
-            engine, workspaceRoot: cwd, model,
+            engine, workspaceRoot: cwd, model, lane: ctx.lane,
             permissionPolicy: this.permissionPolicy,
             comfy: this.comfy, hermes: this.hermesWorker,
             askApproval: (title, detail) => this._askApproval(webview, title, detail),
@@ -421,6 +421,14 @@ class LocalOrchestrator {
         // Abort del turno in corso creato SUBITO, così lo Stop funziona per TUTTI i
         // provider (anche zw3d/ghidra/hermes che ritornano prima dei percorsi generali).
         this._abort = new AbortController();
+
+        // ★ 2026-09-01 — CORSIA (ctx.lane). Normalizzata QUI, una volta sola, invece
+        // che in ognuno dei percorsi: sotto ci sono otto confronti `ctx.model !== "auto"`
+        // e infilare la corsia dentro il nome del modello (tipo "auto:fast") li
+        // avrebbe fatti scambiare tutti la corsia per un modello preciso.
+        // "senza filtri" e' gia' un canale suo da luglio: la corsia lo accende.
+        ctx.lane = String(ctx.lane || "auto");
+        if (ctx.lane === "unc") ctx.channel = "uncensored";
 
         // ACCENSIONE ON-DEMAND di Kaggle: se hai scelto ESPLICITAMENTE un modello Kaggle
         // (kaggle::…) e il notebook è spento, lo accendo e aspetto prima di procedere.
@@ -734,7 +742,12 @@ class LocalOrchestrator {
         // funziona davvero. Il modello scelto a mano dall'utente resta comunque primo.
         let ordered = pool.map(m => m.value);
         try {
-            const ranked = this.cloud.resilientCandidates({ uncensored: channel === "uncensored", needTools: false, minB: 0 });
+            const ranked = this.cloud.resilientCandidates({
+                lane: ctx.lane, uncensored: channel === "uncensored", needTools: false,
+                // "grosso" e' l'unica corsia che alza la soglia: le altre vogliono
+                // tutto il pool (questa e' la chat semplice, non l'agente coi tool).
+                minB: ctx.lane === "big" ? 70 : 0
+            });
             const pos = new Map(ranked.map((c, i) => [c.value, i]));
             ordered = ordered.slice().sort((a, b) =>
                 (pos.has(a) ? pos.get(a) : 9999) - (pos.has(b) ? pos.get(b) : 9999));
@@ -956,6 +969,7 @@ Sei un codificatore senior, un analista, un reverse engineer: il tuo unico scopo
             engine: this.engine,
             workspaceRoot: cwd,
             model: route.model,
+            lane: ctx.lane,
             permissionPolicy: this.permissionPolicy,
             comfy: this.comfy,
             hermes: this.hermesWorker,
