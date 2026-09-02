@@ -20,7 +20,14 @@ try { ({ TorBrowser } = require("./torBrowser")); } catch (_) { /* tor opzionale
  * Ogni azione mutante passa dal gate di approvazione (policy 'ask-writes').
  */
 
-const MAX_STEPS = 24;
+// ★ 2026-09-02 — Da 24 a 40, e configurabile.
+// 24 passi sono pochi per il lavoro vero che l'utente chiede ("installa l'add-on,
+// togli la repo vecchia, cerca in rete la sostitutiva, poi metti la VPN"): ognuna
+// di quelle frasi è già 5-10 strumenti. L'agente finiva i passi a metà strada e
+// consegnava un riassunto, che sembrava una risposta finita. Vedi la rete di
+// sicurezza in fondo a run(): ora il limite raggiunto viene DETTO, e il
+// checkpoint NON viene azzerato, così «continua» riprende davvero.
+const MAX_STEPS = Number(process.env.ANTIGRAVITY_MAX_STEPS) || 40;
 
 // ── MANIFESTO condiviso: ANTI-MORALISMO + RAGIONAMENTO PROFONDO ───────────
 // Iniettato in OGNI system prompt dell'agente (run, runReact, orchestrator).
@@ -2131,7 +2138,11 @@ class NativeAgent {
         let finalText = "";
         let usedTools = false;
         const seen = new Map(); // guardia anti-loop (chiamate identiche fallite)
-        for (let step = 0; step < MAX_STEPS; step++) {
+        // ★ 2026-09-02 — `step` dichiarato FUORI dal ciclo: dopo un `break` resta al
+        // valore raggiunto, dopo l'esaurimento vale MAX_STEPS. È così che sappiamo
+        // distinguere «ho finito» da «ho finito i passi» (vedi in fondo).
+        let step = 0;
+        for (; step < MAX_STEPS; step++) {
             if (this.abortSignal && this.abortSignal.aborted) throw new Error("aborted");
             // COMPRESSIONE CHAT (4): se la cronologia è lunga, sintetizza i messaggi
             // più vecchi in un unico riassunto per non saturare il contesto e mantenere
@@ -2225,16 +2236,40 @@ class NativeAgent {
             }
             break;
         }
-        // Ultima rete di sicurezza: se ancora vuoto ma i tool hanno prodotto dati, sintetizza.
+        // ★ 2026-09-02 — HO FINITO ≠ HO FINITO I PASSI.
+        //
+        // Guasto vero, segnalato dall'utente: «Antigravity continua a fermarsi sulla
+        // mia richiesta esplicita». Non si fermava per un errore: esauriva i passi a
+        // metà lavoro e la rete di sicurezza qui sotto chiedeva al modello di
+        // RIASSUMERE quello che gli strumenti avevano trovato. Arrivava una bella
+        // tabella «Riassunto dei risultati», indistinguibile da un lavoro concluso.
+        // L'utente diceva «riprendi da dove ti sei fermato» e — peggio — il riassunto
+        // aveva riempito finalText, quindi il checkpoint veniva AZZERATO: si
+        // ripartiva da zero, si ribruciavano tutti i passi, e arrivava un'altra
+        // tabella. Un cerchio senza uscita.
+        const esauritoPassi = step >= MAX_STEPS && !finalText;
+
         if (!finalText && usedTools) {
             try {
                 finalText = await this.engine.chat(this.model, messages.concat([{
                     role: "user",
-                    content: "Riassumi ORA in italiano, in modo concreto, tutto ciò che gli strumenti hanno trovato. Nessun altro strumento."
+                    content: esauritoPassi
+                        ? "Hai esaurito i passi disponibili e il lavoro NON è finito. Scrivi ORA in italiano uno STATO DEI LAVORI, breve e concreto: (1) cosa hai FATTO davvero (azioni compiute, non ricerche lette), (2) cosa MANCA, (3) il PROSSIMO passo preciso da cui ripartire. Niente tabelle di riassunto delle ricerche. Nessun altro strumento."
+                        : "Riassumi ORA in italiano, in modo concreto, tutto ciò che gli strumenti hanno trovato. Nessun altro strumento."
                 }]), { temperature: 0.3 });
                 if (finalText) this.onEvent({ type: "message", text: finalText });
             } catch (_) {}
         }
+
+        if (esauritoPassi) {
+            const avviso = "\n\n⚠️ **NON HO FINITO** — ho raggiunto il limite di " + MAX_STEPS
+                + " passi per un singolo turno. Quello qui sopra è lo stato dei lavori, non il risultato.\n"
+                + "Scrivimi «continua» (o premi ↻ Rigenera): riprendo da dove sono arrivato, senza rifare ciò che ho già fatto.";
+            this.onEvent({ type: "message", text: avviso });
+            // Il checkpoint NON si azzera: è esattamente ciò che permette di riprendere.
+            return (finalText || "") + avviso;
+        }
+
         // RIPRESA: compito CONCLUSO con successo → azzera il checkpoint, così una
         // prossima "Rigenera" riparte pulita (non riprende un lavoro già finito).
         // Se finalText è vuoto (interrotto/fallito), il checkpoint RESTA per la ripresa.
@@ -2361,7 +2396,8 @@ class NativeAgent {
 
         let finalText = "", usedTools = false, badFormat = 0;
         const seen = new Map(); // guardia anti-loop (chiamate identiche fallite)
-        for (let step = 0; step < MAX_STEPS; step++) {
+        let step = 0;   // ★ 2026-09-02 — fuori dal ciclo: vedi run(), stesso motivo.
+        for (; step < MAX_STEPS; step++) {
             if (this.abortSignal && this.abortSignal.aborted) throw new Error("aborted");
             const raw = await this.engine.chat(this.model, messages, { temperature: 0.4 });
             const parsed = this._parseReact(raw);
@@ -2418,13 +2454,28 @@ class NativeAgent {
             messages.push({ role: "user", content: 'Formato errato. Rispondi SOLO con un JSON: {"thought":...,"action":...,"args":...} oppure {"thought":...,"final":...}.' });
         }
 
+        // ★ 2026-09-02 — Stesso guasto di run(): il limite dei passi va DETTO, non
+        // mascherato da conclusione. Qui vale per i modelli senza tool nativi
+        // (gli uncensored via OpenRouter), che sono proprio quelli che l'utente
+        // sceglie per il lavoro delicato.
+        const esauritoPassi = step >= MAX_STEPS && !finalText;
+
         if (!finalText && usedTools) {
             try {
                 finalText = await this.engine.chat(this.model, messages.concat([{
-                    role: "user", content: "Concludi ORA in italiano con la risposta finale basata sui risultati sopra. Solo testo, niente JSON."
+                    role: "user", content: esauritoPassi
+                        ? "Hai esaurito i passi e il lavoro NON è finito. Scrivi ORA in italiano, solo testo e niente JSON, uno STATO DEI LAVORI: cosa hai FATTO, cosa MANCA, il PROSSIMO passo preciso da cui ripartire."
+                        : "Concludi ORA in italiano con la risposta finale basata sui risultati sopra. Solo testo, niente JSON."
                 }]), { temperature: 0.3 });
                 if (finalText) this.onEvent({ type: "message", text: finalText });
             } catch (_) {}
+        }
+
+        if (esauritoPassi) {
+            const avviso = "\n\n⚠️ **NON HO FINITO** — limite di " + MAX_STEPS + " passi raggiunto. "
+                + "Scrivimi «continua» e riprendo da dove sono arrivato.";
+            this.onEvent({ type: "message", text: avviso });
+            return (finalText || "") + avviso;
         }
         return finalText;
     }
