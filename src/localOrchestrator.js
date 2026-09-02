@@ -9,6 +9,13 @@ const { HermesClient } = require("./hermesClient");
 const { NousClient } = require("./nousClient");
 const { ensureOllama } = require("./services");
 
+// ★ 2026-09-02 — Le corsie il cui MESTIERE fa scattare i filtri di sicurezza dei
+// modelli allineati: l'apparecchio di casa (rootato, BusyBox, adb sulla rete), il
+// reverse engineering, l'officina ZW3D e la manutenzione di Antigravity stessa.
+// Sono i `tag` passati a _runAgentResilient. Per queste, se l'utente non ha
+// pinnato un modello, la catena parte da un modello senza filtri.
+const CORSIE_SENZA_FILTRI = new Set(["8k", "ghidra", "zw3d", "manutenzione", "tor"]);
+
 /**
  * LocalOrchestrator — il "cervello" locale dell'estensione.
  *
@@ -176,9 +183,14 @@ class LocalOrchestrator {
         // gpt-oss:120b-cloud: non si capiva più chi avesse risposto né perché
         // fosse veloce o lento. L'agente lo comunica con l'evento "model".
         let modelloVero = null;
+        // ★ 2026-09-02 — Serve al rilevatore di rifiuti (vedi _isRifiuto): se il
+        // modello ha usato ANCHE UN SOLO strumento, ha lavorato, e un "non posso"
+        // finale è una conclusione, non un muro. Il muro è il rifiuto a scatola
+        // chiusa: nessuno strumento toccato, due righe di scuse, fine.
+        let usoStrumenti = false;
         const onEvent = (e) => {
             if (!opened && (e.type === "message" || e.type === "tool" || e.type === "plan")) { this._streamStart(webview, modelloVero || tag, CATEGORY.AGENT); opened = true; }
-            if (e.type === "tool") { this._agentEvent(webview, "tool", { id: e.id, status: e.status, title: e.title, kind: e.kind, content: e.content }); this._status(webview, `${icon} ${e.status}: ${e.title || ""}`); }
+            if (e.type === "tool") { usoStrumenti = true; this._agentEvent(webview, "tool", { id: e.id, status: e.status, title: e.title, kind: e.kind, content: e.content }); this._status(webview, `${icon} ${e.status}: ${e.title || ""}`); }
             else if (e.type === "plan") { this._agentEvent(webview, "plan", { entries: e.entries }); }
             else if (e.type === "message") { this._agentBuf = (this._agentBuf || "") + e.text; this._streamToken(webview, e.text); }
             else if (e.type === "status") { this._status(webview, e.text); }
@@ -243,6 +255,21 @@ class LocalOrchestrator {
         //   4) free-API cloud — SOLO se tutto Ollama è a secco (rete di sicurezza).
         //   5) Hermes (in coda, gestito sotto).
         if (!wantModel) {
+            // ★ 2026-09-02 — CORSIE SPECIALISTICHE IN TESTA A UN MODELLO SENZA FILTRI.
+            // La corsia gratis di Ollama è gpt-oss:120b-cloud, che è addestrato alla
+            // sicurezza: su 8K rifiuta a scatola chiusa tutto ciò che sa di rete, root,
+            // adb, busybox — cioè ESATTAMENTE il mestiere di quella corsia (il box è
+            // rootato e ci gira BusyBox). Stesso problema su Ghidra (binari), ZW3D e
+            // manutenzione. Qui, quando l'utente NON ha pinnato un modello, ci mettiamo
+            // davanti un modello senza filtri che sa usare gli strumenti; gpt-oss resta
+            // dietro come riserva per il lavoro che non lo fa storcere.
+            if (CORSIE_SENZA_FILTRI.has(tag) && this.cloudConfigured()) {
+                const sf = this._pickSenzaFiltri({ soloGratis: true }) || this._pickSenzaFiltri({ soloGratis: false });
+                if (sf) {
+                    chain.push({ engine: this.cloud, model: sf.value, label: "senza filtri", icon: "🔓" });
+                    this._status(webview, `🔓 Corsia «${tag}»: metto in testa ${sf.label || sf.value} (senza filtri, con strumenti).`);
+                }
+            }
             let freeCloud = null;
             try { freeCloud = await this.engine.pickFreeCloud(); } catch (_) {}
             if (freeCloud) chain.push({ engine: this.engine, model: freeCloud, label: "Ollama cloud gratis", icon: "☁️🆓" });
@@ -288,6 +315,26 @@ class LocalOrchestrator {
                 }
                 if (i > 0 && !opened) this._status(webview, `${step.icon} motore precedente a secco, passo a ${step.label}…`);
                 const final = await mkAgent(step.engine, step.model).run(guided, history);
+
+                // ★ 2026-09-02 — RIFIUTO = GUASTO. Prima il ciclo avanzava solo se il
+                // motore SBAGLIAVA (catch). Ma un "Mi dispiace, non posso aiutarti" è
+                // una risposta RIUSCITA (HTTP 200): la catena si fermava lì e l'utente
+                // restava col muro, con dietro sei motori pronti e mai provati. È il
+                // guasto trovato il 02/09 sulla corsia 8K, dove gpt-oss:120b-cloud
+                // rifiutava "collegati al box" senza toccare un solo strumento.
+                // Qui il rifiuto a scatola chiusa vale come fallimento: si butta via
+                // il testo, si chiude lo stream e si passa al motore successivo.
+                if (LocalOrchestrator._isRifiuto(this._agentBuf || final, usoStrumenti) && i < healthyChain.length - 1) {
+                    this._status(webview, `🚫 ${modelloVero || step.model || step.label} ha rifiutato senza provare: passo al motore dopo.`);
+                    if (opened) { this._streamEnd(webview, "", modelloVero || step.model || tag, "retry"); opened = false; }
+                    this._agentBuf = ""; modelloVero = null; usoStrumenti = false;
+                    const hr = this._health[step.label] || { fails: 0, until: 0 };
+                    if (hr.until < now) { hr.fails = 0; hr.until = now + 5 * 60 * 1000; }
+                    hr.fails++; this._health[step.label] = hr;
+                    lastErr = new Error("rifiuto a scatola chiusa da " + (step.model || step.label));
+                    continue;
+                }
+
                 if (opened) this._streamEnd(webview, this._agentBuf || final, modelloVero || step.model || tag, "end_turn");
                 else this._say(webview, final || "(nessuna risposta)");
                 this._postUsage(webview);
@@ -652,6 +699,41 @@ class LocalOrchestrator {
     }
 
     _isAbort(err) { return err && /abort/i.test(String(err.message || err)); }
+
+    /**
+     * ★ 2026-09-02 — Riconosce il RIFIUTO A SCATOLA CHIUSA.
+     *
+     * Non è un giudizio sul contenuto: è il riconoscimento di una risposta che
+     * NON è lavoro. Tre condizioni tutte insieme, apposta strette per non
+     * scambiare per rifiuto una conclusione legittima:
+     *   1) nessuno strumento usato — se ha letto un file o interrogato il box,
+     *      ha lavorato, e un "non posso" finale è un esito, non un muro;
+     *   2) risposta corta (<= 400 caratteri) — una spiegazione lunga è lavoro;
+     *   3) formula di rifiuto esplicita, non un semplice "non posso" qualsiasi
+     *      ("non posso aprire quel file" NON deve scattare).
+     */
+    static _isRifiuto(testo, usoStrumenti) {
+        if (usoStrumenti) return false;
+        const t = String(testo || "").trim();
+        if (!t || t.length > 400) return false;
+        return /(non posso (aiutart[ie]|soddisfare|assistert[ie]|procedere con questa|occuparmi di questa)|non sono in grado di aiutart[ie]|non posso rispondere a questa richiesta|mi dispiace,? ma non posso\b|i can'?t (help|assist|comply)|i cannot (help|assist|comply)|i'?m (sorry|unable)[^.]{0,60}(help|assist)|unable to assist)/i.test(t);
+    }
+
+    /**
+     * ★ 2026-09-02 — Il miglior modello SENZA FILTRI che sa usare gli strumenti.
+     * Serve a mettere in testa alle corsie specialistiche (8K, Ghidra, ZW3D,
+     * manutenzione, Tor) un modello che non rifiuta a scatola chiusa. Preferisce
+     * i gratuiti; se non ce ne sono con i tool, ritorna null e la catena resta
+     * quella normale (col rilevatore di rifiuti a fare da rete).
+     */
+    _pickSenzaFiltri({ soloGratis = true } = {}) {
+        try {
+            const ch = this.getCloudChannels();
+            const lista = (ch && ch.uncensored) || [];
+            const buoni = lista.filter(m => m && m.value && m.tools && (!soloGratis || m.free));
+            return buoni[0] || null;
+        } catch (_) { return null; }
+    }
 
     // ---- Turno su CLAUDE CODE (CLI headless) ---------------------------------
     //
