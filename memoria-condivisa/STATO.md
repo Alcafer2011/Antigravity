@@ -7,6 +7,37 @@
 
 ---
 
+## 0-quinquies. Il tema «console» dentro l'app vera (2026-09-01) — v1.0.45
+
+Il restyling futuristico e' stato portato dentro `mobile-page.html` — quella che usi
+davvero — per RITEMATIZZAZIONE, non riscrivendo la struttura: la pagina e' tutta
+guidata da variabili CSS, quindi cambiando `:root` si ridipingono header, composer,
+drawer, chip, bolle, tool. Cosi' **nessuna funzione e' stata toccata** (Tor, musica,
+chiavi, ripresa, cantiere, bug hunter, GPU, Kaggle, corsie: tutte al loro posto).
+
+Cosa e' cambiato a vista:
+- fondale VIVO in fixed dietro tutto (`#ambiente`): tre aurore che derivano su cicli
+  lunghi (48/63/80 s) + una griglia in prospettiva che scorre. E' il movimento a
+  pagina ferma richiesto.
+- vetro (backdrop-filter) + bordo luminoso su header, striscia di stato, composer, drawer.
+- ciano = interattivo/macchina, terracotta (--tu) riservato a logo e invio (TU); il
+  logo respira, il pallino di stato pulsa, le barre token hanno un alone.
+
+REGOLA tenuta: i colori-DATO (ok/warn/err, barre) restano quelli **validati** col
+misuratore daltonismo; il viola e i bagliori sono SCOCCA, non codificano mai un dato.
+
+Tema chiaro dell'iPhone: non rotto. L'ambiente sparisce su fondo bianco e gli elementi
+a fondale scuro fisso hanno i loro ripieghi chiari.
+
+Verifiche: `npm test` 50/50 (4 test nuovi che presidiano ambiente, palette validata,
+tema chiaro e — soprattutto — che nessun comando/pannello sia sparito nel ridipingere);
+collaudo 9/9. Prototipi in `design/console-v1..v3.html` (riferimento).
+
+AVVISO: serve **riavviare il server** per vedere il tema nuovo (la pagina si rilegge da
+sola a ogni richiesta, ma il server attivo tiene ancora quella vecchia in memoria fino
+al riavvio).
+
+---
 ## 0-quater. Il ponte col telefono: riprendere una chat di Claude Code (2026-09-01) — v1.0.44
 
 **Bisogno.** Dal letto, col solo Antigravity sul telefono, continuare a lavorare con

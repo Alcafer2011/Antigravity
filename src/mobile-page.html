@@ -41,18 +41,54 @@
 })();
 </script>
 <style>
-  /* Tema scuro sempre, sia nel pannello VS Code sia sul telefono. */
+  /* ══ TEMA «CONSOLE» (2026-09-01) ═══════════════════════════════════════════
+     Ritematizzazione profonda: la pagina è tutta guidata da queste variabili,
+     quindi cambiarle qui ridipinge header, composer, drawer, chip, bolle, tool.
+     REGOLA che tiene tutto insieme: i colori-DATO (ok/warn/err e le barre) sono
+     quelli validati col misuratore daltonismo (ciano/ambra/rosso); il viola e i
+     bagliori sono SCOCCA, non codificano mai un'informazione.
+     Il ciano (--accent) è "la macchina / interattivo"; il terracotta (--tu) è TU:
+     resta sul logo e sulla tua bolla, dove un errore non compare mai. ═════════ */
   :root{
     color-scheme:dark;
-    --bg:#262624; --bg2:#1f1e1d; --panel:#2a2927; --txt:#ececec; --dim:#a8a49c;
-    --line:#3a3834; --line2:#4a473f; --bd:#3a3834; --accent:#d97757; --accent-ink:#ffffff;
-    --user-bg:#34322e; --code-bg:#1c1b19; --code-ink:#ececec;
-    --ok:#48bb78; --warn:#d69e2e; --err:#e05252;
-    --radius:16px; --max:760px;
+    --bg:#080B12; --bg2:#0C121C; --panel:rgba(16,23,36,.72); --panel-solid:#101724;
+    --txt:#DCE8EE; --dim:#8296A4;
+    --line:rgba(126,148,178,.14); --line2:rgba(69,200,216,.28); --bd:rgba(126,148,178,.14);
+    --accent:#45C8D8; --accent-ink:#04121A;
+    --user-bg:rgba(217,119,87,.13); --code-bg:#070C14; --code-ink:#CFE3E8;
+    --ok:#3FBF8F; --warn:#E0A44A; --err:#E85D5D;
+    --tu:#D97757; --sig:#45C8D8; --acqua:#5EEAD4; --viola:#8B7CF6; --magenta:#C86DD7;
+    --edge:rgba(139,124,246,.26); --edge2:rgba(69,200,216,.32);
+    --radius:14px; --max:760px;
     --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --mono:ui-monospace,"JetBrains Mono","SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
   }
   *{box-sizing:border-box}
+
+  /* ── AMBIENTE VIVO dietro tutto: due aurore che derivano piano + una griglia in
+     prospettiva. È il movimento "a pagina ferma" — la stanza non è mai morta.
+     Sta in fixed a z-index 0; header/composer/drawer ci passano sopra col vetro. */
+  #ambiente{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  #ambiente .aur{position:absolute;border-radius:50%;filter:blur(78px);opacity:.5}
+  #ambiente .a{width:78vw;height:78vw;left:-20vw;top:-30vw;
+    background:radial-gradient(circle,rgba(139,124,246,.72),transparent 68%);animation:auraA 48s ease-in-out infinite alternate}
+  #ambiente .b{width:66vw;height:66vw;right:-22vw;bottom:-28vw;
+    background:radial-gradient(circle,rgba(69,200,216,.58),transparent 68%);animation:auraB 63s ease-in-out infinite alternate}
+  #ambiente .c{width:46vw;height:46vw;left:34vw;top:30vh;opacity:.3;
+    background:radial-gradient(circle,rgba(200,109,215,.6),transparent 70%);animation:auraC 80s ease-in-out infinite alternate}
+  @keyframes auraA{to{transform:translate(14vw,10vh) scale(1.16)}}
+  @keyframes auraB{to{transform:translate(-12vw,-9vh) scale(1.12)}}
+  @keyframes auraC{to{transform:translate(-9vw,12vh) scale(.86)}}
+  #ambiente .grid{position:absolute;left:-25%;right:-25%;bottom:-6%;height:50%;opacity:.22;
+    background-image:linear-gradient(rgba(94,234,212,.4) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(94,234,212,.22) 1px,transparent 1px);
+    background-size:100% 34px,44px 100%;
+    transform:perspective(340px) rotateX(72deg);transform-origin:bottom center;
+    animation:gridScroll 6s linear infinite;
+    -webkit-mask-image:linear-gradient(transparent,#000 62%);mask-image:linear-gradient(transparent,#000 62%)}
+  @keyframes gridScroll{to{background-position:0 34px,0 0}}
+  /* Nel tema chiaro (solo iPhone) l'ambiente sparisce: su fondo bianco stonerebbe. */
+  html.phone[data-theme="light"] #ambiente{display:none}
   /* ★ 2026-07-19 — DUE interfacce diverse (richiesta utente: "pc una cosa,
      telefono un'altra").
      • TELEFONO (schermo stretto): il "blocco esterno" è cappato a 430×932 (le
@@ -60,13 +96,17 @@
      • PC / VS Code largo (≥ 760px): si ALLARGA a un layout desktop comodo
        (fino a 1100px, tutta l'altezza), NON una cornice-telefono stretta.
      In entrambi i casi overflow:hidden sul body → scorre SOLO la chat (.scroll). */
-  html{margin:0;height:100%;background:var(--bg2);display:flex;justify-content:center;align-items:center}
+  html{margin:0;height:100%;background:#04060B;display:flex;justify-content:center;align-items:center}
   /* DEFAULT = FLUIDO: riempie il contenitore (pannello VS Code o finestra browser) e
      si ri-adatta a QUALSIASI larghezza/altezza quando lo allarghi o lo stringi.
      Il testo resta leggibile perché la colonna .thread ha un suo max-width. */
-  body{background:var(--bg);color:var(--txt);font:16px/1.6 var(--font);display:flex;flex-direction:column;
+  /* Body semi-trasparente: l'ambiente vivo (#ambiente) si vede attraverso la chat.
+     Un velo scuro tiene il testo leggibile sopra le aurore. */
+  body{background:linear-gradient(180deg,rgba(8,11,18,.55),rgba(6,8,14,.66));color:var(--txt);
+       font:16px/1.6 var(--font);display:flex;flex-direction:column;position:relative;z-index:1;
        width:100%;max-width:none;height:100dvh;max-height:none;overflow:hidden;margin:0;
        -webkit-font-smoothing:antialiased}
+  html.phone[data-theme="light"] body{background:var(--bg)}
   /* TELEFONO (iPhone rilevato via UA): confinato alle misure logiche dell'iPhone 15
      Pro Max (430×932), cornice centrata. Sul dispositivo reale coincide con lo schermo. */
   html.phone{background:#131211}
@@ -83,15 +123,36 @@
     --ok:#2a8f4e; --warn:#a6790a; --err:#b53226;
   }
   html.phone[data-theme="light"]{background:var(--bg2)}
+  /* ★ 2026-09-01 — RIPIEGHI CHIARI del tema «console»: nel tema scuro alcuni
+     elementi hanno un fondale scuro FISSO (vetro, rgba quasi nere). Sul telefono in
+     tema chiaro stonerebbero, quindi qui tornano chiari e leggibili. Il ciano degli
+     stati attivi e il terracotta dell'invio restano: funzionano anche su bianco. */
+  html.phone[data-theme="light"] header{background:var(--panel);backdrop-filter:none;-webkit-backdrop-filter:none}
+  html.phone[data-theme="light"] header::after{opacity:.35}
+  html.phone[data-theme="light"] #statusStrip{background:var(--bg2);backdrop-filter:none;-webkit-backdrop-filter:none}
+  html.phone[data-theme="light"] .inputbar{background:var(--bg2)}
+  html.phone[data-theme="light"] select.sel,
+  html.phone[data-theme="light"] input.sel{background:var(--bg2)}
+  html.phone[data-theme="light"] .selbtn{background:var(--bg2);color:var(--txt)}
+  html.phone[data-theme="light"] .chip{background:var(--bg2)}
+  html.phone[data-theme="light"] .hbtn{background:var(--bg2)}
   /* il pulsante tema si vede solo sul telefono */
   html:not(.phone) #themeBtn{display:none}
 
   /* Header */
   /* I bottoni dell'header non si comprimono mai: a restringersi è solo il titolo. */
-  header{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:5}
+  header{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--edge);
+         background:linear-gradient(180deg,rgba(20,28,44,.72),rgba(10,14,22,.5));
+         backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);position:sticky;top:0;z-index:5}
+  header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
+    background:linear-gradient(90deg,transparent,var(--viola),var(--sig),transparent);opacity:.55}
   .brand{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px;min-width:0;overflow:hidden}
   .brand .name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .logo{flex:0 0 auto;width:24px;height:24px;border-radius:7px;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:700}
+  /* Logo = identità TU (terracotta), con un alone che respira: il segno "vivo". */
+  .logo{flex:0 0 auto;width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--tu),#C2603F);
+        color:#12070A;display:grid;place-items:center;font-size:13px;font-weight:700;
+        box-shadow:0 0 14px rgba(217,119,87,.45);animation:alito 2.6s ease-in-out infinite}
+  @keyframes alito{0%,100%{box-shadow:0 0 10px rgba(217,119,87,.32)}50%{box-shadow:0 0 18px rgba(217,119,87,.6)}}
   .brand small{color:var(--dim);font-weight:400;font-size:12px}
   .hspace{flex:1 1 auto;min-width:0}
   .hstat{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--dim)}
@@ -99,10 +160,11 @@
   .lim{padding:2px 8px;border-radius:999px;border:1px solid var(--bd);cursor:default}
   .lim.warn{color:#c47f00;border-color:#c47f0055;background:#c47f0012}
   .lim.bad{color:#c0392b;border-color:#c0392b55;background:#c0392b12}
-  .dot{flex:0 0 auto;width:8px;height:8px;border-radius:50%;background:var(--err)}
-  .dot.on{background:var(--ok)}
-  .hbtn{flex:0 0 auto;background:transparent;border:1px solid var(--line2);color:var(--dim);width:34px;height:34px;border-radius:9px;font-size:16px;cursor:pointer;display:grid;place-items:center}
-  .hbtn:hover{color:var(--txt);background:var(--bg2)}
+  .dot{flex:0 0 auto;width:8px;height:8px;border-radius:50%;background:var(--err);box-shadow:0 0 7px var(--err)}
+  .dot.on{background:var(--ok);box-shadow:0 0 8px var(--ok);animation:pulso 1.9s ease-in-out infinite}
+  @keyframes pulso{0%,100%{opacity:.5;transform:scale(.82)}50%{opacity:1;transform:scale(1.12)}}
+  .hbtn{flex:0 0 auto;background:rgba(255,255,255,.03);border:1px solid var(--line2);color:var(--dim);width:34px;height:34px;border-radius:9px;font-size:16px;cursor:pointer;display:grid;place-items:center;transition:color .15s,border-color .15s,box-shadow .15s}
+  .hbtn:hover{color:var(--txt);border-color:var(--edge2);box-shadow:0 0 14px rgba(69,200,216,.18)}
   .hbtns{flex:0 0 auto;display:flex;align-items:center;gap:8px}
   /* Terza riga: comandi GPU Kaggle (telefono). Pulsanti in sequenza, comprensibili. */
   .kbar{display:flex;align-items:center;gap:6px;padding:6px 10px;border-bottom:1px solid var(--line);background:var(--bg);flex-wrap:wrap}
@@ -135,7 +197,8 @@
   /* Striscia di stato SEMPRE visibile (sta FUORI dall'area che scrolla): a sinistra
      il modello che sta lavorando ORA (aggiornato dal routing), a destra le barre dei
      token cloud usati per provider. Su iPhone non serve scrollare per vederli. */
-  #statusStrip{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:5px 14px;border-bottom:1px solid var(--line);background:var(--bg2)}
+  #statusStrip{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:5px 14px;border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,rgba(14,20,32,.5),rgba(8,11,18,.35));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
   #curModel{flex:0 0 auto;max-width:46%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12.5px;font-weight:600;color:var(--txt)}
   #curModel.idle{color:var(--dim);font-weight:500}
   .provBars{flex:1 1 auto;display:flex;gap:9px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
@@ -144,8 +207,8 @@
   .pbar .pl{display:flex;justify-content:space-between;gap:6px;font-size:10px;color:var(--dim);margin-bottom:2px;line-height:1.2}
   .pbar .pl b{color:var(--txt);font-weight:600}
   .pbar .pt{height:5px;border-radius:3px;background:var(--line);overflow:hidden}
-  .pbar .pf{height:100%;width:0;background:var(--accent);border-radius:3px;transition:width .3s}
-  .pbar.hot .pf{background:var(--warn)}
+  .pbar .pf{height:100%;width:0;background:linear-gradient(90deg,#2A7A8B,var(--sig));border-radius:3px;transition:width .3s;box-shadow:0 0 8px rgba(69,200,216,.4)}
+  .pbar.hot .pf{background:var(--warn);box-shadow:0 0 8px rgba(224,164,74,.4)}
 
   /* Chat scroll area */
   .scroll{position:relative;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
@@ -249,19 +312,24 @@
   .fab.show{display:grid}
 
   /* Composer */
-  .composer{border-top:1px solid var(--line);background:var(--panel);padding:10px 14px calc(10px + env(safe-area-inset-bottom))}
+  .composer{border-top:1px solid var(--edge);position:relative;padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+    background:linear-gradient(0deg,rgba(8,11,18,.9),rgba(16,23,36,.55));backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+  .composer::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;
+    background:linear-gradient(90deg,transparent,var(--sig),var(--viola),transparent);opacity:.5}
+  html.phone[data-theme="light"] .composer{background:var(--panel)}
   .cwrap{max-width:var(--max);margin:0 auto}
   /* Va a capo invece di scorrere fuori vista: nessun comando sparisce quando il
      pannello si stringe (prima era overflow-x:auto con la barra nascosta). */
   .opts{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:9px}
-  .chip{flex:0 0 auto;border:1px solid var(--line2);background:var(--bg2);color:var(--dim);border-radius:20px;padding:6px 12px;font-size:13px;cursor:pointer}
-  .chip.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-  select.sel{flex:1 1 auto;min-width:104px;max-width:190px;background:var(--bg2);color:var(--txt);border:1px solid var(--line2);border-radius:20px;padding:6px 10px;font-size:13px}
+  .chip{flex:0 0 auto;border:1px solid var(--line2);background:rgba(255,255,255,.03);color:var(--dim);border-radius:20px;padding:6px 12px;font-size:13px;cursor:pointer;transition:color .15s,border-color .15s,box-shadow .15s}
+  .chip:hover{color:var(--txt);border-color:var(--edge2)}
+  .chip.on{background:linear-gradient(135deg,var(--acqua),var(--sig));border-color:transparent;color:var(--accent-ink);font-weight:600;box-shadow:0 0 18px rgba(69,200,216,.32)}
+  select.sel{flex:1 1 auto;min-width:104px;max-width:190px;background:rgba(5,9,15,.6);color:var(--txt);border:1px solid var(--line2);border-radius:20px;padding:6px 10px;font-size:13px}
   /* ★ 2026-09-01 — barra ridotta: qui dentro resta solo "cosa sta usando ora".
      Il bottone è vestito come le tendine accanto, così la barra resta una riga
      sola e non sembra un elemento estraneo. */
-  input.sel{flex:1 1 auto;min-width:104px;background:var(--bg2);color:var(--txt);border:1px solid var(--line2);border-radius:20px;padding:6px 10px;font-size:13px}
-  .selbtn{flex:0 1 auto;max-width:230px;background:var(--bg2);color:var(--txt);border:1px solid var(--line2);border-radius:20px;padding:6px 12px;font-size:13px;cursor:pointer;
+  input.sel{flex:1 1 auto;min-width:104px;background:rgba(5,9,15,.6);color:var(--txt);border:1px solid var(--line2);border-radius:20px;padding:6px 10px;font-size:13px}
+  .selbtn{flex:0 1 auto;max-width:230px;background:linear-gradient(135deg,rgba(139,124,246,.16),rgba(69,200,216,.12));color:var(--txt);border:1px solid var(--edge2);border-radius:20px;padding:6px 12px;font-size:13px;cursor:pointer;
           white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left}
   .selbtn:hover{border-color:var(--accent)}
   /* CORSIE: righe grandi, tocco comodo, e sotto il nome la frase che dice cosa fa.
@@ -271,7 +339,7 @@
         border:1px solid var(--line2);background:var(--panel);color:var(--txt);
         border-radius:11px;padding:10px 12px;cursor:pointer;font-size:14px}
   .lane:hover{border-color:var(--accent)}
-  .lane.on{border-color:var(--accent);background:var(--bg2);box-shadow:inset 3px 0 0 var(--accent)}
+  .lane.on{border-color:var(--edge2);background:linear-gradient(115deg,rgba(69,200,216,.13),rgba(139,124,246,.09));box-shadow:inset 3px 0 0 var(--sig),0 0 20px rgba(69,200,216,.12)}
   .lane .ic{font-size:18px;line-height:1.3;flex:0 0 auto}
   /* display:block su ENTRAMBI: erano due <span> dentro uno <span>, quindi in linea,
      e uscivano incollati - "AutoSceglie da solo il migliore disponibile". */
@@ -288,10 +356,12 @@
   .mrow.on{border-color:var(--accent);background:var(--bg2)}
   .mrow .nm{flex:1 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .mrow .pv{flex:0 0 auto;font-size:11px;color:var(--dim)}
-  .inputbar{display:flex;align-items:flex-end;gap:9px;background:var(--bg2);border:1px solid var(--line2);border-radius:24px;padding:7px 8px 7px 16px}
-  .inputbar:focus-within{border-color:var(--accent)}
+  .inputbar{display:flex;align-items:flex-end;gap:9px;background:rgba(5,9,15,.66);border:1px solid var(--line2);border-radius:24px;padding:7px 8px 7px 16px;transition:border-color .18s,box-shadow .18s}
+  .inputbar:focus-within{border-color:var(--edge2);box-shadow:0 0 24px rgba(69,200,216,.16)}
   textarea{flex:1;background:transparent;border:0;color:var(--txt);font:16px/1.5 var(--font);resize:none;max-height:180px;outline:none;padding:6px 0}
-  .send{width:40px;height:40px;flex:0 0 auto;border:0;border-radius:50%;background:var(--accent);color:#fff;font-size:17px;cursor:pointer;display:grid;place-items:center}
+  /* Invio = gesto TUO: terracotta con alone, l'unico bottone caldo della pagina. */
+  .send{width:40px;height:40px;flex:0 0 auto;border:0;border-radius:50%;background:linear-gradient(135deg,var(--tu),#C2603F);color:#12070A;font-size:17px;cursor:pointer;display:grid;place-items:center;box-shadow:0 0 16px rgba(217,119,87,.4)}
+  .send:hover{filter:brightness(1.08)}
   .send:disabled{opacity:.4}
   .send.stop{background:var(--err)}
   .mic{width:40px;height:40px;flex:0 0 auto;border:1px solid var(--line2);border-radius:50%;background:var(--bg2);color:var(--dim);font-size:16px;cursor:pointer;display:grid;place-items:center}
@@ -303,11 +373,12 @@
   /* Drawer chat salvate */
   .drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .2s;z-index:20}
   .drawer-overlay.open{opacity:1;pointer-events:auto}
-  .drawer{position:fixed;top:0;left:0;bottom:0;width:82%;max-width:320px;background:var(--panel);border-right:1px solid var(--line);transform:translateX(-100%);transition:transform .22s ease;z-index:21;display:flex;flex-direction:column}
+  .drawer{position:fixed;top:0;left:0;bottom:0;width:82%;max-width:320px;background:linear-gradient(160deg,rgba(18,25,40,.95),rgba(7,10,17,.96));backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-right:1px solid var(--edge);box-shadow:30px 0 60px rgba(0,0,0,.5);transform:translateX(-100%);transition:transform .22s ease;z-index:21;display:flex;flex-direction:column}
+  html.phone[data-theme="light"] .drawer{background:var(--panel)}
   .drawer.open{transform:none}
   /* Cassetto sul lato DESTRO (Chiavi API): la classe .open deve poter vincere,
      perciò lo stato chiuso sta qui in CSS e NON come stile inline (che batterebbe .open). */
-  .drawer.right{left:auto;right:0;border-right:none;border-left:1px solid var(--line);transform:translateX(100%)}
+  .drawer.right{left:auto;right:0;border-right:none;border-left:1px solid var(--edge2);box-shadow:-30px 0 60px rgba(0,0,0,.5);transform:translateX(100%)}
   .drawer.right.open{transform:none}
   .drawer-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 14px 10px;border-bottom:1px solid var(--line);font-weight:600}
   .drawer-head .btn{padding:7px 12px;font-size:13px}
@@ -342,6 +413,9 @@
 </style>
 </head>
 <body>
+<!-- ★ 2026-09-01 — AMBIENTE VIVO del tema «console»: aurore che derivano e griglia
+     in prospettiva, dietro tutto. È il movimento a pagina ferma. In fixed, z-index 0. -->
+<div id="ambiente" aria-hidden="true"><span class="aur a"></span><span class="aur b"></span><span class="aur c"></span><span class="grid"></span></div>
 <header>
   <button class="hbtn" id="menuBtn" title="Chat salvate">☰</button>
   <span class="brand"><span class="logo">▲</span><span class="name">Antigravity</span></span>

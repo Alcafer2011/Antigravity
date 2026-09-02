@@ -853,12 +853,71 @@ const GHIDRA_TOOL = {
 // Lista di tool ESPOSTA AL MODELLO: come TOOLS ma con le 23 operazioni live-Ghidra
 // sostituite dal singolo tool `ghidra`. Le definizioni storiche restano in TOOLS
 // (le usa _exec per il ri-dispatch) ma non vengono mostrate al modello.
+// ── 8K ULTRA HD: l'apparecchio TV di casa, in UN solo tool ───────────────────
+// ★ 2026-09-02 — Stessa filosofia di GHIDRA_TOOL: una porta sola con `op`.
+// L'apparecchio (Transpeed 8K618-T, Android 12 rootato, Kodi 21) è censito in
+// src/ultrahd8k.js: indirizzo, root, cartelle. Il modello NON deve reindovinarli.
+const ULTRAHD_TOOL = {
+    type: "function",
+    function: {
+        name: "ultrahd8k",
+        description: "APPARECCHIO TV DI CASA «8K Ultra HD» — controllo completo. È un Transpeed 8K618-T: Android 12 ROOTATO, ABI armeabi-v7a a 32 bit (gli APK arm64 NON si installano), Kodi 21.2, collegato via ADB di rete a 192.168.1.114:5555, attaccato a una TV Hisense. Indirizzo e cartelle sono già memorizzati: NON chiederli all'utente.\n"
+            + "DUE VIE: ADB (muscolo: APK, file, tasti, screenshot — funziona sempre) e JSON-RPC di Kodi (precisione: impostazioni per id, add-on, riproduzione). Il JSON-RPC di fabbrica è SPENTO: se un'operazione risponde API_MUTA o API_IRRAGGIUNGIBILE, esegui PRIMA op='api_accendi' (fa tutto da solo) e poi riprova.\n"
+            + "FLUSSO PER «voglio l'add-on X»: addon_cerca(query) per trovare l'id giusto → addon_installa(addon=id) che risolve le dipendenze, copia, riavvia Kodi e VERIFICA che sia abilitato → impostazione_cerca(query) per trovare gli id di configurazione → impostazione_scrivi per settarlo → schermo per guardare il risultato sulla TV.\n"
+            + "Se qualcosa non parte: op='log' (kodi.log) dice sempre il perché.\n"
+            + "OPERAZIONI (op):\n"
+            + "  STATO — stato() panoramica completa · configura(valori) cambia indirizzo/percorsi\n"
+            + "  OCCHI E MANI — schermo() screenshot della TV, poi guardalo con read_image · tasto(tasti[,ripeti]) es. 'giu giu ok', nomi: su giu sinistra destra ok indietro home menu info play stop volume_su volume_giu muto · testo(testo) digita in un campo\n"
+            + "  KODI — kodi_avvia() · kodi_ferma() · kodi_riavvia() · api_accendi() accende il JSON-RPC · rpc(metodo[,params]) qualunque metodo JSON-RPC di Kodi · notifica(titolo,messaggio) · riproduci(percorso)\n"
+            + "  IMPOSTAZIONI KODI — impostazione_cerca(query) TROVA l'id giusto e le scelte ammesse · impostazione_leggi(id) · impostazione_scrivi(id,valore)\n"
+            + "  ADD-ON — addon_cerca(query) nel repository ufficiale · addon_lista() installati · addon_dettagli(addon) · addon_installa(addon) ⭐scarica+dipendenze+riavvio+verifica · addon_rimuovi(addon) · addon_abilita(addon[,acceso]) · addon_esegui(addon)\n"
+            + "  APP ANDROID — apk_lista([query]) · apk_installa(origine: percorso locale o URL) · apk_disinstalla(pacchetto) · apri(pacchetto)\n"
+            + "  DIAGNOSI — log([righe][,query]) ultime righe di kodi.log · comando(comando[,root]) shell Android grezza (root=true per la cartella di Kodi)",
+        parameters: {
+            type: "object",
+            properties: {
+                op: {
+                    type: "string",
+                    enum: ["stato", "configura", "schermo", "tasto", "testo",
+                        "kodi_avvia", "kodi_ferma", "kodi_riavvia", "api_accendi", "rpc", "notifica", "riproduci",
+                        "impostazione_cerca", "impostazione_leggi", "impostazione_scrivi",
+                        "addon_cerca", "addon_lista", "addon_dettagli", "addon_installa", "addon_rimuovi", "addon_abilita", "addon_esegui",
+                        "apk_lista", "apk_installa", "apk_disinstalla", "apri",
+                        "log", "comando"],
+                    description: "l'operazione da eseguire (vedi elenco nella descrizione)"
+                },
+                query: { type: "string", description: "cosa cercare (addon_cerca, impostazione_cerca, apk_lista, log)" },
+                addon: { type: "string", description: "id dell'add-on, es. 'plugin.video.youtube' (addon_*)" },
+                id: { type: "string", description: "id dell'impostazione Kodi, es. 'locale.subtitlelanguage' (impostazione_leggi/scrivi)" },
+                valore: { description: "nuovo valore dell'impostazione (impostazione_scrivi)" },
+                tasti: { type: "string", description: "tasti separati da spazio, es. 'giu giu ok' (tasto)" },
+                ripeti: { type: "number", description: "quante volte ripetere la sequenza (tasto)" },
+                testo: { type: "string", description: "testo da digitare (testo)" },
+                metodo: { type: "string", description: "metodo JSON-RPC, es. 'Player.GetActivePlayers' (rpc)" },
+                params: { type: "object", description: "parametri del metodo JSON-RPC (rpc)" },
+                origine: { type: "string", description: "percorso locale o URL dell'APK (apk_installa)" },
+                pacchetto: { type: "string", description: "nome pacchetto Android, es. 'org.xbmc.kodi' (apk_disinstalla, apri)" },
+                comando: { type: "string", description: "comando di shell Android (comando)" },
+                root: { type: "boolean", description: "esegui il comando da root (comando) — serve per la cartella di Kodi" },
+                percorso: { type: "string", description: "file o URL da riprodurre (riproduci)" },
+                titolo: { type: "string", description: "titolo della notifica (notifica)" },
+                messaggio: { type: "string", description: "testo della notifica (notifica)" },
+                acceso: { type: "boolean", description: "true per abilitare, false per disabilitare (addon_abilita)" },
+                righe: { type: "number", description: "quante righe di log (log)" },
+                valori: { type: "object", description: "campi da cambiare, es. {indirizzo:'192.168.1.50:5555'} (configura)" }
+            },
+            required: ["op"]
+        }
+    }
+};
+
 const LIVE_GHIDRA_NAMES = new Set(Object.values(GHIDRA_OP_MAP));
 const MODEL_TOOLS = TOOLS.filter(t => !LIVE_GHIDRA_NAMES.has(t.function.name));
 MODEL_TOOLS.push(GHIDRA_TOOL);
+MODEL_TOOLS.push(ULTRAHD_TOOL);
 // Tutti i nomi-tool validi (per riconoscere una tool-call emessa come TESTO da
 // modelli che non usano i tool_calls nativi — es. Qwen-Coder abliterated su Kaggle).
-const ALL_TOOL_NAMES = new Set(TOOLS.map(t => t.function.name).concat(["ghidra"]));
+const ALL_TOOL_NAMES = new Set(TOOLS.map(t => t.function.name).concat(["ghidra", "ultrahd8k"]));
 
 class NativeAgent {
     /**
@@ -1603,6 +1662,115 @@ class NativeAgent {
                 const pp = this._resolve(args.path || (this.cwd + "/report-" + Date.now() + ".md"));
                 fs.writeFileSync(pp, lines.join("\n"));
                 return "Report scritto: " + pp + " (" + findings.length + " findings)";
+            }
+            // ---- 8K ULTRA HD: l'apparecchio TV di casa -------------------------
+            // Le operazioni che TOCCANO l'apparecchio passano da _needApproval,
+            // quindi obbediscono al permesso dello strumento in toolPolicy: se
+            // l'utente mette "ultrahd8k" in auto, filano senza chiedere.
+            if (name === "ultrahd8k") {
+                const op = String(args.op || "").toLowerCase();
+                if (!this._box8k) {
+                    const { UltraHD8K } = require("./ultrahd8k");
+                    this._box8k = new UltraHD8K();
+                }
+                const b = this._box8k;
+                // Chiede conferma UNA volta per le operazioni che modificano il box.
+                const conferma = async (titolo, dettaglio) => {
+                    const ok = await this._needApproval("execute", titolo + " (8K Ultra HD)", String(dettaglio || ""));
+                    return ok ? null : "RIFIUTATO dall'utente: operazione non eseguita sull'apparecchio.";
+                };
+                try {
+                    switch (op) {
+                        // — sola lettura: nessuna conferma —
+                        case "stato": return await b.stato();
+                        case "schermo": return await b.schermo();
+                        case "addon_lista": return await b.addonLista({});
+                        case "addon_dettagli": return await b.addonDettagli(String(args.addon || ""));
+                        case "addon_cerca": return await b.addonCerca(String(args.query || args.addon || ""));
+                        case "impostazione_cerca": return await b.impostazioneCerca(String(args.query || args.id || ""));
+                        case "impostazione_leggi": return await b.impostazioneLeggi(String(args.id || ""));
+                        case "apk_lista": return await b.apkLista(args.query || "");
+                        case "log": return await b.log(args.righe || 120, args.query || "");
+
+                        // — comandano l'apparecchio: passano dal permesso —
+                        case "tasto": {
+                            const no = await conferma("Premere tasti sul telecomando", args.tasti); if (no) return no;
+                            return await b.tasto(String(args.tasti || ""), args.ripeti || 1);
+                        }
+                        case "testo": {
+                            const no = await conferma("Digitare del testo", args.testo); if (no) return no;
+                            return await b.testo(String(args.testo || ""));
+                        }
+                        case "kodi_avvia": { const no = await conferma("Avviare Kodi", ""); if (no) return no; return await b.kodiAvvia(); }
+                        case "kodi_ferma": { const no = await conferma("Fermare Kodi", ""); if (no) return no; return await b.kodiFerma(); }
+                        case "kodi_riavvia": { const no = await conferma("Riavviare Kodi", ""); if (no) return no; return await b.kodiRiavvia(); }
+                        case "api_accendi": {
+                            const no = await conferma("Accendere l'API JSON-RPC di Kodi", "modifica guisettings.xml e riavvia Kodi"); if (no) return no;
+                            return await b.apiAccendi({});
+                        }
+                        case "rpc": {
+                            const no = await conferma("Chiamata JSON-RPC a Kodi", String(args.metodo || "") + " " + JSON.stringify(args.params || {}).slice(0, 300)); if (no) return no;
+                            const r = await b.rpc(String(args.metodo || ""), args.params || {});
+                            return JSON.stringify(r, null, 2);
+                        }
+                        case "notifica": {
+                            const no = await conferma("Mostrare una notifica sulla TV", String(args.titolo || "") + ": " + String(args.messaggio || "")); if (no) return no;
+                            return await b.notifica(args.titolo, args.messaggio);
+                        }
+                        case "riproduci": {
+                            const no = await conferma("Avviare la riproduzione", args.percorso); if (no) return no;
+                            return await b.riproduci(String(args.percorso || ""));
+                        }
+                        case "impostazione_scrivi": {
+                            const no = await conferma("Cambiare un'impostazione di Kodi", String(args.id || "") + " = " + JSON.stringify(args.valore)); if (no) return no;
+                            return await b.impostazioneScrivi(String(args.id || ""), args.valore);
+                        }
+                        case "addon_installa": {
+                            const no = await conferma("Installare un add-on su Kodi", String(args.addon || "")); if (no) return no;
+                            return await b.addonInstalla(String(args.addon || ""));
+                        }
+                        case "addon_rimuovi": {
+                            const no = await conferma("RIMUOVERE un add-on da Kodi", String(args.addon || "")); if (no) return no;
+                            return await b.addonRimuovi(String(args.addon || ""));
+                        }
+                        case "addon_abilita": {
+                            const acceso = args.acceso === undefined ? true : !!args.acceso;
+                            const no = await conferma((acceso ? "Abilitare" : "Disabilitare") + " un add-on", String(args.addon || "")); if (no) return no;
+                            return await b.addonAbilita(String(args.addon || ""), acceso);
+                        }
+                        case "addon_esegui": {
+                            const no = await conferma("Lanciare un add-on", String(args.addon || "")); if (no) return no;
+                            return await b.addonEsegui(String(args.addon || ""), args.params);
+                        }
+                        case "apk_installa": {
+                            const no = await conferma("INSTALLARE un'app sull'apparecchio", String(args.origine || "")); if (no) return no;
+                            return await b.apkInstalla(String(args.origine || ""));
+                        }
+                        case "apk_disinstalla": {
+                            const no = await conferma("DISINSTALLARE un'app dall'apparecchio", String(args.pacchetto || "")); if (no) return no;
+                            return await b.apkDisinstalla(String(args.pacchetto || ""));
+                        }
+                        case "apri": {
+                            const no = await conferma("Aprire un'app sulla TV", String(args.pacchetto || "")); if (no) return no;
+                            return await b.apri(String(args.pacchetto || ""));
+                        }
+                        case "comando": {
+                            const no = await conferma("Eseguire un comando di shell sull'apparecchio" + (args.root ? " DA ROOT" : ""), String(args.comando || "")); if (no) return no;
+                            return await b.sh(String(args.comando || ""), { root: !!args.root });
+                        }
+                        case "configura": {
+                            const no = await conferma("Cambiare la configurazione dell'apparecchio", JSON.stringify(args.valori || {})); if (no) return no;
+                            return await b.configura(args.valori || {});
+                        }
+                        default:
+                            return "ERRORE: op sconosciuta '" + args.op + "'. Valide: "
+                                + ULTRAHD_TOOL.function.parameters.properties.op.enum.join(", ");
+                    }
+                } catch (e) {
+                    // Gli errori dell'API sono già scritti in modo che il modello
+                    // capisca cosa fare dopo (es. "accendila con op='api_accendi'").
+                    return "ERRORE 8K Ultra HD: " + (e && e.message ? e.message : String(e));
+                }
             }
             // ---- ZW3D: sviluppo plugin ancorato all'API reale ------------------
             if (name === "zw3d") {
