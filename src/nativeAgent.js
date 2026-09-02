@@ -863,10 +863,12 @@ const ULTRAHD_TOOL = {
         name: "ultrahd8k",
         description: "APPARECCHIO TV DI CASA «8K Ultra HD» — controllo completo. È un Transpeed 8K618-T: Android 12 ROOTATO, ABI armeabi-v7a a 32 bit (gli APK arm64 NON si installano), Kodi 21.2, collegato via ADB di rete a 192.168.1.114:5555, attaccato a una TV Hisense. Indirizzo e cartelle sono già memorizzati: NON chiederli all'utente.\n"
             + "DUE VIE: ADB (muscolo: APK, file, tasti, screenshot — funziona sempre) e JSON-RPC di Kodi (precisione: impostazioni per id, add-on, riproduzione). Il JSON-RPC di fabbrica è SPENTO: se un'operazione risponde API_MUTA o API_IRRAGGIUNGIBILE, esegui PRIMA op='api_accendi' (fa tutto da solo) e poi riprova.\n"
+            + "⚠️ IL BOX VA IN STANDBY DA SOLO, e allora adb risponde lo stesso e il processo di Kodi si vede ancora: sembra tutto acceso ma NON lo è, e ogni operazione sugli add-on fallisce. Se il box è in sospensione la cura è op='sveglia' — NON op='api_accendi'. (op='sveglia' lo fa già da solo prima di rinunciare: tiene sveglio il box col wakelock del kernel SENZA accendere la TV.)\n"
+            + "🔇 REGOLA DELL'UTENTE: un agente NON deve MAI accendere lo schermo della TV di sua iniziativa — si lavora a TV spenta, ed è possibile (verificato: col wakelock l'API risponde con schermo spento). Solo il telecomando fisico accende la TV. op='sveglia' è silenzioso; op='sveglia' con schermo=true ACCENDE DAVVERO la TV e va usato SOLO se l'utente lo chiede esplicitamente, o per fargli vedere qualcosa sullo schermo.\n"
             + "FLUSSO PER «voglio l'add-on X»: addon_cerca(query) per trovare l'id giusto → addon_installa(addon=id) che risolve le dipendenze, copia, riavvia Kodi e VERIFICA che sia abilitato → impostazione_cerca(query) per trovare gli id di configurazione → impostazione_scrivi per settarlo → schermo per guardare il risultato sulla TV.\n"
             + "Se qualcosa non parte: op='log' (kodi.log) dice sempre il perché.\n"
             + "OPERAZIONI (op):\n"
-            + "  STATO — stato() panoramica completa · configura(valori) cambia indirizzo/percorsi\n"
+            + "  STATO — stato() panoramica completa (dice anche se il box DORME e se la TV è accesa) · sveglia([schermo]) tiene sveglio il box col wakelock SENZA accendere la TV; schermo=true accende DAVVERO la TV (solo se lo chiede l'utente) · lascia_dormire() rilascia il wakelock · configura(valori) cambia indirizzo/percorsi\n"
             + "  OCCHI E MANI — schermo() screenshot della TV, poi guardalo con read_image · tasto(tasti[,ripeti]) es. 'giu giu ok', nomi: su giu sinistra destra ok indietro home menu info play stop volume_su volume_giu muto · testo(testo) digita in un campo\n"
             + "  KODI — kodi_avvia() · kodi_ferma() · kodi_riavvia() · api_accendi() accende il JSON-RPC · rpc(metodo[,params]) qualunque metodo JSON-RPC di Kodi · notifica(titolo,messaggio) · riproduci(percorso)\n"
             + "  IMPOSTAZIONI KODI — impostazione_cerca(query) TROVA l'id giusto e le scelte ammesse · impostazione_leggi(id) · impostazione_scrivi(id,valore)\n"
@@ -878,7 +880,7 @@ const ULTRAHD_TOOL = {
             properties: {
                 op: {
                     type: "string",
-                    enum: ["stato", "configura", "schermo", "tasto", "testo",
+                    enum: ["stato", "sveglia", "lascia_dormire", "configura", "schermo", "tasto", "testo",
                         "kodi_avvia", "kodi_ferma", "kodi_riavvia", "api_accendi", "rpc", "notifica", "riproduci",
                         "impostazione_cerca", "impostazione_leggi", "impostazione_scrivi",
                         "addon_cerca", "addon_lista", "addon_dettagli", "addon_installa", "addon_rimuovi", "addon_abilita", "addon_esegui",
@@ -892,6 +894,7 @@ const ULTRAHD_TOOL = {
                 valore: { description: "nuovo valore dell'impostazione (impostazione_scrivi)" },
                 tasti: { type: "string", description: "tasti separati da spazio, es. 'giu giu ok' (tasto)" },
                 ripeti: { type: "number", description: "quante volte ripetere la sequenza (tasto)" },
+                schermo: { type: "boolean", description: "SOLO per op='sveglia': true ACCENDE davvero lo schermo e la TV. Lascialo assente/false per lavorare in silenzio a TV spenta — è la regola dell'utente." },
                 testo: { type: "string", description: "testo da digitare (testo)" },
                 metodo: { type: "string", description: "metodo JSON-RPC, es. 'Player.GetActivePlayers' (rpc)" },
                 params: { type: "object", description: "parametri del metodo JSON-RPC (rpc)" },
@@ -1708,6 +1711,23 @@ class NativeAgent {
                             const no = await conferma("Accendere l'API JSON-RPC di Kodi", "modifica guisettings.xml e riavvia Kodi"); if (no) return no;
                             return await b.apiAccendi({});
                         }
+                        // ★ 2026-09-02 — Il box va in standby da solo e adbd risponde lo
+                        // stesso: sembra tutto acceso ma Kodi non gira davvero. Vedi
+                        // ultrahd8k.sveglia(). Nessuna conferma: accendere una TV non
+                        // rompe niente ed è il primo passo di mezza giornata di lavoro.
+                        case "sveglia": {
+                            // Silenzioso di default (wakelock, TV spenta): nessuna conferma.
+                            // Con schermo=true la TV si ACCENDE davvero: quello sì va confermato,
+                            // perché è l'unica cosa qui che l'utente vede in salotto.
+                            const vuoleSchermo = args.schermo === true;
+                            if (vuoleSchermo) {
+                                const no = await conferma("ACCENDERE lo schermo e la TV", "il box verrebbe svegliato per intero (CEC accende la TV)");
+                                if (no) return no;
+                            }
+                            const s = await b.sveglia({ schermo: vuoleSchermo });
+                            return s.out;
+                        }
+                        case "lascia_dormire": return await b.lasciaDormire();
                         case "rpc": {
                             const no = await conferma("Chiamata JSON-RPC a Kodi", String(args.metodo || "") + " " + JSON.stringify(args.params || {}).slice(0, 300)); if (no) return no;
                             const r = await b.rpc(String(args.metodo || ""), args.params || {});

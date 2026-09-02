@@ -40,6 +40,11 @@ const https = require("https");
 const zlib = require("zlib");
 const { spawn, spawnSync } = require("child_process");
 
+// ★ 2026-09-02 — Nome del wakelock del kernel con cui teniamo il box operativo
+// SENZA accendere la TV. Vedi sveglia(): tenendo questo lock, Kodi e il suo
+// webserver restano raggiungibili anche con schermo spento e box "Asleep".
+const WAKELOCK = "antigravity_8k";
+
 const CONFIG = path.join(__dirname, ".8k-ultra-hd.json");
 
 /** Valori di partenza: quelli censiti dal vivo. Il file di config li può cambiare. */
@@ -152,6 +157,103 @@ class UltraHD8K {
         return r.out;
     }
 
+    // ─────────────────────────────────────────────────── Sonno e risveglio ──
+
+    /**
+     * ★ 2026-09-02 — È SVEGLIO O DORME?
+     *
+     * Il guasto che ha bruciato una giornata intera: il box va in standby da solo
+     * (nel log di Kodi «Got device sleep intent»), ma adbd continua a rispondere e
+     * `pidof` continua a vedere il processo di Kodi. Risultato: `stato` diceva
+     * «Kodi in esecuzione» mentre in realtà dormiva, il webserver non era in
+     * ascolto, e OGNI operazione sugli add-on falliva con un messaggio che mandava
+     * l'agente a caccia della cosa sbagliata («API non accesa?») — all'infinito.
+     *
+     * Android la verità ce l'ha, e in una riga: dumpsys power → mWakefulness.
+     */
+    async sveglio() {
+        const r = await this.sh("dumpsys power | grep -m1 mWakefulness=");
+        const m = String(r).match(/mWakefulness=(\w+)/);
+        const stato = m ? m[1] : "?";
+        return { sveglio: /awake/i.test(stato), stato };
+    }
+
+    /** Lo schermo è acceso? (≠ dal box sveglio: col wakelock il box lavora a TV spenta) */
+    async schermoAcceso() {
+        const r = await this.sh("dumpsys display | grep -m1 mScreenState");
+        return /ON/i.test(String(r));
+    }
+
+    /**
+     * ★ 2026-09-02 — RISVEGLIO SILENZIOSO: il box lavora, la TV resta spenta.
+     *
+     * Scelta esplicita dell'utente: se a svegliare è un AGENTE, lo schermo della TV
+     * NON si deve accendere; se a svegliare è il telecomando fisico, sì. La seconda
+     * metà è gratis — non tocchiamo le impostazioni CEC (hdmi_control_enabled=1,
+     * auto_wakeup=1), quindi il telecomando continua ad accendere tutto come prima.
+     * La prima metà è questa funzione.
+     *
+     * VERIFICATO SUL BOX il 02/09: tenendo un wakelock del kernel
+     * (/sys/power/wake_lock), Kodi e il suo webserver restano perfettamente
+     * raggiungibili con mWakefulness=Asleep e mScreenState=OFF — l'API ha risposto
+     * JSONRPC v13.5.0 a TV spenta. Quindi per lavorare NON serve svegliare lo
+     * schermo: serve solo impedire la sospensione profonda. KEYCODE_WAKEUP, che
+     * accendeva la TV via CEC, si usa SOLO se lo chiede esplicitamente l'utente.
+     *
+     * `schermo:true` = "accendi davvero la TV" (comportamento di prima), da usare
+     * quando si vuole guardare qualcosa sullo schermo, non per lavorare.
+     */
+    async sveglia({ schermo = false, attendiMs = 8000 } = {}) {
+        const prima = await this.sveglio();
+        const eraAcceso = await this.schermoAcceso().catch(() => false);
+
+        // 1) Il wakelock: impedisce la sospensione profonda che blocca Kodi a metà
+        //    avvio. Non accende niente e non si vede sulla TV.
+        await this.sh("echo " + WAKELOCK + " > /sys/power/wake_lock", { root: true });
+
+        // 2) Se non è stato chiesto lo schermo, proviamo a lavorare così: nella
+        //    stragrande maggioranza dei casi l'API risponde e la TV resta spenta.
+        if (!schermo) {
+            await new Promise(r => setTimeout(r, 1500));
+            try {
+                await this._rpcGrezza("JSONRPC.Version", {}, { timeout: 6000 });
+                return {
+                    ok: true, schermoAcceso: eraAcceso,
+                    out: "Box tenuto sveglio col wakelock (era " + prima.stato + "). "
+                        + "L'API risponde e la TV è rimasta spenta: nessuno se ne accorge."
+                };
+            } catch (_) { /* Kodi è davvero bloccato: serve la finestra */ }
+
+            return {
+                ok: false, schermoAcceso: eraAcceso, serveSchermo: true,
+                out: "Ho tenuto sveglio il box senza accendere la TV, ma Kodi non risponde comunque: "
+                    + "è rimasto bloccato a metà avvio e per ripartire gli serve una finestra vera.\n"
+                    + "Per procedere serve ACCENDERE LO SCHERMO: richiama op='sveglia' con schermo=true "
+                    + "(la TV si accenderà). Non lo faccio da solo perché hai chiesto che un agente non "
+                    + "accenda mai la TV di sua iniziativa."
+            };
+        }
+
+        // 3) Risveglio COMPLETO, esplicitamente richiesto: accende schermo e TV.
+        await this.sh("input keyevent KEYCODE_WAKEUP");
+        await new Promise(r => setTimeout(r, 1500));
+        await this.sh("am start -n " + this.cfg.pacchettoKodi + "/.Splash");
+        await new Promise(r => setTimeout(r, attendiMs));
+        const dopo = await this.sveglio();
+        return {
+            ok: dopo.sveglio, schermoAcceso: true,
+            out: dopo.sveglio
+                ? "Box svegliato per intero (era " + prima.stato + "): schermo e TV ACCESI, Kodi in primo piano."
+                : "Ho premuto WAKEUP ma il box resta " + dopo.stato + ": potrebbe essere spento dalla presa."
+        };
+    }
+
+    /** Rilascia il wakelock: il box può tornare a dormire davvero (risparmio). */
+    async lasciaDormire() {
+        await this.sh("echo " + WAKELOCK + " > /sys/power/wake_unlock", { root: true });
+        return "Wakelock rilasciato: il box può tornare in sospensione profonda.";
+    }
+
     // ───────────────────────────────────────────────────────────── Stato ──
 
     async stato() {
@@ -164,8 +266,12 @@ class UltraHD8K {
         const ver = await this.sh("dumpsys package " + this.cfg.pacchettoKodi + " | grep versionName | head -1");
         const root = await this.sh("id", { root: true });
         const haRoot = /uid=0/.test(root);
+        // ★ 2026-09-02 — Il sonno PRIMA di tutto: se il box dorme, «Kodi in
+        // esecuzione» è una mezza verità che manda l'agente a caccia di fantasmi.
+        const sonno = await this.sveglio().catch(() => ({ sveglio: true, stato: "?" }));
+        const schermoOn = await this.schermoAcceso().catch(() => false);
         let api = false;
-        try { await this.rpc("JSONRPC.Version", {}, { timeout: 4000 }); api = true; } catch (_) {}
+        try { await this.rpc("JSONRPC.Version", {}, { timeout: 4000, senzaRisveglio: true }); api = true; } catch (_) {}
         const libero = await this.sh("df -h /data | tail -1");
 
         return [
@@ -174,13 +280,28 @@ class UltraHD8K {
             "  modello       : " + (modello || "?") + "   scheda: " + (scheda || "?"),
             "  Android       : " + (android || "?") + "   ABI: " + (abi || "?"),
             "  root (su)     : " + (haRoot ? "SÌ (uid=0) — accesso completo" : "NO — la cartella di Kodi resterà illeggibile"),
+            // ★ 2026-09-02 — Tre cose DISTINTE che prima erano confuse in una sola:
+            // se il box lavora, se lo schermo è acceso, se l'API risponde. Col
+            // wakelock lo stato normale e DESIDERATO è «box Asleep + TV spenta +
+            // API viva»: sarebbe un errore leggerlo come un guasto.
+            "  alimentazione : " + (sonno.sveglio ? "sveglio" : "in sospensione (" + sonno.stato + ")")
+                + (api ? " — ma LAVORA lo stesso (wakelock): va benissimo così" : ""),
+            "  schermo / TV  : " + (schermoOn ? "ACCESO" : "spento")
+                + (schermoOn ? "" : " — per lavorare non serve accenderlo"),
             "  Kodi          : " + (String(ver).replace(/.*versionName=/, "").trim() || "?")
-                + "  —  " + (pid.trim() === "-" ? "SPENTO" : "in esecuzione (pid " + pid.trim() + ")"),
-            "  API JSON-RPC  : " + (api ? "ATTIVA su porta " + this.cfg.apiPorta : "SPENTA — accendila con op='api_accendi'"),
+                + "  —  " + (pid.trim() === "-" ? "SPENTO"
+                    : "processo presente (pid " + pid.trim() + ")"
+                      + (api ? " e risponde" : (sonno.sveglio ? "" : " ma NON risponde: bloccato a metà avvio"))),
+            "  API JSON-RPC  : " + (api ? "ATTIVA su porta " + this.cfg.apiPorta
+                : (sonno.sveglio ? "SPENTA — accendila con op='api_accendi'"
+                                 : "muta e il box è in sospensione — PRIMA op='sveglia' (non accende la TV), POI riprova")),
             "  spazio /data  : " + String(libero).trim(),
             "",
+            (api || sonno.sveglio) ? "" : "⚠️ Il box è in sospensione profonda e Kodi non risponde: è il guasto che il\n"
+                + "02/09 ha bruciato una giornata. NON è «API da accendere»: è il box che dorme.\n"
+                + "Usa op='sveglia' — tiene sveglio il box col wakelock SENZA accendere la TV.",
             "Promemoria: ABI a 32 bit — gli APK arm64 NON si installano su questo box."
-        ].join("\n");
+        ].filter(r => r !== "").join("\n");
     }
 
     async configura(campi) {
@@ -369,7 +490,36 @@ class UltraHD8K {
 
     // ───────────────────────────────────────────────────── Kodi: JSON-RPC ──
 
-    rpc(metodo, params = {}, { timeout = 20000 } = {}) {
+    /**
+     * ★ 2026-09-02 — RISVEGLIO AUTOMATICO, non un consiglio nel prompt.
+     *
+     * Prima, quando il box dormiva, l'RPC rispondeva «Kodi è acceso? L'API è stata
+     * accesa?» — due domande sbagliate, perché Kodi ERA acceso e l'API ERA accesa:
+     * dormiva la macchina. L'agente ci girava intorno per ore. Il prompt dell'8K
+     * chiedeva già di riprovare dopo op='api_accendi', ma è una preghiera: il
+     * modello la salta, e comunque api_accendi non è la cura per il sonno.
+     *
+     * Qui la cura è STRUTTURALE: se la connessione viene rifiutata, guardiamo se il
+     * box dorme; se dorme lo svegliamo e RIPETIAMO la chiamata una volta sola. Non
+     * serve che il modello se ne ricordi né che sia d'accordo.
+     */
+    async rpc(metodo, params = {}, opzioni = {}) {
+        try {
+            return await this._rpcGrezza(metodo, params, opzioni);
+        } catch (e) {
+            const rifiutata = /IRRAGGIUNGIBILE|MUTA/.test(e.message);
+            if (!rifiutata || opzioni.senzaRisveglio) throw e;
+            let dorme = false;
+            try { dorme = !(await this.sveglio()).sveglio; } catch (_) { /* se non lo so, non insisto */ }
+            if (!dorme) throw e;
+            const s = await this.sveglia();
+            if (!s.ok) throw new Error("BOX_IN_STANDBY: " + s.out);
+            // Secondo e ultimo tentativo, senza ricorsione.
+            return await this._rpcGrezza(metodo, params, Object.assign({}, opzioni, { senzaRisveglio: true }));
+        }
+    }
+
+    _rpcGrezza(metodo, params = {}, { timeout = 20000 } = {}) {
         return new Promise((risolvi, rifiuta) => {
             const host = this.cfg.indirizzo.split(":")[0];
             const corpo = JSON.stringify({ jsonrpc: "2.0", id: 1, method: metodo, params: params || {} });
