@@ -118,6 +118,19 @@ class ClaudeEngine {
     }
 
     /** Legge la testa di un .jsonl e ne ricava cwd, primo messaggio utente, data. */
+    /**
+     * ★ 2026-09-02 — È solo un saluto / un intercalare?
+     * Serve a non intitolare una sessione «ciao»: dal telefono, con due o tre
+     * chat chiamate così, non si capisce quale riprendere. Deliberatamente
+     * stretto: una frase corta che contiene ANCHE altro non è un saluto.
+     */
+    static _eSaluto(t) {
+        const s = String(t || "").trim().toLowerCase().replace(/[!.,;:?]+$/g, "");
+        if (!s) return true;
+        if (s.length > 24) return false;
+        return /^(ciao|ehi|hey|hola|salve|buongiorno|buonasera|buonanotte|hi|hello|ok|okay|va bene|grazie|thanks|si|sì|no|prova|test|test\d*)$/.test(s);
+    }
+
     _peekSession(full) {
         let testa = "";
         try {
@@ -127,7 +140,7 @@ class ClaudeEngine {
             fs.closeSync(fd);
             testa = buf.slice(0, n).toString("utf8");
         } catch (_) { return {}; }
-        let cwd = null, title = null, ts = null;
+        let cwd = null, title = null, ts = null, ripiego = null;
         for (const riga of testa.split("\n")) {
             if (!riga.trim()) continue;
             let j; try { j = JSON.parse(riga); } catch (_) { continue; }   // ultima riga tronca: ignorala
@@ -138,11 +151,20 @@ class ClaudeEngine {
                 let t = typeof c === "string" ? c : (Array.isArray(c) ? ((c.find(x => x && x.type === "text") || {}).text || "") : "");
                 t = String(t).replace(/\s+/g, " ").trim();
                 // Salta i messaggi-strumento (tool_result) e le note di sistema.
-                if (t && !/^<[a-z-]+>/i.test(t) && !/^Caveat:|^\[Request interrupted/.test(t)) title = t.slice(0, 80);
+                if (t && !/^<[a-z-]+>/i.test(t) && !/^Caveat:|^\[Request interrupted/.test(t)) {
+                    // ★ 2026-09-02 — SALTA I SALUTI. Il titolo prendeva il PRIMO
+                    // messaggio: due sessioni diverse finivano entrambe chiamate
+                    // «ciao» e dal telefono non si capiva più quale riprendere
+                    // (guasto vero: l'utente non trovava la chat in corso).
+                    // Ora si tiene il primo messaggio che dice davvero qualcosa;
+                    // il saluto resta come ripiego se non c'è altro nella testa.
+                    if (ClaudeEngine._eSaluto(t)) { if (!ripiego) ripiego = t.slice(0, 80); }
+                    else title = t.slice(0, 80);
+                }
             }
             if (cwd && title && ts) break;
         }
-        return { cwd, title, ts };
+        return { cwd, title: title || ripiego, ts };
     }
 
     /**
