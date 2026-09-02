@@ -16,6 +16,8 @@ const path = require("path");
 
 const DIR = path.join(__dirname, "knowledge", "specialisti");
 const FILES = {
+  kodi:     path.join(DIR, "kodi.md"),
+  android:  path.join(DIR, "android.md"),
   ghidra:   path.join(DIR, "ghidra.md"),
   zw3d:     path.join(DIR, "zw3d.md"),
   immagini: path.join(DIR, "immagini.md"),
@@ -33,6 +35,17 @@ const AGENTS = {
 
 // Parole-chiave per riconoscere il mestiere (semplici, robuste).
 const SIGNALS = {
+  // ★ 2026-09-02 — L'apparecchio TV di casa. Va PRIMA di "web", altrimenti
+  // "cerca/scarica/installa un add-on" finisce al sotto-agente web, che non sa
+  // nulla del box (indirizzo, root, ABI a 32 bit, riavvio di Kodi).
+  kodi: /(kodi|xbmc|org\.xbmc|add-?on|8k618|8k ?ultra|transpeed|apparecchio|telecomando|android ?tv|\.apk\b|\bapk\b|iptv|sottotitol|hisense|\bbox\b)/i,
+  // ★ 2026-09-02 — Il SISTEMA del box (root, permessi, pacchetti, SELinux),
+  // distinto da Kodi. Va DOPO kodi: una richiesta su un add-on deve andare a
+  // quello, non qui. Ci arrivano le richieste di sistema pure.
+  // ATTENZIONE: NIENTE \bsu\b — in italiano "su" è una preposizione e
+  // intercettava frasi come "cerca su google" (guasto trovato in collaudo).
+  // Le forme buone sono quelle tecniche: "su -c", "xbin/su", "permessi di root".
+  android: /(\broot\b|su -c|xbin\/su|magisk|selinux|scoped storage|getprop|setprop|settings put|settings get|pm list|pm grant|pm disable|am force-stop|am start|logcat|build\.prop|busybox|bootloader|recovery|twrp|\/system\b|\/sdcard\b|\badb\b|allwinner|armeabi|arm64|android 12|firmware)/i,
   ghidra: /(reverse|decompil|ghidra|disassembl|\.dll|\.exe|\.sys|binary|binario|pe header|import table|unpack|packer|offusc|hook|frida|radare|diec|license check|controllo licenz)/i,
   zw3d:   /(zw3d|cad|solidworks|taglio|lamiera|fresat|alesat|file z3|api zw|modello 3d|disegno tecnico|quotatura|feature tree|entity)/i,
   immagini: /(immagin|genera un'immagine|crea un'immagine|logo|illustraz|disegna|foto|png|render|comfy|stable diffusion|sd1\.5)/i,
@@ -49,8 +62,10 @@ function _read(p) {
  */
 function pickSpecialist(text) {
   const t = String(text || "");
-  // Ordine di priorità: RE prima di tutto (spesso i .exe/.dll sono anche "web").
-  for (const key of ["ghidra", "zw3d", "immagini", "web"]) {
+  // Ordine di priorità: prima l'apparecchio TV (le sue richieste dicono quasi
+  // sempre "cerca/scarica/installa", che altrimenti se le prenderebbe "web"),
+  // poi RE (spesso i .exe/.dll sono anche "web").
+  for (const key of ["kodi", "android", "ghidra", "zw3d", "immagini", "web"]) {
     if (!SIGNALS[key].test(t)) continue;
     const block = _read(FILES[key]);
     if (!block) continue; // file mancante: salta al prossimo

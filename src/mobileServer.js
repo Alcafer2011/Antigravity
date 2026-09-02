@@ -640,6 +640,7 @@ class MobileServer {
         if (p === "/piattaforme/costi")    return this._piattaformeCosti(req, res);
         if (p === "/piattaforme/genera")   return this._piattaformeGenera(req, res);
         if (p === "/modelli/consiglia")    return this._modelliConsiglia(req, res);
+        if (p === "/modelli/uncensored")   return this._modelliUncensored(req, res);
         if (p === "/mirror")               return this._mirrorStato(req, res);
         if (p === "/mirror/crea")          return this._mirrorCrea(req, res);
 
@@ -819,6 +820,30 @@ class MobileServer {
             const gpu = b.gpu || url.searchParams.get("gpu") || "T4";
             const contesto = Number(b.contesto || url.searchParams.get("contesto") || 32768);
             return this._json(res, require("./modelAdvisor").consiglia({ gpu: isNaN(Number(gpu)) ? gpu : Number(gpu), contesto, uso: b.uso || url.searchParams.get("uso") || "coder" }));
+        } catch (e) { return this._json(res, { ok: false, error: e.message }, 500); }
+    }
+    /**
+     * ★ 2026-09-02 — «quale modello senza filtri conviene?», col conto e coi
+     * prezzi veri presi dal catalogo live. Diverso da /modelli/consiglia, che
+     * risponde all'altra domanda (quale GGUF ci sta nella VRAM di una GPU).
+     * ?uso=agente|chat  ?budget=10  ?formato=testo
+     */
+    async _modelliUncensored(req, res) {
+        try {
+            const url = new URL(req.url, "http://x");
+            const b = await this._body(req).catch(() => ({}));
+            const adv = require("./uncensoredAdvisor");
+            const r = await adv.consiglia({
+                chiave: this.env && this.env.OPENROUTER_API_KEY,
+                uso: b.uso || url.searchParams.get("uso") || "agente",
+                budget: Number(b.budget || url.searchParams.get("budget") || 10)
+            });
+            const formato = b.formato || url.searchParams.get("formato");
+            if (formato === "testo") {
+                res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
+                return res.end(adv.testo(r));
+            }
+            return this._json(res, r);
         } catch (e) { return this._json(res, { ok: false, error: e.message }, 500); }
     }
     async _mirrorStato(req, res) {

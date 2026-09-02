@@ -167,7 +167,7 @@ class LocalOrchestrator {
     async _runAgentResilient(guided, ctx, tag) {
         const { webview, workspaceRoot, history = [] } = ctx;
         const cwd = workspaceRoot || process.cwd();
-        const icon = tag === "ghidra" ? "🐉" : (tag === "zw3d" ? "🔧" : (tag === "manutenzione" ? "🛠️" : "⚙️"));
+        const icon = tag === "ghidra" ? "🐉" : (tag === "zw3d" ? "🔧" : (tag === "manutenzione" ? "🛠️" : (tag === "8k" ? "📺" : "⚙️")));
         this._agentBuf = "";
         let opened = false;
         // 2026-08-31 — Il modello che sta DAVVERO rispondendo. Serve perché qui
@@ -218,10 +218,14 @@ class LocalOrchestrator {
         // estrazione di dati, non contenuto delicato. L'uncensored, se scelto, resta
         // il PRIMO della catena — deve solo leggere quel materiale e trarne le
         // conclusioni — ma ora dietro di lui c'è tutta la rete di sicurezza.
+        // ★ 2026-09-02 — aggiunte le famiglie che mancavano (hermes, magnum, euryale,
+        // venice, wizardlm): erano riconosciute come uncensored da cloudEngine ma non
+        // qui, quindi l'avviso non compariva proprio coi modelli che l'utente sceglie
+        // davvero. Serve SOLO a scrivere l'avviso: non cambia la catena dei motori.
         const wantUncensored = wantModel &&
-            /abliter|uncensor|dolphin|freedom|liberated|deali|no-refus|refusal-?free/i.test(wantModel);
-        if (wantUncensored && (ctx.provider === "ghidra" || ctx.provider === "zw3d" || ctx.provider === "hermes" || ctx.provider == null)) {
-            this._status(webview, "🐉 Modello senza filtri in testa (Ghidra/ZW/Hermes); i modelli veloci restano come riserva.");
+            /abliter|uncensor|dolphin|freedom|liberated|deali|no-refus|refusal-?free|hermes|magnum|euryale|venice|wizard-?lm|mythomax/i.test(wantModel);
+        if (wantUncensored && (ctx.provider === "ghidra" || ctx.provider === "zw3d" || ctx.provider === "ultrahd8k" || ctx.provider === "hermes" || ctx.provider == null)) {
+            this._status(webview, "🐉 Modello senza filtri in testa (Ghidra/ZW/8K/Hermes); i modelli veloci restano come riserva.");
         }
         const chain = [];
         if (wantModel) {
@@ -491,6 +495,14 @@ class LocalOrchestrator {
         // funzioni e non manda ZW3D in crash. Compila e testa in remoto da solo.
         if (ctx.provider === "zw3d") {
             return this._runZw3d(prompt, ctx);
+        }
+
+        // ★ 2026-09-02 — Provider 8K ULTRA HD: l'apparecchio TV di casa (box Kodi
+        // Transpeed 8K618-T). L'agente porta con sé la conoscenza dell'apparecchio
+        // e del sistema Android rootato, e comanda tutto con lo strumento
+        // 'ultrahd8k'. Vedi src/ultrahd8k.js e knowledge/specialisti/kodi.md.
+        if (ctx.provider === "ultrahd8k") {
+            return this._run8k(prompt, ctx);
         }
 
         // Provider MANUTENZIONE: l'agente lavora su ANTIGRAVITY STESSA, con la
@@ -840,6 +852,48 @@ Sei un codificatore senior, un analista, un reverse engineer: il tuo unico scopo
      * esempi, COMPILA con MSBuild e TESTA in remoto su ZW3D (porta 8000) prima di
      * consegnare. Regole ferree anti-crash iniettate nel prompt.
      */
+    /**
+     * ★ 2026-09-02 — Agente «8K Ultra HD»: comanda l'apparecchio TV di casa.
+     *
+     * Porta in testa i DUE sotto-agenti scritti per il box (kodi.md = add-on,
+     * impostazioni, flusso di installazione; android.md = root, permessi,
+     * pacchetti, le trappole dello scoped storage). Sono gli stessi blocchi che
+     * `specialists.js` inietterebbe da solo riconoscendo le parole: qui li
+     * mettiamo SEMPRE, perché l'utente ha scelto il mestiere col bottone e non
+     * deve sperare che la frase contenga la parola giusta.
+     *
+     * Passa da _runAgentResilient come ZW3D e Ghidra: così il lavoro sul box
+     * funziona con QUALSIASI motore — cloud gratuito con tool nativi, locale, o
+     * un modello senza filtri via corazza ReAct.
+     */
+    async _run8k(prompt, ctx) {
+        let conoscenza = "";
+        try {
+            const s = require("./specialists");
+            // Prendo i due blocchi per chiave, non per parola riconosciuta.
+            const fs2 = require("fs");
+            for (const k of ["kodi", "android"]) {
+                try { conoscenza += fs2.readFileSync(s.FILES[k], "utf8").trim() + "\n\n"; } catch (_) {}
+            }
+        } catch (_) { /* senza i file l'agente lavora lo stesso, solo meno informato */ }
+
+        const guided = conoscenza +
+            "L'utente ha scelto col bottone il mestiere «8K ULTRA HD»: sta lavorando sul suo apparecchio TV di casa.\n" +
+            "Comanda TUTTO con lo strumento 'ultrahd8k' (una sola porta, si sceglie l'operazione con 'op'). " +
+            "NON usare run_command con adb a mano: 'ultrahd8k' conosce già indirizzo, root, percorsi e riavvii.\n" +
+            "PRIMA MOSSA quando non sai in che stato è: op='stato'. Se una qualsiasi operazione risponde " +
+            "API_MUTA o API_IRRAGGIUNGIBILE, esegui op='api_accendi' e RIPETI l'operazione di prima: non riferire " +
+            "il fallimento senza aver provato questo. Se risponde BOX_IRRAGGIUNGIBILE, l'apparecchio è spento o in " +
+            "standby: dillo all'utente invece di girare a vuoto.\n" +
+            "Puoi usare INTERNET: 'web_search' e 'fetch_url' per trovare l'id vero di un add-on, capire come si " +
+            "configura, o trovare l'APK giusto (variante armeabi-v7a, mai arm64). Poi installa con 'ultrahd8k'.\n" +
+            "VERIFICA sempre prima di dire che hai finito: op='addon_dettagli' per un add-on, oppure op='schermo' " +
+            "e poi 'read_image' per guardare davvero cosa c'è sulla TV. Un comando senza errore NON è una prova.\n\n" +
+            "Richiesta dell'utente:\n\n" + prompt;
+
+        return this._runAgentResilient(guided, ctx, "8k");
+    }
+
     async _runZw3d(prompt, ctx) {
         // ★ BASE DI CONOSCENZA ZW3D in testa: tutte le regole anti-crash, i pattern
         //   che funzionano, la ricetta weldment, l'inventario profili imparati nelle

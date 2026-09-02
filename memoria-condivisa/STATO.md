@@ -7,6 +7,75 @@
 
 ---
 
+## 0-sexies. La sezione «8K Ultra HD»: comandare il box Kodi di casa (2026-09-02) — v1.0.46
+
+**Bisogno.** Comandare da Antigravity l'apparecchio TV di casa: cercare, installare,
+verificare e configurare add-on e app, con QUALSIASI modello — gratuito o senza filtri.
+
+**L'apparecchio, censito dal vivo.** Transpeed **8K618-T** (Allwinner, scheda
+`apollo-p17`), Android 12, Kodi 21.2 "Omega" (`org.xbmc.kodi`), ADB di rete su
+**192.168.1.114:5555**, attaccato a una TV Hisense via HDMI-CEC. Due fatti che
+decidono tutto il resto:
+- **E' ROOTATO** (`/system/xbin/su` → uid=0). Serve davvero: da Android 11
+  `/sdcard/Android/data/` e' chiusa allo shell adb, quindi senza `su` la cartella di
+  Kodi non si legge ne' si scrive. `adb root` NON funziona ed e' inutile insistere
+  (build di produzione).
+- **ABI `armeabi-v7a`, 32 bit.** Gli APK arm64 danno `INSTALL_FAILED_NO_MATCHING_ABIS`.
+
+**Cosa e' stato costruito.**
+- `src/ultrahd8k.js` — il modulo, con dentro la conoscenza dell'apparecchio (indirizzo,
+  root, percorsi, ramo repo), cosi' non va piu' reindovinata. Due vie: **ADB** per il
+  muscolo (APK, file, tasti, screenshot) e **JSON-RPC di Kodi** per la precisione
+  (impostazioni per id, add-on, riproduzione). Config in `src/.8k-ultra-hd.json`.
+- Esposto come **un solo tool `ultrahd8k` con `op`** (stessa scelta di `ghidra`: i
+  modelli piccoli e uncensored affogano nelle liste lunghe). Agganciato in
+  `nativeAgent.js` a MODEL_TOOLS, ad ALL_TOOL_NAMES e al dispatch di `_exec`.
+- `src/knowledge/specialisti/kodi.md` e `android.md` — due sotto-agenti nuovi,
+  registrati in `specialists.js` nell'ordine `kodi → android → ghidra → zw3d →
+  immagini → web`. Danno la conoscenza a QUALUNQUE modello lavori sul box.
+- `src/uncensoredAdvisor.js` + rotta `/modelli/uncensored` — «quale modello senza
+  filtri conviene?», coi prezzi VIVI di OpenRouter e il costo di un **giro d'agente**
+  reale (non il $/Mtok astratto, che sbaglia di un ordine di grandezza).
+- **La voce «📺 8K Ultra HD» nella tendina** accanto a Ghidra/ZW3D/Manutenzione, con
+  dietro l'agente `_run8k` in `localOrchestrator.js`: carica SEMPRE i due specialisti
+  (scelti col bottone, non sperando che la frase contenga la parola giusta) e passa da
+  `_runAgentResilient`, quindi il lavoro sul box funziona con qualsiasi motore.
+  **Senza questa voce la sezione, per chi usa l'app, non esiste**: era stata
+  dimenticata al primo giro ed e' ora presidiata da due test.
+
+**Il JSON-RPC di Kodi di fabbrica e' SPENTO**: si accende con `op='api_accendi'`, che
+patcha `guisettings.xml` da root **a Kodi fermo** (da acceso Kodi lo riscrive sopra
+quando esce) e riavvia. E **Kodi rilegge `addons/` solo all'avvio**: un add-on copiato
+senza riavvio non esiste — `op='addon_installa'` il riavvio lo fa gia' da se'.
+
+**Modelli.** Verificato dal vivo: OpenRouter ha **18 modelli gratuiti con tool-calling
+nativo** (nemotron-3-ultra-550b, minimax-m3, inkling, glm-5.2…) — il router li preferisce
+gia'. Fra gli uncensored **nessuno e' gratuito** e solo `l3.1-euryale` ha i tool nativi:
+gli altri passano dalla **corazza ReAct** (`runReact`), che ora descrive anche
+`ultrahd8k`. Consiglio del consigliere: **`nousresearch/hermes-4-70b`** (~$0.035 a
+lavoro, ~289 lavori con 10 €). **Venice diretto e' inutilizzabile**: 402 Payment
+Required, credito zero — usare `dolphin-mistral-24b-venice-edition` via OpenRouter.
+
+**Due guasti veri trovati in collaudo, corretti e presidiati da test:**
+1. `\bsu\b` fra i segnali dello specialista Android intercettava la **preposizione
+   italiana**: "cerca *su* google" finiva all'esperto di root. Ora solo forme tecniche.
+2. La rotta `/modelli/uncensored` leggeva `this.env`, che in `mobileServer` **non
+   esiste**: la chiave arrivava `undefined`. Ora il consigliere se la legge dal `.env`.
+
+Verifiche: `npm test` **65/65** (15 test nuovi in `test/box-8k.test.js`); instradamento
+degli specialisti 9/9; consigliere provato senza passargli la chiave.
+
+**IN SOSPESO — il collaudo sul campo.** Il box si e' spento a meta' lavoro: connessione,
+root e cartelle sono verificate dal vivo, ma il giro completo (accendi API → cerca →
+installa → configura → guarda lo schermo) **non e' ancora stato fatto**. E' la prossima
+cosa da fare quando l'apparecchio e' acceso.
+
+**Permessi.** Lo strumento `ultrahd8k` e' rimasto su "chiedi": l'utente ha chiesto
+l'automatico, ma il classificatore di Claude Code ha bloccato la scrittura di
+`src/.permessi-strumenti.json`. Per toglierlo di mezzo basta mettere
+`{"strumenti":{"ultrahd8k":{"modo":"auto"}}}` in quel file.
+
+---
 ## 0-quinquies. Il tema «console» dentro l'app vera (2026-09-01) — v1.0.45
 
 Il restyling futuristico e' stato portato dentro `mobile-page.html` — quella che usi
