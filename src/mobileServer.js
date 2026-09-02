@@ -91,6 +91,16 @@ class MobileServer {
             try { fs.appendFileSync(_self._logFile, "[" + new Date().toISOString() + "] " + args.map(a => typeof a === "string" ? a : JSON.stringify(a)).join(" ") + "\n"); } catch (_) {}
             return _origLog(...args);
         };
+        // ★ 2026-09-02 — ANCHE GLI ERRORI SUL FILE. Prima solo .log finiva nel file:
+        // .error andava alla console, che per il server (avviato staccato, con
+        // stdio ignorato) non esiste — finiva nel nulla. Così il 02/09 il catalogo
+        // cloud ha perso 558 modelli (aimlapi caduto per un intoppo di rete) e nel
+        // log non c'era UNA riga: il guasto era invisibile. Ora si vede.
+        const _origErr = this.logger.error ? this.logger.error.bind(this.logger) : (...a) => console.error(...a);
+        this.logger.error = function (...args) {
+            try { fs.appendFileSync(_self._logFile, "[" + new Date().toISOString() + "] [ERRORE] " + args.map(a => typeof a === "string" ? a : JSON.stringify(a)).join(" ") + "\n"); } catch (_) {}
+            return _origErr(...args);
+        };
 
         // CONVERSAZIONE CONDIVISA: unica fonte di verità. Telefono e VS Code leggono
         // e scrivono QUESTA, così vedono la STESSA chat. Persistita su disco.

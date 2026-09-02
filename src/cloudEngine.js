@@ -321,6 +321,7 @@ class CloudEngine {
         const seen = new Set();
         const uncensored = [];
         const normal = [];
+        const caduti = [];
         for (const prov of this.providers) {
             try {
                 const list = await this._discoverProvider(prov);
@@ -329,9 +330,35 @@ class CloudEngine {
                     seen.add(e.value);
                     (e.uncensored ? uncensored : normal).push(e);
                 }
+                if (!list.length) caduti.push(prov.id); // ha risposto, ma a vuoto
             } catch (err) {
+                caduti.push(prov.id);
                 this.logger.error && this.logger.error(`[CloudEngine] discovery ${prov.id} fallita:`, err.message);
             }
+        }
+
+        // ★ 2026-09-02 — UN PROVIDER CHE INCIAMPA NON CANCELLA I SUOI MODELLI.
+        // Il catalogo veniva SOSTITUITO in blocco appena tornava anche un solo
+        // modello: bastava che un provider andasse in timeout perché i suoi
+        // sparissero dall'elenco fino alla discovery successiva. Il 02/09 aimlapi
+        // ha avuto un intoppo e il catalogo è passato da 1594 a 1036 modelli —
+        // 558 spariti in silenzio, con l'utente che se li vedeva mancare dal menù.
+        // Ora i modelli di chi è caduto vengono RIPORTATI dal catalogo precedente e
+        // marcati `stale`: meglio una voce di ieri che un buco.
+        if (caduti.length) {
+            const vecchi = [].concat(this.channels.uncensored || [], this.channels.normal || []);
+            let recuperati = 0;
+            for (const e of vecchi) {
+                if (!caduti.includes(e.provider) || seen.has(e.value)) continue;
+                seen.add(e.value);
+                const copia = Object.assign({}, e, { stale: true });
+                (copia.uncensored ? uncensored : normal).push(copia);
+                recuperati++;
+            }
+            this.logger.error && this.logger.error(
+                `[CloudEngine] provider a vuoto: ${caduti.join(",")} — ` +
+                (recuperati ? `tengo i ${recuperati} modelli del giro precedente (marcati stale).`
+                            : "nessun modello da recuperare dal catalogo precedente."));
         }
         // ★ 2026-07-24 — UNICA FONTE DI VERITÀ su gratis/a pagamento. Prima la UI se
         // lo calcolava da sola con un elenco scritto a mano, e ogni provider nuovo
