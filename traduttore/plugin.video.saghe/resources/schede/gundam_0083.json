@@ -1,0 +1,87 @@
+{
+ "serie": "Gundam 0083 Stardust Memory",
+ "tmdb": 72677,
+ "anno": "1991",
+ "poster": "https://image.tmdb.org/t/p/w780/zd36MmPUJtAeL7dUXyVagFAx4sS.jpg",
+ "sfondo": "https://image.tmdb.org/t/p/w1280/kSwCeAXb6PqaLd2KdwmVCZsW5i0.jpg",
+ "episodi": {
+  "1": {
+   "t": "Episodio 1",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/5mWpU8iMVn8HVNsarSO1rxPjGAp.jpg",
+   "d": "1991-05-23"
+  },
+  "2": {
+   "t": "Episodio 2",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/sbAvWWP1iV3ibyUhPE7wjPxVkfn.jpg",
+   "d": "1991-05-23"
+  },
+  "3": {
+   "t": "Episodio 3",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/9r7wEZl3hepbnEASXJatQuiVz2k.jpg",
+   "d": "1991-06-27"
+  },
+  "4": {
+   "t": "Episodio 4",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/ttpsiJWQEawJ9yEmLp0gnX1kHpD.jpg",
+   "d": "1991-08-22"
+  },
+  "5": {
+   "t": "Episodio 5",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/b8Bam8OgXRN5k5p8ANreU6md28N.jpg",
+   "d": "1991-09-26"
+  },
+  "6": {
+   "t": "Episodio 6",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/uGkKbIAGBhXL2vJUzCWUMfvbo7R.jpg",
+   "d": "1991-10-24"
+  },
+  "7": {
+   "t": "Episodio 7",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/rV2XcQ1M04tHEgyZKJj3hWmFekX.jpg",
+   "d": "1991-12-01"
+  },
+  "8": {
+   "t": "Episodio 8",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/mJPSaYKrRkUIavxr2o0VNQK5uCS.jpg",
+   "d": "1992-02-20"
+  },
+  "9": {
+   "t": "Episodio 9",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/uA3t1oNag3CyrBDaDHEbCazNv6X.jpg",
+   "d": "1992-03-19"
+  },
+  "10": {
+   "t": "Episodio 10",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/aoKiayzH0Kk7gC3DDq41zHG9Ro.jpg",
+   "d": "1992-05-21"
+  },
+  "11": {
+   "t": "Episodio 11",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/w8g6RObLaLMnrI1IkVIQi2u7bOy.jpg",
+   "d": "1992-06-21"
+  },
+  "12": {
+   "t": "Episodio 12",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/tCAkNGTrvLY7wOhHpjlnH0cF2Cu.jpg",
+   "d": "1992-08-21"
+  },
+  "13": {
+   "t": "Episodio 13",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/l3NqHG7frIzAMyozqtm3WgssdP3.jpg",
+   "d": "1992-09-24"
+  }
+ }
+}

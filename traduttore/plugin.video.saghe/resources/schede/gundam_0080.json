@@ -1,0 +1,45 @@
+{
+ "serie": "Mobile Suit Gundam 0080 - La Guerra in Tasca",
+ "tmdb": 46512,
+ "anno": "1989",
+ "poster": "https://image.tmdb.org/t/p/w780/fZOszczRf1Y4PF5iYxhxcwnobG.jpg",
+ "sfondo": "https://image.tmdb.org/t/p/w1280/21fk0W388vXQ4TpQ2iZgGzXqwru.jpg",
+ "episodi": {
+  "1": {
+   "t": "Quante miglia per il campo di battaglia?",
+   "p": "Il padre di Alfred Izuruha lavora per la Federazione e il ragazzo, per vincere una scommessa, decide di andare a fotografare un Mobile Suit federale allo spazioporto.",
+   "i": "https://image.tmdb.org/t/p/w500/gVMnSnc4yoQQLh4TlUCDFYNmmDF.jpg",
+   "d": "1989-03-25"
+  },
+  "2": {
+   "t": "Riflesso in occhi castani",
+   "p": "Alfred stringe amicizia con Bernard, il pilota dello Zaku. Quest'ultimo ne approfitta per proporre al ragazzino uno scambio vantaggioso. Mentre la guerra imperversa, Killing comunica a Steiner Hardy come intende procedere con una nuova, delicata missione.",
+   "i": "https://image.tmdb.org/t/p/w500/bM9S1FGH8GYhSFEOTCjDISKWkDI.jpg",
+   "d": "1989-04-25"
+  },
+  "3": {
+   "t": "E alla fine dell'arcobaleno?",
+   "p": "Alfred rintraccia Bernard, con l’aiuto di un poliziotto e di una piccola bugia. Così facendo, però, rischia di far saltare la copertura delle Forze Speciali. Steiner Hardy ottiene dal ragazzino delle informazioni utili per trovare il container.",
+   "i": "https://image.tmdb.org/t/p/w500/6oNXK59YOwVvookHiPKvkTBr4tC.jpg",
+   "d": "1989-05-25"
+  },
+  "4": {
+   "t": "Oltre il fiume e tra gli alberi",
+   "p": "Mentre Al, disubbidendo, si intrufola nella base della federazione, inizia l’operazione della squadra del Capitano. Le cose però non si metteranno per il meglio e a causa dello scontro ci saranno diverse vittime.",
+   "i": "https://image.tmdb.org/t/p/w500/43a1z3Jo6GeIZWprUPgiC0OgkqV.jpg",
+   "d": "1989-06-25"
+  },
+  "5": {
+   "t": "Dì che non è così, Bernie!",
+   "p": "Il capitano e la squadra cercano di recuperare o distruggere il Gundam. La missione fallisce e Zeon decide di distruggere la colonia con un ordigno nucleare. La vita di tutti è in serio pericolo!",
+   "i": "https://image.tmdb.org/t/p/w500/vziGrUyzN1jUXhMCKAEJ4d5DT2Q.jpg",
+   "d": "1989-07-25"
+  },
+  "6": {
+   "t": "La guerra in tasca",
+   "p": "Bernie e Al si impegnano per impedire che la colonia venga distrutta da un missile nucleare. Purtroppo però, nello scontro con il Gundam, Bernie perde la vita.",
+   "i": "https://image.tmdb.org/t/p/w500/bmfLQghlFusEUwJ6IHyrTCaMwTb.jpg",
+   "d": "1989-08-25"
+  }
+ }
+}

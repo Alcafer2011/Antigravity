@@ -78,6 +78,49 @@ function scriviConfig(c) {
 /** Le virgolette dentro un `su -c '…'`: fonte infinita di bug. */
 function quotaShell(s) { return "'" + String(s).replace(/'/g, "'\\''") + "'"; }
 
+
+/**
+ * ★ 2026-09-05 — QUELLO CHE NON SI FA MAI SULL'APPARECCHIO.
+ *
+ * `op:"comando"` e' una shell aperta con root: e' l'unico punto da cui un
+ * modello puo' fare un danno irreparabile. La conferma dell'utente non basta —
+ * chi guarda il telefono legge "sto sistemando la cache" e preme si'.
+ * Quindi questi comandi non partono, punto: nemmeno confermati.
+ *
+ * Ogni voce ha il MOTIVO scritto: serve al modello per capire cosa fare invece,
+ * e serve a noi per non allargare la lista a caso.
+ */
+const COMANDI_VIETATI = [
+    // /data/local/tmp e' la cartella di appoggio: li' la pulizia si deve poter fare.
+    [/\brm\s+(-[a-z]*\s+)*(-rf|-fr)\b(?![^|;&]*\/data\/local\/tmp\/)[^|;&]*\/(system|data|vendor|sdcard|storage)(\s|\/|$)/i,
+     "cancellazione ricorsiva di una cartella di sistema: si rompe l'apparecchio e non si torna indietro"],
+    [/\bmkfs|\bwipe\b|\bfastboot\b|format\s+userdata/i,
+     "formattazione: azzera l'apparecchio"],
+    [/\bdd\b[^|]*\bof=\/dev/i,
+     "scrittura diretta su un dispositivo a blocchi: distrugge le partizioni"],
+    [/>\s*\/dev\/block/i,
+     "scrittura su una partizione: distrugge il sistema"],
+    [/\bchmod\s+(-R\s+)?777\s+\/(system|data|\s|$)/i,
+     "permessi aperti su tutto il sistema: Android smette di avviarsi"],
+    [/\bpm\s+uninstall\b(?!.*org\.xbmc\.kodi)/i,
+     "disinstallazione di un pacchetto di sistema: usa op='apk_disinstalla', che sa cosa e' sicuro togliere"],
+    [/settings\s+put\s+global\s+adb_enabled\s+0|\bstop\s+adbd\b|setprop\s+service\.adb\.tcp\.port\s+-1/i,
+     "spegne adb: perderemmo il controllo dell'apparecchio e servirebbe la scala per riprenderlo"],
+    [/\bsvc\s+wifi\s+disable\b|\bifconfig\s+wlan0\s+down\b/i,
+     "spegne la rete: stesso problema, l'apparecchio diventa irraggiungibile"],
+    [/reboot\s+(bootloader|recovery|edl)/i,
+     "riavvio in bootloader/recovery: da li' non si torna via rete"],
+    [/\bsu\b.*\brm\b.*\bkodi\b.*\buserdata\b|rm\s+-rf.*\.kodi(\s|\/|$)/i,
+     "cancella la configurazione di Kodi: si perdono add-on, canali, impostazioni e traduzioni"],
+];
+
+/** Restituisce il motivo del divieto, oppure null se il comando puo' passare. */
+function comandoVietato(cmd) {
+    const c = " " + String(cmd || "").replace(/\s+/g, " ") + " ";
+    for (const [rx, motivo] of COMANDI_VIETATI) if (rx.test(c)) return motivo;
+    return null;
+}
+
 class UltraHD8K {
     constructor(opts = {}) {
         this.cfg = leggiConfig();
@@ -155,6 +198,23 @@ class UltraHD8K {
         const vero = root ? "su -c " + quotaShell(cmd) : cmd;
         const r = await this._adb(["-s", this.cfg.indirizzo, "shell", vero], { timeout });
         return r.out;
+    }
+
+    /**
+     * Shell sull'apparecchio per conto del modello. A differenza di `sh()` (che
+     * usiamo noi dentro la libreria, con comandi scritti da noi), questa passa
+     * dalla lista nera: quello che arriva da un modello va filtrato.
+     */
+    async comando(cmd, { root = false } = {}) {
+        const motivo = comandoVietato(cmd);
+        if (motivo) {
+            return "COMANDO BLOCCATO dalla protezione dell'apparecchio." + "\n" +
+                   "Comando: " + String(cmd || "").slice(0, 300) + "\n" +
+                   "Motivo: " + motivo + "." + "\n" +
+                   "Non ripeterlo travestito: cerca un'altra strada, oppure spiega all'utente " +
+                   "cosa vorresti ottenere e fatti dire come procedere.";
+        }
+        return await this.sh(cmd, { root });
     }
 
     // ─────────────────────────────────────────────────── Sonno e risveglio ──
@@ -375,7 +435,23 @@ class UltraHD8K {
         return "Kodi non si è fermato del tutto (potrebbe riavviarsi da solo).";
     }
 
-    async kodiAvvia({ attendi = true } = {}) {
+    /**
+     * ★ 2026-09-05 — NON SI AVVIA KODI A SCHERMO SPENTO.
+     *
+     * Provato sul box: con la TV spenta Android ferma subito l'attivita'
+     * (onStart -> onResume -> onPause -> onStop) e Kodi resta parcheggiato a
+     * meta' — `kodi.log` non viene nemmeno riscritto. Chi lo fa senza saperlo
+     * crede di aver riavviato e poi insegue guasti che non esistono.
+     * Con `attendi:true` il box e' gia' vivo: qui si blocca prima di fare danno.
+     */
+    async kodiAvvia({ attendi = true, anche_a_schermo_spento = false } = {}) {
+        if (!anche_a_schermo_spento && !(await this.schermoAcceso())) {
+            return "NON AVVIO KODI: lo schermo e' spento. A TV spenta Android ferma Kodi a meta' " +
+                   "avvio e resta parcheggiato (sembra riavviato e non lo e'). " +
+                   "Se ti serve solo comandare Kodi che gia' gira, usa op='sveglia' (tiene sveglio il box " +
+                   "SENZA accendere la TV). Se ti serve davvero riavviarlo, chiedi all'utente di accendere " +
+                   "la TV, oppure ripeti con anche_a_schermo_spento:true sapendo che restera' a meta'.";
+        }
         await this.sh("monkey -p " + this.cfg.pacchettoKodi + " -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1");
         if (!attendi) return "Kodi avviato.";
         // Su questo box Kodi ci mette una decina di secondi a essere pronto.
@@ -389,9 +465,16 @@ class UltraHD8K {
             : "Kodi è partito (pid " + p.trim() + ") ma l'API non risponde: accendila con op='api_accendi'.";
     }
 
-    async kodiRiavvia() {
+    async kodiRiavvia({ anche_a_schermo_spento = false } = {}) {
+        // Il controllo si fa PRIMA di fermarlo: fermarlo e poi non riuscire a
+        // riavviarlo e' il modo peggiore di scoprire che la TV era spenta.
+        if (!anche_a_schermo_spento && !(await this.schermoAcceso())) {
+            return "NON RIAVVIO KODI: lo schermo e' spento, resterebbe parcheggiato a meta' avvio " +
+                   "(e Kodi ADESSO sta girando: lo perderesti). Usa op='sveglia' per lavorare a TV spenta, " +
+                   "oppure fai accendere la TV all'utente.";
+        }
         await this.kodiFerma();
-        return await this.kodiAvvia();
+        return await this.kodiAvvia({ anche_a_schermo_spento: true });
     }
 
     // ────────────────────────────────────────── Kodi: accendere l'API ──
@@ -408,8 +491,46 @@ class UltraHD8K {
         return { ok: true, locale, testo: fs.readFileSync(locale, "utf8") };
     }
 
-    /** Scrive un file sul box via root, RIMETTENDO proprietario e permessi giusti. */
-    async _scriviRemoto(remoto, contenuto) {
+    /**
+     * ★ 2026-09-05 — CINTURA DI SICUREZZA sulle scritture.
+     *
+     * Il 05/09 un comando storto ha svuotato a 0 byte la lista dei canali del
+     * box: si e' salvata solo perche' un minuto prima era stato fatto un backup
+     * a mano. A mano non basta: qui il backup lo fa la macchina, sempre, e la
+     * scrittura si RIFIUTA se il file nuovo e' molto piu' piccolo di quello che
+     * sostituisce (il sintomo tipico di un comando andato male). Un modello
+     * distratto non puo' saltare questo controllo: non passa da lui.
+     *
+     * `forza:true` lo scavalca, ma solo su richiesta esplicita.
+     */
+    async _scriviRemoto(remoto, contenuto, { forza = false, soglia = 0.5 } = {}) {
+        const prima = await this.sh("stat -c '%s' " + quotaShell(remoto) + " 2>/dev/null || echo -", { root: true });
+        const vecchiaDim = /^\d+$/.test(String(prima).trim()) ? parseInt(String(prima).trim(), 10) : -1;
+        const nuovaDim = Buffer.byteLength(String(contenuto), "utf8");
+
+        if (vecchiaDim > 0) {
+            // Backup PRIMA di toccare qualunque cosa. Il nome dice quando.
+            const marca = new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-");
+            const bak = remoto + ".ag-bak-" + marca;
+            const esitoBak = await this.sh("cp -p " + quotaShell(remoto) + " " + quotaShell(bak) + " && echo OK", { root: true });
+            if (!/OK/.test(esitoBak)) {
+                return { ok: false, out: "Non riesco a fare il backup di " + remoto + ": non scrivo niente. (" + esitoBak + ")" };
+            }
+            // Tengo solo gli ultimi 5 backup per file: non riempiamo il disco.
+            await this.sh("ls -1t " + quotaShell(remoto) + ".ag-bak-* 2>/dev/null | tail -n +6 | while read v; do rm -f \"$v\"; done", { root: true });
+
+            if (!forza && nuovaDim < vecchiaDim * soglia) {
+                return {
+                    ok: false,
+                    out: "SCRITTURA RIFIUTATA su " + remoto + ": il contenuto nuovo e' " + nuovaDim +
+                         " byte contro i " + vecchiaDim + " di adesso (meno della meta'). Quasi sempre vuol dire " +
+                         "che il contenuto e' stato costruito male, non che il file deve rimpicciolire. " +
+                         "Controlla cosa stai scrivendo; se e' voluto davvero, ripeti con forza:true. " +
+                         "Backup gia' pronto in " + bak
+                };
+            }
+        }
+
         const locale = path.join(this.tmp, "up-" + Date.now());
         fs.writeFileSync(locale, contenuto, "utf8");
         const ponte = "/data/local/tmp/.ag_w_" + Date.now();
@@ -424,7 +545,17 @@ class UltraHD8K {
         cmd += " && chmod 660 " + quotaShell(remoto) + " && rm -f " + ponte + " && echo OK";
         const esito = await this.sh(cmd, { root: true });
         try { fs.unlinkSync(locale); } catch (_) {}
-        return /OK/.test(esito) ? { ok: true } : { ok: false, out: "Copia sul box fallita: " + esito };
+        if (!/OK/.test(esito)) return { ok: false, out: "Copia sul box fallita: " + esito };
+
+        // Si rilegge la dimensione VERA dal box: "ho scritto" non e' una prova.
+        const dopo = await this.sh("stat -c '%s' " + quotaShell(remoto) + " 2>/dev/null || echo -", { root: true });
+        const scritti = /^\d+$/.test(String(dopo).trim()) ? parseInt(String(dopo).trim(), 10) : -1;
+        if (scritti !== nuovaDim) {
+            return { ok: false, out: "Scrittura sospetta su " + remoto + ": volevo " + nuovaDim +
+                     " byte, sul box ce ne sono " + scritti + ". Il backup e' accanto al file (.ag-bak-*)." };
+        }
+        return { ok: true, out: "Scritti " + nuovaDim + " byte su " + remoto +
+                 (vecchiaDim > 0 ? " (prima erano " + vecchiaDim + ", backup .ag-bak-* accanto)" : " (file nuovo)") };
     }
 
     /**

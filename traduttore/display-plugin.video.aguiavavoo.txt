@@ -1,0 +1,12 @@
+[COLORred]Águia [COLORwhite]Vavoo[/COLOR]
+Add to TV Favorites
+cURL
+Default
+Enable Debug Logging
+FFmpeg
+FFmpeg Open Mode
+General
+M3U Created Successfully
+Remove TV Favorite
+Settings
+Svuota la cache (paesi e canali)

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings version="1">
+  <section id="plugin.video.saghe">
+
+    <category id="abbonamenti" label="Abbonamenti">
+      <group id="1" label="Cosa hai attivo">
+        <setting id="ha_netflix" type="boolean" label="Netflix">
+          <level>0</level>
+          <default>true</default>
+          <control type="toggle"/>
+        </setting>
+        <setting id="ha_prime" type="boolean" label="Prime Video">
+          <level>0</level>
+          <default>false</default>
+          <control type="toggle"/>
+        </setting>
+        <setting id="ha_disney" type="boolean" label="Disney+">
+          <level>0</level>
+          <default>false</default>
+          <control type="toggle"/>
+        </setting>
+        <setting id="ha_timvision" type="boolean" label="Timvision">
+          <level>0</level><default>false</default><control type="toggle"/>
+        </setting>
+        <setting id="ha_animegeneration" type="boolean" label="Anime Generation (canale Prime)">
+          <level>0</level><default>false</default><control type="toggle"/>
+        </setting>
+        <setting id="ha_crunchyroll" type="boolean" label="Crunchyroll">
+          <level>0</level>
+          <default>false</default>
+          <control type="toggle"/>
+        </setting>
+      </group>
+    </category>
+
+    <category id="locale" label="I tuoi file">
+      <group id="1" label="Cartella delle serie">
+        <setting id="cartella_serie" type="path" label="Cartella principale">
+          <level>0</level>
+          <control type="button" format="path">
+            <heading>Dove tieni le tue serie</heading>
+          </control>
+        </setting>
+      </group>
+    </category>
+
+    <category id="sincro" label="Ripresa fra apparecchi">
+      <group id="1">
+        <setting id="hub_indirizzo" type="string" label="Indirizzo del quaderno comune">
+          <level>0</level><default>192.168.1.105:8099</default>
+          <control type="edit" format="string">
+            <heading>Es. 192.168.1.105:8099 - lascia vuoto per spegnere</heading>
+          </control>
+        </setting>
+      </group>
+    </category>
+
+    <category id="scadenze" label="Scadenze degli abbonamenti">
+      <group id="1">
+        <setting id="scadenza_prime" type="string" label="Prime Video scade il (gg/mm/aaaa)">
+          <level>0</level><default>04/10/2026</default>
+          <control type="edit" format="string">
+            <heading>Prova di 30 giorni cominciata il 04/09/2026. Vuoto = nessuna scadenza</heading>
+          </control>
+        </setting>
+        <setting id="scadenza_netflix" type="string" label="Netflix scade il (gg/mm/aaaa)">
+          <level>0</level>
+          <control type="edit" format="string">
+            <heading>Lascia vuoto se si rinnova da solo</heading>
+          </control>
+        </setting>
+      </group>
+    </category>
+
+    <category id="audio" label="Audio: farsi capire">
+      <group id="1">
+        <setting id="audio_scelta_automatica" type="boolean" label="Scegli da solo la traccia in cui si capiscono le parole">
+          <level>0</level><default>true</default>
+          <control type="toggle"/>
+        </setting>
+        <setting id="audio_avvisa" type="boolean" label="Dimmi quando cambio traccia">
+          <level>0</level><default>false</default>
+          <control type="toggle"/>
+        </setting>
+      </group>
+    </category>
+
+    <category id="prossimo" label="Episodio successivo">
+      <group id="1">
+        <setting id="prossimo_automatico" type="boolean" label="Attacca da solo l'episodio dopo">
+          <level>0</level><default>true</default>
+          <control type="toggle"/>
+        </setting>
+        <setting id="prossimo_attesa" type="integer" label="Quanti secondi aspetta prima di partire">
+          <level>0</level><default>10</default>
+          <constraints><minimum>3</minimum><step>1</step><maximum>60</maximum></constraints>
+          <control type="slider" format="integer">
+            <popup>false</popup>
+          </control>
+        </setting>
+      </group>
+    </category>
+
+  </section>
+</settings>

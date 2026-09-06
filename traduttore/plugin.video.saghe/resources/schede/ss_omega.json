@@ -1,0 +1,591 @@
+{
+ "serie": "Saint Seiya Ω",
+ "tmdb": 44317,
+ "anno": "2012",
+ "poster": "https://image.tmdb.org/t/p/w780/rgPgae8BIu4wsTNzXsI4wtt30pn.jpg",
+ "sfondo": "https://image.tmdb.org/t/p/w1280/anrVGmcs2fn8cn8WNZ7Low6NkSQ.jpg",
+ "episodi": {
+  "1": {
+   "t": "La vita salvata da Seiya! Rinasce la leggenda dei Saint!",
+   "p": "Al Santuario Saori Kido osserva il piccolo Koga muovere i primi passi; in quell'istante appare Mars, dio guerriero del pianeta Marte, che minaccia la vita della dea e del neonato. Ma l'intervento di Seiya, Gold Saint del Sagittario, blocca le mire del nemico.",
+   "i": "https://image.tmdb.org/t/p/w500/9F0giesCoij1jXh56PdTwRZ9rdx.jpg",
+   "d": "2012-04-01"
+  },
+  "2": {
+   "t": "Partenza! I Saint della nuova generazione!",
+   "p": "Mars riesce a rapire Saori ferendo gravemente Shaina accorsa a salvare Koga. Il mattino dopo il ragazzo decide di partire alla ricerca della dea e, una volta lasciata l'isola, si imbatte in Souma di Lionet, Saint della costellazione del Leone Minore, con cui fa amicizia.",
+   "i": "https://image.tmdb.org/t/p/w500/znp8OEswXhZp2l3YrhOeuPBnOwY.jpg",
+   "d": "2012-04-08"
+  },
+  "3": {
+   "t": "La legge della maschera! Entra in scena la Saint del vento!",
+   "p": "Giunto alla Palaestra, Koga fa la conoscenza di Yuna dell'Aquila che, come tutte le guerriere di Atena, è costretta a portare una maschera per potersi allenare con gli uomini.",
+   "i": "https://image.tmdb.org/t/p/w500/Adlf5sTW5RciyGwg3oly93ZNSp0.jpg",
+   "d": "2012-04-15"
+  },
+  "4": {
+   "t": "Il figlio dell'eroe! Ryuhou contro Kouga!",
+   "p": "Alla Palaestra Koga incontra Ryuhou di Dragon, figlio del leggendario Saint Shiryu che ha perso i cinque sensi durante un combattimento. Ryuhou, che è stato addestrato direttamente dal padre, è di salute cagionevole ma sprigiona un cosmo formidabile e domina il suo elemento che è l'acqua.",
+   "i": "https://image.tmdb.org/t/p/w500/lyI4a8pETFCcJ2MlVHr712inf0C.jpg",
+   "d": "2012-04-22"
+  },
+  "5": {
+   "t": "Prove di selezione! Sfida nel campo della morte!",
+   "p": "Per potere accedere ai Saint Fight bisogna prima superare l'Hell Camp, una zona piena di ostacoli che azzera il Cosmo. Impegnato nello scontro contro Argo di Volan, Souma ricorda la figura del padre, Silver Saint della Croce del Sud, morto per mano di un cavaliere di Mars.",
+   "i": "https://image.tmdb.org/t/p/w500/96bNzdsfTOFzEBZVxB6ypx14308.jpg",
+   "d": "2012-04-29"
+  },
+  "6": {
+   "t": "Si apre il sipario! Saint Fight!",
+   "p": "Il Saint Fight ha inizio con sedici concorrenti in gara. Souma è il primo a qualificarsi, mentre Koga non ha vita facile contro Hook di Compass, che sconfigge con l'astuzia.",
+   "i": "https://image.tmdb.org/t/p/w500/wMhUJNQvRdNYblndVOfAQxBndrf.jpg",
+   "d": "2012-05-06"
+  },
+  "7": {
+   "t": "Il pugno di un amico! Colpisci, Pugno delle Meteore di Pegaso!",
+   "p": "Nel secondo turno del Saint Fight si sfidano gli otto cavalieri rimasti. Yuna affronta e vince Guney di Delphinus mentre Koga e Souma sono già costretti a sfidarsi.",
+   "i": "https://image.tmdb.org/t/p/w500/4l7XIqYhhRuJn8y88fhYFcknbZG.jpg",
+   "d": "2012-05-13"
+  },
+  "8": {
+   "t": "Incontro con il destino! L'impatto di un Gold Saint!",
+   "p": "Appena prima dell'incontro tra Yuna e Ryuhou che apre le semifinali, una carrozza con a bordo la dea Atena giunge a Palaestra. Koga, desideroso di incontrarla, si reca nel tempio principale ma trova il Martian Ragno di Spider e i suoi seguaci a sbarrargli la strada.",
+   "i": "https://image.tmdb.org/t/p/w500/cPVafxFDlvi1z1YWZLo9lYwVrJH.jpg",
+   "d": "2012-05-20"
+  },
+  "9": {
+   "t": "La crisi del Santuario! Appari, ninja Saint!",
+   "p": "Nelle segrete della Palaestra Koga incontra Haruto, Saint del Lupo e ninja della scuola Fuji, rinchiuso per avere smascherato Ionia. Insieme evadono e si incontrano con Yuna, Ryuhou e Souma.",
+   "i": "https://image.tmdb.org/t/p/w500/1YdFO36OUSHr1TkFX5BSfipcy2d.jpg",
+   "d": "2012-05-27"
+  },
+  "10": {
+   "t": "Un salvataggio disperato! Un altro Gold Saint!",
+   "p": "Al posto del Santuario di Atena Mars erige la Torre di Babele, capace di risucchiare il Cosmo degli allievi e degli insegnanti della Palaestra rinchiusi in una colonna all'interno. La torre è alimentata dal Cosmo Luce di Aria, la finta Atena.",
+   "i": "https://image.tmdb.org/t/p/w500/yfPtoyANvbUsMnkPQRqeXBR6NCs.jpg",
+   "d": "2012-06-03"
+  },
+  "11": {
+   "t": "Proteggete Aria! L'assalto dell'inseguitrice Sonia!",
+   "p": "Yuna fugge con Aria, ma viene inseguita dai due Silver Saint Johann di Crow e Miguel di Hound, guidati da Sonia di Hornet, figlia di Mars. Grazie all'intervento di Souma e di Koga, Yuna sconfigge Johan e crea un diversivo che permette ai quattro di fuggire.",
+   "i": "https://image.tmdb.org/t/p/w500/xen3SMI4r1ZIanZvTTwpyC6JtWf.jpg",
+   "d": "2012-06-10"
+  },
+  "12": {
+   "t": "L'eredità del Cosmo! Il Saint leggendario, Shun!",
+   "p": "Mentre si recano alle Rovine del Vento Koga e i suoi amici vengono attaccati da Miguel. Koga riesce ad allontanare il Silver Saint dagli amici, ma il nemico si dimostra molto più forte di lui.",
+   "i": "https://image.tmdb.org/t/p/w500/a12yKvHTcFeybmpinKLPRxOPQiw.jpg",
+   "d": "2012-06-17"
+  },
+  "13": {
+   "t": "Il messaggio di Seiya! Affido a voi Atena!",
+   "p": "Eden giunge al nuovo Santuario e viene sottoposto ad addestramenti volti a potenziare il suo Cosmo. Nel frattempo Koga, Yuna, Soma e Aria giungono alla rovina che custodisce il Nucleo del Vento, protetto da Fly di Musca, Silver Saint schieratosi consapevolmente dalla parte di Mars.",
+   "i": "https://image.tmdb.org/t/p/w500/sbIG3klDAmGkAjK1mDn7Qv2DRx0.jpg",
+   "d": "2012-06-24"
+  },
+  "14": {
+   "t": "Incontro nella città natale! Maestra e discepola a confronto tra i campi innevati!",
+   "p": "Yuna, Soma, Koga e Aria, partiti alla ricerca del secondo nucleo, giungono al villaggio natale di Yuna. Qui la Saint di Aquila incontra Pavlin di Peaock, sua maestra e Silver Saint della costellazione del Pavone, che la spinge al combattimento.",
+   "i": "https://image.tmdb.org/t/p/w500/eySmVvz1Mqmq6nW3yvAR826WBkv.jpg",
+   "d": "2012-07-01"
+  },
+  "15": {
+   "t": "Si avvicina l'artiglio avvelenato! Cospirazione nelle seconde rovine!",
+   "p": "Il gruppo arriva nei pressi del villaggio dove si trovano le Rovine della Terra, di cui vengono a conoscenza grazie al piccolo Nguyen, e ritrovano il loro vecchio senpai Ichi. Una volta giunti alle rovine Koga, Soma e Yuna scoprono che Ichi li ha condotti in una trappola.",
+   "i": "https://image.tmdb.org/t/p/w500/yejDqCjZClVjuj13msWDZ0WbOMZ.jpg",
+   "d": "2012-07-15"
+  },
+  "16": {
+   "t": "Seguire la stella del destino! Il modo di vivere dei Saint!",
+   "p": "A seguito di un attacco dei Martian comandati da Radzky di Ant, Yuna perde il portafoglio dato loro da Shun. Il gruppo, impossibilitato a imbarcarsi, è costretto a lavorare nella pensione gestita da una coppia di anziani signori, combinando però molti guai.",
+   "i": "https://image.tmdb.org/t/p/w500/9NkCuCMMLqii9u3KtfZuVSna1Nt.jpg",
+   "d": "2012-07-22"
+  },
+  "17": {
+   "t": "Proteggiamoli! Il riparatore di Cloth e il minerale leggendario!",
+   "p": "Sulla strada delle rovine del fuoco i quattro incontrano Raki, discepola del riparatore di Cloth: Kiki. Giunti in una caverna per recuperare la leggendaria Stardust Sand vengono attaccati da Dore di Cerberos.",
+   "i": "https://image.tmdb.org/t/p/w500/uDeEseFNhokucLSDkkaHSa59Yh7.jpg",
+   "d": "2012-07-29"
+  },
+  "18": {
+   "t": "Le fiamme della vendetta! Soma, la battaglia del destino!",
+   "p": "Alle rovine del fuoco Soma incontra Sonya, deciso a vendicare la morte del padre. La guerriera, riconosciuto il nemico, viene sopraffatta dalla sua forza ed è costretta a fuggire.",
+   "i": "https://image.tmdb.org/t/p/w500/w1ang9JSX29tolcFx2jtSTMemPI.jpg",
+   "d": "2012-08-05"
+  },
+  "19": {
+   "t": "Il segreto del Picco di Wǔlǎo! Ereditalo! Lo spirito combattivo di tuo padre Shiryu!",
+   "p": "Le rovine dell'acqua si trovano in Cina, al Picco di Wǔlǎo, dove i cavalieri conoscono il leggendario cavaliere Shiryu.",
+   "i": "https://image.tmdb.org/t/p/w500/mw3BBmTLWc58RNIDr0jRjtUSsea.jpg",
+   "d": "2012-08-12"
+  },
+  "20": {
+   "t": "Per Aria! Eden, colpo fulminante dell'ira!",
+   "p": "Eden, infuriato per le ferite inferte a Sonya, decide di partire e recuperare Aria direttamente. Suo padre Mars vuole che lui governi il nuovo mondo insieme ad Aria.",
+   "i": "https://image.tmdb.org/t/p/w500/uYrAaX3vxRQr1kncTLn1e9mHW4I.jpg",
+   "d": "2012-08-19"
+  },
+  "21": {
+   "t": "Pegaso non può più volare! Il viaggio della sconfitta!",
+   "p": "Koga, sconvolto per la perdita di Aria, vaga sconsolato alla ricerca di una ragione per continuare a combattere. Nella valle della memoria incontra Hyoga, che lo sfida nel tentativo di fargli recuperare la voglia di combattere.",
+   "i": "https://image.tmdb.org/t/p/w500/gTxHa7a5HBEfAKQN2CHZbt2tVHJ.jpg",
+   "d": "2012-08-26"
+  },
+  "22": {
+   "t": "I sentimenti verso gli amici! Il cammino dello shinobi e l'orgoglio del Saint!",
+   "p": "Haruto torna nel suo villaggio natale dove era stato bandito per avere deciso di abbandonare la vita ninja e diventare un Saint. Qui è costretto a ricordare un vecchio amico che considerava come un fratello morto per causa di un saint d'argento.",
+   "i": "https://image.tmdb.org/t/p/w500/rKwOVpeQHTwvPrf9PBeLLw491d4.jpg",
+   "d": "2012-09-02"
+  },
+  "23": {
+   "t": "Invasione del territorio nemico! Giovani Saint, riuniti!",
+   "p": "Per recuperare Aria i quattro Saint si dirigono direttamente al castello di Mars costruito vicino alla Torre di Babele, dove però sono rimasti solo pochi subalterni. Scoprono che Eden ha portato con sé Aria direttamente alle Rovine del Fulmine.",
+   "i": "https://image.tmdb.org/t/p/w500/nmrh56ZyHG2OOzWVYo3dEMPpMJg.jpg",
+   "d": "2012-09-09"
+  },
+  "24": {
+   "t": "Riuniti assieme! Andiamo, verso le ultime rovine!",
+   "p": "Alle rovine del fulmine Koga incontra nuovamente Shaina, che gli svela il segreto della sua origine: Koga e Aria sono nati dall'esplosione della meteora durante lo scontro con Mars.",
+   "i": "https://image.tmdb.org/t/p/w500/pmH3Ngc10GOM0yPZVreTuSMnb9E.jpg",
+   "d": "2012-09-16"
+  },
+  "25": {
+   "t": "Luogo sconosciuto! Il momento di un incontro inaspettato!",
+   "p": "Yuna, Ryuhou e Haruto, risucchiati all'interno delle rovine dell'oscurità, sono costretti ad affrontare i fantasmi del loro passato e sconfiggere l'oscurità che cerca di dominarli.",
+   "i": "https://image.tmdb.org/t/p/w500/n3j9zHuRWykijG1iScUkTK8VvY5.jpg",
+   "d": "2012-09-23"
+  },
+  "26": {
+   "t": "Ricordi e vendetta! La trappola delle rovine dell'oscurità!",
+   "p": "L'oscurità delle ultime rovine fa rivivere a Soma e Sonia il momento sofferto dell'uccisione da parte della ragazza del padre di Soma. Nel frattempo Koga incontra l'ombra di Saori che gli rivela che in realtà il suo cosmo è oscuro.",
+   "i": "https://image.tmdb.org/t/p/w500/pRbcjk7ZkI1VKfq8c88qKGPMTCB.jpg",
+   "d": "2012-09-30"
+  },
+  "27": {
+   "t": "La fine del viaggio! I giovani e la luce della fanciulla!",
+   "p": "Le ombre cercano di instaurare il senso di colpa in Koga, Aria e Eden perché sprofondino nell'oscurità. Grazie all'intervento di Aria, tuttavia, i tre riescono a salvarsi e si ricongiungono con il resto del gruppo.",
+   "i": "https://image.tmdb.org/t/p/w500/s60k9isBOos2kUxV3EyMM0uzUlL.jpg",
+   "d": "2012-10-07"
+  },
+  "28": {
+   "t": "L'armata più forte! La riunione dei Gold Saint!",
+   "p": "Episodio riassuntivo.",
+   "i": "https://image.tmdb.org/t/p/w500/oa8EEtBwbqoH4LiZx5IaMJQfloL.jpg",
+   "d": "2012-10-14"
+  },
+  "29": {
+   "t": "L'inizio di una nuova battaglia! Le dodici case dorate!",
+   "p": "Grazie al cosmo che è riuscito a convogliare Mars ricrea le Dodici Case dello zodiaco sulla sommità della torre. Intanto Koga, Soma, Yuna, Ryuo e Haruto, ritrovatisi ai piedi del nuovo tempio, piangono Aria ma decidono di iniziare la scalata con forza.",
+   "i": "https://image.tmdb.org/t/p/w500/uWg36u3ltH45dwwbg7SP7XHSBqe.jpg",
+   "d": "2012-10-21"
+  },
+  "30": {
+   "t": "Un potere straordinario! Il Saint della Casa del Toro!",
+   "p": "Dopo la sconfitta di Koga per mano di Harbinger i restanti Cavalieri di Bronzo vanno incontro alla disfatta totale in battaglia. Harbinger rievoca i ricordi della sua infanzia difficile.",
+   "i": "https://image.tmdb.org/t/p/w500/i41AYmvsc6aiBD4I2lr2WCZxIVN.jpg",
+   "d": "2012-10-28"
+  },
+  "31": {
+   "t": "Crocevia del destino! Il mistero della Casa dei Gemelli!",
+   "p": "Dragon Ryuhou arriva alla Casa dei Gemelli dove trova una strana atmosfera tranquilla. Il guardiano del tempio, Paradox, accoglie il giovane cavaliere, a cui espone le motivazioni per cui la sua fedeltà va a Mars rievocando eventi del suo passato.",
+   "i": "https://image.tmdb.org/t/p/w500/tOapqsnHz3cG5LJPWjLs10j0USA.jpg",
+   "d": "2012-11-04"
+  },
+  "32": {
+   "t": "Il vero terrore! La strana aura della Casa del Cancro!",
+   "p": "Yuna si imbatte in Schiller, Cavaliere del Cancro, che è capace di comandare a suo piacimento i corpi dei cavalieri sconfitti in battaglia, privati dell'anima e ridotti a uno stato vegetale.",
+   "i": "https://image.tmdb.org/t/p/w500/jSfJ3hD1anosvhthJ91I8AcWsuq.jpg",
+   "d": "2012-11-11"
+  },
+  "33": {
+   "t": "L'essenza del Cosmo! Il settimo senso!",
+   "p": "Koga entra nella terza casa dei Gemelli, dove vede Ryuhou sopraffatto da Paradox. In un primo momento Koga riesce ad avere la meglio nella battaglia contro la personalità gentile di Paradox, ma non può niente contro la personalità rabbiosa che riemerge più forte poco dopo.",
+   "i": "https://image.tmdb.org/t/p/w500/zlrQjUh6uOMsb8vh38igaxvP0RP.jpg",
+   "d": "2012-11-18"
+  },
+  "34": {
+   "t": "Tra la vita e la morte! Il combattimento nell'oltretomba!",
+   "p": "Koga e Ryuhou entrano nella casa del Cancro, dove Schiller rivela loro di avere spedito Yuna a vagare nel regno dei morti. I due Cavalieri di Bronzo capiscono che l'unico modo per riportarla tra i vivi è quello di sconfiggere il Cavaliere d'Oro.",
+   "i": "https://image.tmdb.org/t/p/w500/9TxpSKrDqgM21nFO8vVtqdHsvgn.jpg",
+   "d": "2012-11-25"
+  },
+  "35": {
+   "t": "Il pugno del Leone! La triste battaglia di Eden!",
+   "p": "Eden non riesce a superare il trauma della morte di Aria. Sonia lo affronta duramente e lo richiama alle sue responsabilità di futuro sovrano. Mycenae, cavaliere di Leo e maestro di Eden, interviene e chiede a Sonia di lasciargli la responsabilità di riportare Eden sulla giusta strada.",
+   "i": "https://image.tmdb.org/t/p/w500/oZnTFFGmyTnk6h5LjxuZvo8kjXH.jpg",
+   "d": "2012-12-02"
+  },
+  "36": {
+   "t": "Nobile orgoglio! Mykene, il pugno del campione!",
+   "p": "Soma e Haruto corrono verso la quinta casa dove si imbattono in Mycaene, deciso a non farli passare. Il Cavaliere d'Oro, interrogato da Haruto, spiega che l'origine della sua fedeltà a Mars è la promessa di addestrare Eden.",
+   "i": "https://image.tmdb.org/t/p/w500/7WPGUKidzoGkd0C819rP9JiZf8N.jpg",
+   "d": "2012-12-09"
+  },
+  "37": {
+   "t": "Il guardiano inamovibile! Il Gold Saint della costellazione della Vergine!",
+   "p": "Souma e Haruto raggiungono la casa della Vergine. Nel frattempo Kiki dell'Ariete, affiancato da Harbinger del Toro, continua ad attaccare i Marzian alla prima casa e dichiara che Fudo, Gold Saint della Vergine, sarà l'avversario più difficile che i giovani Saint dovranno affrontare.",
+   "i": "https://image.tmdb.org/t/p/w500/2AtbxF0iRUwf8a6SHaUDMMX9BjG.jpg",
+   "d": "2012-12-16"
+  },
+  "38": {
+   "t": "Una ribellione di valore! Eden, lo spirito combattivo della determinazione!",
+   "p": "Eden, che si è ribellato ai metodi di suo padre Mars, è deciso a sconfiggere Fudo per passare oltre la casa della Vergine. Dopo vari attacchi riesce sorprendentemente a fare spostare il Gold Saint di qualche centimetro.",
+   "i": "https://image.tmdb.org/t/p/w500/zKNgbomWzMG1lqWBJwq7k335rm8.jpg",
+   "d": "2012-12-23"
+  },
+  "39": {
+   "t": "Riunione alla Casa della Bilancia! Scontro, Gold contro Gold!",
+   "p": "Fudo ammette la sconfitta e lascia avanzare Eden. Koga, invece, viene sbalzato via da un attacco di Tokisada e rischia di cadere nel vuoto, ma viene salvato da Genbu, Gold Saint della Bilancia, che trasferisce tutti alla sua casa.",
+   "i": "https://image.tmdb.org/t/p/w500/hM3Gc7zDRbO3mJ5jxcZoqEAJrnx.jpg",
+   "d": "2013-01-06"
+  },
+  "40": {
+   "t": "La determinazione di Sonia! Spezzare le catene del destino!",
+   "p": "Koga, Yuna e Souma raggiungono la casa dello Scorpione, dove li attende Sonya, sorella di Eden e Gold Saint dello Scorpione. Per permettere agli altri di avanzare Souma decide di affrontare Sonya da solo.",
+   "i": "https://image.tmdb.org/t/p/w500/pDBJt1eDZACZd1qKh8iniPhZBIu.jpg",
+   "d": "2013-01-13"
+  },
+  "41": {
+   "t": "L'ambizione di Tokisada! Il dominatore dei Confini del Tempo!",
+   "p": "Eden capisce cosa è successo a sua sorella e la compiange per qualche momento. Nel frattempo Ryuho e Haruto si riprendono e cominciano una lotta ai confini del tempo con Tokisada, che in questo luogo può espandere infinitamente il suo cosmo.",
+   "i": "https://image.tmdb.org/t/p/w500/fFuf2JAwLqu09mUAXG4iQLYRAym.jpg",
+   "d": "2013-01-20"
+  },
+  "42": {
+   "t": "Il Gold Saint traditore! Ionia contro Kouga!",
+   "p": "Giunti alla casa del Capricorno, Kouga e Yuna incontrano Ionia, il preside di Palaestra e si preparano alla battaglia. Ionia afferma di combattere per il bene di Atena, in quanto è scontento per il suo doloroso destino e vuole liberarla da questo tormento.",
+   "i": "https://image.tmdb.org/t/p/w500/nTKBnZnUhugJkjKnx0aUlhniS5W.jpg",
+   "d": "2013-01-27"
+  },
+  "43": {
+   "t": "La resurrezione degli dei guerrieri! Irruzione nell'ultima Casa!",
+   "p": "Nella casa dei Pesci, il Gold Saint Amor divide con un muro d’acqua Ryuho, Haruto e Souma da Yuna e Kouga: da una parte i primi tre sono costretti ad affrontare i Quattro Re di Marte, che li mettono in seria difficoltà; dall’altra Kouga è bloccato da Amor con degli spiedi di Tenebra.",
+   "i": "https://image.tmdb.org/t/p/w500/3kwaOn4Y0l33rLNJJvdWQZqqntR.jpg",
+   "d": "2013-02-03"
+  },
+  "44": {
+   "t": "Per i miei compagni! Il potere nascosto di Kouga",
+   "p": "Kouga spezza il muro d’acqua e sconfigge con un solo pugno uno dei Quattro Re di Marte. Con sorpresa di tutti, però, la sua mente non è stato completamente soggiogata dalle Tenebre. Amor, allora, evoca la Tenebre nel profondo di Kouga, che sembra essersi perso nell’oscurità, ma interviene Yuna con la Luce del Settimo senso a salvarlo.",
+   "i": "https://image.tmdb.org/t/p/w500/uxsqAeIZFe8G3VaimNHr9j0a6jp.jpg",
+   "d": "2013-02-10"
+  },
+  "45": {
+   "t": "Il malefico dio della guerra! Mars e Ludwig!",
+   "p": "Kouga raggiunge finalmente Mars, ma il suo potere è molto forte da contrastare. Dopo poco sopraggiunge Eden che chiede a suo padre di non distruggere la Terra per creare nuova vita su Marte, ma Mars risponde che lui può fare tutto perché è un Dio, anche se prima era un uomo conosciuto come Ludwig.",
+   "i": "https://image.tmdb.org/t/p/w500/jNkGgm26Wf1Y9iPrwfg24WSUYaz.jpg",
+   "d": "2013-02-17"
+  },
+  "46": {
+   "t": "Kouga e Eden! Giovani Cosmi, squarciate le tenebre!",
+   "p": "Eden attacca con forza Mars e dice a Kouga di recuperare il bastone di Aria per salvare la Terra. Ma quando Mars sente che Eden lo considera non più un padre, bensì un nemico, acquista un potere ancora più forte a causa dell'odio e della rabbia.",
+   "i": "https://image.tmdb.org/t/p/w500/zRt8xPWboIJwQOgUlftXMsC7A1a.jpg",
+   "d": "2013-02-24"
+  },
+  "47": {
+   "t": "Nuova speranza! Un nuovo campo di battaglia!",
+   "p": "Mentre Kouga ed Eden cercano di fermare il flusso di cosmo che migra verso Marte, Medea si impadronisce del potere dell’oscurità di Mars e lo consegna a suo fratello Amor, venuto ad aiutarli, dopodiché si reca su Marte.",
+   "i": "https://image.tmdb.org/t/p/w500/5cViPAjq02OF64seCLPYfNr6WtY.jpg",
+   "d": "2013-03-03"
+  },
+  "48": {
+   "t": "Assieme, amici! Il Cosmo straripante di Kouga!",
+   "p": "Yuna, Haruto, Souma e Ryuho cercano il modo per raggiungere Marte e vengono aiutati dai Gold Saint dell’Ariete, del Toro, della Vergine e della Bilancia. Amor è sorpreso dal fatto che dopo avere trasferito le tenebre in Kouga non sia successo nulla e pensa di essere stato abbandonato dalla sorella, in cui non trova soccorso.",
+   "i": "https://image.tmdb.org/t/p/w500/9rC4zo8qcSuYgd2Uoa0rK9ojE8e.jpg",
+   "d": "2013-03-10"
+  },
+  "49": {
+   "t": "Il dominatore delle tenebre! Il terrore di Abzu!",
+   "p": "Eden allontana Apsu da Atena per sferrare il suo attacco finale, ma viene facilmente sconfitto. Prima che Apsu potesse ucciderlo, Medea trasferisce Eden nel suo covo e gli rivela che non deve temere il potere di Apsu, perché può essere controllato dal bastone di Aria.",
+   "i": "https://image.tmdb.org/t/p/w500/73MgdAyssJNAo6bvhAhNySW4A3S.jpg",
+   "d": "2013-03-17"
+  },
+  "50": {
+   "t": "Raggiungi Seiya! Desiderio dei giovani Saint!",
+   "p": "Yuna è rimasta sola contro Apsu ed è disperata, ma Atena le parla e le dice che c’è ancora luce in cui sperare. Alla fine Yuna viene sconfitta, ma quando Apsu è sul punto di uccidere Atena, la luce di Aria e la speranza dei giovani Saint fanno in modo che Seiya del Sagittario, incatenato nelle profondità di Marte, sia liberato.",
+   "i": "https://image.tmdb.org/t/p/w500/ho2rQQ6NGz2DD3c05Xyz36jfB4S.jpg",
+   "d": "2013-03-24"
+  },
+  "51": {
+   "t": "Splendi Kouga! La battaglia finale tra luce e tenebre!",
+   "p": "Nello scontro contro Apsu, Kouga riesce a sopprimere il suo cosmo di Tenebra. Con la sua determinazione e per la salvezza di Atena, il giovane Saint riesce a ferire Apsu, ma anche il suo braccio viene gravemente danneggiato.",
+   "i": "https://image.tmdb.org/t/p/w500/o9Cod9BzMNewPxUmnMAAFUyxCBT.jpg",
+   "d": "2013-03-31"
+  },
+  "52": {
+   "t": "Un nuovo Cloth! Vola, New Pegasus!",
+   "p": "La Dea dell’amore, Pallas, è comparsa sulla Terra, come Atena aveva previsto in sogno: per evitare lo scoppio di una nuova guerra Seiya del Sagittario viene inviato a ucciderla, ma esita quando si trova davanti una bambina, e permette a Titan, Pallasite di Prima Classe, di proteggerla e portarla via.",
+   "i": "https://image.tmdb.org/t/p/w500/r7d3XhG42U63Z7ylOy1yPyuZQhI.jpg",
+   "d": "2013-04-07"
+  },
+  "53": {
+   "t": "Riunione! Souma, brucia le fiamme dell'anima!",
+   "p": "Kouga e Subaru si imbarcano per raggiungere il quartier generale dei Saint, il Santuario. All’entrata incontrano Shaina, maestra di Kouga, che lo avverte che Atena lo sta aspettando.",
+   "i": "https://image.tmdb.org/t/p/w500/263VJxn7s4Y5bPI9e2HPl0OUjAL.jpg",
+   "d": "2013-04-14"
+  },
+  "54": {
+   "t": "Trasforma il coraggio in forza! Rinasci, Cloth!",
+   "p": "Yuna raggiunge il Jamir per fare riparare la sua armatura, ma Kiki le dice che per indossarla dovrà superare l'incertezza nel suo cuore. Mentre si trova con Raki, allieva di Kiki, Yuna viene attaccata da due fratelli Pallasite di Terza Classe, Ymir e Methone.",
+   "i": "https://image.tmdb.org/t/p/w500/p6pbWozn4t07cfeQy6DhHXSO86Q.jpg",
+   "d": "2013-04-21"
+  },
+  "55": {
+   "t": "Insostituibile! Risvegliati, Dragon!",
+   "p": "Kouga, Souma, Yuna e Subaru sono quasi giunti a Gohoro, ma vengono attaccati da un gruppo di Pallasite sotto il comando di Halimede, Pallasite di Terza Classe, che, invece, attacca Ryuho, mentre si sta allenando con suo padre.",
+   "i": "https://image.tmdb.org/t/p/w500/6dkYrDMaMFZlHgZv3YSsmNAWNoV.jpg",
+   "d": "2013-04-28"
+  },
+  "56": {
+   "t": "Terremoto nel cuore! Il grido di Haruto!",
+   "p": "Kouga e Subaru trovano Haruto, che in Giappone è diventato una rockstar: lui racconta che, dopo lo scontro con Apsu, ha fatto riparare la sua Cloth, ma ascoltando del rock su una radio, ha sentito una nuova energia scorrere in lui; di conseguenza non vuole tornare a essere un Saint.",
+   "i": "https://image.tmdb.org/t/p/w500/ys6keccj4AjUbIeqj1sZyihDnNi.jpg",
+   "d": "2013-05-05"
+  },
+  "57": {
+   "t": "Abbatti Pegaso! Eden, il Guerriero Solitario!",
+   "p": "Thebe, Pallasite di Terza Classe, con la complicità di Europa, Pallasite di Seconda Classe, sconfigge il Silver saint Scutum Ennead per preparare una trappola per Kouga e Subaru.",
+   "i": "https://image.tmdb.org/t/p/w500/opqGJancUI8xDXFVFUmU87ZWlDC.jpg",
+   "d": "2013-05-12"
+  },
+  "58": {
+   "t": "I quattro re celesti appaiono! Guerra totale tra Athena e Pallas!",
+   "p": "I Pallasite hanno fermato il tempo in molte zone della Terra: per fermarli Atena decide di riunire tutti i Saint al Santuario sotto una sola bandiera. Anche i Quattro Re Celesti Pallasite si riuniscono per iniziare la lotta.",
+   "i": "https://image.tmdb.org/t/p/w500/573bcUvTQcTwBcfrnyOXerRqvxE.jpg",
+   "d": "2013-05-19"
+  },
+  "59": {
+   "t": "Legame tra fratelli! Shun di Andromeda si unisce alla battaglia!",
+   "p": "Un villaggio viene attaccato da Pallasite e due bambini tentano la fuga, ma un Halimede, li insegue; interviene il Saint leggendario Shun di Andomeda, che, però, salva solo uno dal congelamento temporale.",
+   "i": "https://image.tmdb.org/t/p/w500/p6eYZNnqWXpiSyI4IFVp88pDbe5.jpg",
+   "d": "2013-05-26"
+  },
+  "60": {
+   "t": "Stella d'acciaio! Subaru, abbraccia il tuo combattivo spirito d'acciaio!",
+   "p": "Hati distrugge un centro di formazione per Steel Saint con un gruppo di Pallasite, ma scopre che i Saint hanno già abbandonato il campo. Quando Kouga e Subaru arrivano sul posto li attende un'imboscata di Hati.",
+   "i": "https://image.tmdb.org/t/p/w500/wMoKaG10yDaBNRDEzFX71Pkeyey.jpg",
+   "d": "2013-06-02"
+  },
+  "61": {
+   "t": "Un grande esercito si avvicina! Battaglia a difesa di Palaestra!",
+   "p": "Kouga e Subaru raggiungono Palaestra e ritrovano i loro amici. La scuola è piena di persone salvate dai Saint provenienti da ogni dove. Con loro c’è anche Genbu della Bilancia, che rimprovera i giovani Saint per avere fatto troppo affidamento sulle loro Cloths danneggiandole.",
+   "i": "https://image.tmdb.org/t/p/w500/cU17iRNeXTy3EHrmrW51PXyeDOW.jpg",
+   "d": "2013-06-09"
+  },
+  "62": {
+   "t": "La battaglia mortale di Genbu! Spada Sacra vs. Spada di Libra!",
+   "p": "Con un solo colpo della Spada Sacra, Aegir atterra Genbu e distrugge il cancello di Palaestra. I giovani Saint intervengono, ma Genbu non è stato ancora sconfitto e ordina ai Saint di ritirarsi, perché sarà lui a sconfiggere il nemico.",
+   "i": "https://image.tmdb.org/t/p/w500/llyF72OnsSLz6zQNQekttudgF7M.jpg",
+   "d": "2013-06-23"
+  },
+  "63": {
+   "t": "Seiya scende in campo! La decisione di Athena!",
+   "p": "La morte di Genbu ha abbassato molto il morale dei Saint, rendendoli più deboli. Hati cerca di approfittarne per entrare a Palaestra, ma i giovani Saint si fanno avanti per fermarlo; nonostante ciò i Pallasite sono migliaia per loro.",
+   "i": "https://image.tmdb.org/t/p/w500/l4S7a1HRNu0L55I7Q8ZnVNMhVBP.jpg",
+   "d": "2013-07-07"
+  },
+  "64": {
+   "t": "Avanzate, saint! L'inacessibile strada verso Pallas Verda!",
+   "p": "I giovani Saint avanzano verso Pallas Verda, ma sulla strada sono attaccati da Cyllene, Pallasite di Seconda Classe. Durante lo scontro Haruto e Subaru decidono di combattere da soli il nemico e lasciano gli altri a continuare il loro viaggio.",
+   "i": "https://image.tmdb.org/t/p/w500/4op7u6ADzVz0Bkdnnwdqjb3bQYs.jpg",
+   "d": "2013-07-14"
+  },
+  "65": {
+   "t": "Distruggere il cancello di ferro! La lancia del Pegaso e lo scudo del Dragone!",
+   "p": "I giovani Saint si fanno strada verso il castello di Pallas, ma sono fermati da Tarvos. Kouga vuole sistemare i conti in sospeso da solo e fa proseguire gli altri, ma, quando è sul punto di essere colpito da un potente attacco di Tarvos, Ryuho torna indietro per aiutarlo.",
+   "i": "https://image.tmdb.org/t/p/w500/jf7JePhxwbLkUEeVXRvRqztxlD9.jpg",
+   "d": "2013-07-21"
+  },
+  "66": {
+   "t": "Lotta d'acciaio! I guerrieri senza nome!",
+   "p": "La lotta a Pallas Verda ha creato gravi perdite tra gli Steel Saint. Sulla loro strada Souma e Subaru aiutano gli ultimi rimasti, Emma e Kerry, e vengono attaccati da Loge e le sue api.",
+   "i": "https://image.tmdb.org/t/p/w500/cxCqTmiZ8i0j1pWqhkNUrp86zuV.jpg",
+   "d": "2013-07-28"
+  },
+  "67": {
+   "t": "Il meraviglioso cosmo di Subaru! La missione di Eden!",
+   "p": "Eden giunge a Pallas Verda attratto da un Cosmo particolare, ma sulla sua strada incontra Europa, che lo accusa di pensare solo al suo bene e non a quello di Atena, e capisce che Eden sta cercando una risposta sul significato della sua esistenza.",
+   "i": "https://image.tmdb.org/t/p/w500/kgxIJ1LLA6sThThUIddsYZpTRNa.jpg",
+   "d": "2013-08-04"
+  },
+  "68": {
+   "t": "Koga e Pallas! Incontro sul campo di battaglia!",
+   "p": "Pallas è stufa di restare rinchiusa nel castello, così esce di nascosto. Kouga incontra Pallas, ma, poiché non l’ha mai vista, pensa che sia un civile e la aiuta. Quando si accorge che è Pallas, è troppo tardi, perché Titan, uno dei Re Pallasiti, la ritrova e la protegge.",
+   "i": "https://image.tmdb.org/t/p/w500/oRmAFrvde7p2TMDXC18WM1UftmW.jpg",
+   "d": "2013-08-11"
+  },
+  "69": {
+   "t": "Tempesta di fuoco in azione! L'amicizia di Yuna e Souma!",
+   "p": "Europa dona a Methone, che vuole vendicarsi su Souma e Yuna, una clessidra Nera. Con sua sorella Ymir attacca i due Bronze Saint, ma usa la clessidra per prosciugare la vita di sua sorella e ottenere più potere.",
+   "i": "https://image.tmdb.org/t/p/w500/ebzMygNME7J62eyossK2q0m29Cs.jpg",
+   "d": "2013-08-18"
+  },
+  "70": {
+   "t": "Distruttore di armature! Il pallasite vagante attacca!",
+   "p": "Mira, un Pallasite solitario, è apparso a Pallas Verda in cerca di Cloths da distruggere con il suo guanto alchemico. Kouga e i suoi amici si imbattono in lui e rischiano che le loro Cloths siano gravemente danneggiate.",
+   "i": "https://image.tmdb.org/t/p/w500/n6OxVfyuagMSpo6vZ9TTmuPxLgT.jpg",
+   "d": "2013-09-01"
+  },
+  "71": {
+   "t": "L'armatura maledetta!? Il saint di Equuleus!",
+   "p": "Un gruppo di Pallasite sta attaccando una bambina, Selene, e i giovani Saint giungono in suo soccorso; poco dopo si presenta Celeris, Saint di Equuleus e mette in fuga i Pallasite. Celeris conduce tutti in una città sotterranea, dove i civili sono tenuti al sicuro.",
+   "i": "https://image.tmdb.org/t/p/w500/tH1WviAQmiN14qijgFGPt5YenAQ.jpg",
+   "d": "2013-09-15"
+  },
+  "72": {
+   "t": "Armatura ereditata! La nascita di Subaru di Equuleus!",
+   "p": "Hati attende che i giovani Saint prendano il passaggio sotterraneo verso il castello di Pallas, dopodiché attacca la città sotterranea per annientare Celeris. Subaru, però, decide di tornare indietro ad aiutare Celeris.",
+   "i": "https://image.tmdb.org/t/p/w500/rFGzPvpy15TQIlWaYEdxbnuXJU9.jpg",
+   "d": "2013-09-22"
+  },
+  "73": {
+   "t": "Le lacrime di Equuleus!? Il risveglio delle due armature!",
+   "p": "I Pallasite hanno distrutto il passaggio sotterraneo, così i Saint devono trovare una nuova strada in superficie. Intanto Atena si prepara alla battaglia recuperando la sua Cloth e consegnandola ad Harbinger affinché la protegga.",
+   "i": "https://image.tmdb.org/t/p/w500/u1IQjqoS5Ndo6FU3AnZa9YptQAq.jpg",
+   "d": "2013-09-29"
+  },
+  "74": {
+   "t": "La battaglia di Kiki! Compagni attraverso le generazioni!",
+   "p": "Raki porta Kouga e i suoi compagni da Kiki per fare riparare le loro Cloths, ma vengono attaccati da Dione, Pallasite di Seconda Classe. Per permettere a Kiki di riparare le armature sono i leggendari tre Steel Saint ad affrontarlo.",
+   "i": "https://image.tmdb.org/t/p/w500/o3H5FzfofItIOtoQiJfd1ZR9LVY.jpg",
+   "d": "2013-10-06"
+  },
+  "75": {
+   "t": "Incontro predestinato! Il ritorno di Gemini!",
+   "p": "Gallia, Pallasite di Prima Classe, libera Paradox dalla prigione in cui era stata rinchiusa per avere tradito Atena. Paradox, in qualità di Pallasite di Seconda Classe, attacca Ryuho per vendicarsi dell’umiliazione subita, ma viene fermata da sua sorella Integra, vera Gold Saint dei Gemelli.",
+   "i": "https://image.tmdb.org/t/p/w500/lYEEMlRLAANQtSBmCtiIRWxusn0.jpg",
+   "d": "2013-10-13"
+  },
+  "76": {
+   "t": "L'uccello immortale! Appare Ikki di Phoenix!",
+   "p": "Un gruppo di Pallasite viene mandato presso l'isola di Kanon per uccidere il Saint leggendario Ikki della Fenice, ma sono facilmente sconfitti. Intanto Kouga e gli altri sono quasi arrivati al castello di Pallas, ma vengono forzati a combattere da Mira.",
+   "i": "https://image.tmdb.org/t/p/w500/sfj4ZrvAQy9NjPLNKXxY9h3oHWK.jpg",
+   "d": "2013-10-20"
+  },
+  "77": {
+   "t": "Smuovere il tempo! I Saint di Athena si riuniscono!",
+   "p": "Titan, per impedire ai Saint di entrare nel castello, chiude il Cancello del Tempo, unica via d’accesso. Koga ed Eden, supportati dai loro amici riescono ad arrivare al Cancello del Tempo, ma c’è Europa ad attenderli.",
+   "i": "https://image.tmdb.org/t/p/w500/dcbFogKX6KppqY9Vee2lgXVwBlf.jpg",
+   "d": "2013-10-27"
+  },
+  "78": {
+   "t": "Inizia la battaglia decisiva! Per il destino della Dea!",
+   "p": "Ikki e Integra precedono gli altri ed entrano nel castello di Pallas. Atena li segue con il resto dei Saint, ma si trovano di fronte quattro strade. Europa gli rivela che solo una di quelle porta da Pallas, per cui i Saint si dividono in quattro gruppi.",
+   "i": "https://image.tmdb.org/t/p/w500/gagHg6fZpAd3Mxny50NEaQr8eBF.jpg",
+   "d": "2013-11-03"
+  },
+  "79": {
+   "t": "Attacco e difesa omicida! La catena segreta di Shun!",
+   "p": "Surtr, Pallasite di Seconda Classe è il primo avversario di Kouga, Yuna, Souma e Shun. Il suo potere consiste in una pietra sul suo petto, chiamata Mystic Stone, che gli permette di creare una barriera che riflette gli attacchi nemici.",
+   "i": "https://image.tmdb.org/t/p/w500/9LByJB2IkoEFL96B6R2diQTh2gQ.jpg",
+   "d": "2013-11-10"
+  },
+  "80": {
+   "t": "Il re del tempo! Hyoga, il gelo allo zero assoluto!",
+   "p": "Haruto, Subaru e Hyoga si trovano ad affrontare Tokisada, ex Gold Saint dell’Acquario, ora Pallasite di Seconda Classe. Tokisada racconta che dopo il loro scontro ai confini del tempo qualcuno gli ha donato la Chronotector e lo ha reso il Re del Tempo.",
+   "i": "https://image.tmdb.org/t/p/w500/3IDbuJlDB6V7vwLl7mj7KFgKCv0.jpg",
+   "d": "2013-11-24"
+  },
+  "81": {
+   "t": "Indossa la chronotector! I quattro re all'attacco!",
+   "p": "Shun, Kouga, Souma e Yuna si trovano ad affrontare Aegeon, Pallasite di prima classe, Possessore della “Lama decapitatrice del bombardamento pesante del fulmine”.",
+   "i": "https://image.tmdb.org/t/p/w500/zkkWhcQeLsCHoJ7hFbqf1NA0878.jpg",
+   "d": "2013-12-01"
+  },
+  "82": {
+   "t": "Combattimento spirituale estremo! Ikki contro Aegaeon!",
+   "p": "Ikki permette agli altri di proseguire e affronta il nemico da solo. Aegeon manda in frantumi la Cloth della Fenice con la sua spada, ma lo spirito della Fenice risorge e Ikki riesce a distruggere la Spada Sacra.",
+   "i": "https://image.tmdb.org/t/p/w500/qdgGlMauKbkHambuTezo8sI9Ka4.jpg",
+   "d": "2013-12-08"
+  },
+  "83": {
+   "t": "Shiryu e Ryuho! Lo spirito dei cinque picchi!",
+   "p": "Shiryu e Ryuho vengono attaccati da Rhea, Pallasite di Seconda Classe. Shiryu lo affronta da solo e riesce a bloccare la sua Gae Bolg, capace di perforare perfino l’Oricalco.",
+   "i": "https://image.tmdb.org/t/p/w500/stT8h3N5RZb23h08Wv6PKs5QR6.jpg",
+   "d": "2013-12-15"
+  },
+  "84": {
+   "t": "L'ombra si avvicina! Il Gold Saint protettore di Athena!",
+   "p": "A creare il corridoio infinito è stata Paradox, Pallasite di Seconda Classe, che decide di attaccare Atena per fare uscire allo scoperto sua sorella Integra dei Gemelli.",
+   "i": "https://image.tmdb.org/t/p/w500/xDIFC3G5K4oWjqwOZM151vbbygU.jpg",
+   "d": "2013-12-22"
+  },
+  "85": {
+   "t": "Contro il destino! Confessione di un ammutinamento",
+   "p": "Gallia, Pallasite di Prima Classe e Portatrice della Spada della Manifestazione del Dio della Guerra, si prepara ad attaccare Atena e i Gold Saint. La sua Chronotector, la Photontector, ha il potere di tre Gold Cloths: Cancro, Acquario e Pesci.",
+   "i": "https://image.tmdb.org/t/p/w500/trwNUuS8gdtvWpiPrywSt5Cgkeh.jpg",
+   "d": "2014-01-05"
+  },
+  "86": {
+   "t": "Il segreto delle cloth! Un nuovo potere è attivo!",
+   "p": "Gallia, per combattere a pieno potere, porta i Saint all’esterno del castello. I giovani Saint, per permettere ad Atena e ai Gold Saint di avanzare, decidono di combattere il nemico da solo. Gallia non vuole permettergli di andarsene, ma viene ostacolata dai Bronze Saint e fallisce nell'intento.",
+   "i": "https://image.tmdb.org/t/p/w500/bJoYt4ChZSY6wkh6lZBxIGo4SZb.jpg",
+   "d": "2014-01-12"
+  },
+  "87": {
+   "t": "L'unione d'oro! Il mistero proibito!",
+   "p": "Hyperion, Pallasite di Prima Classe e Possessore del Sacro Fendente dei Cataclismi, attacca Atena e i Gold Saint. A proteggerlo è la sua Chronotector, la Destructiontector, che ha il potere di tre Gold Cloths: Toro, Ariete e Leone.",
+   "i": "https://image.tmdb.org/t/p/w500/22GsreD6n381mv4E7zB4uN5j1C9.jpg",
+   "d": "2014-01-19"
+  },
+  "88": {
+   "t": "La volontà tramandata! I grandi insegnamenti dei Saint!",
+   "p": "I giovani Saint si recano sul luogo in cui hanno sentito svanire il cosmo di Shiryu, Kiki e Fudo e si rendono conto che hanno dato la vita per sconfiggere Hyperion. In realtà il nemico non è stato ancora sconfitto, perché la sua Destructiontector l’ha protetto.",
+   "i": "https://image.tmdb.org/t/p/w500/tkNEGWweAQV1Osn1mMIcR7Xuuf3.jpg",
+   "d": "2014-01-26"
+  },
+  "89": {
+   "t": "Il risveglio! Il definitivo Omega!",
+   "p": "I giovani Saint ricordano il modo in cui Subaru ha combattuto per loro e tentano il tutto per tutto contro Hyperion, che, però, distrugge le loro Cloths. Nel contempo Subaru, cerca di fuggire dal blocco temporale.",
+   "i": "https://image.tmdb.org/t/p/w500/5ORlhRrq20Uv3am7IBD0GmVgaiP.jpg",
+   "d": "2014-02-02"
+  },
+  "90": {
+   "t": "La carica del Toro!! Il raggiungimento, la stanza di Pallas!",
+   "p": "Europa raggiunge Pallas per assicurarsi che all’arrivo di Atena decida di toglierle la vita. Pallas chiede aiuto a Titan per portare a termine il suo compito. Harbinger, Seiya e Atena raggiungono finalmente la stanza di Pallas.",
+   "i": "https://image.tmdb.org/t/p/w500/vVC2DRNEhpDkjpOcw8OPufbZPfE.jpg",
+   "d": "2014-02-09"
+  },
+  "91": {
+   "t": "Athena e Pallas! La battaglia decisiva della Dea!",
+   "p": "Seiya del Sagittario si offre di combattere Pallas al posto di Atena per rimediare all'errore di averla risparmiata quando era una bambina, ma Atena glielo impedisce perché è stata la sua esitazione a permettere a Pallas di continuare a vivere e per questo sarà lei ad affrontarla.",
+   "i": "https://image.tmdb.org/t/p/w500/jEUFUC9M3LvbD4yWvSLczLDxtjD.jpg",
+   "d": "2014-02-16"
+  },
+  "92": {
+   "t": "I veri sentimenti di Seiya! Ritorno dalla menzogna!",
+   "p": "Titan indossa la sua Chronotector, la Genesistector, che ha il potere di tre Gold Cloths: Gemelli, Vergine e Sagittario. Seiya e Titan combattono per proteggere le loro dee. Nel frattempo i giovani Saint raggiungono il campo di battaglia.",
+   "i": "https://image.tmdb.org/t/p/w500/b0IEoBK2dmJDmHli0NfKR7SDXjO.jpg",
+   "d": "2014-02-23"
+  },
+  "93": {
+   "t": "Il dio del tempo! L'ascesa di Saturn!",
+   "p": "Il dio del tempo, Saturn, si è svegliato. Indossa la Chronotector suprema e impugna la vera Danza Eterna. Intanto Mira, compresa la situazione, si ricongiunge a Europa, al fianco del suo dio.",
+   "i": "https://image.tmdb.org/t/p/w500/2wGDpGycnopilrunlchinsCKpOL.jpg",
+   "d": "2014-03-02"
+  },
+  "94": {
+   "t": "I guerrieri della speranza! Il legame dei Saint!",
+   "p": "I Saint rimasti sulla Terra cercano di salvarla dall’attacco dei soldati di Saturno, quando si ripresenta davanti a loro un Pallasite di Seconda Classe che credevano morto, Aegir.",
+   "i": "https://image.tmdb.org/t/p/w500/9Qgigvdlj1LuoqXP0gJRBfNQaNy.jpg",
+   "d": "2014-03-09"
+  },
+  "95": {
+   "t": "Oltre la divinità! Il cosmo di Seiya!",
+   "p": "I giovani Saint giungono su Saturno insieme a Seiya per combattere il Dio del tempo, ma i loro tentativi si rivelano vani, nel frattempo sulla terra continua lo scontro tra i Saint e Mira ed Europa.",
+   "i": "https://image.tmdb.org/t/p/w500/lmYobc8T35F8CCFf7fWJitr3ada.jpg",
+   "d": "2014-03-16"
+  },
+  "96": {
+   "t": "L'ultima battaglia! Andate, Saint di Omega!",
+   "p": "Seiya cerca di colpire l'armatura di Saturno con la daga d'oro, ma fallisce cadendo al suolo, i giovani Saint tentano un attacco combinato al Dio del tempo, ma anche loro vengono respinti facilmente.",
+   "i": "https://image.tmdb.org/t/p/w500/1KUvaRzSmjpIFwdOaWijl1H2wn9.jpg",
+   "d": "2014-03-23"
+  },
+  "97": {
+   "t": "La fine della battaglia! Divieni leggenda, Koga!",
+   "p": "Continua l'aspra lotta tra Koga e Saturno, i due perdono l'armatura e tutti i Saint di Omega tornano nella mente di Saturno, come ricordi di Subaru, quindi riconoscendo il grande legame tra Saint e la forza dell'Omega, decide di arrendersi lasciando l'armatura di Equuleus che un tempo apparteneva a Subaru, dando il suo addio a Kouga.",
+   "i": "https://image.tmdb.org/t/p/w500/gQ6nVGUTEsVLBtdYU23ugGyBsZ5.jpg",
+   "d": "2014-03-30"
+  }
+ }
+}

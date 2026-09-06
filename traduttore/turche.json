@@ -1,0 +1,46 @@
+[
+ {
+  "id": 274556,
+  "nome": "Far Away",
+  "originale": "Uzak Şehir",
+  "anno": "2024",
+  "fine": "2026",
+  "episodi": 98,
+  "stagioni": 3,
+  "voto": 8.0,
+  "dove": [
+   "Mediaset Infinity",
+   "Timvision"
+  ]
+ },
+ {
+  "id": 87623,
+  "nome": "Hercai - Amore e vendetta",
+  "originale": "Hercai",
+  "anno": "2019",
+  "fine": "2021",
+  "episodi": 69,
+  "stagioni": 3,
+  "voto": 7.773,
+  "dove": [
+   "Discovery+",
+   "Discovery+ Amazon Channel",
+   "HBO Max",
+   "HBO Max Amazon Channel",
+   "Timvision"
+  ]
+ },
+ {
+  "id": 204255,
+  "nome": "Mezarlık",
+  "originale": "Mezarlık",
+  "anno": "2022",
+  "fine": "2026",
+  "episodi": 20,
+  "stagioni": 3,
+  "voto": 7.35,
+  "dove": [
+   "Netflix"
+  ]
+ }
+]

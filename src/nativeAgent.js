@@ -881,6 +881,7 @@ const ULTRAHD_TOOL = {
             + "  IMPOSTAZIONI KODI — impostazione_cerca(query) TROVA l'id giusto e le scelte ammesse · impostazione_leggi(id) · impostazione_scrivi(id,valore)\n"
             + "  ADD-ON — addon_cerca(query) nel repository ufficiale · addon_lista() installati · addon_dettagli(addon) · addon_installa(addon) ⭐scarica+dipendenze+riavvio+verifica · addon_rimuovi(addon) · addon_abilita(addon[,acceso]) · addon_esegui(addon)\n"
             + "  APP ANDROID — apk_lista([query]) · apk_installa(origine: percorso locale o URL) · apk_disinstalla(pacchetto) · apri(pacchetto)\n"
+            + "🛡️ PROTEZIONI ATTIVE (2026-09-05), non sono suggerimenti: (1) ogni scrittura su un file del box fa PRIMA un backup .ag-bak-* e si RIFIUTA se il contenuto nuovo e' meno della meta' di quello vecchio; (2) i comandi che distruggono l'apparecchio (rm -rf di cartelle di sistema, formattazioni, spegnere adb o il wifi, disinstallare pacchetti di sistema) sono BLOCCATI anche se l'utente conferma; (3) Kodi non si riavvia a schermo spento, perche' resterebbe parcheggiato a meta'. Se una di queste ti ferma, NON cercare la strada di lato: e' un segnale che stai per fare un danno. Fermati e spiega all'utente cosa volevi fare.\n"
             + "  DIAGNOSI — log([righe][,query]) ultime righe di kodi.log · comando(comando[,root]) shell Android grezza (root=true per la cartella di Kodi)",
         parameters: {
             type: "object",
@@ -902,6 +903,8 @@ const ULTRAHD_TOOL = {
                 tasti: { type: "string", description: "tasti separati da spazio, es. 'giu giu ok' (tasto)" },
                 ripeti: { type: "number", description: "quante volte ripetere la sequenza (tasto)" },
                 schermo: { type: "boolean", description: "SOLO per op='sveglia': true ACCENDE davvero lo schermo e la TV. Lascialo assente/false per lavorare in silenzio a TV spenta — è la regola dell'utente." },
+                anche_a_schermo_spento: { type: "boolean", description: "SOLO per kodi_avvia/kodi_riavvia: forza il riavvio anche con la TV spenta. Di norma NON serve: a TV spenta Kodi resta parcheggiato a meta' avvio (sembra riavviato e non lo e'). Per lavorare a TV spenta usa op='sveglia', non questo." },
+                forza: { type: "boolean", description: "scavalca la protezione che rifiuta una scrittura molto piu' piccola del file che sostituisce. Usalo solo se il rimpicciolimento e' voluto DAVVERO e l'hai verificato." },
                 testo: { type: "string", description: "testo da digitare (testo)" },
                 metodo: { type: "string", description: "metodo JSON-RPC, es. 'Player.GetActivePlayers' (rpc)" },
                 params: { type: "object", description: "parametri del metodo JSON-RPC (rpc)" },
@@ -927,7 +930,54 @@ MODEL_TOOLS.push(GHIDRA_TOOL);
 MODEL_TOOLS.push(ULTRAHD_TOOL);
 // Tutti i nomi-tool validi (per riconoscere una tool-call emessa come TESTO da
 // modelli che non usano i tool_calls nativi — es. Qwen-Coder abliterated su Kaggle).
-const ALL_TOOL_NAMES = new Set(TOOLS.map(t => t.function.name).concat(["ghidra", "ultrahd8k"]));
+
+// ---------------------------------------------------------------------------
+// IL SALOTTO — il secondo apparecchio di casa (Raspberry Pi 4 + LibreELEC).
+// Non e' Android: niente adb, niente tasti, niente APK. Si comanda con l'API
+// di Kodi e, per il sistema, via SSH. Vedi src/salotto.js.
+// ---------------------------------------------------------------------------
+const SALOTTO_TOOL = {
+    type: "function",
+    function: {
+        name: "salotto",
+        description:
+            "LA TV DEL SALOTTO — Raspberry Pi 4 con LibreELEC e Kodi 20, attaccato alla Hisense 50A5LE. "
+            + "E' l'apparecchio del SOGGIORNO, diverso dal box 8K che sta in CAMERA DA LETTO (quello si comanda con lo strumento 'ultrahd8k'). "
+            + "Se l'utente dice salotto, soggiorno, di sotto o Hisense, e' questo. Se dice camera, letto o Sky Glass, e' l'altro.\n"
+            + "Ha gli stessi add-on del box (Le Saghe, s4me, IPTV con 771 canali e guida TV) e condivide con lui il segnaposto: "
+            + "cominci un episodio di la' e lo finisci di qua.\n"
+            + "OPERAZIONI: stato (cosa sta facendo) · riproduci(percorso) · apri_addon(addon) · ferma · pausa · volume(livello) · "
+            + "notifica(titolo,messaggio) mostra un avviso sullo schermo · tracce_audio (quali lingue ha il video in corso) · "
+            + "log(righe,filtro) · rpc(metodo,params) per qualunque chiamata all'API di Kodi · comando(comando) shell via SSH.\n"
+            + "NOTA: la TV va accesa almeno una volta perche' Kodi finisca di avviarsi; se non risponde e' quasi sempre quello.",
+        parameters: {
+            type: "object",
+            properties: {
+                op: {
+                    type: "string",
+                    enum: ["stato", "riproduci", "apri_addon", "ferma", "pausa", "volume",
+                           "notifica", "tracce_audio", "log", "rpc", "comando"],
+                    description: "l'operazione da eseguire",
+                },
+                percorso: { type: "string", description: "file o indirizzo da riprodurre (riproduci)" },
+                addon: { type: "string", description: "id dell'add-on da aprire, es. plugin.video.saghe (apri_addon)" },
+                livello: { type: "number", description: "volume da 0 a 100 (volume)" },
+                titolo: { type: "string", description: "titolo dell'avviso (notifica)" },
+                messaggio: { type: "string", description: "testo dell'avviso (notifica)" },
+                righe: { type: "number", description: "quante righe di log (log)" },
+                filtro: { type: "string", description: "parola da cercare nel log (log)" },
+                metodo: { type: "string", description: "metodo JSON-RPC di Kodi (rpc)" },
+                params: { type: "object", description: "parametri del metodo (rpc)" },
+                comando: { type: "string", description: "comando di sistema via SSH (comando)" },
+            },
+            required: ["op"],
+        },
+    },
+};
+
+MODEL_TOOLS.push(SALOTTO_TOOL);
+
+const ALL_TOOL_NAMES = new Set(TOOLS.map(t => t.function.name).concat(["ghidra", "ultrahd8k", "salotto"]));
 
 class NativeAgent {
     /**
@@ -1711,9 +1761,9 @@ class NativeAgent {
                             const no = await conferma("Digitare del testo", args.testo); if (no) return no;
                             return await b.testo(String(args.testo || ""));
                         }
-                        case "kodi_avvia": { const no = await conferma("Avviare Kodi", ""); if (no) return no; return await b.kodiAvvia(); }
+                        case "kodi_avvia": { const no = await conferma("Avviare Kodi", ""); if (no) return no; return await b.kodiAvvia({ anche_a_schermo_spento: !!args.anche_a_schermo_spento }); }
                         case "kodi_ferma": { const no = await conferma("Fermare Kodi", ""); if (no) return no; return await b.kodiFerma(); }
-                        case "kodi_riavvia": { const no = await conferma("Riavviare Kodi", ""); if (no) return no; return await b.kodiRiavvia(); }
+                        case "kodi_riavvia": { const no = await conferma("Riavviare Kodi", ""); if (no) return no; return await b.kodiRiavvia({ anche_a_schermo_spento: !!args.anche_a_schermo_spento }); }
                         case "api_accendi": {
                             const no = await conferma("Accendere l'API JSON-RPC di Kodi", "modifica guisettings.xml e riavvia Kodi"); if (no) return no;
                             return await b.apiAccendi({});
@@ -1783,7 +1833,9 @@ class NativeAgent {
                         }
                         case "comando": {
                             const no = await conferma("Eseguire un comando di shell sull'apparecchio" + (args.root ? " DA ROOT" : ""), String(args.comando || "")); if (no) return no;
-                            return await b.sh(String(args.comando || ""), { root: !!args.root });
+                            // b.comando() (non b.sh()) passa dalla lista nera:
+                            // quello che arriva da un modello va filtrato.
+                            return await b.comando(String(args.comando || ""), { root: !!args.root });
                         }
                         case "configura": {
                             const no = await conferma("Cambiare la configurazione dell'apparecchio", JSON.stringify(args.valori || {})); if (no) return no;
@@ -1799,6 +1851,54 @@ class NativeAgent {
                     return "ERRORE 8K Ultra HD: " + (e && e.message ? e.message : String(e));
                 }
             }
+            // ---- SALOTTO: il Raspberry attaccato alla Hisense -----------------
+            if (name === "salotto") {
+                const op = String(args.op || "").toLowerCase();
+                if (!this._salotto) {
+                    const { Salotto } = require("./salotto");
+                    this._salotto = new Salotto();
+                }
+                const s = this._salotto;
+                const conferma = async (titolo, dettaglio) => {
+                    const ok = await this._needApproval("execute", titolo + " (salotto)", String(dettaglio || ""));
+                    return ok ? null : "RIFIUTATO dall'utente: non ho toccato la TV del salotto.";
+                };
+                try {
+                    switch (op) {
+                        // sola lettura: nessuna conferma
+                        case "stato": return await s.stato();
+                        case "tracce_audio": return await s.tracceAudio();
+                        case "log": return await s.log(Number(args.righe) || 40, String(args.filtro || ""));
+                        // cambiano qualcosa sullo schermo: si chiede
+                        case "riproduci": {
+                            const no = await conferma("Far partire un video in salotto", String(args.percorso || "")); if (no) return no;
+                            return await s.riproduci(String(args.percorso || ""));
+                        }
+                        case "apri_addon": {
+                            const no = await conferma("Aprire un add-on in salotto", String(args.addon || "")); if (no) return no;
+                            return await s.apriAddon(String(args.addon || ""));
+                        }
+                        case "ferma": { const no = await conferma("Fermare la riproduzione in salotto", ""); if (no) return no; return await s.ferma(); }
+                        case "pausa": { const no = await conferma("Mettere in pausa in salotto", ""); if (no) return no; return await s.pausa(); }
+                        case "volume": { const no = await conferma("Cambiare il volume del salotto", String(args.livello)); if (no) return no; return await s.volume(args.livello); }
+                        case "notifica": return await s.notifica(args.titolo || "Antigravity", args.messaggio || "", 5);
+                        case "rpc": {
+                            const no = await conferma("Chiamata all'API di Kodi del salotto", String(args.metodo || "")); if (no) return no;
+                            return JSON.stringify(await s.rpc(String(args.metodo || ""), args.params || {}), null, 1);
+                        }
+                        case "comando": {
+                            const no = await conferma("Eseguire un comando di sistema in salotto", String(args.comando || "")); if (no) return no;
+                            return await s.sh(String(args.comando || ""));
+                        }
+                        default:
+                            return "ERRORE: op sconosciuta '" + args.op + "'. Valide: "
+                                + SALOTTO_TOOL.function.parameters.properties.op.enum.join(", ");
+                    }
+                } catch (e) {
+                    return "ERRORE salotto: " + (e && e.message ? e.message : String(e));
+                }
+            }
+
             // ---- ZW3D: sviluppo plugin ancorato all'API reale ------------------
             if (name === "zw3d") {
                 const op = String(args.op || "").toLowerCase();

@@ -1,0 +1,87 @@
+{
+ "serie": "Goldrake U",
+ "tmdb": 232022,
+ "anno": "2024",
+ "poster": "https://image.tmdb.org/t/p/w780/csjNrSGvHbz3jCsNQ9dKnwS7RYT.jpg",
+ "sfondo": "https://image.tmdb.org/t/p/w1280/3gl7e3XhnGM39SpX7W5iRIq02TR.jpg",
+ "episodi": {
+  "1": {
+   "t": "Il guardiano del pianeta blu",
+   "p": "Un UFO con Goldrake si schianta. Il pilota, ferito, è soccorso da Sayaka ma attaccato da Inferno. Alcor e Mazinga Z li salvano. Il pilota, \"Lo Straniero\", ha perso la memoria. Qual è il suo vero nome?",
+   "i": "https://image.tmdb.org/t/p/w500/eShYbSMLlzoasmvSM1SA45DHFA9.jpg",
+   "d": "2024-07-06"
+  },
+  "2": {
+   "t": "L'attacco a Vega",
+   "p": "Dopo lo scontro tra Goldrake e le forze di Vega, Actarus fugge provato dalla distruzione causata. Alcor parte all'inseguimento e riesce a intrufolarsi dentro Goldrake. Actarus riesce a far atterrare Goldrake su un'isola deserta ma viene preso dai sensi di colpa.",
+   "i": "https://image.tmdb.org/t/p/w500/1XwOSu2woiHkgLk2sZUImbfhCaa.jpg",
+   "d": "2024-07-13"
+  },
+  "3": {
+   "t": "La furia del principe",
+   "p": "L'Alleanza di Vega conquista molti pianeti tranne Fleed, protetto da Goldrake. Sulla Terra, Actarus e Sargas si scontrano, alimentando l'ira di Actarus.",
+   "i": "https://image.tmdb.org/t/p/w500/neUf93LJ21kT9FIyA4WzRmE9QJb.jpg",
+   "d": "2024-07-20"
+  },
+  "4": {
+   "t": "La quiete dopo la tempesta",
+   "p": "Tra il canto degli uccelli e la pace della natura, Actarus e Naida condividono entrambi un momento fuori dal centro. Actarus suona un pezzo di chitarra e Naida canta la dolce melodia. Lontano da quest'atmosfera pacifica, Sayaka non è tranquilla all'idea di lasciarli soli.",
+   "i": "https://image.tmdb.org/t/p/w500/rQN41qNFgfLQsG5B2GRlKX4FQlf.jpg",
+   "d": "2024-07-27"
+  },
+  "5": {
+   "t": "La fuggitiva",
+   "p": "I soldati di Vega inseguono Maria, sorella di Actarus, che ha sempre fiducia nel fratello grazie alle sue visioni. In viaggio verso la Terra, un oggetto volante sconosciuto si aggancia improvvisamente alla sua navicella.",
+   "i": "https://image.tmdb.org/t/p/w500/iIvmSA3o89UTkJzVIawMMDz7zCA.jpg",
+   "d": "2024-08-03"
+  },
+  "6": {
+   "t": "Le due principesse",
+   "p": "Teronna vuole regolare i conti con Actarus, mentre Rubina, sconvolta dalla morte di Naida, si offre di accompagnarla sulla Terra. Riluttante, Teronna accetta l'offerta.",
+   "i": "https://image.tmdb.org/t/p/w500/9tz4ZizoM1HIHooL95v33038CuY.jpg",
+   "d": "2024-08-10"
+  },
+  "7": {
+   "t": "Dall'altra parte della galassia",
+   "p": "Actarus e la squadra ricordano Rubina approfittando della bella giornata. Sull'isola di Ôkamijima, intanto, il Dottor Procton scopre antiche tracce di Goldrake risalenti a migliaia di anni fa.",
+   "i": "https://image.tmdb.org/t/p/w500/8yNmhOhhCpS6xkinS33ihwosyG.jpg",
+   "d": "2024-08-17"
+  },
+  "8": {
+   "t": "Incontro ad Asakusa",
+   "p": "Mazinga Z supera l'ispezione tecnica, mentre Yumi ammira la capacità scientifica del pianeta Fleed. Sayaka e Maria si preparano a testare i robot appena rinnovati. Intanto, Actarus trova un messaggio segreto in fleediano.",
+   "i": "https://image.tmdb.org/t/p/w500/3lzdLYUkUS1dw4zyk5N7aZN1mGP.jpg",
+   "d": "2024-08-24"
+  },
+  "9": {
+   "t": "Le tenebre inseguono la luce",
+   "p": "Actarus è rinchiuso al centro di controllo della Fondazione Kabuto, mentre Yumi sospetta un tradimento. Intanto, Teronna addestra i soldati sulla navemadre, ma le difficoltà sono maggiori del previsto.",
+   "i": "https://image.tmdb.org/t/p/w500/pgkACPLpHZgen7loSfyLcPYdQiT.jpg",
+   "d": "2024-08-31"
+  },
+  "10": {
+   "t": "Mazinga X",
+   "p": "La lotta infuria: Sayaka e Maria danno il massimo per salvare il pianeta, mentre Actarus, ai comandi di Goldrake, rischiando il tutto per tutto.",
+   "i": "https://image.tmdb.org/t/p/w500/vW8cSjOpTlH1NQfp4IMXzQn8ihq.jpg",
+   "d": "2024-09-07"
+  },
+  "11": {
+   "t": "Un fiore da proteggere",
+   "p": "Actarus è triste per l'addio di Rubina e Teronna, tornate sulla Stella di Vega. Rubina sogna di sposarlo, sfidando Vega. Teronna, divisa tra proteggerla e vederla felice, teme Goldrake dopo averne visto la violenza in azione.",
+   "i": "https://image.tmdb.org/t/p/w500/cKozDMPJF08DVTuhSZ2LX61o21t.jpg",
+   "d": "2024-09-14"
+  },
+  "12": {
+   "t": "L'ultimo inganno",
+   "p": "Teronna ama Actarus, ma deve mettere da parte i sentimenti: Washington è distrutta e Tokyo è nel mirino di Vega. Il Giappone valuta di consegnare Goldrake entro 24 ore per salvare la città.",
+   "i": "https://image.tmdb.org/t/p/w500/7kZdepqRxn6ImxgurbL87FOTjiH.jpg",
+   "d": "2024-09-21"
+  },
+  "13": {
+   "t": "Per il Pianeta Terra",
+   "p": "Rubina, sulla navemadre, contatta Actarus su Goldrake per discutere. Alcor lo rassicura: ce la farà da solo. Un mostro gigantesco minaccia Mazinga X, che resiste, ma la lotta sarà dura...",
+   "i": "https://image.tmdb.org/t/p/w500/hoRwBtDp8hbS3uqsIxM3IMCugEe.jpg",
+   "d": "2024-09-28"
+  }
+ }
+}

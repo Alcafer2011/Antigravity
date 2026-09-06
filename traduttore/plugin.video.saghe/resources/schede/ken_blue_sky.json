@@ -1,0 +1,285 @@
+{
+ "serie": "Ken il guerriero: Le origini del mito",
+ "tmdb": 68203,
+ "anno": "2006",
+ "poster": "https://image.tmdb.org/t/p/w780/h2FCvbUYCSDry9CYSbwSsQrfz2t.jpg",
+ "sfondo": "https://image.tmdb.org/t/p/w1280/4nLAxP3d2KdEN0hDPqu2rra5s6u.jpg",
+ "episodi": {
+  "1": {
+   "t": "Una taglia sulla testa - Il re degli inferi",
+   "p": "Si attende la nascita del nuovo erede della divina scuola di Hokuto, che affonda le proprie radici nella Cina di milleottocento anni addietro.",
+   "i": "https://image.tmdb.org/t/p/w500/ha1iAQUibd6inwLik75cOoh7CnB.jpg",
+   "d": "2006-10-05"
+  },
+  "2": {
+   "t": "Un personale senso di giustizia",
+   "p": "L'imperatore della Cina teme in ogni momento di essere ucciso e vorrebbe ingaggiare come sua guardia del corpo l'imbattibile Re degli Inferi.",
+   "i": "https://image.tmdb.org/t/p/w500/izYBFhk6ZdZSY1P64ah2xss5rrx.jpg",
+   "d": "2006-10-12"
+  },
+  "3": {
+   "t": "L'erede di Hokuto",
+   "p": "Kenshiro può finalmente sfoderare qualsiasi tecnica desideri senza incorrere in antichi divieti.",
+   "i": "https://image.tmdb.org/t/p/w500/2ZocsfTJvDwwprOulGOIpnWDovG.jpg",
+   "d": "2006-10-19"
+  },
+  "4": {
+   "t": "Esprimi il tuo desiderio al cielo!",
+   "p": "La notizia che la sua fidanzata Yu-Ling e il suo migliore amico sono morti, strappa Kenshiro alla pacifica vita di insegnante che aveva trovato a Tokyo.",
+   "i": "https://image.tmdb.org/t/p/w500/7OSACM5EhjceqOTdcaYvmKsL6Mq.jpg",
+   "d": "2006-10-26"
+  },
+  "5": {
+   "t": "L'arrivo a Shanghai",
+   "p": "L'arrivo Kenshiro in quella che è ormai una città in mano all'associazione del Fiore Scarlatto non è dei migliori.",
+   "i": "https://image.tmdb.org/t/p/w500/8BziKN5VwBA9Mc5UTaQ8I9jo41i.jpg",
+   "d": "2006-11-02"
+  },
+  "6": {
+   "t": "Il gioco dell'esecuzione mortale",
+   "p": "Uno dei più grandi divertimenti è assistere all'eliminazione sul ring degli appartenenti alla Chinpan. E ci si può anche scommettere sopra.",
+   "i": "https://image.tmdb.org/t/p/w500/fWUQG4Fd2n5Q8qrYCvh6dEcgyDw.jpg",
+   "d": "2006-11-09"
+  },
+  "7": {
+   "t": "Scontro violento",
+   "p": "L'avversario di Kenshiro è un campione non solo di pugilato, ma anche di Muay Thai e sembra capace di tenere testa al Re degli Inferi.",
+   "i": "https://image.tmdb.org/t/p/w500/fZpKZvq00kvLAB0K5DjQe8BNWq6.jpg",
+   "d": "2006-11-16"
+  },
+  "8": {
+   "t": "Prega il Dio dell'inferno!",
+   "p": "I vertici del Fiore Scarlatto aumentano la taglia sulla testa di Kenshiro, mettendo in subbuglio tutta la città.",
+   "i": "https://image.tmdb.org/t/p/w500/yyUKfoSxfLPelhhdMgYrcyx7HT0.jpg",
+   "d": "2006-11-23"
+  },
+  "9": {
+   "t": "Per un destino intriso di sangue",
+   "p": "Venuto a conoscenza che l'amico Pan è ancora vivo, Kenshiro inizia ad indagare per scoprire dove sia tenuto prigioniero.",
+   "i": "https://image.tmdb.org/t/p/w500/sVHXkObADPmDArhEDZNDGCtjNix.jpg",
+   "d": "2006-11-30"
+  },
+  "10": {
+   "t": "Hokuto contro Hokuto",
+   "p": "Non è l'Hokuto Shinken l'unica scuola di combattimento dell'Orsa Maggiore! Kenshiro troverà il suo cammino sbarrato dalla figura del Re degli Spettri.",
+   "i": "https://image.tmdb.org/t/p/w500/wvxhxKWu7saiXvBqA3keV0yhfvY.jpg",
+   "d": "2006-12-07"
+  },
+  "11": {
+   "t": "Chiedilo al drago",
+   "p": "Kenshiro si trova di fronte a un bivio e non riesce a prendere una decisione: salvare il suo più caro amico o accertarsi che Mei-Yu sia sana e salva?",
+   "i": "https://image.tmdb.org/t/p/w500/sFhEaqUNPmSdOpX5R0NWSj1Guk8.jpg",
+   "d": "2006-12-14"
+  },
+  "12": {
+   "t": "Aria di rinascita!",
+   "p": "Con il salvataggio di Pan, la rinascita della Chinpan non è più soltanto un sogno. Kenshiro è però focalizzato sulla vendetta per la morte di Yu-Ling.",
+   "i": "https://image.tmdb.org/t/p/w500/otTAoSOBBFDE235YNkfKtTiSdIt.jpg",
+   "d": "2006-12-21"
+  },
+  "13": {
+   "t": "Oltre la follia!",
+   "p": "Un nuovo scontro fra Kenshiro e il Re degli Spettri ha avuto inizio. Kasumi è in difficoltà in quanto il suo avversario utilizza la Dislocazione degli Tsubo.",
+   "i": "https://image.tmdb.org/t/p/w500/oL0p22nkTwAh1b5FdznM1KA7t0l.jpg",
+   "d": "2007-01-11"
+  },
+  "14": {
+   "t": "Un viaggio scritto nel destino",
+   "p": "I terribili allenamenti a cui si è sottoposto il Re degli Spettri hanno minato il suo fisico. Se non fosse stato per il misterioso Taoista, sarebbe già morto.",
+   "i": "https://image.tmdb.org/t/p/w500/l3SMHyzit7OOjR22m9Kggbmay7w.jpg",
+   "d": "2007-01-18"
+  },
+  "15": {
+   "t": "L'incantevole predona",
+   "p": "Pan sfoga la sua collera su Carnet, che aveva appoggiato ogni azione illecita del Fiore Scarlatto, mentre Kenshiro elimina Tian.",
+   "i": "https://image.tmdb.org/t/p/w500/n2uYs5EAVzGCBXsXiIlHis5EEwk.jpg",
+   "d": "2007-01-25"
+  },
+  "16": {
+   "t": "L'offerta floreale",
+   "p": "Un treno appena arrivato a Shanghai riversa nella stazione un violento gruppo di predoni che inizia subito a gettare lo scompiglio in città.",
+   "i": "https://image.tmdb.org/t/p/w500/7lTK8qO6k5bWtqosdNeATFokkMw.jpg",
+   "d": "2007-01-31"
+  },
+  "17": {
+   "t": "Un crudele scherzo del destino",
+   "p": "Yu-Ling è pronta a farsi condannare a morte pur di salvare i predoni che l'esercito giapponese vorrebbe sterminare.",
+   "i": "https://image.tmdb.org/t/p/w500/60P1mUIozlwdlZLIXudMqZtIfIn.jpg",
+   "d": "2007-02-07"
+  },
+  "18": {
+   "t": "Le tecniche segrete di Zhang Tai-Yan",
+   "p": "Ha inizio lo scontro senza esclusione di colpi che vede affrontarsi il successore dell'Hokuto Shinken e il più forte tra gli uomini del Fiore Scarlatto.",
+   "i": "https://image.tmdb.org/t/p/w500/7CmdMwgr7bjYOL7uSW3mw9rjaZe.jpg",
+   "d": "2007-02-14"
+  },
+  "19": {
+   "t": "Un dolore indimenticabile",
+   "p": "Tai-Yan è convinto che la sua scuola Cao di Hokuto possa sconfiggere l'Hokuto Shinken, ma Kenshiro è di tutt'altro avviso.",
+   "i": "https://image.tmdb.org/t/p/w500/qsfrZMWaVcpOqKbG9R86axtlUsd.jpg",
+   "d": "2007-02-21"
+  },
+  "20": {
+   "t": "Un forte ricordo",
+   "p": "L'incontro della predona Xiu-Bao con il generale Ohkawa per trattare la resa è stato fissato per il giorno successivo. Ma la donna scompare nel nulla.",
+   "i": "https://image.tmdb.org/t/p/w500/iu6XUiPNdW6qd2gdZ17aWDvSewP.jpg",
+   "d": "2007-02-28"
+  },
+  "21": {
+   "t": "Festeggiamenti e colpi di pistola",
+   "p": "Sembra ormai certa la condanna a morte per Xiu-Bao. Ma Kenshiro ha intenzione di salvare a qualsiasi costo la donna da lui amata.",
+   "i": "https://image.tmdb.org/t/p/w500/eES1GoZEwzbJlgtrXws4zYnvPhU.jpg",
+   "d": "2007-03-07"
+  },
+  "22": {
+   "t": "Verso un domani migliore",
+   "p": "Pan è in fin di vita. La Chinpan rischia quindi di disgregarsi nuovamente e l'unica che potrebbe tenerla insieme è Yu-Ling.",
+   "i": "https://image.tmdb.org/t/p/w500/hSwVw8NS7U4apv1BFeCbE92Y3GU.jpg",
+   "d": "2007-03-14"
+  },
+  "23": {
+   "t": "Episodio 1",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/ytNhy6RBwsCnYPUeHdAJYqzPy4H.jpg",
+   "d": "2018-04-10"
+  },
+  "24": {
+   "t": "Episodio 2",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/bkdzG9EKAdpgdr3bn8I5ZDRoMlZ.jpg",
+   "d": "2018-04-17"
+  },
+  "25": {
+   "t": "Episodio 3",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/cpfysnhWrKHqq29WLXAsIJ5rgmH.jpg",
+   "d": "2018-04-24"
+  },
+  "26": {
+   "t": "Episodio 4",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/33GAw3yG2jUf2B34IGiOr4W9kfV.jpg",
+   "d": "2018-04-23"
+  },
+  "27": {
+   "t": "Episodio 5",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/mVGuxzOzMYSyotab2UHd5TSZkCL.jpg",
+   "d": "2018-04-30"
+  },
+  "28": {
+   "t": "Episodio 6",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/6bIOSSUDCj6RlHtEmtCaLlmVfdO.jpg",
+   "d": "2018-05-07"
+  },
+  "29": {
+   "t": "Episodio 7",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/wHtQQmsSxRYkUDK4r7BYbNalr32.jpg",
+   "d": "2018-05-14"
+  },
+  "30": {
+   "t": "Episodio 8",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/iST0OayggJoSQ7nntKWqgNZzZTR.jpg",
+   "d": "2018-05-21"
+  },
+  "31": {
+   "t": "Episodio 9",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/gQTHQvvbos7B1joDFg4GEJEvfIm.jpg",
+   "d": "2018-05-28"
+  },
+  "32": {
+   "t": "Episodio 10",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/1eFNsSIZ3my2zOJcDhPjcRLSCUT.jpg",
+   "d": "2018-06-04"
+  },
+  "33": {
+   "t": "Episodio 11",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/r3k0avYRQkqtTNPQWEAJ7xoRcxp.jpg",
+   "d": "2018-06-11"
+  },
+  "34": {
+   "t": "Episodio 12",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/wydxS0duK1DktaRRgjTVHmX6fMm.jpg",
+   "d": "2018-06-18"
+  },
+  "35": {
+   "t": "Episodio 13",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/giAgnv5R1A64Jl56WW48aqZmu5w.jpg",
+   "d": "2018-06-25"
+  },
+  "36": {
+   "t": "Episodio 14",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/lzT8cQeLyI80qa9U8037EKBPhFd.jpg",
+   "d": "2018-06-26"
+  },
+  "37": {
+   "t": "Episodio 15",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/9a5dSQNotw2PeZNAss7mSqxdvSs.jpg",
+   "d": "2018-07-02"
+  },
+  "38": {
+   "t": "Episodio 16",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/A7jo665Ytz4lCcWYnYwbXJA66lk.jpg",
+   "d": "2018-07-03"
+  },
+  "39": {
+   "t": "Episodio 17",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/vIIJjBNILnfs4FBc4PKvslJ9A6y.jpg",
+   "d": "2018-07-09"
+  },
+  "40": {
+   "t": "Episodio 18",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/rbrvVYblhd4KIhFQoergHrAdchP.jpg",
+   "d": "2018-07-10"
+  },
+  "41": {
+   "t": "Episodio 19",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/ddtUTYiJn2gv2C3gxskRck8pvXD.jpg",
+   "d": "2018-07-16"
+  },
+  "42": {
+   "t": "Episodio 20",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/1aYLOuWxmDQBnCAYTzy71U8tyIA.jpg",
+   "d": "2018-07-17"
+  },
+  "43": {
+   "t": "Episodio 21",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/a9ySardn1UASfU5ZXdHVOt6roy4.jpg",
+   "d": "2018-07-23"
+  },
+  "44": {
+   "t": "Episodio 22",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/exMday4NI8yubXlcVFPFp17g7b2.jpg",
+   "d": "2018-07-24"
+  },
+  "45": {
+   "t": "Episodio 23",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/psUr5G3uNUAgrXrHiZztwkhF2lU.jpg",
+   "d": "2018-07-30"
+  },
+  "46": {
+   "t": "Episodio 24",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/di1u0YJ7Jp1ryZ1qsGOp3r6M9Sq.jpg",
+   "d": "2018-07-31"
+  }
+ }
+}

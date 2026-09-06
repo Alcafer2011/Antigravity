@@ -1,0 +1,579 @@
+{
+ "serie": "Segreti Di famiglia",
+ "tmdb": 133490,
+ "anno": "2021",
+ "poster": "https://image.tmdb.org/t/p/w780/xXhBjTECxmh9NmxOlMjv8GaE9XI.jpg",
+ "sfondo": "https://image.tmdb.org/t/p/w1280/fCwZOi3cTEOi2UkhjJNbFQnl4IW.jpg",
+ "episodi": {
+  "1": {
+   "t": "Episodio 1",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/qm1sBB0QAbR9ecwytIwy9CSzfiZ.jpg",
+   "d": "2021-09-19"
+  },
+  "2": {
+   "t": "Episodio 2",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/AsCrLdjIwEGeRf1Um22IVOKYYUq.jpg",
+   "d": "2021-09-26"
+  },
+  "3": {
+   "t": "Episodio 3",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/ImfV7gDSSXmAQjgHn2hX8WMCKg.jpg",
+   "d": "2021-10-03"
+  },
+  "4": {
+   "t": "Episodio 4",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/pmy1Z5ysw89FeD8Yejsbf2XH5jT.jpg",
+   "d": "2021-10-10"
+  },
+  "5": {
+   "t": "Episodio 5",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/ky0ZVnIvbnegWBsVhlxyqvZ4qEX.jpg",
+   "d": "2021-10-17"
+  },
+  "6": {
+   "t": "Episodio 6",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/1XPGsdQl0v0NGgisM9BpCPkwNkN.jpg",
+   "d": "2021-10-24"
+  },
+  "7": {
+   "t": "Episodio 7",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/a0NZYCxaDRwu3WukRzUaLMt0A61.jpg",
+   "d": "2021-10-31"
+  },
+  "8": {
+   "t": "Episodio 8",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/qYqnVzKXdvrcZSntli1POaGd3zO.jpg",
+   "d": "2021-11-07"
+  },
+  "9": {
+   "t": "Episodio 9",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/hG4g3uWuyZcLjgVyvhK2xjsePFe.jpg",
+   "d": "2021-11-14"
+  },
+  "10": {
+   "t": "Episodio 10",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/w9ldltWQ3f7DmUDyrguVg4ZwPkY.jpg",
+   "d": "2021-11-21"
+  },
+  "11": {
+   "t": "Episodio 11",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/1ZHSJv4lWevrIWPmBSIaPBXpOVL.jpg",
+   "d": "2021-11-28"
+  },
+  "12": {
+   "t": "Episodio 12",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/7FqzjfdHctHv2h4paeWB65ZElR6.jpg",
+   "d": "2021-12-05"
+  },
+  "13": {
+   "t": "Episodio 13",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/ytUwFtSau03LP7XUUXGX1Uz1Cn8.jpg",
+   "d": "2021-12-12"
+  },
+  "14": {
+   "t": "Episodio 14",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/h1g7IreRJPLIkMPTNAvefsOY0AP.jpg",
+   "d": "2021-12-19"
+  },
+  "15": {
+   "t": "Episodio 15",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/a0hFu7BjKH6fPNyx2cy4FGwM7hn.jpg",
+   "d": "2022-01-09"
+  },
+  "16": {
+   "t": "Episodio 16",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/8jAAifunVxYIXYA48JozIgK8xa3.jpg",
+   "d": "2022-01-16"
+  },
+  "17": {
+   "t": "Episodio 17",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/sAr9aGp8DkflBmJpDsokbdHro6R.jpg",
+   "d": "2022-01-23"
+  },
+  "18": {
+   "t": "Episodio 18",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/fp2zVL55TG4BPTqlQVoVBiFyPbq.jpg",
+   "d": "2022-01-30"
+  },
+  "19": {
+   "t": "Episodio 19",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/2VY4XdpYnoKyilsP2frNBikPtWE.jpg",
+   "d": "2022-02-06"
+  },
+  "20": {
+   "t": "Episodio 20",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/iV0wa0JIipIevVxjdiOjc2LAz9f.jpg",
+   "d": "2022-02-13"
+  },
+  "21": {
+   "t": "Episodio 21",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/mI1UOkkI1c125cg2FRm4I9bwv79.jpg",
+   "d": "2022-02-20"
+  },
+  "22": {
+   "t": "Episodio 22",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/98ILalTw4Kjb4KgAeQH7Z84eSqF.jpg",
+   "d": "2022-02-27"
+  },
+  "23": {
+   "t": "Episodio 23",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/chX5k32ooGxihniNc5MdXSrQ6lJ.jpg",
+   "d": "2022-03-06"
+  },
+  "24": {
+   "t": "Episodio 24",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/fEYlbxB7TPpxJRWKguX9PsjHiFC.jpg",
+   "d": "2022-03-13"
+  },
+  "25": {
+   "t": "Episodio 25",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/qeGj8EdzZY1kfcxpgSKXW9Ndpwp.jpg",
+   "d": "2022-03-20"
+  },
+  "26": {
+   "t": "Episodio 26",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/oaM9qayr6xEDvC2T1Koz20w1wSL.jpg",
+   "d": "2022-03-27"
+  },
+  "27": {
+   "t": "Episodio 27",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/ONyNjPlmBBU0aPdhcrrJgJryPE.jpg",
+   "d": "2022-04-03"
+  },
+  "28": {
+   "t": "Episodio 28",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/wiqZy8fZWp5Z1kNMQLlYYNVpTz0.jpg",
+   "d": "2022-04-10"
+  },
+  "29": {
+   "t": "Episodio 29",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/vROYKfhZDHN1n6AO0uJXb4bNqGl.jpg",
+   "d": "2022-04-17"
+  },
+  "30": {
+   "t": "Episodio 30",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/etpxz4wX8zUbwIHDQLIgDaJR3iG.jpg",
+   "d": "2022-04-24"
+  },
+  "31": {
+   "t": "Episodio 31",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/37kX3nvCccJ4mJ4uQ61YrPnM37Y.jpg",
+   "d": "2022-05-08"
+  },
+  "32": {
+   "t": "Episodio 32",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/5skRTxnaO8siISdQ1U68hMmrEEd.jpg",
+   "d": "2022-05-15"
+  },
+  "33": {
+   "t": "Episodio 33",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/2vjz4mRhflViJKV8wCb7NQZrYj.jpg",
+   "d": "2022-05-22"
+  },
+  "34": {
+   "t": "Episodio 34",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/qJzNYP6fAyLqfnqDIzKihZWe5qh.jpg",
+   "d": "2022-05-29"
+  },
+  "35": {
+   "t": "Episodio 1",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/kvQ0Cjzo70F3xIRLIpPrpA65zAE.jpg",
+   "d": "2022-09-18"
+  },
+  "36": {
+   "t": "Episodio 2",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/ahhj1S4DdEcjnxcGj9xlTlIc4TP.jpg",
+   "d": "2022-09-25"
+  },
+  "37": {
+   "t": "Episodio 3",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/4SEawIZAm7a2eIke07YqOACxqBj.jpg",
+   "d": "2022-10-02"
+  },
+  "38": {
+   "t": "Episodio 4",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/gxbVAqljuFsbEphgjVShHirHHaj.jpg",
+   "d": "2022-10-09"
+  },
+  "39": {
+   "t": "Episodio 5",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/86Bi5xB5xOzwocSxX9F5Mw5G9Kk.jpg",
+   "d": "2022-10-16"
+  },
+  "40": {
+   "t": "Episodio 6",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/uGIqjkekCa6z0Nnuq1RWhJrjDsM.jpg",
+   "d": "2022-10-23"
+  },
+  "41": {
+   "t": "Episodio 7",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/os2rk5fpewON2tLY74pQZkcegvW.jpg",
+   "d": "2022-10-30"
+  },
+  "42": {
+   "t": "Episodio 8",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/8NjAvbkZraDUKNsJZwKM5eXnYgx.jpg",
+   "d": "2022-11-06"
+  },
+  "43": {
+   "t": "Episodio 9",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/oJPNFMsNN5BZrLOYMHwPnvZb1TO.jpg",
+   "d": "2022-11-13"
+  },
+  "44": {
+   "t": "Episodio 10",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/uy7H73CtsUrsr8kFYBuuJBjPbKO.jpg",
+   "d": "2022-11-20"
+  },
+  "45": {
+   "t": "Episodio 11",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/t9AO3VGaFXNpy4arORPaNQmhbdg.jpg",
+   "d": "2022-11-27"
+  },
+  "46": {
+   "t": "Episodio 12",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/yiPgJJhkYRybiiCZqF52lXEB5SN.jpg",
+   "d": "2022-12-04"
+  },
+  "47": {
+   "t": "Episodio 13",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/jFqv5wWzIYTMKnj2s5ezjav7ShJ.jpg",
+   "d": "2022-12-11"
+  },
+  "48": {
+   "t": "Episodio 14",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/fpuMUEOcPWMgXmsEGWHf4iukfu6.jpg",
+   "d": "2022-12-18"
+  },
+  "49": {
+   "t": "Episodio 15",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/boy0noTXICnEqJMP3u6W5OWqSIa.jpg",
+   "d": "2022-12-25"
+  },
+  "50": {
+   "t": "Episodio 16",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/8f0ZAaRzh8sAyMT1WJ45rWN5vig.jpg",
+   "d": "2023-01-15"
+  },
+  "51": {
+   "t": "Episodio 17",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/hB7HhXBx6w16RKrcZyWBwKdHEvX.jpg",
+   "d": "2023-01-22"
+  },
+  "52": {
+   "t": "Episodio 18",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/s44HjBp8DKdV6i4BU9h17qpxSvL.jpg",
+   "d": "2023-01-29"
+  },
+  "53": {
+   "t": "Episodio 19",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/7wDrPxaKc4ZReYpj4dL2yc3YahU.jpg",
+   "d": "2023-02-05"
+  },
+  "54": {
+   "t": "Episodio 20",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/asrxEUXIoId0zc3K01bRaZQTu5Q.jpg",
+   "d": "2023-02-26"
+  },
+  "55": {
+   "t": "Episodio 21",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/khu16U6ilda6KAWKwz1DQ2dEkTx.jpg",
+   "d": "2023-03-05"
+  },
+  "56": {
+   "t": "Episodio 22",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/2ifwDkYiTqQ02XrMBPXydnIEGXa.jpg",
+   "d": "2023-03-12"
+  },
+  "57": {
+   "t": "Episodio 23",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/rHG2kDFdbkQ70wNEcvLv6AVH9YJ.jpg",
+   "d": "2023-03-19"
+  },
+  "58": {
+   "t": "Episodio 24",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/aSAHLTx53hngHInYUY4H2jns43c.jpg",
+   "d": "2023-03-26"
+  },
+  "59": {
+   "t": "Episodio 25",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/x51J1qLitDdbspQF1ciUxTMZg40.jpg",
+   "d": "2023-04-02"
+  },
+  "60": {
+   "t": "Episodio 26",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/2vXt0cE89x9Pan7CeyPyaanucE4.jpg",
+   "d": "2023-04-09"
+  },
+  "61": {
+   "t": "Episodio 27",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/raa3mzpxePc1PJ7GFVS3iHf12lG.jpg",
+   "d": "2023-04-16"
+  },
+  "62": {
+   "t": "Episodio 28",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/sbh5sHQiv0jWbggWAHLQqkAK41W.jpg",
+   "d": "2023-04-30"
+  },
+  "63": {
+   "t": "Episodio 29",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/pRqWd9tJi5VU6NO8UXmFRCNVSQV.jpg",
+   "d": "2023-05-07"
+  },
+  "64": {
+   "t": "Episodio 1",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/sbMQlQUIb1qxf8Qsknyd9wm89HD.jpg",
+   "d": "2023-09-24"
+  },
+  "65": {
+   "t": "Episodio 2",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/9fjxAGumPGx37iSymem8RZ4XDVm.jpg",
+   "d": "2023-10-01"
+  },
+  "66": {
+   "t": "Episodio 3",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/lAfjjre8PG5hkhrxZ2nktjPbpQd.jpg",
+   "d": "2023-10-08"
+  },
+  "67": {
+   "t": "Episodio 4",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/dyFjqIUc2OkDsTN6ytzLeWTGpB7.jpg",
+   "d": "2023-10-15"
+  },
+  "68": {
+   "t": "Episodio 5",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/nmS7PNXAcZ43TxcNIiJQMlpVqBA.jpg",
+   "d": "2023-10-22"
+  },
+  "69": {
+   "t": "Episodio 6",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/cz38BFpOBZ9XaheSU01nAhIBeux.jpg",
+   "d": "2023-10-29"
+  },
+  "70": {
+   "t": "Episodio 7",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/eN4ULeeZZHG4QV2fB4ApBT2kyM2.jpg",
+   "d": "2023-11-05"
+  },
+  "71": {
+   "t": "Episodio 8",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/4sTbVXsWPUXDG95gapZNBw5xKrY.jpg",
+   "d": "2023-11-12"
+  },
+  "72": {
+   "t": "Episodio 9",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/fzIDDMmppGzEXAa9MpNWMgj6CI1.jpg",
+   "d": "2023-11-19"
+  },
+  "73": {
+   "t": "Episodio 10",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/mligDKIkJDRhUssvymPQQFf8AFt.jpg",
+   "d": "2023-11-26"
+  },
+  "74": {
+   "t": "Episodio 11",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/tSYr4C54B9eKlkBPusHDr5eS4t2.jpg",
+   "d": "2023-12-03"
+  },
+  "75": {
+   "t": "Episodio 12",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/y07N5T7TaMzQenqM316NtWS2IQb.jpg",
+   "d": "2023-12-10"
+  },
+  "76": {
+   "t": "Episodio 13",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/3lc5MVuFM2UfqVsonwbuca70ZYY.jpg",
+   "d": "2023-12-17"
+  },
+  "77": {
+   "t": "Episodio 14",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/zq9zVjao9uoyoArAvVtXSatq2LZ.jpg",
+   "d": "2023-12-24"
+  },
+  "78": {
+   "t": "Episodio 15",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/pYyiTcqv1GxDlF6APLBSw0f2Tho.jpg",
+   "d": "2024-01-14"
+  },
+  "79": {
+   "t": "Episodio 16",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/oSgkrvGUUsaHBI65iaVZ0LUE4Qd.jpg",
+   "d": "2024-01-21"
+  },
+  "80": {
+   "t": "Episodio 17",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/uHtyqEMwI3Px5GaZ45ZX0VuRf25.jpg",
+   "d": "2024-01-28"
+  },
+  "81": {
+   "t": "Episodio 18",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/g7qleww4vCLUMbDAPoIrXqYS7wi.jpg",
+   "d": "2024-02-04"
+  },
+  "82": {
+   "t": "Episodio 19",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/mfgjGN8ZA3grk8sSSz4fYGsHEGs.jpg",
+   "d": "2024-02-11"
+  },
+  "83": {
+   "t": "Episodio 20",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/w1c1WNL1pwpKi2dTPQX5z9PW30H.jpg",
+   "d": "2024-02-18"
+  },
+  "84": {
+   "t": "Episodio 21",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/klRppMJbPeEVtTqsjyIzVS7USBD.jpg",
+   "d": "2024-02-25"
+  },
+  "85": {
+   "t": "Episodio 22",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/3s4d3GGXUvpwJGsQJ84wOsIJMhl.jpg",
+   "d": "2024-03-03"
+  },
+  "86": {
+   "t": "Episodio 23",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/3pPWsYUS7y6ppKOComyd7rG9uRJ.jpg",
+   "d": "2024-03-10"
+  },
+  "87": {
+   "t": "Episodio 24",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/7FHQObIQdt63ypan0C28exrDZcR.jpg",
+   "d": "2024-03-17"
+  },
+  "88": {
+   "t": "Episodio 25",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/2nRs6gWmx8p3UcKcYxB10C2tq5f.jpg",
+   "d": "2024-03-24"
+  },
+  "89": {
+   "t": "Episodio 26",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/wyYUhFC758CPRMhKqfBK125O2Za.jpg",
+   "d": "2024-04-14"
+  },
+  "90": {
+   "t": "Episodio 27",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/gGQ2ND0Ckx4tK9GMUSl0q9ResmZ.jpg",
+   "d": "2024-04-21"
+  },
+  "91": {
+   "t": "Episodio 28",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/mN4BZJxYxvgMQttYiHqMD5gVzaY.jpg",
+   "d": "2024-04-28"
+  },
+  "92": {
+   "t": "Episodio 29",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/AvWaSVFymBREQlOGntRyqC4zkzi.jpg",
+   "d": "2024-05-05"
+  },
+  "93": {
+   "t": "Episodio 30",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/liBK1XImpPui0DRsPRsEfud7P9m.jpg",
+   "d": "2024-05-12"
+  },
+  "94": {
+   "t": "Episodio 31",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/lVeks8mE8PLnAYyfTmEfxMcBe7z.jpg",
+   "d": "2024-05-19"
+  },
+  "95": {
+   "t": "Episodio 32",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/3UvLXB574gIARgbXAf3bl61Wubu.jpg",
+   "d": "2024-05-26"
+  }
+ }
+}

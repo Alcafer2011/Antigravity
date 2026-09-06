@@ -1,0 +1,81 @@
+{
+ "serie": "Mobile Suit Gundam - L'Ottavo Plotone",
+ "tmdb": 43887,
+ "anno": "1996",
+ "poster": "https://image.tmdb.org/t/p/w780/lwsD6gC8NPYkz7PITpNqMH8mo1q.jpg",
+ "sfondo": "https://image.tmdb.org/t/p/w1280/nhpOoh7cHkxgsd58v7f55xamW3j.jpg",
+ "episodi": {
+  "1": {
+   "t": "Guerra a due",
+   "p": "L'Ottavo plotone è quasi giunto sulla Terra, ma mentre la nave si avvicina all'orbita terrestre, il sottotenente Shiro Amada si lancia nel salvataggio del sergente Sanders che, a bordo di un mobile suit, rischia di essere eliminato da un mezzo nemico.",
+   "i": "https://image.tmdb.org/t/p/w500/hQwwQamiS5wfzMQ9NNvSiVt5AVT.jpg",
+   "d": "1996-01-25"
+  },
+  "2": {
+   "t": "Gundam nella giungla",
+   "p": "Durante uno scontro con due Zaku, Shiro si perde nella giungla a bordo del suo Gundam, ed è costretto a passare diverse ore lontano dagli altri, che lo danno per spacciato.",
+   "i": "https://image.tmdb.org/t/p/w500/8IvUJr4HDhwdxewDrAwNmJEcUhh.jpg",
+   "d": "1996-01-25"
+  },
+  "3": {
+   "t": "Il tempo limite della fiducia",
+   "p": "Nel tentativo di aggirare gli avamposti di Zeon per attaccare il nemico alle spalle, Shiro si ritrova nel territorio dei terroristi della foresta e viene fatto prigioniero.",
+   "i": "https://image.tmdb.org/t/p/w500/f7VxxcTKVXdFtEsQ81GOWaustLF.jpg",
+   "d": "1996-03-25"
+  },
+  "4": {
+   "t": "Il demone sopra di noi",
+   "p": "Terry Sanders vuole farsi trasferire per evitare di combattere ancora e perdere anche i nuovi compagni, convinto che la morte dei vecchi sia stata colpa sua e della sua maledizione.",
+   "i": "https://image.tmdb.org/t/p/w500/deAKfZ8D0aaZKOgy8t41dk7rbW3.jpg",
+   "d": "1996-10-25"
+  },
+  "5": {
+   "t": "Ordine di attesa violato",
+   "p": "Eledore e Michel si allontanano dalla base in cerca di svago ma vengono catturati dalle truppe di Zeon, impegnate nelle riparazioni dell’Apsalus.",
+   "i": "https://image.tmdb.org/t/p/w500/m2vDl13qZV8hA1crNYjhYqdEtY4.jpg",
+   "d": "1996-11-25"
+  },
+  "6": {
+   "t": "Fronte nella sabbia rovente",
+   "p": "L'Ottavo plotone scopre nel deserto il territorio in cui Zeon testa la sua nuova arma. Shiro e gli altri si preparano per tendere una trappola al nemico, che però tarda a presentarsi sul luogo.",
+   "i": "https://image.tmdb.org/t/p/w500/iNnUlWx0aM7gjL31HYmOi5kHNK4.jpg",
+   "d": "1996-12-18"
+  },
+  "7": {
+   "t": "Incontrarsi di nuovo",
+   "p": "Aina e Shiro sono dispersi in montagna dopo la battaglia nel canyon. In questa situazione disperata, finiscono per confessarsi i reciproci sentimenti. Shiro inizia a mettere in dubbio la sua partecipazione alla guerra.",
+   "i": "https://image.tmdb.org/t/p/w500/14nlb9KD5CHLnkWqcFQMhStUR4k.jpg",
+   "d": "1997-10-25"
+  },
+  "8": {
+   "t": "Il dovere militare e l’ideale",
+   "p": "Un plotone di Zeon passa per il villaggio di Kiki in cerca di provviste, ma la situazione precipita. Shiro non vuole restare con le mani in mano e si dirige a salvare i suoi amici, anche se questo vuol dire violare la decisione della corte marziale.",
+   "i": "https://image.tmdb.org/t/p/w500/hT1ugYM3Png0Zj1TpY2VUxMNnZN.jpg",
+   "d": "1997-12-28"
+  },
+  "9": {
+   "t": "La prima linea",
+   "p": "Nella missione di ricerca della base di Zeon, l’Ottavo plotone, con il ritrovato Eledore, viene coinvolto in una battaglia contro alcuni soldati agli ordini di Yuri Kellerne.",
+   "i": "https://image.tmdb.org/t/p/w500/A71T7S7XO8jpcHQ85G01Kx5GE7w.jpg",
+   "d": "1998-02-25"
+  },
+  "10": {
+   "t": "La montagna trema (parte prima)",
+   "p": "Inizia la battaglia per la conquista della base di Zeon, finalmente individuata dalla Federazione. L'Ottavo plotone combatte in città mentre, all’interno della montagna, Aina organizza l’evacuazione con il Kergeren.",
+   "i": "https://image.tmdb.org/t/p/w500/1PqMDsix2scePiUbcl7VgRqi4XI.jpg",
+   "d": "1998-07-25"
+  },
+  "11": {
+   "t": "La montagna trema (parte seconda)",
+   "p": "Nella battaglia finale, Aina, alla guida dell’Apsalus, chiede una tregua per permettere al Kergeren di portare in salvo i feriti. Le cose però non vanno come sperato e la situazione precipita.",
+   "i": "https://image.tmdb.org/t/p/w500/5awHCE5ygImNi076AmXXmqnrS5K.jpg",
+   "d": "1999-04-25"
+  },
+  "12": {
+   "t": "L'ultima risorsa",
+   "p": "La guerra è finita. Michel e Kiki sono sulla Terra alla ricerca del Comandante Shiro, dato per disperso. Si imbattono in un gruppo di ragazzini reduci di Zeon che vivono isolati nella giungla.",
+   "i": "https://image.tmdb.org/t/p/w500/s3bTdmldNhy8AYJaitcxRuKA73I.jpg",
+   "d": "1999-07-25"
+  }
+ }
+}

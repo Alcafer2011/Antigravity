@@ -1,0 +1,7 @@
+Il tombstone e' autentico (crash del 03/09/2026 18:54, CXBMCApp::onStart,
+Process uptime 1038s) ma il log di Kodi NON e' stato recuperato: al momento
+della cattura kodi.old.log era gia' stato sovrascritto da riavvii successivi.
+Restano quindi solo firma e backtrace, non il contesto.
+
+LEZIONE: lanciare cattura-crash.js SUBITO dopo il crash, prima che Kodi
+riparta una seconda volta.

@@ -1,0 +1,18 @@
+CRXLauncher (kiilhncajadbgbmdbdcopdpnmdhlbdle), rimosso il 06/09/2026.
+
+Perche': HP Wolf Security ha messo in quarantena assets/js/bg.js.
+E' un'estensione che installa altre estensioni Chrome. Wolf l'ha fermata
+perche' spacchetta e installa codice: un comportamento identico a quello di
+un contagocce di malware, anche quando lo strumento non lo e'.
+
+Cosa e' stato accertato guardando i registri di Chrome:
+  - siti autorizzati: SOLO *://crxlauncher.com/*
+  - iniezione di script in pagina: NESSUNA (scriptable_host vuoto)
+  - regole di rete: una sola, aggiungeva un'intestazione al suo stesso sito
+  - proveniva dal negozio ufficiale di Chrome (from_webstore = true)
+Quindi l'iniezione di script pubblicitari di cui parlano le segnalazioni in
+rete NON poteva avvenire su questo computer: serviva l'accesso a tutti i
+siti, mai concesso.
+
+Questa cartella e' una COPIA messa da parte, non cancellata, semmai servisse
+riesaminarla. Si puo' eliminare senza conseguenze.

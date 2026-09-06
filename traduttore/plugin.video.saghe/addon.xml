@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.saghe"
+       name="Le Saghe"
+       version="1.0.0"
+       provider-name="Antigravity">
+
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+  </requires>
+
+  <extension point="xbmc.python.pluginsource" library="main.py">
+    <provides>video</provides>
+  </extension>
+
+  <extension point="xbmc.service" library="service.py"/>
+
+  <!-- La vetrina si lancia con RunScript e NON da dentro una cartella:
+       da li' si aprirebbe dietro la rotellina di caricamento. -->
+  <extension point="xbmc.python.script" library="avvio.py">
+    <provides>executable</provides>
+  </extension>
+
+  <extension point="xbmc.addon.metadata">
+    <summary lang="it_IT">Le saghe complete, in ordine cronologico</summary>
+    <description lang="it_IT">Rimette in fila gli episodi delle serie che in Italia furono interrotte a meta': una sola catena continua che salta da una serie all'altra nel punto giusto, e ricorda dove sei arrivato. Preferisce sempre i tuoi file, poi le fonti gratuite, poi gli abbonamenti che possiedi.</description>
+    <platform>all</platform>
+    <license>Uso personale</license>
+    <assets>
+      <icon>resources/icon.png</icon>
+    </assets>
+  </extension>
+
+</addon>

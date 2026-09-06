@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  LA VETRINA: la schermata a righe orizzontali, disegnata da noi.
+
+  DUE COSE IMPARATE SUL CAMPO, che sembrano dettagli e non lo sono:
+
+  1. LA VELATURA usa bianco.png e non white.png. `white.png` esiste solo se
+     ce l'ha la pelle in uso: sul Raspberry non c'era, le velature non
+     venivano disegnate affatto e il testo bianco finiva su uno sfondo
+     chiaro, illeggibile. `bianco.png` sta dentro l'add-on e c'e' sempre.
+
+  2. LA LOCANDINA SELEZIONATA si distingue in TRE modi insieme: cornice
+     ambra, locandina a piena luce mentre le altre sono smorzate, e il
+     titolo che compare solo su quella. Con un solo segno - la cornice
+     sola - da tre metri di distanza non si capiva dove si era.
+     (Detto dall'utente il 06/09/2026: "non si vede su quale locandina si
+     e' quando si scorre, non si leggono nemmeno i titoli".)
+
+  NUMERI DEI CONTROLLI (li usa vetrina.py, non cambiarli a cuor leggero)
+      100  riga "Continua a guardare"      200  lo sfondo grande
+      101  riga "Le tue saghe"             201  il titolo
+                                           202  la riga sotto il titolo
+                                           203  la trama
+-->
+<window>
+    <defaultcontrol always="true">100</defaultcontrol>
+    <controls>
+
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <texture colordiffuse="FF120E0B">bianco.png</texture>
+        </control>
+
+        <control type="image" id="200">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>400</fadetime>
+            <texture background="true">$INFO[Container(100).ListItem.Art(fanart)]</texture>
+        </control>
+
+        <!-- Velature: senza queste il testo non si legge -->
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <texture colordiffuse="CC0E0B09">bianco.png</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1150</width><height>1080</height>
+            <texture colordiffuse="D90E0B09">bianco.png</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>400</top><width>1920</width><height>680</height>
+            <texture colordiffuse="D00E0B09">bianco.png</texture>
+        </control>
+
+        <control type="label">
+            <left>80</left><top>46</top><width>900</width><height>34</height>
+            <font>font13</font>
+            <textcolor>FFE8A24A</textcolor>
+            <label>LE SAGHE</label>
+        </control>
+
+        <control type="label" id="201">
+            <left>80</left><top>92</top><width>1020</width><height>66</height>
+            <font>font45</font>
+            <textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <label></label>
+        </control>
+        <control type="label" id="202">
+            <left>80</left><top>166</top><width>1020</width><height>32</height>
+            <font>font13</font>
+            <textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <label></label>
+        </control>
+        <control type="textbox" id="203">
+            <left>80</left><top>208</top><width>1000</width><height>160</height>
+            <font>font12</font>
+            <textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <label></label>
+        </control>
+
+        <control type="group">
+            <left>0</left><top>428</top>
+
+            <control type="label">
+                <left>80</left><top>0</top><width>900</width><height>28</height>
+                <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                <shadowcolor>FF000000</shadowcolor>
+                <label>$INFO[Window.Property(riga0)]</label>
+                <visible>!IsEmpty(Window.Property(riga0))</visible>
+            </control>
+            <control type="list" id="100">
+                <left>80</left><top>32</top><width>1790</width><height>250</height>
+                <onup>101</onup><ondown>101</ondown>
+                <orientation>horizontal</orientation>
+                <!-- NON selezionata: locandina smorzata, nessuna cornice,
+                     nessun titolo. Serve il contrasto, non la simmetria. -->
+                <itemlayout width="152" height="250">
+                    <control type="image">
+                        <left>6</left><top>10</top><width>140</width><height>200</height>
+                        <aspectratio>scale</aspectratio>
+                        <texture background="true" colordiffuse="80FFFFFF">$INFO[ListItem.Art(poster)]</texture>
+                    </control>
+                </itemlayout>
+                <!-- SELEZIONATA: cornice ambra, piena luce, titolo sotto -->
+                <focusedlayout width="152" height="250">
+                    <control type="image">
+                        <left>0</left><top>4</top><width>152</width><height>212</height>
+                        <texture colordiffuse="FFE8A24A">bianco.png</texture>
+                    </control>
+                    <control type="image">
+                        <left>6</left><top>10</top><width>140</width><height>200</height>
+                        <aspectratio>scale</aspectratio>
+                        <texture background="true">$INFO[ListItem.Art(poster)]</texture>
+                    </control>
+                    <control type="label">
+                        <left>0</left><top>216</top><width>152</width><height>30</height>
+                        <font>font12</font>
+                        <align>center</align>
+                        <textcolor>FFE8A24A</textcolor>
+                        <shadowcolor>FF000000</shadowcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+                </focusedlayout>
+            </control>
+
+            <control type="label">
+                <left>80</left><top>302</top><width>900</width><height>28</height>
+                <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                <shadowcolor>FF000000</shadowcolor>
+                <label>$INFO[Window.Property(riga1)]</label>
+                <visible>!IsEmpty(Window.Property(riga1))</visible>
+            </control>
+            <control type="list" id="101">
+                <left>80</left><top>334</top><width>1790</width><height>250</height>
+                <onup>100</onup><ondown>100</ondown>
+                <orientation>horizontal</orientation>
+                <itemlayout width="152" height="250">
+                    <control type="image">
+                        <left>6</left><top>10</top><width>140</width><height>200</height>
+                        <aspectratio>scale</aspectratio>
+                        <texture background="true" colordiffuse="80FFFFFF">$INFO[ListItem.Art(poster)]</texture>
+                    </control>
+                </itemlayout>
+                <focusedlayout width="152" height="250">
+                    <control type="image">
+                        <left>0</left><top>4</top><width>152</width><height>212</height>
+                        <texture colordiffuse="FFE8A24A">bianco.png</texture>
+                    </control>
+                    <control type="image">
+                        <left>6</left><top>10</top><width>140</width><height>200</height>
+                        <aspectratio>scale</aspectratio>
+                        <texture background="true">$INFO[ListItem.Art(poster)]</texture>
+                    </control>
+                    <control type="label">
+                        <left>0</left><top>216</top><width>152</width><height>30</height>
+                        <font>font12</font>
+                        <align>center</align>
+                        <textcolor>FFE8A24A</textcolor>
+                        <shadowcolor>FF000000</shadowcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+                </focusedlayout>
+            </control>
+
+        </control>
+
+        <control type="label">
+            <left>80</left><top>1024</top><width>1700</width><height>28</height>
+            <font>font12</font>
+            <textcolor>FF8C8175</textcolor>
+            <label>Frecce per spostarti  -  OK per aprire  -  Indietro per uscire</label>
+        </control>
+
+    </controls>
+</window>

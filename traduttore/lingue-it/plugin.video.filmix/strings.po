@@ -1,0 +1,403 @@
+# Kodi Media Center language file
+# Addon Name: Filmix
+# Addon id: plugin.video.filmix
+# Addon Provider: vl.maksime
+
+msgid ""
+msgstr ""
+
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: it\n"
+
+msgctxt "#30001"
+msgid "Search"
+msgstr "Cerca"
+
+msgctxt "#30002"
+msgid "Watch Later"
+msgstr "Guarda più tardi"
+
+msgctxt "#30003"
+msgid "Watch History"
+msgstr "Cronologia visioni"
+
+msgctxt "#30004"
+msgid "Unfinished"
+msgstr "Non finiti"
+
+msgctxt "#30005"
+msgid "Movies"
+msgstr "Film"
+
+msgctxt "#30006"
+msgid "TV Series"
+msgstr "Serie TV"
+
+msgctxt "#30007"
+msgid "Cartoons"
+msgstr "Cartoni animati"
+
+msgctxt "#30008"
+msgid "Cartoon Series"
+msgstr "Serie animate"
+
+msgctxt "#30009"
+msgid "Favorites"
+msgstr "Preferiti"
+
+msgctxt "#30011"
+msgid "New Search..."
+msgstr "Nuova ricerca..."
+
+msgctxt "#30012"
+msgid "Next page..."
+msgstr "Pagina successiva..."
+
+msgctxt "#30013"
+msgid "Previous page..."
+msgstr "Pagina precedente..."
+
+msgctxt "#30014"
+msgid "Nothing found!"
+msgstr "Nessun risultato!"
+
+msgctxt "#30015"
+msgid "Page"
+msgstr "Pagina"
+
+msgctxt "#30016"
+msgid "Empty"
+msgstr "Vuoto"
+
+msgctxt "#30017"
+msgid "Episode"
+msgstr "Episodio"
+
+msgctxt "#30018"
+msgid "Season"
+msgstr "Stagione"
+
+msgctxt "#30019"
+msgid "Popular"
+msgstr "Popolari"
+
+msgctxt "#30020"
+msgid "Top Views"
+msgstr "Più visti"
+
+msgctxt "#30021"
+msgid "All"
+msgstr "Tutti"
+
+msgctxt "#30022"
+msgid "Ended"
+msgstr "Conclusa"
+
+msgctxt "#30023"
+msgid "Continuing"
+msgstr "In corso"
+
+msgctxt "#30024"
+msgid "Episodes"
+msgstr "Episodi"
+
+msgctxt "#30025"
+msgid "Seasons"
+msgstr "Stagioni"
+
+msgctxt "#30041"
+msgid "Connection error"
+msgstr "Errore di connessione"
+
+msgctxt "#30042"
+msgid "Video not found"
+msgstr "Video non trovato"
+
+msgctxt "#30043"
+msgid "Trailer not found"
+msgstr "Trailer non trovato"
+
+msgctxt "#30044"
+msgid "You have successfully logged in"
+msgstr "Accesso effettuato"
+
+msgctxt "#30046"
+msgid "Login failure! Please, try later"
+msgstr "Accesso non riuscito. Riprova più tardi"
+
+msgctxt "#30047"
+msgid "Server sent an empty response"
+msgstr "Il server ha risposto senza dati"
+
+msgctxt "#30050"
+msgid "Add to Favorites"
+msgstr "Aggiungi ai preferiti"
+
+msgctxt "#30051"
+msgid "Remove from Favorites"
+msgstr "Togli dai preferiti"
+
+msgctxt "#30052"
+msgid "Add to Watch Later"
+msgstr "Aggiungi a \"Guarda più tardi\""
+
+msgctxt "#30053"
+msgid "Remove from Watch Later"
+msgstr "Togli da \"Guarda più tardi\""
+
+msgctxt "#30054"
+msgid "Successfully added to Favorites"
+msgstr "Aggiunto ai preferiti"
+
+msgctxt "#30055"
+msgid "Successfully removed from Favorites"
+msgstr "Tolto dai preferiti"
+
+msgctxt "#30056"
+msgid "Successfully added to Watch Later"
+msgstr "Aggiunto a \"Guarda più tardi\""
+
+msgctxt "#30057"
+msgid "Successfully removed from Watch Later"
+msgstr "Tolto da \"Guarda più tardi\""
+
+msgctxt "#30058"
+msgid "Enter code on the page [B]{0}/consoles[/B]"
+msgstr "Inserisci il codice nella pagina [B]{0}/consoles[/B]"
+
+msgctxt "#30059"
+msgid "or in the site menu [B]'Profile' -> 'Consoles'[/B]"
+msgstr "oppure nel menu del sito [B]'Profile' -> 'Consoles'[/B]"
+
+msgctxt "#30060"
+msgid "Connection code: [B]{0}[/B]"
+msgstr "Codice di collegamento: [B]{0}[/B]"
+
+msgctxt "#30061"
+msgid "You have successfully logged out"
+msgstr "Disconnessione effettuata"
+
+msgctxt "#30062"
+msgid "Login by Code"
+msgstr "Accedi con un codice"
+
+msgctxt "#30063"
+msgid "Authorization"
+msgstr "Autorizzazione"
+
+msgctxt "#30064"
+msgid "Select video server"
+msgstr "Scegli il server video"
+
+msgctxt "#30065"
+msgid "Video server successfully changed"
+msgstr "Server video cambiato"
+
+msgctxt "#30066"
+msgid "Filmix token don't received from mPlay"
+msgstr "Token Filmix non ricevuto da mPlay"
+
+msgctxt "#30200"
+msgid "General"
+msgstr "Generali"
+
+msgctxt "#30201"
+msgid "File names for saving with 'Add To Lib'"
+msgstr "Nomi dei file salvati con \"Aggiungi alla libreria\""
+
+msgctxt "#30202"
+msgid "Search history length"
+msgstr "Lunghezza della cronologia ricerche"
+
+msgctxt "#30203"
+msgid "Results per page"
+msgstr "Risultati per pagina"
+
+msgctxt "#30204"
+msgid "Use filters"
+msgstr "Usa i filtri"
+
+msgctxt "#30205"
+msgid "Load content info"
+msgstr "Carica le informazioni sui contenuti"
+
+msgctxt "#30210"
+msgid "Video Quality"
+msgstr "Qualità video"
+
+msgctxt "#30211"
+msgid "360p (LD)"
+msgstr "360p (bassa)"
+
+msgctxt "#30212"
+msgid "480p (SD)"
+msgstr "480p (SD)"
+
+msgctxt "#30213"
+msgid "720p (HD)"
+msgstr "720p (HD)"
+
+msgctxt "#30214"
+msgid "1080p (FHD)"
+msgstr "1080p (Full HD)"
+
+msgctxt "#30215"
+msgid "1440p (2K)"
+msgstr "1440p (2K)"
+
+msgctxt "#30216"
+msgid "2160p (4K UHD)"
+msgstr "2160p (4K UHD)"
+
+msgctxt "#30220"
+msgid "Rating source"
+msgstr "Fonte dei voti"
+
+msgctxt "#30221"
+msgid "iMDB"
+msgstr "iMDB"
+
+msgctxt "#30222"
+msgid "KinoPoisk"
+msgstr "KinoPoisk"
+
+msgctxt "#30230"
+msgid "Web cache"
+msgstr "Cache web"
+
+msgctxt "#30231"
+msgid "Use web cache"
+msgstr "Usa la cache web"
+
+msgctxt "#30232"
+msgid "Cache duration (minutes)"
+msgstr "Durata della cache (minuti)"
+
+msgctxt "#30300"
+msgid "My profile"
+msgstr "Il mio profilo"
+
+msgctxt "#30301"
+msgid "Login"
+msgstr "Accesso"
+
+msgctxt "#30302"
+msgid "Device name"
+msgstr "Nome del dispositivo"
+
+msgctxt "#30303"
+msgid "Login"
+msgstr "Nome utente"
+
+msgctxt "#30304"
+msgid "Password"
+msgstr "Password"
+
+msgctxt "#30306"
+msgid "Your name"
+msgstr "Il tuo nome"
+
+msgctxt "#30307"
+msgid "PRO"
+msgstr "PRO"
+
+msgctxt "#30308"
+msgid "PRO+"
+msgstr "PRO+"
+
+msgctxt "#30309"
+msgid "PRO Date"
+msgstr "Scadenza PRO"
+
+msgctxt "#30310"
+msgid "Video server"
+msgstr "Server video"
+
+msgctxt "#30311"
+msgid "Change video server"
+msgstr "Cambia server video"
+
+msgctxt "#30312"
+msgid "Update profile"
+msgstr "Aggiorna il profilo"
+
+msgctxt "#30341"
+msgid "Country"
+msgstr "Paese"
+
+msgctxt "#30342"
+msgid "Genre"
+msgstr "Genere"
+
+msgctxt "#30343"
+msgid "Year"
+msgstr "Anno"
+
+msgctxt "#30344"
+msgid "Quality"
+msgstr "Qualità"
+
+msgctxt "#30345"
+msgid "Translation/Voice"
+msgstr "Doppiaggio/Voce"
+
+msgctxt "#30346"
+msgid "Language"
+msgstr "Lingua"
+
+msgctxt "#30347"
+msgid "Order"
+msgstr "Ordinamento"
+
+msgctxt "#30400"
+msgid "Advanced"
+msgstr "Avanzate"
+
+msgctxt "#30401"
+msgid "Use HTTP protocol for video streams"
+msgstr "Usa il protocollo HTTP per i flussi video"
+
+msgctxt "#30402"
+msgid "Check source link"
+msgstr "Verifica il collegamento della sorgente"
+
+msgctxt "#30410"
+msgid "mPlay.su Settings"
+msgstr "Impostazioni mPlay.su"
+
+msgctxt "#30411"
+msgid "Use mPlay.su to play 1080p+ video"
+msgstr "Usa mPlay.su per i video 1080p e superiori"
+
+msgctxt "#30412"
+msgid "Activate by code"
+msgstr "Attiva con un codice"
+
+msgctxt "#30413"
+msgid "Activate by device ID"
+msgstr "Attiva con l'ID del dispositivo"
+
+msgctxt "#30414"
+msgid "Device ID"
+msgstr "ID dispositivo"
+
+msgctxt "#30415"
+msgid "Remove device ID"
+msgstr "Rimuovi l'ID dispositivo"
+
+msgctxt "#30416"
+msgid "Enter device ID"
+msgstr "Inserisci l'ID dispositivo"
+
+msgctxt "#30417"
+msgid "Login failure! Please, check your device ID"
+msgstr "Accesso non riuscito. Controlla l'ID del dispositivo"
+
+msgctxt "#30418"
+msgid "Enter this code in your account on the page of your devices"
+msgstr "Inserisci questo codice nel tuo account, nella pagina dei dispositivi"
+
+msgctxt "#30419"
+msgid "Select translation"
+msgstr "Scegli il doppiaggio"

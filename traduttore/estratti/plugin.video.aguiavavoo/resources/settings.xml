@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="General">
+        <setting id="debug" label="Enable Debug Logging" type="bool" default="false"/>
+        <setting id="openmode" label="FFmpeg Open Mode" type="enum" values="Default|FFmpeg|cURL" default="0"/>
+        <setting label="Svuota la cache (paesi e canali)" type="action" action="RunPlugin(plugin://plugin.video.aguiavavoo/?action=clearcache)" option="close"/>
+    </category>
+</settings>

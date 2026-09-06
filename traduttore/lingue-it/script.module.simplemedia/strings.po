@@ -1,0 +1,39 @@
+# Kodi Media Center language file
+# Addon Name: SimpleMedia
+# Addon id: script.module.simplemedia
+# Addon Provider: vl.maksime
+
+msgid ""
+msgstr ""
+
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: it\n"
+
+msgctxt "#30001"
+msgid "New Search..."
+msgstr "Nuova ricerca..."
+
+# Context menu
+
+msgctxt "#30051"
+msgid "Remove from 'Search'"
+msgstr "Togli da \"Cerca\""
+
+msgctxt "#30053"
+msgid "Clear 'Search'"
+msgstr "Svuota \"Cerca\""
+
+# Messages & Labels
+
+msgctxt "#30101"
+msgid "Connection error"
+msgstr "Errore di connessione"
+
+msgctxt "#30102"
+msgid "Successfully removed from 'Search'"
+msgstr "Rimosso da \"Cerca\""
+
+msgctxt "#30103"
+msgid "'Search' successfully cleared"
+msgstr "\"Cerca\" svuotato"

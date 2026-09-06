@@ -1,0 +1,93 @@
+{
+ "serie": "Mr. Wrong - Lezioni d'amore",
+ "tmdb": 105052,
+ "anno": "2020",
+ "poster": "https://image.tmdb.org/t/p/w780/7WYrPg3rXO5N2T33fa0njKz2IpH.jpg",
+ "sfondo": "https://image.tmdb.org/t/p/w1280/wwtDGWtD2phaVgtejctB6P5uurr.jpg",
+ "episodi": {
+  "1": {
+   "t": "Episodio 1",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/lf6PMKH33W6W0kcSbNCIVOwUIrj.jpg",
+   "d": "2020-06-26"
+  },
+  "2": {
+   "t": "Episodio 2",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/nCExYydOgl7ViAuor4Kb5p3iUnC.jpg",
+   "d": "2020-07-03"
+  },
+  "3": {
+   "t": "Episodio 3",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/kgWuAQ9hH5zqW1c6Ht9NOHN1t27.jpg",
+   "d": "2020-07-10"
+  },
+  "4": {
+   "t": "Episodio 4",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/fz2RZ8MsdglBZzNqtOHVKeUMdOC.jpg",
+   "d": "2020-07-17"
+  },
+  "5": {
+   "t": "Episodio 5",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/3JBJIjL7IEu2oI6T46inymKzT3d.jpg",
+   "d": "2020-07-24"
+  },
+  "6": {
+   "t": "Episodio 6",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/8YVoshrBPpjKdODpGrz04R1nbiC.jpg",
+   "d": "2020-08-07"
+  },
+  "7": {
+   "t": "Episodio 7",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/ApJ2RSBQB8MMN9apJ1JnCLNR4lY.jpg",
+   "d": "2020-08-14"
+  },
+  "8": {
+   "t": "Episodio 8",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/g3BbcjN9ZkhSKC5fgp77J6ZGEd6.jpg",
+   "d": "2020-08-21"
+  },
+  "9": {
+   "t": "Episodio 9",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/nkeS8WqsX3fGjkedSSGxdRgQ2tb.jpg",
+   "d": "2020-08-28"
+  },
+  "10": {
+   "t": "Episodio 10",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/cM4NhV8XOwb80aPmql9xHb1vjHD.jpg",
+   "d": "2020-09-04"
+  },
+  "11": {
+   "t": "Episodio 11",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/yZfWRlBHcgi44zuye6in7sJhPXX.jpg",
+   "d": "2020-09-11"
+  },
+  "12": {
+   "t": "Episodio 12",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/hBoXmlhHYkjZDx5cLSCVVFhsIrK.jpg",
+   "d": "2020-09-18"
+  },
+  "13": {
+   "t": "Episodio 13",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/ncu9d9yLCfXCR4lNuWiKzXDivnA.jpg",
+   "d": "2020-09-25"
+  },
+  "14": {
+   "t": "Episodio 14",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/7W95E1yMIE6fXrsqH0OQwn7texR.jpg",
+   "d": "2020-10-02"
+  }
+ }
+}

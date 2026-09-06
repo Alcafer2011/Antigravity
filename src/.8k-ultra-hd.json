@@ -1,0 +1,13 @@
+{
+  "indirizzo": "192.168.1.114:5555",
+  "adb": "C:\\Users\\infoa\\tmp_adb\\platform-tools\\adb.exe",
+  "pacchettoKodi": "org.xbmc.kodi",
+  "kodiHome": "/sdcard/Android/data/org.xbmc.kodi/files/.kodi",
+  "apiPorta": 8080,
+  "apiUtente": "kodi",
+  "apiPassword": "ag1kp0yx7w",
+  "ramoRepo": "omega",
+  "modello": "Transpeed 8K618-T (Allwinner apollo-p17)",
+  "abi": "armeabi-v7a",
+  "note": "Android 12, rootato (/system/xbin/su). Kodi 21.2. TV Hisense via HDMI-CEC."
+}

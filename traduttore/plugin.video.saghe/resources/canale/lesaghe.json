@@ -1,0 +1,19 @@
+{
+    "id": "lesaghe",
+    "name": "Le Saghe - in ordine cronologico",
+    "language": [
+        "ita",
+        "sub-ita"
+    ],
+    "active": true,
+    "thumbnail": "special://home/addons/plugin.video.saghe/resources/icon.png",
+    "banner": "",
+    "categories": [
+        "anime",
+        "tvshow"
+    ],
+    "not_active": [
+        "include_in_newest"
+    ],
+    "settings": []
+}

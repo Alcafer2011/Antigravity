@@ -1,0 +1,135 @@
+{
+ "serie": "La ragazza e l'ufficiale",
+ "tmdb": 62553,
+ "anno": "2014",
+ "poster": "https://image.tmdb.org/t/p/w780/jyuxYOPoZq0N6sUmfgSBZcsZQQU.jpg",
+ "sfondo": "https://image.tmdb.org/t/p/w1280/izP19rU3kc2go0WQuYPn9xUYQv3.jpg",
+ "episodi": {
+  "1": {
+   "t": "Episodio 1",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/jR2zvjoiYYH4qUfHVLhUqGfCOj8.jpg",
+   "d": "2014-04-04"
+  },
+  "2": {
+   "t": "Episodio 2",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/va0WwIXmpbjcqNqBlDFsc1Kjj0m.jpg",
+   "d": "2014-03-11"
+  },
+  "3": {
+   "t": "Episodio 3",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/eN5TltBcYNfz6PGaIVTj7Xhg18F.jpg",
+   "d": "2014-03-25"
+  },
+  "4": {
+   "t": "Episodio 4",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/ins7xGcgwTVHOYqqdtTCUovty9i.jpg",
+   "d": "2014-04-01"
+  },
+  "5": {
+   "t": "Episodio 5",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/c5mKgeNIfxGGkhbP2hSNrC3RAME.jpg",
+   "d": "2014-04-08"
+  },
+  "6": {
+   "t": "Episodio 6",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/35QgD2FjEFowloYsiUbp6J5eHWl.jpg",
+   "d": "2014-04-15"
+  },
+  "7": {
+   "t": "Episodio 7",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/lhRrVa2Gf03ugBcOZAAtjGzTOeq.jpg",
+   "d": "2014-04-29"
+  },
+  "8": {
+   "t": "Episodio 8",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/fcSyKN0ioMIMyx7M9GDSRjRVOWi.jpg",
+   "d": "2014-05-06"
+  },
+  "9": {
+   "t": "Episodio 9",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/2qz6VIU7EVjh76yRyWcIzm48Qxb.jpg",
+   "d": "2014-05-13"
+  },
+  "10": {
+   "t": "Episodio 10",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/RJUPpcPbTXujHrO6WAqbGAy7JB.jpg",
+   "d": "2014-05-20"
+  },
+  "11": {
+   "t": "Episodio 11",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/p9NHGKZ3I1ATUoH7f5xbvWTTKFb.jpg",
+   "d": "2014-05-27"
+  },
+  "12": {
+   "t": "Episodio 12",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/6EW7sQPtb79tIYtLFb3JN3J6gFw.jpg",
+   "d": "2014-06-03"
+  },
+  "13": {
+   "t": "Episodio 13",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/nMbv0TjliEK649KUuzG3YKp2Sba.jpg",
+   "d": "2014-06-10"
+  },
+  "14": {
+   "t": "Episodio 1",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/pg1N9z6Ont1KWyQCzfN0UK9smIS.jpg",
+   "d": "2014-09-23"
+  },
+  "15": {
+   "t": "Episodio 2",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/lbI9agrfgA4TEWGBJ1nRtJLeRtH.jpg",
+   "d": "2014-09-30"
+  },
+  "16": {
+   "t": "Episodio 3",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/9ivc4WDd4sO7PcMRDmqPbnPJMNW.jpg",
+   "d": "2014-10-07"
+  },
+  "17": {
+   "t": "Episodio 4",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/t48PNw8dhjWwhuH6rAnwaETTPQb.jpg",
+   "d": "2014-10-16"
+  },
+  "18": {
+   "t": "Episodio 5",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/apEpAEEihuv1AwAi4WDooWJp3dG.jpg",
+   "d": "2014-10-30"
+  },
+  "19": {
+   "t": "Episodio 6",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/xQlcLkhyxknHe0WLkeU57OqlF1.jpg",
+   "d": "2014-11-06"
+  },
+  "20": {
+   "t": "Episodio 7",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/coUsTDfOler2oY1iQo4r3XbUB6t.jpg",
+   "d": "2014-11-13"
+  },
+  "21": {
+   "t": "Episodio 8",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/AbGN9gNkKNkf8ukxmZslEtJszIN.jpg",
+   "d": "2014-11-20"
+  }
+ }
+}

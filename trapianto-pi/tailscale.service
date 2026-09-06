@@ -1,0 +1,13 @@
+[Unit]
+Description=Tailscale (rete privata di casa, raggiungibile da fuori)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/storage/ts/tailscaled --state=/storage/ts/tailscaled.state --socket=/run/tailscale/tailscaled.sock --port=41641
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

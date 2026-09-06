@@ -1,0 +1,29 @@
+{
+    "id": "abbonamenti",
+    "name": "I miei abbonamenti",
+    "language": [
+        "ita"
+    ],
+    "active": true,
+    "thumbnail": "special://home/addons/plugin.video.saghe/resources/icon.png",
+    "banner": "",
+    "categories": [
+        "movie",
+        "tvshow",
+        "anime",
+        "documentary"
+    ],
+    "not_active": [
+        "include_in_newest"
+    ],
+    "settings": [
+        {
+            "id": "include_in_global_search",
+            "type": "bool",
+            "label": "@70728",
+            "default": true,
+            "enabled": true,
+            "visible": true
+        }
+    ]
+}

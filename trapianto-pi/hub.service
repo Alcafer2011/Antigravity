@@ -1,0 +1,12 @@
+[Unit]
+Description=Quaderno comune delle saghe (dove sono arrivato)
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /storage/hub-progressi.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

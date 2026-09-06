@@ -1,0 +1,252 @@
+ |D
+\s+\.[a-zA-Z]$
+#EXTM3U\n
+%H:%M:%S
+8Us2TfjeOFrzqFFTEjL3E5KfdAWGa5PV3wQe60uK4BmzlkJRMYFu0ufaM_eeDXKS2U04XUuhbDTgGRJrJARUwzDyCcRToXhW5AcDekfFMfwNUjuieeQ1uzeDB9YWyBL2cn5Al3L3gTnF8Vk1t7rPwkBob0swvxA
+Accept
+Accept-Encoding
+Accept-Language
+adblockEnabled
+Add a channel to TV favorites.
+Add to TV Favorites
+add-on conserva anche i FALLIMENTI: se l
+Adding German channels from Balkans group
+Adding Portugal  channels from Balkans group
+Adding sort method: VIDEO_TITLE
+addonSig
+addTvFavorit
+Afganisthan
+Afghanistan
+Afghanistan#2
+Africa
+Afrika
+Afrika#2
+Aguia Vavoo
+Albania
+Albanien
+All channel caches cleared
+All favorites cleared
+All TV Favorites removed
+appFocusTime
+Arabia
+Arabisch
+Armenia
+Armenian
+Armenien
+Armenien#2
+Attempting fallback request without session
+Austria
+Auth request timed out
+Auth signature obtained successfully
+Authentication Failed
+Auto Play
+autoServer
+Azerbaijan
+Balkan
+Balkans
+Belgien
+Belgium
+Brasilien
+Brazil
+buildId
+Building API headers with auth signature
+Bulgaria
+Bulgarien
+ca-bhs
+Canada
+Cannot add favorite without group
+castConnected
+catalogId
+Change Channel Name
+Channel directory completed
+Channel Not Found
+Check if a channel is in TV favorites.
+Check if debug logging is enabled.
+China
+Clear channel cache for a specific group so it re-fetches from API.
+Clear only the country list cache so it re-fetches from API.
+Clearing country cache
+clientVersion
+Columbia
+Connection
+Connection Error
+Container.Refresh
+content-type
+Content-Type
+Could not connect to server.\nPlease check your internet connection.
+Create a ListItem for a channel in the directory listing.
+Creating new HTTP session
+cURL
+Czech Republic
+Danemark
+DE :
+Default
+delallTvFavorit
+delTvFavorit
+Denmark
+Desktop
+Detected HTML redirect (possible ad page), trying to extract stream URL
+Deutschland
+Deutschland#2
+devMode
+Display all channels from all categories.
+Displaying all channels
+Displaying TV Favorites
+Download Looke
+elenco aggiornato: cosi
+Enable Debug Logging
+England
+Error
+Estland
+Estonia
+Failed to get auth signature - headers will be incomplete
+Failed to get auth signature from server.
+Failed to write file.
+Fetch a single page of channels for a group.
+FFmpeg
+FFmpeg Open Mode
+Finland
+firstAppStart
+Force-clear all channel caches.
+France
+Frankreich
+General
+Generating M3U data...
+Germany
+Get all channels from selected groups.
+Get channels for a specific group. Uses file cache and populates global cache for playback.
+Get headers required for authenticated API requests.
+Get list of TV favorites.
+Get or create a persistent requests session.
+Get set of favorite channel names for quick lookup.
+getAuthSignature
+Greece
+Griechenland
+gzip, deflate
+handle e
+hasAddon
+Hungary
+India
+Indien
+Indonesia
+Invalid Response
+ipLocation
+IsPlayable
+Israel
+Italien
+Italy
+Japan
+Kanada
+Kolumbien
+Korea
+Kurdish
+Kurdistan
+lastAppStart
+Lateinamerika
+Latin
+Litauen
+Lithuania
+Lithunia
+livePlay
+Load TV favorites from disk. Returns list of dicts.
+M3U Created Successfully
+Macedonia
+Makedonien
+Malaysia
+Malta
+mediahubmx-signature
+Move Down
+Move Up
+moveTvFavoritDown
+moveTvFavoritUp
+Nauru
+Netherlands
+nextCursor
+Nickname removed
+Niederlande
+No country specified.
+No favorites added yet
+No Stream Available
+No stream could be resolved
+No URLs provided, checking cache
+Norway
+Norwegen
+Only one stream available, auto-selecting
+Origin
+Pakistan
+Philippinen
+Philippines
+Playback cancelled by user
+Playback initiated successfully
+playDuration
+playerActive
+Poland
+Polen
+Portugal
+Referer
+Remove a channel from TV favorites.
+Remove all TV favorites.
+Remove TV Favorite
+renameTvFavorit
+Request Failed
+Request timed out. Please check your internet connection.
+Request timed out.\nPlease check your internet connection.
+Requesting fresh auth signature...
+Romania
+Rumanien
+Russia
+Russland
+Save Error
+Save TV favorites to disk.
+Scandinavia
+Schweden
+Schweiz
+Select Save Directory for M3U
+selectDialog
+Serbia
+Serbien
+Server returned invalid data.\nPlease try again later.
+Set info labels on a ListItem.
+Setting resolved URL
+Settings
+Seychellen
+Seychelles
+Show dialog for stream selection with Auto Play as first option.
+sigValidUntil
+Singapore
+Singapur
+SKAI DIGITAL
+Skandinavien
+SKY Deutschland
+Slovenia
+Slowenien
+Spain
+Spanien
+SPORTS 2
+Stream Failed
+Suriname
+Svuota la cache (paesi e canali)
+Sweden
+Switzerland
+Thailand
+Tschechien
+Turkei
+Turkey
+Ukraine
+Ungarn
+uniqueId
+United Kingdom
+Unknown
+Use the context menu on any channel to add it here.
+User cancelled during auto play resolve
+User cancelled stream selection
+User selected Auto Play
+user-agent
+User-Agent
+Using cached auth signature
+Using inputstream.ffmpegdirect
+Video
+Viet Nam
+Vietnam
+vto-iptv
+Waiting for save location...

@@ -1,0 +1,201 @@
+{
+ "serie": "BRAVE AND BEAUTIFUL",
+ "tmdb": 68848,
+ "anno": "2016",
+ "poster": "https://image.tmdb.org/t/p/w780/fm62PMeJDGsyciBd24UXXms7kjg.jpg",
+ "sfondo": "https://image.tmdb.org/t/p/w1280/tue6N4M6CViBkGCxOlhQp79wzSL.jpg",
+ "episodi": {
+  "1": {
+   "t": "Episodio 1",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/7h1AiHnR87rowyWibAE9yo5f3Y7.jpg",
+   "d": "2016-11-10"
+  },
+  "2": {
+   "t": "Episodio 2",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/mBOiGM4ddgygnOrBYoKcjbB0Wb2.jpg",
+   "d": "2016-11-17"
+  },
+  "3": {
+   "t": "Episodio 3",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/u7AKjXH4MGr4rKND8Lj9Z7Xk1lF.jpg",
+   "d": "2016-11-24"
+  },
+  "4": {
+   "t": "Episodio 4",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/lgMHGJfgVI0ONBJ8MICGq9JWnKs.jpg",
+   "d": "2016-12-02"
+  },
+  "5": {
+   "t": "Episodio 5",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/hVFgRx9mJ52TxXYw2fLwR0KeMJb.jpg",
+   "d": "2016-12-09"
+  },
+  "6": {
+   "t": "Episodio 6",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/htxx1HiLMjuP5aNKIjWesOTfJ3N.jpg",
+   "d": "2016-12-16"
+  },
+  "7": {
+   "t": "Episodio 7",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/AAx5FP4dhKEwRAhLixtJ8wkpjp.jpg",
+   "d": "2016-12-23"
+  },
+  "8": {
+   "t": "Episodio 8",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/rV7StwHDQFcoDmz2Bk4jB0Vx9N3.jpg",
+   "d": "2016-12-30"
+  },
+  "9": {
+   "t": "Episodio 9",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/t9wwROsqo3dBVxid4cQzYycK1Eq.jpg",
+   "d": "2017-01-13"
+  },
+  "10": {
+   "t": "Episodio 10",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/gRAhqZHX53PZqq2NrZg65KY67cd.jpg",
+   "d": "2017-01-20"
+  },
+  "11": {
+   "t": "Episodio 11",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/vgUer08gXx2n5khlfnOMx8a2g46.jpg",
+   "d": "2017-01-27"
+  },
+  "12": {
+   "t": "Episodio 12",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/zT6F875XoY8oTEhwbekpzkJMz3b.jpg",
+   "d": "2017-02-03"
+  },
+  "13": {
+   "t": "Episodio 13",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/8x8gBMVyzqjLpXCJjdGMh0yoyLJ.jpg",
+   "d": "2017-02-10"
+  },
+  "14": {
+   "t": "Episodio 14",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/pjBwjX9ncfNFHCLtOa1yHkYTGa6.jpg",
+   "d": "2017-02-17"
+  },
+  "15": {
+   "t": "Episodio 15",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/nDRfCARhBVeIQiygkJCqvCBRW7i.jpg",
+   "d": "2017-02-24"
+  },
+  "16": {
+   "t": "Episodio 16",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/pq5qwKibJzXcs5XgBNMGzq3RDwL.jpg",
+   "d": "2017-03-03"
+  },
+  "17": {
+   "t": "Episodio 17",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/tGc0shj7F2tMYaCyVGa2dFoDCUC.jpg",
+   "d": "2017-03-10"
+  },
+  "18": {
+   "t": "Episodio 18",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/tGc0shj7F2tMYaCyVGa2dFoDCUC.jpg",
+   "d": "2017-03-17"
+  },
+  "19": {
+   "t": "Episodio 19",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/zRmH88ds5sKWvwoiBIJGOpSvaYF.jpg",
+   "d": "2017-03-24"
+  },
+  "20": {
+   "t": "Episodio 20",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/fiz08JGZN30SbpSAT8OskmIyoQk.jpg",
+   "d": "2017-03-31"
+  },
+  "21": {
+   "t": "Episodio 21",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/xzc2Ki1ecJUFXXMlGcJLd53Jwid.jpg",
+   "d": "2017-04-07"
+  },
+  "22": {
+   "t": "Episodio 22",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/nHLEl6sULD45CsPl6ksyFZXgQFY.jpg",
+   "d": "2017-04-14"
+  },
+  "23": {
+   "t": "Episodio 23",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/gbXbd0Q3TYEs7KKVcITwfajWAo0.jpg",
+   "d": "2017-04-21"
+  },
+  "24": {
+   "t": "Episodio 24",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/qYmXY8CGDjkhlqAVLFUBnhTqB5e.jpg",
+   "d": "2017-04-28"
+  },
+  "25": {
+   "t": "Episodio 25",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/rCCV9pO98oOIsS4iV1ExGwYMZ2e.jpg",
+   "d": "2017-05-05"
+  },
+  "26": {
+   "t": "Episodio 26",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/nBzgiJWilWyLzl4QjH8iuEXeY5i.jpg",
+   "d": "2017-05-12"
+  },
+  "27": {
+   "t": "Episodio 27",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/yopVsPJJg1uEvQtoKcXhmLrtsmX.jpg",
+   "d": "2017-05-19"
+  },
+  "28": {
+   "t": "Episodio 28",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/tyvY8G7hg8TxCdShjqh8NlOhixT.jpg",
+   "d": "2017-05-26"
+  },
+  "29": {
+   "t": "Episodio 29",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/8sT37dar5cnYHt6pThlTnGJbC1n.jpg",
+   "d": "2017-06-02"
+  },
+  "30": {
+   "t": "Episodio 30",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/wYbRnOW3ivAPklzjQQ7NPQrRfUp.jpg",
+   "d": "2017-06-09"
+  },
+  "31": {
+   "t": "Episodio 31",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/Al4ECY89kFPkvFdxd9AxNdFUck3.jpg",
+   "d": "2017-06-16"
+  },
+  "32": {
+   "t": "Episodio 32",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/ncuPyVc0ddegm1RJSVSt54QulQ7.jpg",
+   "d": "2017-06-23"
+  }
+ }
+}

@@ -1,0 +1,321 @@
+{
+ "serie": "Holly e Benji Forever",
+ "tmdb": 24106,
+ "anno": "2001",
+ "poster": "https://image.tmdb.org/t/p/w780/bCFZz3R1vIo7gPpcQo3aSzgBhJk.jpg",
+ "sfondo": "https://image.tmdb.org/t/p/w1280/wj29buGmdKH1crhCnq6GEM6PczN.jpg",
+ "episodi": {
+  "1": {
+   "t": "La strada verso un sogno",
+   "p": "",
+   "i": "",
+   "d": "2001-10-07"
+  },
+  "2": {
+   "t": "L'incontro con Roberto",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/kOdXScKqjXjb22Rt6Nu6tWamWJW.jpg",
+   "d": "2001-10-14"
+  },
+  "3": {
+   "t": "Tom Becker è tornato",
+   "p": "",
+   "i": "",
+   "d": "2001-10-21"
+  },
+  "4": {
+   "t": "La rabbia di Mark",
+   "p": "",
+   "i": "",
+   "d": "2001-10-28"
+  },
+  "5": {
+   "t": "Orgoglio e tenacia",
+   "p": "",
+   "i": "",
+   "d": "2001-11-04"
+  },
+  "6": {
+   "t": "Girone d'apertura",
+   "p": "",
+   "i": "",
+   "d": "2001-11-11"
+  },
+  "7": {
+   "t": "Un cuore di vetro",
+   "p": "",
+   "i": "",
+   "d": "2001-11-18"
+  },
+  "8": {
+   "t": "Un esempio di coraggio",
+   "p": "",
+   "i": "",
+   "d": "2001-11-25"
+  },
+  "9": {
+   "t": "Due traguardi ambiziosi",
+   "p": "",
+   "i": "",
+   "d": "2001-12-02"
+  },
+  "10": {
+   "t": "L'ultima partita infuocata",
+   "p": "",
+   "i": "",
+   "d": "2001-12-09"
+  },
+  "11": {
+   "t": "Arrivederci, Roberto",
+   "p": "",
+   "i": "",
+   "d": "2001-12-16"
+  },
+  "12": {
+   "t": "Calcio d'inizio",
+   "p": "",
+   "i": "",
+   "d": "2001-12-23"
+  },
+  "13": {
+   "t": "Il ritorno della tigre",
+   "p": "",
+   "i": "",
+   "d": "2001-12-30"
+  },
+  "14": {
+   "t": "Forza contro intelligenza",
+   "p": "",
+   "i": "",
+   "d": "2002-01-06"
+  },
+  "15": {
+   "t": "Il campione sotto la neve",
+   "p": "",
+   "i": "",
+   "d": "2002-01-13"
+  },
+  "16": {
+   "t": "Contro il parere del medico",
+   "p": "",
+   "i": "",
+   "d": "2002-01-20"
+  },
+  "17": {
+   "t": "Provocazioni",
+   "p": "",
+   "i": "",
+   "d": "2002-01-27"
+  },
+  "18": {
+   "t": "Il pallonetto della vendetta",
+   "p": "",
+   "i": "",
+   "d": "2002-02-03"
+  },
+  "19": {
+   "t": "Bentornato Holly",
+   "p": "",
+   "i": "",
+   "d": "2002-02-10"
+  },
+  "20": {
+   "t": "Comincia l'avventura",
+   "p": "",
+   "i": "",
+   "d": "2002-02-17"
+  },
+  "21": {
+   "t": "Un prezioso aiuto",
+   "p": "",
+   "i": "",
+   "d": "2002-02-24"
+  },
+  "22": {
+   "t": "Glorioso numero dieci",
+   "p": "",
+   "i": "",
+   "d": "2002-03-03"
+  },
+  "23": {
+   "t": "Il tandem d'oro si riunisce",
+   "p": "",
+   "i": "",
+   "d": "2002-03-10"
+  },
+  "24": {
+   "t": "Italia, che difesa!",
+   "p": "",
+   "i": "",
+   "d": "2002-03-17"
+  },
+  "25": {
+   "t": "Geniale Diaz",
+   "p": "",
+   "i": "",
+   "d": "2002-03-24"
+  },
+  "26": {
+   "t": "Un capitano elegante",
+   "p": "",
+   "i": "",
+   "d": "2002-03-31"
+  },
+  "27": {
+   "t": "Dura ammonizione",
+   "p": "",
+   "i": "",
+   "d": "2002-04-07"
+  },
+  "28": {
+   "t": "All'ultimo rigore",
+   "p": "",
+   "i": "",
+   "d": "2002-04-14"
+  },
+  "29": {
+   "t": "Un portiere insuperabile",
+   "p": "",
+   "i": "",
+   "d": "2002-04-21"
+  },
+  "30": {
+   "t": "Un messaggio da Roberto",
+   "p": "",
+   "i": "",
+   "d": "2002-04-28"
+  },
+  "31": {
+   "t": "Brilla squadra!",
+   "p": "",
+   "i": "",
+   "d": "2002-05-05"
+  },
+  "32": {
+   "t": "Verso il nuovo campo",
+   "p": "",
+   "i": "",
+   "d": "2002-05-12"
+  },
+  "33": {
+   "t": "Due fuoriclasse a confronto",
+   "p": "",
+   "i": "",
+   "d": "2002-05-19"
+  },
+  "34": {
+   "t": "Il cyborg del calcio",
+   "p": "",
+   "i": "",
+   "d": "2002-06-02"
+  },
+  "35": {
+   "t": "La stella di Santana",
+   "p": "",
+   "i": "",
+   "d": "2002-06-09"
+  },
+  "36": {
+   "t": "Un nuovo mondo di sogni",
+   "p": "",
+   "i": "",
+   "d": "2002-06-16"
+  },
+  "37": {
+   "t": "Una vetrina importante",
+   "p": "",
+   "i": "",
+   "d": "2002-06-23"
+  },
+  "38": {
+   "t": "L'età d'oro della speranza",
+   "p": "",
+   "i": "",
+   "d": "2002-06-30"
+  },
+  "39": {
+   "t": "Rob Denton è qui",
+   "p": "",
+   "i": "",
+   "d": "2002-07-07"
+  },
+  "40": {
+   "t": "La nuova nazionale giapponese",
+   "p": "",
+   "i": "",
+   "d": "2002-07-14"
+  },
+  "41": {
+   "t": "Abbattete il muro olandese",
+   "p": "",
+   "i": "",
+   "d": "2002-07-21"
+  },
+  "42": {
+   "t": "Ritorno al mondo",
+   "p": "",
+   "i": "",
+   "d": "2002-07-28"
+  },
+  "43": {
+   "t": "L'aquila del Catalogna",
+   "p": "",
+   "i": "",
+   "d": "2002-08-04"
+  },
+  "44": {
+   "t": "La prima di campionato",
+   "p": "",
+   "i": "",
+   "d": "2002-08-11"
+  },
+  "45": {
+   "t": "Una maglia da titolare",
+   "p": "",
+   "i": "",
+   "d": "2002-08-18"
+  },
+  "46": {
+   "t": "Un brusco risveglio",
+   "p": "",
+   "i": "",
+   "d": "2002-08-25"
+  },
+  "47": {
+   "t": "Il debutto in Italia di Lenders",
+   "p": "",
+   "i": "",
+   "d": "2002-09-01"
+  },
+  "48": {
+   "t": "Attaccante in lacrime",
+   "p": "",
+   "i": "",
+   "d": "2002-09-08"
+  },
+  "49": {
+   "t": "Dieci goal, dieci assist",
+   "p": "",
+   "i": "",
+   "d": "2002-09-15"
+  },
+  "50": {
+   "t": "Benji contro Schneider",
+   "p": "",
+   "i": "",
+   "d": "2002-09-22"
+  },
+  "51": {
+   "t": "Un sogno che si realizza",
+   "p": "",
+   "i": "",
+   "d": "2002-09-29"
+  },
+  "52": {
+   "t": "Guerrieri in campo",
+   "p": "",
+   "i": "",
+   "d": "2002-10-06"
+  }
+ }
+}

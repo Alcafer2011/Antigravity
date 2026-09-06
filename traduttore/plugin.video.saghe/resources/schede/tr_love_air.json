@@ -1,0 +1,321 @@
+{
+ "serie": "Love Is in the Air",
+ "tmdb": 104877,
+ "anno": "2020",
+ "poster": "https://image.tmdb.org/t/p/w780/nzBenFJ2D2MCWTwTt2uc4BGWLtA.jpg",
+ "sfondo": "https://image.tmdb.org/t/p/w1280/9qq8LpOoBLYq8MxiMugn0gf9qJd.jpg",
+ "episodi": {
+  "1": {
+   "t": "Episodio 1",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/sE4VxI5pGC3CsV10FiWaagxZbQX.jpg",
+   "d": "2020-07-08"
+  },
+  "2": {
+   "t": "Episodio 2",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/A5gUCUJwUUTPO84vxbutH27Eg2n.jpg",
+   "d": "2020-07-15"
+  },
+  "3": {
+   "t": "Episodio 3",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/vYVi4tQolfGPeyTzoIhUxzNTaG6.jpg",
+   "d": "2020-07-22"
+  },
+  "4": {
+   "t": "Episodio 4",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/sZAaWUpRBxOXWJmCVYzTAihYxBt.jpg",
+   "d": "2020-07-29"
+  },
+  "5": {
+   "t": "Episodio 5",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/3GvXyxlikWWRzDtGnTLGB3pKZam.jpg",
+   "d": "2020-08-12"
+  },
+  "6": {
+   "t": "Episodio 6",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/k7GSAJGMZDlY7v1NDYabi3zyYon.jpg",
+   "d": "2020-08-19"
+  },
+  "7": {
+   "t": "Episodio 7",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/vPrpPsqNklHk5yvcejdeuGqvwVq.jpg",
+   "d": "2020-08-26"
+  },
+  "8": {
+   "t": "Episodio 8",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/ejeweUdFws6P9WEx568w3tdYqtt.jpg",
+   "d": "2020-09-02"
+  },
+  "9": {
+   "t": "Episodio 9",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/kHDgb07zVH2xOqvFj1f38EmSjb5.jpg",
+   "d": "2020-09-09"
+  },
+  "10": {
+   "t": "Episodio 10",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/sCBSrnHAz2eHIU6wh3J31RRjgXk.jpg",
+   "d": "2020-09-16"
+  },
+  "11": {
+   "t": "Episodio 11",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/w4Gi4iM3MEGhiKUHP1HYclExJRk.jpg",
+   "d": "2020-09-23"
+  },
+  "12": {
+   "t": "Episodio 12",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/ffcWFwe2OwES1hZzWgZq5oyf1YG.jpg",
+   "d": "2020-09-30"
+  },
+  "13": {
+   "t": "Episodio 13",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/b2bYzcoPiYVUxbT33dDlNcPthKz.jpg",
+   "d": "2020-10-07"
+  },
+  "14": {
+   "t": "Episodio 14",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/Xx8ixoIzCTgjfjqEZ4Hc3ttHH3.jpg",
+   "d": "2020-10-14"
+  },
+  "15": {
+   "t": "Episodio 15",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/mYTnsXh4mXhWKRMLmT27jeuofX0.jpg",
+   "d": "2020-10-21"
+  },
+  "16": {
+   "t": "Episodio 16",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/1L4rahPYwolK0bAvFZvIGZZuWA4.jpg",
+   "d": "2020-10-28"
+  },
+  "17": {
+   "t": "Episodio 17",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/anF0FFDtI9MGfGNNvqYtHRHCjQQ.jpg",
+   "d": "2020-11-04"
+  },
+  "18": {
+   "t": "Episodio 18",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/eUc2PEzeWnkx8negPc6WDKLG8SJ.jpg",
+   "d": "2020-11-11"
+  },
+  "19": {
+   "t": "Episodio 19",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/pftcLx8x2InNC53XfuZMF1fWHhx.jpg",
+   "d": "2020-11-21"
+  },
+  "20": {
+   "t": "Episodio 20",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/78WUa8WuX8h1fNcPniSr0at3i8O.jpg",
+   "d": "2020-11-28"
+  },
+  "21": {
+   "t": "Episodio 21",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/3mUcoQprw3sMYljgNj38lSB8Ht1.jpg",
+   "d": "2020-12-05"
+  },
+  "22": {
+   "t": "Episodio 22",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/dzuZYWSeQ4H2B80HiS7eIx4zE11.jpg",
+   "d": "2020-12-12"
+  },
+  "23": {
+   "t": "Episodio 23",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/oE5LsN8KayyUTKQqwkbL1wMdAZM.jpg",
+   "d": "2020-12-19"
+  },
+  "24": {
+   "t": "Episodio 24",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/ao26QEhEn9OrKFNi4oh68vLtwKV.jpg",
+   "d": "2020-12-26"
+  },
+  "25": {
+   "t": "Episodio 25",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/fZYENWXF9k5sW3W18HDYiWY0Jye.jpg",
+   "d": "2021-01-02"
+  },
+  "26": {
+   "t": "Episodio 26",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/mlZsBxues0oUn1abOgHDJuZ1WPO.jpg",
+   "d": "2021-01-09"
+  },
+  "27": {
+   "t": "Episodio 27",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/bMkQ8fypFuUdBlT1XmbuVomaZ59.jpg",
+   "d": "2021-01-16"
+  },
+  "28": {
+   "t": "Episodio 28",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/8PVT56VPkpXWyHXF4Di0CnzDRrp.jpg",
+   "d": "2021-01-23"
+  },
+  "29": {
+   "t": "Episodio 29",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/e9Q4AMvGBq4s1Xm0m4hVX6E7TxF.jpg",
+   "d": "2021-01-30"
+  },
+  "30": {
+   "t": "Episodio 30",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/vhed6hrhyxt8L2bV39JauMHM7f7.jpg",
+   "d": "2021-02-06"
+  },
+  "31": {
+   "t": "Episodio 31",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/dvDP7L9joudU9uydgyO4jF43695.jpg",
+   "d": "2021-02-13"
+  },
+  "32": {
+   "t": "Episodio 32",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/vU2LjlLAn9csdPXtV7myRGOy8Mi.jpg",
+   "d": "2021-02-20"
+  },
+  "33": {
+   "t": "Episodio 33",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/2fO4nOOxORHbobTCMcmzEz5QsXK.jpg",
+   "d": "2021-02-27"
+  },
+  "34": {
+   "t": "Episodio 34",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/ixjFan2jrL6PGvrkiT2ZXWfeQny.jpg",
+   "d": "2021-03-06"
+  },
+  "35": {
+   "t": "Episodio 35",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/eVm0CesFr7y8Hpq4Bls6bYmPE4W.jpg",
+   "d": "2021-03-13"
+  },
+  "36": {
+   "t": "Episodio 36",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/wpTfysRaWpkncOeDQsKTm7eDsg1.jpg",
+   "d": "2021-03-20"
+  },
+  "37": {
+   "t": "Episodio 37",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/j5WIyfp7pKzaO9waYJziARlnSIk.jpg",
+   "d": "2021-03-27"
+  },
+  "38": {
+   "t": "Episodio 38",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/bIVptDnqKHwHAWqmkpK2OAvOKXO.jpg",
+   "d": "2021-04-03"
+  },
+  "39": {
+   "t": "Episodio 39",
+   "p": "Fine Prima Stagione",
+   "i": "https://image.tmdb.org/t/p/w500/nk5RRaVE0WLZunqrdaCdDJ6vk63.jpg",
+   "d": "2021-04-10"
+  },
+  "40": {
+   "t": "Episodio 40",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/aJMTDkPIc3tFnSBNvms4BoBimtI.jpg",
+   "d": "2021-06-09"
+  },
+  "41": {
+   "t": "Episodio 41",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/8N5nRbyvI1k6Wgj3gRai8wEsiY1.jpg",
+   "d": "2021-06-16"
+  },
+  "42": {
+   "t": "Episodio 42",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/cdqB807MxSu2q9HGK9g0d22d4qI.jpg",
+   "d": "2021-06-23"
+  },
+  "43": {
+   "t": "Episodio 43",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/4mH2Dq59ZWSNYfZGR9pfeMobI3y.jpg",
+   "d": "2021-06-30"
+  },
+  "44": {
+   "t": "Episodio 44",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/fZQG286HAWkhCWbkzkv2kcWMvul.jpg",
+   "d": "2021-07-07"
+  },
+  "45": {
+   "t": "Episodio 45",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/6fnKwjhK2Miqs72zRjyOpTykRED.jpg",
+   "d": "2021-07-14"
+  },
+  "46": {
+   "t": "Episodio 46",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/2yi7UY7NwBQOkQDHJHMTQ0guwFb.jpg",
+   "d": "2021-07-28"
+  },
+  "47": {
+   "t": "Episodio 47",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/cTZjJqNzYW18HfdvJm6MvXnJy8H.jpg",
+   "d": "2021-08-04"
+  },
+  "48": {
+   "t": "Episodio 48",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/qCxXxtHgraEPM8kOJnOuW2bEjbE.jpg",
+   "d": "2021-08-11"
+  },
+  "49": {
+   "t": "Episodio 49",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/uiGdZDxCOhaj4lTLMph0LZ2O5hA.jpg",
+   "d": "2021-08-18"
+  },
+  "50": {
+   "t": "Episodio 50",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/zI9cDrCUIpIgxAi20xuW0ChBKtA.jpg",
+   "d": "2021-08-25"
+  },
+  "51": {
+   "t": "Episodio 51",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/i71XoZbfi8V2QwxITTKMkasQFFW.jpg",
+   "d": "2021-09-01"
+  },
+  "52": {
+   "t": "Episodio 52",
+   "p": "Fine Serie",
+   "i": "https://image.tmdb.org/t/p/w500/4nDJrZSileOHG2uVKynRnnUHBLi.jpg",
+   "d": "2021-09-08"
+  }
+ }
+}

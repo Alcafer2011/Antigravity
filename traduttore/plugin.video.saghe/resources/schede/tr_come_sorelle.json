@@ -1,0 +1,57 @@
+{
+ "serie": "Come sorelle",
+ "tmdb": 94935,
+ "anno": "2019",
+ "poster": "https://image.tmdb.org/t/p/w780/5a01HFYWKEIxYUXCEkRIEFaxOwl.jpg",
+ "sfondo": "https://image.tmdb.org/t/p/w1280/ApjuS9Jwfho38l8NO5KwjCdq8hl.jpg",
+ "episodi": {
+  "1": {
+   "t": "Episodio 1",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/vYazDSgk1Bn625PbOJkApEwOYY6.jpg",
+   "d": "2019-10-25"
+  },
+  "2": {
+   "t": "Episodio 2",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/x4jU73R2j3ZcPscneaPYkQzaRv2.jpg",
+   "d": "2019-11-01"
+  },
+  "3": {
+   "t": "Episodio 3",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/8U1w6VszcmiLNh8rcTOARhYUGbn.jpg",
+   "d": "2019-11-08"
+  },
+  "4": {
+   "t": "Episodio 4",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/8WOrZ2V5VLHZAc1NjF1eD0YIidt.jpg",
+   "d": "2019-11-15"
+  },
+  "5": {
+   "t": "Episodio 5",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/pDSyPUURK2uD3Dz0BSRFcRPyHWh.jpg",
+   "d": "2019-11-22"
+  },
+  "6": {
+   "t": "Episodio 6",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/oTsnZDKCKqqYCb6YhPzAg5evPBw.jpg",
+   "d": "2019-11-29"
+  },
+  "7": {
+   "t": "Episodio 7",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/4a3AURt7iZecIluQ54tG93CQopj.jpg",
+   "d": "2019-12-06"
+  },
+  "8": {
+   "t": "Episodio 8",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/njdhViqZ22h05aQ4uG8v6VloyYf.jpg",
+   "d": "2019-12-13"
+  }
+ }
+}

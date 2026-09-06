@@ -1,0 +1,165 @@
+{
+ "serie": "Bitter Sweet - Ingredienti d'amore",
+ "tmdb": 73506,
+ "anno": "2017",
+ "poster": "https://image.tmdb.org/t/p/w780/iO6xrJ0vuFz1LrYN6kK6CcUL2vh.jpg",
+ "sfondo": "https://image.tmdb.org/t/p/w1280/sn19T6Dl4409fIT9PjCUkp6zcaZ.jpg",
+ "episodi": {
+  "1": {
+   "t": "Episodio 1",
+   "p": "Ferit e Nazli, due persone completamente opposte, si incontrano nella cucina di Ferit. Il loro rapporto inizia con continui battibecchi, ma sembra che, grazie alle doti culinarie di Nazli, la loro relazione sia destinata a durare a lungo. A causa di alcuni malintesi, a mezzanotte, sotto la luna piena, si ritrovano coinvolti in una situazione di totale confusione.",
+   "i": "https://image.tmdb.org/t/p/w500/oiRhJL7xp1hf7cUaPEvRl8ye3Jk.jpg",
+   "d": "2017-07-04"
+  },
+  "2": {
+   "t": "Episodio 2",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/5YqtbmhxzCSToJ8v8GDhB62FVfJ.jpg",
+   "d": "2017-07-11"
+  },
+  "3": {
+   "t": "Episodio 3",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/gpiXthr6T7vHfTHLsgNSXaDKpEf.jpg",
+   "d": "2017-07-18"
+  },
+  "4": {
+   "t": "Episodio 4",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/xe2fJ9VwpChKsSV1wgG9dDYcWiB.jpg",
+   "d": "2017-07-25"
+  },
+  "5": {
+   "t": "Episodio 5",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/we9sOL8HrzmNlHM6x40ksZw7fb9.jpg",
+   "d": "2017-08-01"
+  },
+  "6": {
+   "t": "Episodio 6",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/aIP9g8cpumUy1FvEMsnMsknhhF8.jpg",
+   "d": "2017-08-08"
+  },
+  "7": {
+   "t": "Episodio 7",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/dkPiEwbngdBEtsrNLSJJFuk9bOm.jpg",
+   "d": "2017-08-15"
+  },
+  "8": {
+   "t": "Episodio 8",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/n9mbJDbcPbvpsNlbJAnJSqWR9ug.jpg",
+   "d": "2017-08-22"
+  },
+  "9": {
+   "t": "Episodio 9",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/jwH26yZEeFm6gSaBV9SA2rbiplR.jpg",
+   "d": "2017-08-29"
+  },
+  "10": {
+   "t": "Episodio 10",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/3Qe1wXTY2hJm5pKKBoiK7cFjWJb.jpg",
+   "d": "2017-09-05"
+  },
+  "11": {
+   "t": "Episodio 11",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/kruur7X2eoKopjBBdqwtHC57lqO.jpg",
+   "d": "2017-09-12"
+  },
+  "12": {
+   "t": "Episodio 12",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/eVCNXfY2mptF7k2fPMFFKAcCVvQ.jpg",
+   "d": "2017-09-19"
+  },
+  "13": {
+   "t": "Episodio 13",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/c9Kl7v1l3yHu6127M159C81DA3x.jpg",
+   "d": "2017-09-26"
+  },
+  "14": {
+   "t": "Episodio 14",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/4tPAfU8yPJVuoMSavoftySsciZ6.jpg",
+   "d": "2017-10-03"
+  },
+  "15": {
+   "t": "Episodio 15",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/aWUX8M3EwV2WsMSLbLjjdkrfskc.jpg",
+   "d": "2017-10-10"
+  },
+  "16": {
+   "t": "Episodio 16",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/553XUHZ0UwjrwecERJmWGqOT6ht.jpg",
+   "d": "2017-10-17"
+  },
+  "17": {
+   "t": "Episodio 17",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/1aq4XThTY43pJDbZy2cKSD9xDvw.jpg",
+   "d": "2017-10-29"
+  },
+  "18": {
+   "t": "Episodio 18",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/ozvTYF9FfGRM5ztOLLTUiL2eCr9.jpg",
+   "d": "2017-11-05"
+  },
+  "19": {
+   "t": "Episodio 19",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/4If9Z2obXXKKHu1dHtBYcy2yjDe.jpg",
+   "d": "2017-11-12"
+  },
+  "20": {
+   "t": "Episodio 20",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/hGHphjcVGtqNQdIf0BEo3IclR8o.jpg",
+   "d": "2017-11-19"
+  },
+  "21": {
+   "t": "Episodio 21",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/eM94JFtZxlWCe6bdJTxMcdnUwrf.jpg",
+   "d": "2017-11-26"
+  },
+  "22": {
+   "t": "Episodio 22",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/idzrUtZ3L3WW7JBh7d9SirruWZu.jpg",
+   "d": "2017-12-03"
+  },
+  "23": {
+   "t": "Episodio 23",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/2UBblK98a7HwZ9VAgvCmZD6jc4K.jpg",
+   "d": "2017-12-10"
+  },
+  "24": {
+   "t": "Episodio 24",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/dX7Nh0xEHUvkZ07S7zByKY0gbFZ.jpg",
+   "d": "2017-12-17"
+  },
+  "25": {
+   "t": "Episodio 25",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/hSsPS8IMp9Fc4iKQmTRJxRicWjl.jpg",
+   "d": "2017-12-24"
+  },
+  "26": {
+   "t": "Episodio 26",
+   "p": "",
+   "i": "https://image.tmdb.org/t/p/w500/mIWP3KxbMFMeDHRh0QQOOYLo6gF.jpg",
+   "d": "2017-12-31"
+  }
+ }
+}

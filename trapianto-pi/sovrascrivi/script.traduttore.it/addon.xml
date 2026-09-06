@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="script.traduttore.it" name="Traduttore IT" version="1.0.0" provider-name="Antigravity">
+	<requires>
+		<import addon="xbmc.python" version="3.0.1"/>
+	</requires>
+	<extension point="xbmc.python.script" library="default.py">
+		<provides>executable</provides>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary lang="it_IT">Traduce in italiano l'interfaccia di altri add-on e ri-applica dopo gli aggiornamenti</summary>
+		<description lang="it_IT">Elenca gli add-on installati, rileva quando vengono aggiornati e applica un profilo di traduzione italiano alle stringhe d'interfaccia. Fa un backup prima di ogni modifica e segnala le stringhe nuove non ancora tradotte.</description>
+		<platform>all</platform>
+		<assets>
+			<icon>icon.png</icon>
+		</assets>
+	</extension>
+</addon>

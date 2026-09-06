@@ -1,0 +1,69 @@
+{
+ "serie": "Devilman Crybaby",
+ "tmdb": 75208,
+ "anno": "2018",
+ "poster": "https://image.tmdb.org/t/p/w780/vFIk26CGrhDrWgYkTdVqp6dZc48.jpg",
+ "sfondo": "https://image.tmdb.org/t/p/w1280/wuUZxHcyQdx3EurPX0CjD8FgbHG.jpg",
+ "episodi": {
+  "1": {
+   "t": "Ho bisogno di te",
+   "p": "Ryo, un giovane professore rientrato dall'estero, porta l'amico puro e dalla lacrima facile Akira a una festa all'insegna di eccessi e di demoni.",
+   "i": "https://image.tmdb.org/t/p/w500/o2Htd8Vv3cHYOv5UiqDA5DwidHa.jpg",
+   "d": "2018-01-05"
+  },
+  "2": {
+   "t": "Una mano è sufficiente",
+   "p": "Akira è cambiato molto: è più forte e più affamato che mai, e va in cerca di Ryo per ottenere risposte.",
+   "i": "https://image.tmdb.org/t/p/w500/waPMynmWdIZEeA7m24C9AteZlyM.jpg",
+   "d": "2018-01-05"
+  },
+  "3": {
+   "t": "Credimi!",
+   "p": "Quando il suo editore non gli crede, il paparazzo Nagasaki si dispera. Silene e Kaim scoprono cosa è accaduto al loro compagno scomparso, il demone Amon.",
+   "i": "https://image.tmdb.org/t/p/w500/565bwQB9HUYsTsak3cgH8tpgE6Y.jpg",
+   "d": "2018-01-05"
+  },
+  "4": {
+   "t": "Vieni, Akira",
+   "p": "La madre di Akira chiama per informare del suo ritorno. Tutti sono impazienti di vederla, ma Ryo mette in guardia l'amico da qualsiasi umano.",
+   "i": "https://image.tmdb.org/t/p/w500/q7zsi0TYPLomrsUbnzdOOBaXW4R.jpg",
+   "d": "2018-01-05"
+  },
+  "5": {
+   "t": "La bella Silene",
+   "p": "Silene rintraccia Amon nella speranza di riaccendere il suo lato demoniaco, ma nella battaglia che segue l'anima umana di Akira conserva la sua forza.",
+   "i": "https://image.tmdb.org/t/p/w500/qQ8K6ayudYXLGCqnHzHFhalppVZ.jpg",
+   "d": "2018-01-05"
+  },
+  "6": {
+   "t": "Né demone né umano",
+   "p": "A una gara di atletica trasmessa in diretta, Ryo progetta di smascherare l'identità di demone di Koda, l'atleta del liceo, disseminando paura e sfiducia nella società.",
+   "i": "https://image.tmdb.org/t/p/w500/a4VCCPs9ldAtKUMBCWulVoSK72l.jpg",
+   "d": "2018-01-05"
+  },
+  "7": {
+   "t": "Deboli umani, saggi demoni",
+   "p": "La paura dei demoni che attanaglia il mondo fa sprofondare l'umanità nella paranoia e nella violenza. Akira cerca di salvare altri ibridi per metà demoni come lui.",
+   "i": "https://image.tmdb.org/t/p/w500/hfyRQEzMLRjHMuFSSNoqluXt77p.jpg",
+   "d": "2018-01-05"
+  },
+  "8": {
+   "t": "Devo scoprirlo da solo",
+   "p": "Le azioni e i motivi che muovono Ryo sono un mistero anche per lui, che rivive il suo passato per avere risposte. Il padre di Miki cerca la moglie e il figlio scomparsi.",
+   "i": "https://image.tmdb.org/t/p/w500/6kiF7dcCGniq99Nlb3aqSTeJhxD.jpg",
+   "d": "2018-01-05"
+  },
+  "9": {
+   "t": "Andate all'inferno, voi mortali",
+   "p": "Tradito e smascherato, Akira viene preso di mira. Quando difende la sua anima umana sui social, Miki si ritrova attaccata assieme a Miko.",
+   "i": "https://image.tmdb.org/t/p/w500/aZ9MDXuUAvKkkOKrgArRuuq7Ncg.jpg",
+   "d": "2018-01-05"
+  },
+  "10": {
+   "t": "Piangere è un bene",
+   "p": "Incalzato da Akira, Ryo rivela la verità su se stesso e sui demoni. Gli umani, i demoni e i Devilmen si riuniscono per lo scontro finale.",
+   "i": "https://image.tmdb.org/t/p/w500/vkuvHjPelJegMv22AeNT2npB5qC.jpg",
+   "d": "2018-01-05"
+  }
+ }
+}

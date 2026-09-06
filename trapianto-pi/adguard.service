@@ -1,0 +1,13 @@
+[Unit]
+Description=AdGuard Home - filtro DNS per tutta la casa
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/storage/AdGuardHome/AdGuardHome --no-check-update -w /storage/AdGuardHome
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,108 @@
+>>> Weiter
+1080p
+480p
+720p
+Abenteuer
+Account Info
+Action
+Action & Adventure
+Alle Favoriten entfernen
+Alle Quellen fehlgeschlagen
+Angesagte Filme
+Angesagte Serien
+Animation
+Anzahl Streams in Title anzeigen
+Auto
+Automatisch
+Automatisch nächsten ähnlichen Stream versuchen
+Beliebte Filme
+Beliebte Serien
+Cache komprimieren
+Cache löschen
+Countdown
+Countdown Zeit
+DEBUG
+Debug Logging
+Dokumentarfilm
+Drama
+Einstellungen
+Familie
+Fantasy
+Filme
+Genres
+Historie
+Horror
+Hoster
+IP BLOCKED - anderes Portal waehlen, Stalker deaktiviert
+IP BLOCKED anderes Portal auswählen, deaktiviere Stalker
+IPTV Autoplay
+Kanalfilter verwenden
+Kein Stalkerportal gewählt, deaktiviere Stalker
+Keine funktionierende Mac gefunden, anderes Portal auswählen, deaktiviere Stalker
+Kids
+Komödie
+Kriegsfilm
+Krimi
+Liebesfilm
+LITETV
+LiteTV (2ix2 / Nydus) verwenden
+LiteTV > Stalker > VAVOO
+LiteTV > VAVOO > Stalker
+LiteTV Cache gelöscht
+LiteTV Cache leeren
+Live
+Live - A bis Z
+Live - Alle
+Live - Favoriten
+Live - Gruppen
+Live-TV bei Streamabbruch automatisch neu verbinden
+M3U8 vor der Wiedergabe testen
+Manuell
+Max Stream Qualität
+Musik
+Mystery
+Neue Mac Adresse
+Neue Suche
+Neuverbindungsversuche (mind. Anzahl Quellen)
+News
+Quellen-Vorrang (Priorität)
+Reality
+Sci-Fi & Fantasy
+Science Fiction
+Serien
+Soap
+Staffeln
+STALKER
+Stalker > LiteTV > VAVOO
+Stalker > VAVOO > LiteTV
+STALKER Kanalgruppen Auswahl
+STALKER Mac
+STALKER Portal
+STALKER Portal Auswahl
+STALKER Portal Check
+STALKER Portal Check Retries
+STALKER TV Cache in Std
+Stalker-Portal nicht erreichbar
+Stalker-Portal nicht erreichbar - Netzwerk pruefen
+Stalkerportal verwenden
+Stream Auswahl
+Streams Testen
+Suche
+Suchverlauf löschen
+Talk
+Thriller
+TV
+TV-Film
+VAVOO
+VAVOO > LiteTV > Stalker
+VAVOO > Stalker > LiteTV
+VAVOO HLS Proxy verwenden (Stabilere Wiedergabe)
+VAVOO Kanalgruppen Auswahl
+VAVOO Proxy: Segmente vorausladen (Puffer gegen Aussetzer)
+VAVOO TV verwenden
+VAVOO.TO
+VIDEO
+von TV Favoriten entfernen
+War & Politics
+Western
+zu TV Favoriten hinzufügen

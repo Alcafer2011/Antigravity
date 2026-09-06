@@ -1,0 +1,400 @@
+.json
+.m3u8
+(^(DE|AT|CH) ?(:|\||-)| (\|\w|(F|Q|U)?HD\+?|(2|4|8)K|(720|1080|2160)p?|AUSTRIA|GERMANY|DEUTSCHLAND|HEVC|H265|RAW|SD|YOU)|(\(|\[).*?(\)|\])| (DE|\.\D)$)
+[a-z0-9]+
+[errno 101]
+[errno 104]
+[errno 110]
+[errno 111]
+[errno 7]
+\"]*tvsender[^
+\"]\s*:\s*[
+\bfile\s*:\s*['\
+#EXT-X-STREAM-INF
+#EXTM3U
+1-2-3 TV
+1-xml
+1.7-BD-00
+1080p
+13TH STREET
+13thstreet.png
+2506BPN68G
+3 SAT
+3plus
+3sat.png
+400c20d15a1de7e28a70cfae3e104b5097d5913b9cf30fca6cecff3818930c51
+480p
+4plus
+5plus
+6plus
+720p
+86dd18b04874d9c94afadde7993d94e3
+Abbrechen zur manuellen Auswahl
+Abbruch: Portal blockiert
+Abenteuer
+Accept
+accept-encoding
+Accept-Encoding
+Accept-Language
+ACCOUNT Expired
+Account Info
+ACCOUNT Infos Empty
+Action
+Action(ParentDir)
+adblockEnabled
+addonSig
+addTvFavorit
+Adventure
+Alle Favoriten entfernen
+Alle Quellen fehlgeschlagen
+ALLGAU TV
+Android backup profile
+Angesagte Filme
+Angesagte Serien
+ANIMAL PLANET
+Animation
+ANIXE+
+Anzahl Streams in Title anzeigen
+app-focus
+appFocusTime
+ARD ALPHA
+arm64-v8a
+atob\(['\
+ATV 2
+auth-token
+Authorization
+Auto
+AUTO MOTOR SPORT
+Automatisch
+Automatisch nächsten ähnlichen Stream versuchen
+autoServer
+AXN BLACK
+AXN WHITE
+Beliebte Filme
+Beliebte Serien
+BIBEL TV
+Biography
+BR TV
+Budget
+buildId
+Cache komprimieren
+Cache löschen
+callApi res:
+castConnected
+catalogId
+Checking Stream:
+Children
+Choose Groups
+Choose VAVOO Groups
+clientVersion
+Close
+Comedy
+COMEDY CENTRAL
+Connection
+connection aborted
+connection refused
+connection reset
+Container.FolderPath
+Container.Refresh
+content-length
+content-type
+Content-Type
+Cookie
+Countdown
+Countdown Zeit
+credits,videos,external_ids,content_ratings,keywords,translations
+Crime
+CRIME + INVESTIGATION
+crime+investigation.png
+CURIOSITY CHANNEL
+de-DE
+DEBUG
+Debug Logging
+DefaultAddonPVRClient
+DefaultAddonsSearch
+DefaultFolder.png
+DefaultGenre
+DefaultMovies
+DefaultTVShows
+DefaultTVShows.png
+delallTvFavorit
+delTvFavorit
+DELUXE MUSIC
+desktop profile
+Deutsch
+Deutsche TV
+devMode
+Directing
+Director
+DISNEY CHANNEL
+DISNEY JUNIOR
+Documentary
+Dokumentarfilm
+Drama
+E! ENTERTAINMENT
+Einstellungen
+English
+EUROSPORT 1
+EUROSPORT 2
+Existing token is still valid.
+failed to resolve
+Familie
+Family
+Fantasy
+Filme
+firstAppStart
+function resolve_link (lite) Status: OK
+function resolve_link Status: OK
+Genres
+GEO TV
+Getting New Mac
+Getting new VAVOO Channels
+Getting VAVOO groups and md5
+gzip, deflate
+Handset
+hasAddon
+Historie
+History
+Horror
+Hoster
+hostLengthOffset
+http,https,tcp,tls,crypto
+id,slug,link,title,content
+ImageDescription: 0.2.18-r23-250; ImageDate: Thu Sep 13 11:31:16 EEST 2018; PORTAL version: 5.6.2; API Version: JS API version: 343; STB API version: 146; Player Engine version: 0x58c
+indexMovie
+indexSerie
+IP adresiniz engellenmistir.
+IP BLOCKED
+IP BLOCKED - anderes Portal waehlen, Stalker deaktiviert
+IP BLOCKED anderes Portal auswählen, deaktiviere Stalker
+ipLocation
+IPTV Autoplay
+isAndroid
+isDesktop
+isElectron
+isIOS
+isMobile
+IsPlayable
+isWeb
+isWebTV
+JsHttpRequest
+KABEL 1
+KABEL 1 CLASSICS
+KABEL 1 DOKU
+Kanalfilter verwenden
+Kein Stalkerportal gewählt, deaktiviere Stalker
+Keine funktionierende Mac gefunden, anderes Portal auswählen, deaktiviere Stalker
+Keine funktionierende Quelle
+Keine gueltige Mac
+Keine MediaHubMX-Signatur erhalten
+Keine Mirrors gefunden
+Keine Stalker-Gruppen vom Portal erhalten
+Keine Streams gefunden
+Keine Videodatei
+Komödie
+Kriegsfilm
+Krimi
+lastAppStart
+Lenovo
+Liebesfilm
+ListItem.Title
+LITETV
+LiteTV (2ix2 / Nydus) verwenden
+LiteTV > Stalker > VAVOO
+LiteTV > VAVOO > Stalker
+LiteTV Cache gelöscht
+LiteTV Cache leeren
+Live - A bis Z
+Live - Alle
+Live - Favoriten
+Live - Gruppen
+Live-TV bei Streamabbruch automatisch neu verbinden
+Loading LiteTV channels from Nydus and 2ix2
+Loading token from cache
+Login ok - Portal liefert keine Senderliste (ueberlastet?)
+Login ok, kein Stream
+M3U8 enthält keine Medien-URL
+M3U8 vor der Wiedergabe testen
+M3U8-Mediensegment ist leer
+MAG250
+Manuell
+Manuelle Stream Auswahl
+Max Stream Qualität
+mediahubmx-signature
+mediahubmxSignature
+migrationApplied
+migrationTargetInstalled
+Mini-Series
+Model: MAG250; Link: WiFi
+Music
+Musik
+Mystery
+N24 DOKU
+NAT GEO WILD
+NATIONAL GEOGRAPHIC
+Neue Mac Adresse
+Neue Suche
+Neuverbindungsversuche (mind. Anzahl Quellen)
+nextCursor
+NICK JUNIOR
+no address associated
+No Channels
+No Genres
+No Stream
+No token in cache
+no-cache
+Nur abgelaufene Mac Adressen
+ORF 1
+ORF 2
+ORF 3
+ORF SPORT
+orf-1
+orf-2
+originalName
+Österreichische TV
+Paralleler Handshake-Schnelltest. Rueckgabe: (status, good, expired, probed).
+playDuration
+Player.GetProperties
+playerActive
+Portal nicht erreichbar
+Pragma
+PRO 7
+PRO 7 FUN
+PRO 7 MAXX
+Pruefe Mac Adressen ...
+PULS 24
+PULS 4
+Quellen-Vorrang (Priorität)
+Range
+read timed out
+Reality
+Reality-TV
+Referer
+releaseDate
+Revenue
+Romance
+ROMANCE TV
+RTL 2
+RTL CRIME
+RTL LIVING
+RTL PASSION
+RTL UP
+SAT 1
+SAT 1 EMOTIONS
+SAT 1 GOLD
+Saving token to cache
+Schweizer TV
+Sci-Fi
+Science Fiction
+Serien
+SERVUS TV
+servus-tv
+ShadowsocksEngine
+sigValidUntil
+Sitcom
+SKY ATLANTIC
+SKY CINEMA ACTION
+SKY CINEMA CLASSICS
+SKY CINEMA FAMILY
+SKY CINEMA HIGHLIGHTS
+SKY CINEMA PREMIEREN
+SKY CINEMA PREMIEREN +24
+SKY CINEMA SPECIAL
+SKY COMEDY
+SKY CRIME
+SKY DOCUMENTARIES
+SKY KRIMI
+SKY NATURE
+SKY ONE
+SKY REPLAY
+SKY SHOWCASE
+SPIEGEL GESCHICHTE
+SPORT 1
+SPORT1
+SR FERNSEHEN
+srf-info
+ssVersion
+Staffeln
+STALKER
+STALKER - GRUPPEN
+Stalker > LiteTV > VAVOO
+Stalker > VAVOO > LiteTV
+Stalker check: Account ok, aber Senderliste leer (Portal gedrosselt?)
+STALKER Kanalgruppen Auswahl
+STALKER Mac
+STALKER Portal
+STALKER Portal Auswahl
+STALKER Portal Check
+STALKER Portal Check Retries
+STALKER TV Cache in Std
+Stalker-Portal nicht erreichbar
+Stalker-Portal nicht erreichbar - Netzwerk pruefen
+Stalkerportal verwenden
+Stalkerurl auswählen
+Status OK
+Stream Auswahl
+Stream not resolvable or down
+Streams Testen
+Suche
+Suche löschen
+Suchergebnisse
+Suchverlauf löschen
+SUPER RTL
+SUPER-RTL
+TAGESSCHAU 24
+TELE 5
+temporary failure
+Teste Mac Adressen ...
+TESTE STALKER MAC ADRESSEN
+Thriller
+timed out
+tmdb:movie:
+tmdb:series:
+tmdbId
+Token expired. Performing refresh to obtain new token.
+Token not present. Performing handshake to obtain token.
+TotalEpisodes
+TOTALLY TURTLES
+TotalSeasons
+Trailer
+trendingDay
+Try to resolve:
+TV
+TV Favoriten (Live)
+TV-Film
+Ungültige M3U8-Playlist
+uniqueId
+UNIVERSAL TV
+user-agent
+User-Agent
+utf-8
+validUntil
+VAVOO
+VAVOO - GRUPPEN
+VAVOO > LiteTV > Stalker
+VAVOO > Stalker > LiteTV
+VAVOO HLS Proxy verwenden (Stabilere Wiedergabe)
+VAVOO Kanalgruppen Auswahl
+VAVOO Proxy: Segmente vorausladen (Puffer gegen Aussetzer)
+VAVOO TV verwenden
+VAVOO.TO
+VIDEO
+von TV Favoriten entfernen
+VOX UP
+WARNER TV COMEDY
+WARNER TV FILM
+WARNER TV SERIE
+Watch live playback and distinguish user stops from stream failures.
+WELT DER WUNDER
+Western
+Windows 10 Pro
+Writing
+X-User-Agent
+Xiaomi
+Xiaomi 15T Pro
+YouTube
+ZDF INFO
+ZDF NEO
+ZEE ONE
+zu TV Favoriten hinzufügen
+Zweiter Versuch mit Chrome User-Agent

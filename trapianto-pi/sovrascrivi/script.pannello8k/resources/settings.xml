@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings version="1">
+    <section id="script.pannello8k">
+        <category id="allarme" label="Allarme temperatura">
+            <group id="1">
+                <setting id="allarme_attivo" type="boolean" label="Sorveglia la temperatura">
+                    <level>0</level><default>true</default>
+                    <control type="toggle"/>
+                </setting>
+                <setting id="soglia" type="integer" label="Avvisami sopra i (gradi)">
+                    <level>0</level><default>80</default>
+                    <constraints><minimum>60</minimum><step>1</step><maximum>95</maximum></constraints>
+                    <control type="slider" format="integer"><popup>false</popup></control>
+                </setting>
+                <setting id="intervallo" type="integer" label="Ogni quanti minuti controllo">
+                    <level>0</level><default>5</default>
+                    <constraints><minimum>1</minimum><step>1</step><maximum>60</maximum></constraints>
+                    <control type="slider" format="integer"><popup>false</popup></control>
+                </setting>
+                <setting id="ripeti_ogni" type="integer" label="Non ripetere l'avviso prima di (minuti)">
+                    <level>0</level><default>30</default>
+                    <constraints><minimum>5</minimum><step>5</step><maximum>180</maximum></constraints>
+                    <control type="slider" format="integer"><popup>false</popup></control>
+                </setting>
+            </group>
+        </category>
+        <category id="automatismi" label="Automatismi a orario">
+            <group id="1">
+                <setting id="manutenzione_attiva" type="boolean" label="Fai manutenzione una volta al giorno">
+                    <level>0</level><default>false</default>
+                    <control type="toggle"/>
+                </setting>
+                <setting id="ora_manutenzione" type="integer" label="A che ora (non parte se stai guardando)">
+                    <level>0</level><default>5</default>
+                    <constraints><minimum>0</minimum><step>1</step><maximum>23</maximum></constraints>
+                    <control type="slider" format="integer"><popup>false</popup></control>
+                    <dependencies>
+                        <dependency type="enable" setting="manutenzione_attiva" operator="is">true</dependency>
+                    </dependencies>
+                </setting>
+                <setting id="man_ricarica_iptv" type="boolean" label="  Ricarica canali e guida TV">
+                    <level>0</level><default>true</default>
+                    <control type="toggle"/>
+                    <dependencies>
+                        <dependency type="enable" setting="manutenzione_attiva" operator="is">true</dependency>
+                    </dependencies>
+                </setting>
+                <setting id="man_svuota_cache" type="boolean" label="  Svuota le cache degli add-on">
+                    <level>0</level><default>true</default>
+                    <control type="toggle"/>
+                    <dependencies>
+                        <dependency type="enable" setting="manutenzione_attiva" operator="is">true</dependency>
+                    </dependencies>
+                </setting>
+                <setting id="man_traduzioni" type="boolean" label="  Riapplica le traduzioni italiane">
+                    <level>0</level><default>false</default>
+                    <control type="toggle"/>
+                    <dependencies>
+                        <dependency type="enable" setting="manutenzione_attiva" operator="is">true</dependency>
+                    </dependencies>
+                </setting>
+                <setting id="man_avvisa" type="boolean" label="  Avvisami sullo schermo quando ha finito">
+                    <level>0</level><default>false</default>
+                    <control type="toggle"/>
+                    <dependencies>
+                        <dependency type="enable" setting="manutenzione_attiva" operator="is">true</dependency>
+                    </dependencies>
+                </setting>
+            </group>
+        </category>
+    </section>
+</settings>

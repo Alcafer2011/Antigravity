@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="script.pannello8k" name="Pannello 8K" version="1.2.0" provider-name="Antigravity">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0"/>
+    </requires>
+    <extension point="xbmc.python.script" library="default.py">
+        <provides>executable</provides>
+    </extension>
+    <extension point="xbmc.service" library="service.py"/>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="it_IT">Stato dell'apparecchio, allarme temperatura e manutenzione automatica</summary>
+        <description lang="it_IT">Mostra dal divano come sta il box: temperature, memoria, spazio, rete e ultimo riavvio. In sottofondo sorveglia la temperatura e avvisa sullo schermo quando sale troppo.</description>
+        <platform>all</platform>
+        <license>uso personale</license>
+    </extension>
+</addon>

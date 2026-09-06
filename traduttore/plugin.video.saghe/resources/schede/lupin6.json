@@ -1,0 +1,153 @@
+{
+ "serie": "Lupin III",
+ "tmdb": 31572,
+ "anno": "1971",
+ "poster": "https://image.tmdb.org/t/p/w780/5LQLw0xUQtZUNg6cTk9gVR50CAB.jpg",
+ "sfondo": "https://image.tmdb.org/t/p/w1280/961SQWKlq6EQKN5lvXLR04YxSkw.jpg",
+ "episodi": {
+  "1": {
+   "t": "Sherlock Holmes entra in scena",
+   "p": "Londra, Inghilterra: un'immagine misteriosa è collegata a un'organizzazione chiamata \"Raven\". Anche il famoso detective Sherlock Holmes è venuto a conoscenza della situazione quando una bomba è esplosa a Scotland Yard mentre interrogava un sospetto.",
+   "i": "https://image.tmdb.org/t/p/w500/p8PHwqTDQKZtI7o6gvsBjZuOekn.jpg",
+   "d": "2021-10-17"
+  },
+  "2": {
+   "t": "Il detective e il cattivo",
+   "p": "Lily sviene dopo aver visto Lupin, mentre lui e Fujiko scappano da Zenigata. Holmes giura di catturare Lupin e racconta a Lestrade come Lupin è stato coinvolto nella morte del suo partner, John H. Watson, 10 anni prima.",
+   "i": "https://image.tmdb.org/t/p/w500/efgo3ehOJ8PCdeSMLmtzJMN4Yvj.jpg",
+   "d": "2021-10-24"
+  },
+  "3": {
+   "t": "La (finta) ferrovia transcontinentale",
+   "p": "In Inghilterra, Lord Marquess organizza una festa per gli appassionati di ferrovie nella sua vasta tenuta che include una replica di una ferrovia. Zenigata convince l'ispettore Queen del NYPD che Lupin sarà lì per rubare un prezioso biglietto ferroviario storico, quindi partecipa alla festa.",
+   "i": "https://image.tmdb.org/t/p/w500/70yCN99pYSWpobXmPQ3n4hJJk0T.jpg",
+   "d": "2021-10-31"
+  },
+  "4": {
+   "t": "I sicari della cena",
+   "p": "Otto assassini stanno aspettando in una tavola calda, essendo stati ingaggiati per riscuotere una taglia su un uomo di nome Andre Anderson, che presto andrà lì a mangiare.",
+   "i": "https://image.tmdb.org/t/p/w500/1suDNGBGbtCJ8eLDUyI8uCyjzUx.jpg",
+   "d": "2021-11-07"
+  },
+  "5": {
+   "t": "La capitale dell'impero - Prima parte",
+   "p": "Lupin viene catturato da un lampo di luce accecante e si ritrova nell'era Showa in Giappone intorno al 1930. Scopre di essere il ladro \"Maschera d'oro\" inseguito dall'ispettore Namikoshi che assomiglia a Zenigata. \"Golden Mask\" mette gli occhi su un tesoro nazionale del Museo Imperiale, ma deve vedersela con lo straordinario detective privato, Akechi Kogoro e la \"Black Lizard\" che assomiglia a Fujiko.",
+   "i": "https://image.tmdb.org/t/p/w500/sBMtQNPN2SF4LFpYP4jszvIoZZO.jpg",
+   "d": "2021-11-14"
+  },
+  "6": {
+   "t": "La capitale dell'impero - Seconda parte",
+   "p": "Facce più familiari appaiono mentre Lupin insegue l'orologio dell'automa, e presto la sua ricerca per tornare a casa si trasforma in una cospirazione molto più complicata.",
+   "i": "https://image.tmdb.org/t/p/w500/k2IB9sQGDQybj2vRml0LAlBmKx3.jpg",
+   "d": "2021-11-21"
+  },
+  "7": {
+   "t": "Un caso molto complicato",
+   "p": "Quando Sherlock e Lily vengono minacciati da un assassino armato di fucile ad aria compressa, Lupin si allea con un improbabile alleato per tenerli al sicuro.",
+   "i": "https://image.tmdb.org/t/p/w500/56Y4COtWpqq3G6Lw7fgmJRULaq6.jpg",
+   "d": "2021-11-28"
+  },
+  "8": {
+   "t": "L'ultimo proiettile",
+   "p": "Con Sherlock fuori servizio e Lupin incapace di mostrare la sua faccia, Jigen deve intervenire quando Lily Watson viene presa di mira da un fantasma assetato di sangue del passato di Jigen.",
+   "i": "https://image.tmdb.org/t/p/w500/pqVmD9vBhkVbrnC8kkAKGfOyrXm.jpg",
+   "d": "2021-12-05"
+  },
+  "9": {
+   "t": "Il diamante nero",
+   "p": "La cacciatrice di tesori specializzata che si fa chiamare Cherry attira Lupin a un'asta \"sotterranea\" di alcuni tesori del grande pirata Zeke Barbatos che era attivo in Brasile 75 anni fa. Secondo quanto riferito, il tesoro includeva il Jet-Black Diamond e il Venus Ruby.",
+   "i": "https://image.tmdb.org/t/p/w500/3OwzxIuCbiHFj1DqsXCQyUa6WcN.jpg",
+   "d": "2021-12-12"
+  },
+  "10": {
+   "t": "L'uccello di Darwin",
+   "p": "Fujiko controlla il fossile di un archaeopteryx in mostra al British Natural History Museum per un uomo che si fa chiamare Mihail, Michael o Miguel, per conto del suo signore che vuole che lei lo rubi.",
+   "i": "https://image.tmdb.org/t/p/w500/9YVZixYfmHsqDpquwmI9o0mthyX.jpg",
+   "d": "2021-12-19"
+  },
+  "11": {
+   "t": "La Raven e la verità",
+   "p": "Per quanto riguarda la connessione del defunto Lord Faulkner con il Corvo, Sherlock e Lupin hanno eliminato l'impossibile. Ora rimane solo l'improbabile verità.",
+   "i": "https://image.tmdb.org/t/p/w500/ewin5t7RFt3vmUjX0zFVrmd7Hx3.jpg",
+   "d": "2021-12-26"
+  },
+  "12": {
+   "t": "Lestrade e il tesoro",
+   "p": "Le parti interessate convergono sul tesoro di Raven nell'ombra della metropolitana di Londra mentre la vera identità dell'assassino di Watson viene alla luce.",
+   "i": "https://image.tmdb.org/t/p/w500/tIJ8JX4LTRazwUDZVG9JGdthTL8.jpg",
+   "d": "2021-12-26"
+  },
+  "13": {
+   "t": "Un diamante venuto dal passato",
+   "p": "Lupin ha stabilito il suo alloggio a New York, ma soffre di noia finché Fujiko non gli racconta di un'asta di gioielli con tesori associati ai miti classici. Quando vede un grande gioiello rosso nel catalogo che è stato rubato dal caveau di suo nonno da una ladra professionista, Lupin decide di rubarlo indietro.",
+   "i": "https://image.tmdb.org/t/p/w500/qXBLhEu9tAZEwaqEb2ypdyZmog4.jpg",
+   "d": "2022-01-09"
+  },
+  "14": {
+   "t": "Inganni",
+   "p": "Una rapina in banca all'estero diventa una questione di famiglia quando un ladro rivale rivela un legame sorprendente con Lupin, ma rintracciarla potrebbe fornire più domande che risposte.",
+   "i": "https://image.tmdb.org/t/p/w500/4TZWaE7f9kytjH2OWrGZmguTHMd.jpg",
+   "d": "2022-01-16"
+  },
+  "15": {
+   "t": "La Lacrima di Marsiglia",
+   "p": "A volte i fantasmi del nostro passato non riescono a rimanere morti. Jigen lo impara fin troppo bene quando l'ultimo piano di Lupin prende di mira una sposa con un volto familiare.",
+   "i": "https://image.tmdb.org/t/p/w500/rHJWWGTicNm5XOlGQNIxBndhKOo.jpg",
+   "d": "2022-01-23"
+  },
+  "16": {
+   "t": "Samurai Collection",
+   "p": "L'ultima collezione della famosa stilista Gabby cambierà per sempre il volto delle sfilate di moda, perché il volto del suo lavoro ora non è altro che Goemon.",
+   "i": "https://image.tmdb.org/t/p/w500/iC7kxdKbR9YlBDxN0mQezGXNmsa.jpg",
+   "d": "2022-01-30"
+  },
+  "17": {
+   "t": "Sincronismo perfetto",
+   "p": "Il tempismo è importante quando l'amministratore delegato di Wangtic Securities sfida Lupin a testare il sistema L, il suo presunto sistema di sicurezza a prova di Lupin... ma cosa significa DAVVERO la \"L\"?",
+   "i": "https://image.tmdb.org/t/p/w500/6YDynv41rrKeLajpYdKhPs5YGCo.jpg",
+   "d": "2022-02-06"
+  },
+  "18": {
+   "t": "Una morte misteriosa - I parte",
+   "p": "Alla ricerca di informazioni su Tomoe, Lupin si reca nel tumultuoso paese di Cotornica. Mentre è lì, incontra un volto familiare ma inaspettato.",
+   "i": "https://image.tmdb.org/t/p/w500/hTFtP22uXY20JbgDjLfD33SDtHs.jpg",
+   "d": "2022-02-06"
+  },
+  "19": {
+   "t": "Una morte misteriosa - II parte",
+   "p": "Zenigata è dietro le sbarre per un crimine che non ha commesso. I suoi giovani sono sul caso, ma l'interferenza nella loro ricerca della verità arriverà da una fonte molto improbabile.",
+   "i": "https://image.tmdb.org/t/p/w500/wcQR47t0nffUUdnv4Lx9K02Sz6y.jpg",
+   "d": "2022-02-20"
+  },
+  "20": {
+   "t": "Amiche",
+   "p": "Quando un truffatore amico di Fujiko propone un piano infallibile per derubare una setta, sembra quasi troppo bello per essere vero... ma c'è di più nella storia di Amelia di quanto sembri.",
+   "i": "https://image.tmdb.org/t/p/w500/xjlfsb8zj5AsyQPEkwDC43LgZok.jpg",
+   "d": "2022-02-27"
+  },
+  "21": {
+   "t": "L'isola delle sirene",
+   "p": "Durante una scappatella in una città di mare, un fantasioso locale si interessa a Lupin e compagnia. Se solo potesse far parte del loro mondo...",
+   "i": "https://image.tmdb.org/t/p/w500/cLMxE15lh9fMrcechV27BU8RhrC.jpg",
+   "d": "2022-03-06"
+  },
+  "22": {
+   "t": "Una voce dal passato",
+   "p": "Mentre una giovane donna indaga sugli ultimi momenti della sua misteriosa madre, le sue scoperte la mettono in rotta di collisione con una figura del passato di Lupin.",
+   "i": "https://image.tmdb.org/t/p/w500/mbSOYUrllL6JA8OPbnNq3HwwqjM.jpg",
+   "d": "2022-03-13"
+  },
+  "23": {
+   "t": "Memorie di un'anziana signora",
+   "p": "Le parole sono potenti. Solo pochi possono cambiare tutto. Una sola frase e Lupin non è più se stesso... o è la persona che avrebbe sempre dovuto essere?",
+   "i": "https://image.tmdb.org/t/p/w500/eQf92erepLAhQTLHvrmdtoXyhsx.jpg",
+   "d": "2022-03-20"
+  },
+  "24": {
+   "t": "Stretta finale",
+   "p": "Il sangue può essere più denso dell'acqua, ma è denso come i ladri? Scoprilo mentre Fujiko, Goemon e Jigen corrono per riportare in sé Lupin nel finale.",
+   "i": "https://image.tmdb.org/t/p/w500/tZE6rGPQ8WbbOHh5bTvc11A2HmS.jpg",
+   "d": "2022-03-27"
+  }
+ }
+}
