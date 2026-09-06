@@ -293,23 +293,6 @@ def _():
     assert not rotte, "; ".join(rotte)
 
 
-@prova("il numero di episodio si legge davvero (col trattino di ogni tipo)")
-def _():
-    from resources.lib import ponte_s4me
-    casi = [
-        ("12 - Il pianeta Namek", 12),
-        ("12 – Il pianeta Namek", 12),
-        ("12 — Il pianeta Namek", 12),
-        ("Episodio 7", 7),
-        ("S01E12 qualcosa", 12),
-        ("1x12 qualcosa", 12),
-        ("Killer 1080p", None),
-    ]
-    for etichetta, atteso in casi:
-        avuto = ponte_s4me._numero_episodio(etichetta)
-        assert avuto == atteso, "%r -> %r invece di %r" % (etichetta, avuto, atteso)
-
-
 @prova("nessun episodio si finge riproducibile senza un file da riprodurre")
 def _():
     """L'errore di riproduzione del 06/09.
@@ -371,24 +354,6 @@ def _():
     assert "<default></default>" not in testo,         "un <default></default> vuoto: Kodi scrive 'error reading the default value'"
 
 
-@prova("in salotto le app Android non promettono cose che non puo' fare")
-def _():
-    """Sul Raspberry StartAndroidActivity non fa niente, e in silenzio.
-
-    L'utente vedeva l'avviso "cerca l'episodio 2" e poi il nulla: sembrava
-    un guasto dell'add-on. Qui si controlla che, quando NON siamo su
-    Android, una fonte "app" non venga trattata come apribile.
-    """
-    from resources.lib import fonti
-    assert fonti.su_android() is False,         "il finto Kodi non e' Android: su_android dovrebbe dire di no"
-    finto_kodi.azzera()
-    finto_kodi.Dialog.risposte = [0]      # "No, chiudi" alla proposta s4me
-    main.apri("naruto", 2)
-    testi = [v for v in finto_kodi.VOCI if isinstance(v, tuple)]
-    avvii = [v for v in testi if v[0] == "riproduci"]
-    assert not avvii, "ha provato ad avviare qualcosa che qui non esiste"
-
-
 @prova("nessuna serie resta nel catalogo senza un percorso che la mostri")
 def _():
     """Jeeg era li' con la sua locandina e i suoi 46 episodi, e non si poteva
@@ -416,20 +381,6 @@ def _():
     fuori = sorted(set(getattr(catalogo, "GRUPPI", {}))
                    - set(getattr(catalogo, "ORDINE_GRUPPI", [])))
     assert not fuori, "raggruppamenti invisibili: %s" % ", ".join(fuori)
-
-
-@prova("la schermata 'perche' non e' partito' si apre e dice qualcosa")
-def _():
-    """Quando un episodio non parte, la domanda dell'utente non e' quale
-    codice ha sbagliato ma cosa e' stato provato. Questa schermata risponde,
-    e deve funzionare anche a scatola nuova, senza nessun tentativo alle
-    spalle."""
-    from resources.lib import motore
-    motore.dimentica()
-    finto_kodi.azzera()
-    main.diagnosi("naruto")
-    testi = [v for v in finto_kodi.VOCI if isinstance(v, tuple) and v[0] == "testo"]
-    assert testi, "la schermata non ha mostrato niente"
 
 
 @prova("la ricerca trova una saga anche scritta male")
@@ -646,6 +597,52 @@ def _():
     finally:
         c.lunghezza = vera
     assert not chiamate, "ha contato %d catene mentre costruiva la vetrina" % len(chiamate)
+
+
+@prova("il canale per s4me si importa e sa leggere il catalogo")
+def _():
+    """Il canale gira dentro s4me, non qui: si finge quel poco di s4me che
+    serve (Item, support, platformcode) e si controlla che almeno stia in
+    piedi e trovi le saghe. Il resto - cercare sui siti, risolvere i video -
+    e' roba di s4me e si collauda solo li'."""
+    finto_kodi.installa_finto_s4me()
+    import importlib.util
+    percorso = os.path.join(ADDON, "resources", "canale", "lesaghe.py")
+    spec = importlib.util.spec_from_file_location("canale_lesaghe", percorso)
+    canale = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(canale)
+    globals()["_canale"] = canale
+    c = canale.catalogo()
+    assert c.get("PERCORSI"), "il canale non ha letto il catalogo"
+    assert len(c["PERCORSI"]) >= 30, "troppe poche saghe: %d" % len(c["PERCORSI"])
+
+
+@prova("il canale sceglie l'episodio GIUSTO, non uno qualunque")
+def _():
+    """Il guasto del 05/09/2026: due episodi diversi aprivano lo stesso
+    video, perche' bastava una cifra qualsiasi nel titolo. La regola e':
+    se non si e' sicuri si restituisce None, non si tira a indovinare."""
+    canale = globals().get("_canale")
+    assert canale, "il canale non e' stato caricato dalla prova precedente"
+    Item = finto_kodi.installa_finto_s4me()
+
+    episodi = [Item(title="1 - Il risveglio", contentEpisodeNumber=1),
+               Item(title="12 - Il pianeta Namek", contentEpisodeNumber=12),
+               Item(title="Killer 1080p", contentEpisodeNumber=None)]
+    scelto = canale._episodio_giusto(episodi, 12)
+    assert scelto is not None and scelto.title.startswith("12"),         "ha scelto %r invece dell'episodio 12" % (scelto and scelto.title)
+
+    # un numero che non c'e' NON deve restituire un episodio a caso
+    assert canale._episodio_giusto(episodi, 99) is None,         "ha inventato un episodio che non esiste"
+
+
+@prova("il canale riconosce l'episodio anche solo dal titolo")
+def _():
+    canale = globals().get("_canale")
+    Item = finto_kodi.installa_finto_s4me()
+    episodi = [Item(title="Episodio 7 - qualcosa"), Item(title="8 - altro")]
+    s = canale._episodio_giusto(episodi, 7)
+    assert s is not None and "7" in s.title, "non ha trovato il 7"
 
 
 @prova("ogni saga elencata ha almeno una tappa")

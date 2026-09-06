@@ -150,7 +150,24 @@ def installa(cartella_addon, impostazioni=None, profilo=None):
 
     # ---- xbmcvfs ----
     xbmcvfs = types.ModuleType("xbmcvfs")
-    xbmcvfs.translatePath = lambda p: p
+
+    def _traduci(p):
+        """Traduce i percorsi speciali di Kodi come farebbe Kodi.
+
+        Serve al canale per s4me, che cerca il nostro add-on con
+        `special://home/addons/plugin.video.saghe`. Senza questa
+        traduzione trova una stringa che non e' una cartella e conclude
+        che il catalogo non esiste.
+        """
+        p = str(p)
+        if p.startswith("special://home/addons/plugin.video.saghe"):
+            return p.replace("special://home/addons/plugin.video.saghe",
+                             cartella_addon).replace("/", os.sep)
+        if p.startswith("special://profile/addon_data/plugin.video.saghe"):
+            return profilo
+        return p
+
+    xbmcvfs.translatePath = _traduci
     xbmcvfs.exists = os.path.exists
     xbmcvfs.mkdirs = lambda p: os.makedirs(p, exist_ok=True)
     sys.modules["xbmcvfs"] = xbmcvfs
@@ -273,6 +290,62 @@ def installa(cartella_addon, impostazioni=None, profilo=None):
     sys.modules["xbmcplugin"] = xbmcplugin
 
     return profilo
+
+
+def installa_finto_s4me():
+    """Finge quel tanto di s4me che serve a importare i NOSTRI canali.
+
+    Serve per collaudare `resources/canale/lesaghe.py` sul PC. Non finge
+    s4me intero: solo `core.item.Item`, `core.support` e `platformcode`,
+    cioe' le tre cose che i nostri canali importano. Tutto il resto - la
+    ricerca sui siti, la risoluzione dei video - e' roba di s4me e si
+    collauda solo li'.
+    """
+    import types as _t
+
+    core = _t.ModuleType("core")
+    core.__path__ = []
+    sys.modules["core"] = core
+
+    item_mod = _t.ModuleType("core.item")
+
+    class Item(object):
+        def __init__(self, **kw):
+            self.__dict__.update(kw)
+
+        def clone(self, **kw):
+            d = dict(self.__dict__)
+            d.update(kw)
+            return Item(**d)
+
+        def __getattr__(self, nome):
+            return ""            # come l'Item vero: attributo mancante = vuoto
+
+    item_mod.Item = Item
+    sys.modules["core.item"] = item_mod
+    core.item = item_mod
+
+    support = _t.ModuleType("core.support")
+    support.typo = lambda testo, stile="": str(testo)
+    support.info = lambda *a, **k: None
+    support.match = lambda *a, **k: None
+    support.server = lambda *a, **k: []
+    sys.modules["core.support"] = support
+    core.support = support
+
+    pc = _t.ModuleType("platformcode")
+    pc.__path__ = []
+    logger = _t.ModuleType("platformcode.logger")
+    for n in ("info", "error", "debug"):
+        setattr(logger, n, lambda *a, **k: None)
+    config = _t.ModuleType("platformcode.config")
+    config.get_setting = lambda *a, **k: ""
+    pc.logger = logger
+    pc.config = config
+    sys.modules["platformcode"] = pc
+    sys.modules["platformcode.logger"] = logger
+    sys.modules["platformcode.config"] = config
+    return Item
 
 
 def azzera():

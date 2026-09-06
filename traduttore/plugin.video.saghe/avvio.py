@@ -26,7 +26,13 @@ REGOLA, da non dimenticare mai piu'
 
 COME SI CHIAMA
     RunScript(plugin.video.saghe, vetrina)
-    RunScript(plugin.video.saghe, apri, <percorso>, <tappa>)
+    RunScript(plugin.video.saghe, regola_s4me)
+
+NOTA STORICA, perche' il file resti comprensibile
+    Qui dentro c'era anche l'apertura degli episodi, con tutto il motore
+    delle fonti. Non c'e' piu': dal 06/09/2026 gli episodi li trova s4me,
+    che ha 55 fonti e le aggiorna da solo. Quel codice e' stato tolto, non
+    lasciato a marcire: sta nella storia del deposito se dovesse servire.
 """
 
 import sys
@@ -80,113 +86,11 @@ def _regola_s4me():
         % ("acceso" if prima_autoplay == "true" else "spento"))
 
 
-def _apri(percorso, idx):
-    """Apre una tappa provando le strade del piano, una dopo l'altra.
-
-    E' lo stesso lavoro che prima stava dentro main.apri(), spostato qui:
-    li' faceva crollare Kodi, qui e' al sicuro.
-    """
-    import time
-
-    from resources.lib import catalogo, fonti, motore, progresso, ponte_s4me
-
-    idx = int(idx)
-    t = catalogo.tappa(percorso, idx)
-    if not t:
-        xbmcgui.Dialog().notification("Le Saghe", "Tappa inesistente",
-                                      xbmcgui.NOTIFICATION_ERROR)
-        return
-
-    serie = catalogo.SERIE[t["serie"]]
-    strade = motore.piano(t["serie"], t["ep"])
-    if not strade:
-        xbmcgui.Dialog().ok(
-            "Le Saghe",
-            "Per [B]%s - episodio %d[/B] non c'e' nessuna strada da provare.\n\n"
-            "Non hai fonti per questa serie e il ponte verso s4me non "
-            "risulta installato." % (serie["titolo"], t["ep"]))
-        return
-
-    saltate = []
-    for n, strada in enumerate(strade):
-        ultima = (n == len(strade) - 1)
-
-        ok, perche = motore.previsione(strada)
-        if not ok and not ultima:
-            motore.annota(t["serie"], t["ep"], strada["id"], "saltata", perche)
-            saltate.append("%s (%s)" % (strada["etichetta"], perche))
-            continue
-
-        partenza = time.time()
-        riuscita = _prova(percorso, idx, t, serie, strada, saltate,
-                          catalogo, fonti, progresso, ponte_s4me)
-        motore.ricorda(t["serie"], strada["id"], riuscita, time.time() - partenza)
-        motore.annota(t["serie"], t["ep"], strada["id"],
-                      "riuscita" if riuscita else "fallita", "")
-        if riuscita:
-            return
-        if not ultima:
-            saltate.append("%s (non ha aperto niente)" % strada["etichetta"])
-
-    # Nessuna strada ha aperto niente: si dice cosa e' stato provato, invece
-    # di lasciare l'utente davanti a un menu che non reagisce.
-    xbmcgui.Dialog().ok(
-        "Le Saghe",
-        "[B]%s - episodio %d[/B]\n\nHo provato tutte le strade e nessuna ha "
-        "aperto niente:\n\n%s\n\nIn 'Altro > Perche' non e' partito?' trovi "
-        "il dettaglio." % (serie["titolo"], t["ep"],
-                           "\n".join("- " + s for s in saltate) or "-"))
-
-
-def _prova(percorso, idx, t, serie, strada, saltate,
-           catalogo, fonti, progresso, ponte_s4me):
-    """Prova UNA strada. Vero se ha aperto qualcosa."""
-    if strada["tipo"] == "app":
-        progresso.vai_a(percorso, idx)
-        pacchetto = catalogo.FONTI[strada["id"]]["pacchetto"]
-        link = fonti.link_diretto(strada["id"], t["serie"])
-        progresso.apri_sessione(percorso, idx, dentro_kodi=False,
-                                atteso="%s ep %d" % (serie["titolo"], t["ep"]))
-        xbmcgui.Dialog().notification(
-            "Le Saghe",
-            "%s - cerca l'episodio %d" % (serie["titolo"], t["ep"]),
-            xbmcgui.NOTIFICATION_INFO, 7000)
-        fonti.avvia_app(pacchetto, link)
-        return True
-
-    if strada["tipo"] == "ponte":
-        titolo = ponte_s4me.titolo_per_ricerca(serie, t)
-        if not titolo:
-            return False
-        if saltate:
-            xbmcgui.Dialog().notification(
-                "Le Saghe",
-                ("Provato senza esito: %s. Cerco su s4me."
-                 % "; ".join(saltate[:2]))[:110],
-                xbmcgui.NOTIFICATION_INFO, 5000)
-        # La tappa si segna PRIMA: se il video parte, il servizio deve gia'
-        # sapere dove siamo per registrare il minuto.
-        progresso.vai_a(percorso, idx)
-        esito = ponte_s4me.apri_automatico(titolo, t["ep"])
-        if esito == "niente":
-            ponte_s4me.cerca(titolo)
-        elif esito == "avvicinato":
-            xbmcgui.Dialog().notification(
-                "Le Saghe",
-                "Non ho individuato l'episodio %d: eccoti al punto piu' vicino"
-                % t["ep"], xbmcgui.NOTIFICATION_INFO, 5000)
-        return True
-
-    return False
-
-
 def main():
     comando = sys.argv[1] if len(sys.argv) > 1 else "vetrina"
     try:
         if comando == "vetrina":
             _vetrina()
-        elif comando == "apri":
-            _apri(sys.argv[2], sys.argv[3])
         elif comando == "regola_s4me":
             _regola_s4me()
         else:

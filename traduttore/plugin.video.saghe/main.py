@@ -10,9 +10,9 @@ import xbmcaddon
 import xbmcgui
 import xbmcplugin
 
-from resources.lib import (abbonamenti, catalogo, fonti, motore, progresso,
+from resources.lib import (abbonamenti, catalogo, fonti, progresso,
                           ricerca, russo as russo_lib, schede, taratura,
-                          vetrina, ponte_s4me)
+                          vetrina)
 
 ADDON = xbmcaddon.Addon()
 MANIGLIA = int(sys.argv[1])
@@ -395,42 +395,6 @@ def menu_ricerca(testo=""):
     xbmcplugin.endOfDirectory(MANIGLIA)
 
 
-def diagnosi(pid):
-    """Racconta cosa e' stato provato e com'e' andata.
-
-    Nessun altro add-on lo fa, e dovrebbero farlo tutti: quando un episodio
-    non parte, la domanda dell'utente non e' "quale codice ha sbagliato" ma
-    "cosa hai provato, e perche' non ha funzionato". Qui c'e' la risposta,
-    senza aprire nessun registro tecnico.
-    """
-    righe = []
-    idx = progresso.posizione(pid)
-    t = catalogo.tappa(pid, idx)
-    if t:
-        serie = catalogo.SERIE[t["serie"]]
-        righe.append("[B]Dove sei: %s, episodio %d[/B]\n"
-                     % (serie["titolo"], t["ep"]))
-        righe.append("[B]Le strade, nell'ordine in cui verrebbero provate[/B]")
-        righe.append(motore.spiega_piano(t["serie"], t["ep"]))
-        righe.append("")
-
-    reg = motore.registro()
-    if reg:
-        righe.append("[B]Cosa e' successo davvero, dal piu' recente[/B]")
-        colori = {"riuscita": "green", "saltata": "orange", "fallita": "red"}
-        for r in reg[::-1][:15]:
-            col = colori.get(r["esito"], "grey")
-            righe.append("%s  %s ep %s  ->  [COLOR %s]%s[/COLOR]%s"
-                         % (r["quando"], r["serie"], r["ep"], col, r["esito"],
-                            ("  (%s)" % r["dettaglio"]) if r.get("dettaglio") else ""))
-    else:
-        righe.append("[B]Nessun tentativo registrato finora.[/B]\n"
-                     "Prova ad aprire un episodio e torna qui: troverai "
-                     "l'elenco di cosa e' stato provato e come e' andata.")
-
-    xbmcgui.Dialog().textviewer("Perche' non e' partito", "\n".join(righe))
-
-
 def pannello_abbonamenti():
     cop, tot, perc = abbonamenti.copertura()
     xbmcplugin.setPluginCategory(MANIGLIA, "I miei abbonamenti")
@@ -558,13 +522,6 @@ def menu_altro(pid):
          "Accende la scelta automatica della fonte (niente piu' 'scegli "
          "un'opzione' a ogni episodio) e il passaggio automatico al "
          "successivo.", "DefaultAddonService.png", True),
-        ("Perche' non e' partito?", "diagnosi",
-         "Le strade provate per l'ultimo episodio, in ordine, e come e' "
-         "andata ognuna.", "DefaultAddonsSearch.png", False),
-        ("Dimentica cosa ha funzionato", "scorda",
-         "L'add-on impara quali fonti funzionano a casa tua. Se hai cambiato "
-         "linea o abbonamenti, qui riparte da zero.",
-         "DefaultAddonProgram.png", False),
         ("Ricomincia da capo", "azzera",
          "Riporta la saga al primo episodio e cancella cosa hai visto.",
          "DefaultAddonNone.png", False),
@@ -754,22 +711,6 @@ def indirizzo_s4me(t):
     return ("plugin://plugin.video.s4me/?channel=lesaghe&action=findvideos"
             "&titolo_serie=%s&serie_id=%s&numero_ep=%d"
             % (quote_plus(serie["titolo"]), t["serie"], t["ep"]))
-
-
-def apri(pid, idx):
-    """Delega l'apertura al programma a parte. NON fa il lavoro qui.
-
-    Farlo qui e' cio' che il 06/09/2026 ha fatto crollare Kodi due volte:
-    dentro una richiesta di cartella Kodi tiene aperta la sua finestra di
-    attesa, e s4me ne apriva una seconda. Kodi vede due finestre di attesa
-    sovrapposte e si spegne di proposito ("two concurrent busydialogs").
-
-    Qui si chiude subito la cartella e si lancia `avvio.py`, che gira per
-    conto suo e puo' aprire tutte le finestre che vuole.
-    """
-    xbmcplugin.endOfDirectory(MANIGLIA, succeeded=False)
-    xbmc.executebuiltin("RunScript(plugin.video.saghe,apri,%s,%s)"
-                        % (pid, int(idx)))
 
 
 def riproduci(pid, idx):
@@ -1110,8 +1051,6 @@ def instrada(qs):
         menu_percorso(pid)
     elif azione == "sfoglia":
         sfoglia(pid, p.get("da", 1))
-    elif azione == "apri":
-        apri(pid, p.get("idx", 1))
     elif azione == "riproduci":
         riproduci(pid, p.get("idx", 1))
     elif azione == "salta":
@@ -1140,13 +1079,6 @@ def instrada(qs):
     elif azione == "regola_s4me":
         xbmcplugin.endOfDirectory(MANIGLIA, succeeded=False)
         xbmc.executebuiltin("RunScript(plugin.video.saghe,regola_s4me)")
-    elif azione == "diagnosi":
-        diagnosi(pid)
-    elif azione == "scorda":
-        motore.dimentica()
-        xbmcgui.Dialog().notification(
-            "Le Saghe", "Ricomincio a imparare da zero",
-            xbmcgui.NOTIFICATION_INFO, 4000)
     elif azione == "abbonamenti":
         pannello_abbonamenti()
     elif azione == "altro":

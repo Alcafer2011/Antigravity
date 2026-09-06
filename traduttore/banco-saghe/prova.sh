@@ -3,7 +3,7 @@
 #   sh prova.sh
 cd "$(dirname "$0")"
 uscita=0
-for f in prova_menu.py prova_servizio.py prova_motore.py; do
+for f in prova_menu.py prova_servizio.py; do
   echo "=== $f ==="
   python "$f" || uscita=1
   echo
