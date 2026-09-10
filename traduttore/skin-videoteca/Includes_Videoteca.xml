@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  I PEZZI RIUSABILI DELLA VIDEOTECA: come si disegna una locandina.
+
+  IL REQUISITO PIU' IMPORTANTE DI QUESTO FILE, detto dall'utente due volte:
+      "non si vede su quale locandina si e' quando si scorre"
+      "devo capire su quale sono posizionato con il cursore"
+
+  Una sola differenza fra selezionata e non selezionata NON BASTA su una TV
+  guardata da tre metri. Qui ce ne sono QUATTRO insieme:
+
+      1. LA CORNICE ambra attorno alla locandina scelta.
+      2. LA LUCE: la scelta e' a piena luce, TUTTE le altre sono smorzate
+         al 50%. E' il segnale che si vede anche con la coda dell'occhio.
+      3. IL TITOLO compare solo sotto quella scelta.
+      4. LA GRANDEZZA: la scelta cresce del 12% con un'animazione morbida.
+         E' quello che fa sembrare la pagina viva, ed e' lo stesso trucco
+         che usa Netflix.
+
+  Chi modifica questo file NON tolga uno dei quattro pensando che gli altri
+  bastino: sono stati aggiunti uno alla volta proprio perche' non bastavano.
+-->
+<includes>
+
+    <!-- ====================================================================
+         LA TESSERA IN STILE NETFLIX (10/09/2026)
+         Chiesta dall'utente dopo aver guardato Netflix insieme:
+         "se si puo' mettere il titolo come loro sarebbe bello, fallo come
+         netflix ... e librerie stondate".
+
+         COM'E' FATTA UNA TESSERA NETFLIX, misurata sul sito vero:
+         241x136 punti = 16:9 ORIZZONTALE, angoli stondati, e il TITOLO
+         SCRITTO SOPRA l'immagine, in basso, su una sfumatura scura.
+         Non e' una locandina verticale: e' un fotogramma largo.
+
+         PERCHE' IL TITOLO LO SCRIVE LA SKIN E NON E' DENTRO L'IMMAGINE
+         Netflix la scritta del titolo ce l'ha come immagine a parte, fatta
+         fare da loro. Su TMDb quelle scritte esistono (`logos`) ma sono
+         quasi tutte IN INGLESE, e qui l'italiano viene prima di tutto.
+         Quindi lo sfondo lo prende da TMDb e il titolo lo scrive la skin,
+         in italiano. In piu' cosi' vale anche per le righe che cambiano
+         ogni giorno (Su Netflix ora, Al cinema, Novita'), dove un'immagine
+         cotta in anticipo non si potrebbe fare.
+
+         GLI ANGOLI STONDATI
+         Kodi non sa ritagliare una texture. Ci si mette SOPRA `stondo.png`:
+         angoli pieni del colore del fondo, centro trasparente. Funziona con
+         qualunque immagine sotto, comprese quelle prese dalla rete.
+
+         QUALE IMMAGINE
+         In ordine: fanart (16:9), landscape, thumb, e per ultima la
+         locandina verticale - deformata, ma meglio di un buco. Le righe
+         dei documentari e della cucina hanno solo la verticale: gli sfondi
+         orizzontali arrivano con un giro a parte.
+
+         I QUATTRO SEGNI DEL CURSORE restano tutti e quattro (cornice
+         ambra, piena luce contro il 50%, titolo in ambra, e la crescita):
+         erano stati aggiunti uno alla volta perche' uno solo non bastava.
+         Vedi il commento in cima a questo file.
+         ==================================================================== -->
+
+    <include name="VideotecaTessera">
+        <definition>
+            <control type="image">
+                <left>6</left><top>6</top><width>288</width><height>162</height>
+                <aspectratio>scale</aspectratio>
+                <texture background="true" colordiffuse="$PARAM[luce]">$INFO[ListItem.Art(fanart)]</texture>
+            </control>
+            <control type="image">
+                <left>6</left><top>6</top><width>288</width><height>162</height>
+                <aspectratio>scale</aspectratio>
+                <visible>String.IsEmpty(ListItem.Art(fanart))</visible>
+                <texture background="true" colordiffuse="$PARAM[luce]">$INFO[ListItem.Art(landscape)]</texture>
+            </control>
+            <control type="image">
+                <left>6</left><top>6</top><width>288</width><height>162</height>
+                <aspectratio>scale</aspectratio>
+                <visible>String.IsEmpty(ListItem.Art(fanart)) + String.IsEmpty(ListItem.Art(landscape))</visible>
+                <texture background="true" colordiffuse="$PARAM[luce]">$INFO[ListItem.Art(thumb)]</texture>
+            </control>
+            <!-- ULTIMO RIPIEGO: la locandina VERTICALE dentro una cornice
+                 orizzontale. Qui `keep` e non `scale`: stirata a 16:9 le
+                 facce diventano larghe e si vede subito che c'e' qualcosa
+                 che non va. Centrata tiene la sua forma, con due bande
+                 scure ai lati - meno bello ma onesto.
+                 Ci finiscono le righe dei documentari, della cucina e di
+                 YouTube, che hanno solo la locandina: gli sfondi
+                 orizzontali per quelle arrivano con un giro a parte. -->
+            <control type="image">
+                <left>6</left><top>6</top><width>288</width><height>162</height>
+                <aspectratio align="center">keep</aspectratio>
+                <visible>String.IsEmpty(ListItem.Art(fanart)) + String.IsEmpty(ListItem.Art(landscape)) + String.IsEmpty(ListItem.Art(thumb))</visible>
+                <texture background="true" colordiffuse="$PARAM[luce]">$INFO[ListItem.Art(poster)]</texture>
+            </control>
+
+            <!-- la sfumatura, perche' il titolo si legga anche sul chiaro -->
+            <control type="image">
+                <left>6</left><top>84</top><width>288</width><height>84</height>
+                <texture>velo-tessera.png</texture>
+            </control>
+            <!-- il titolo SOPRA l'immagine, come Netflix -->
+            <control type="label">
+                <left>18</left><top>118</top><width>264</width><height>44</height>
+                <font>font12</font>
+                <textcolor>$PARAM[colore]</textcolor>
+                <shadowcolor>FF000000</shadowcolor>
+                <label>$INFO[ListItem.Label]</label>
+            </control>
+            <!-- gli angoli stondati, sempre per ultimi: vanno sopra tutto -->
+            <control type="image">
+                <left>6</left><top>6</top><width>288</width><height>162</height>
+                <texture>stondo.png</texture>
+            </control>
+        </definition>
+    </include>
+
+    <!-- La tessera NON scelta: smorzata, titolo bianco tenue. -->
+    <include name="VideotecaLocandina">
+        <include content="VideotecaTessera">
+            <param name="luce" value="90FFFFFF" />
+            <param name="colore" value="DDD8D2C8" />
+        </include>
+    </include>
+
+    <!-- La tessera SCELTA: cornice ambra, piena luce, titolo ambra, cresce. -->
+    <include name="VideotecaLocandinaScelta">
+        <control type="group">
+            <animation type="Focus">
+                <effect type="zoom" start="100" end="108" time="220"
+                        tween="sine" easing="inout" center="150,87" />
+            </animation>
+            <animation type="Unfocus">
+                <effect type="zoom" start="108" end="100" time="220"
+                        tween="sine" easing="inout" center="150,87" />
+            </animation>
+            <control type="image">
+                <left>2</left><top>2</top><width>296</width><height>170</height>
+                <texture colordiffuse="FFE8A24A">bianco.png</texture>
+            </control>
+            <include content="VideotecaTessera">
+                <param name="luce" value="FFFFFFFF" />
+                <param name="colore" value="FFE8A24A" />
+            </include>
+        </control>
+    </include>
+
+    <!-- La stessa locandina, ma grande: per le griglie degli elenchi. -->
+    <include name="VideotecaLocandinaGrande">
+        <control type="image">
+            <left>8</left><top>10</top><width>190</width><height>272</height>
+            <aspectratio>scale</aspectratio>
+            <texture background="true" colordiffuse="80FFFFFF">$INFO[ListItem.Art(poster)]</texture>
+        </control>
+        <control type="image">
+            <left>8</left><top>10</top><width>190</width><height>272</height>
+            <aspectratio>scale</aspectratio>
+            <visible>String.IsEmpty(ListItem.Art(poster))</visible>
+            <texture background="true" colordiffuse="80FFFFFF">$INFO[ListItem.Art(thumb)]</texture>
+        </control>
+    </include>
+
+    <include name="VideotecaLocandinaGrandeScelta">
+        <control type="group">
+            <animation type="Focus">
+                <effect type="zoom" start="100" end="110" time="220"
+                        tween="sine" easing="inout" center="103,146" />
+            </animation>
+            <animation type="Unfocus">
+                <effect type="zoom" start="110" end="100" time="220"
+                        tween="sine" easing="inout" center="103,146" />
+            </animation>
+            <control type="image">
+                <left>0</left><top>4</top><width>206</width><height>284</height>
+                <texture colordiffuse="FFE8A24A">bianco.png</texture>
+            </control>
+            <control type="image">
+                <left>8</left><top>10</top><width>190</width><height>272</height>
+                <aspectratio>scale</aspectratio>
+                <texture background="true">$INFO[ListItem.Art(poster)]</texture>
+            </control>
+            <control type="image">
+                <left>8</left><top>10</top><width>190</width><height>272</height>
+                <aspectratio>scale</aspectratio>
+                <visible>String.IsEmpty(ListItem.Art(poster))</visible>
+                <texture background="true">$INFO[ListItem.Art(thumb)]</texture>
+            </control>
+            <control type="label">
+                <left>0</left><top>288</top><width>206</width><height>30</height>
+                <font>font12</font>
+                <align>center</align>
+                <textcolor>FFE8A24A</textcolor>
+                <shadowcolor>FF000000</shadowcolor>
+                <label>$INFO[ListItem.Label]</label>
+            </control>
+        </control>
+    </include>
+
+
+    <!-- ====================================================================
+         LE VARIABILI DELLA TESTATA
+
+         PERCHE' NON BASTA $INFO[ListItem.Label]
+             Provato il 07/09/2026: nella testata della home, scritto nudo,
+             non restituiva niente e titolo, sottotitolo e trama restavano
+             vuoti. Fuori da una lista, Kodi non sa a quale lista ci si
+             riferisce. Bisogna dirglielo, riga per riga: e' quello che
+             fanno queste variabili.
+         ==================================================================== -->
+
+    <variable name="VideotecaTitolo">
+        <value condition="Control.HasFocus(5010)">$INFO[Container(5010).ListItem.Label]</value>
+        <value condition="Control.HasFocus(5011)">$INFO[Container(5011).ListItem.Label]</value>
+        <value condition="Control.HasFocus(5012)">$INFO[Container(5012).ListItem.Label]</value>
+        <value condition="Control.HasFocus(5013)">$INFO[Container(5013).ListItem.Label]</value>
+        <value condition="Control.HasFocus(5014)">$INFO[Container(5014).ListItem.Label]</value>
+        <value></value>
+    </variable>
+
+    <variable name="VideotecaSotto">
+        <value condition="Control.HasFocus(5010)">$INFO[Container(5010).ListItem.Label2]</value>
+        <value condition="Control.HasFocus(5011)">$INFO[Container(5011).ListItem.Label2]</value>
+        <value condition="Control.HasFocus(5012)">$INFO[Container(5012).ListItem.Label2]</value>
+        <value condition="Control.HasFocus(5013)">$INFO[Container(5013).ListItem.Label2]</value>
+        <value condition="Control.HasFocus(5014)">$INFO[Container(5014).ListItem.Label2]</value>
+        <value></value>
+    </variable>
+
+    <variable name="VideotecaTrama">
+        <value condition="Control.HasFocus(5010)">$INFO[Container(5010).ListItem.Plot]</value>
+        <value condition="Control.HasFocus(5011)">$INFO[Container(5011).ListItem.Plot]</value>
+        <value condition="Control.HasFocus(5012)">$INFO[Container(5012).ListItem.Plot]</value>
+        <value condition="Control.HasFocus(5013)">$INFO[Container(5013).ListItem.Plot]</value>
+        <value condition="Control.HasFocus(5014)">$INFO[Container(5014).ListItem.Plot]</value>
+        <value></value>
+    </variable>
+
+    <!-- Lo sfondo grande: la fanart se c'e', altrimenti la locandina.
+         Uno sfondo nero fisso farebbe sembrare la pagina spenta. -->
+    <variable name="VideotecaSfondo">
+        <value condition="Control.HasFocus(5010) + !String.IsEmpty(Container(5010).ListItem.Art(fanart))">$INFO[Container(5010).ListItem.Art(fanart)]</value>
+        <value condition="Control.HasFocus(5010)">$INFO[Container(5010).ListItem.Art(poster)]</value>
+        <value condition="Control.HasFocus(5011) + !String.IsEmpty(Container(5011).ListItem.Art(fanart))">$INFO[Container(5011).ListItem.Art(fanart)]</value>
+        <value condition="Control.HasFocus(5011)">$INFO[Container(5011).ListItem.Art(poster)]</value>
+        <value condition="Control.HasFocus(5012) + !String.IsEmpty(Container(5012).ListItem.Art(fanart))">$INFO[Container(5012).ListItem.Art(fanart)]</value>
+        <value condition="Control.HasFocus(5012)">$INFO[Container(5012).ListItem.Art(poster)]</value>
+        <value condition="Control.HasFocus(5013) + !String.IsEmpty(Container(5013).ListItem.Art(fanart))">$INFO[Container(5013).ListItem.Art(fanart)]</value>
+        <value condition="Control.HasFocus(5013)">$INFO[Container(5013).ListItem.Art(poster)]</value>
+        <value condition="Control.HasFocus(5014) + !String.IsEmpty(Container(5014).ListItem.Art(fanart))">$INFO[Container(5014).ListItem.Art(fanart)]</value>
+        <value condition="Control.HasFocus(5014)">$INFO[Container(5014).ListItem.Art(poster)]</value>
+        <value></value>
+    </variable>
+
+</includes>

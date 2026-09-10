@@ -41,8 +41,13 @@ def url(**kwargs):
 
 
 def _voce(etichetta, descrizione="", cartella=True, url_voce=None,
-          icona="DefaultVideo.png", riproducibile=False):
-    li = xbmcgui.ListItem(label=etichetta)
+          icona="DefaultVideo.png", riproducibile=False, sotto=""):
+    # `sotto` = la seconda riga ("659 episodi - mai cominciata"). Sta in
+    # label2 e NON dentro l'etichetta con un a capo: sulla tessera in stile
+    # Netflix il titolo si scrive SOPRA l'immagine, e una seconda riga
+    # usciva dalla tessera finendo sopra la riga sotto. In piu' la testata
+    # della home vuole gia' le due cose separate (Label e Label2).
+    li = xbmcgui.ListItem(label=etichetta, label2=sotto)
     li.setArt({"icon": icona, "thumb": icona})
     tag = li.getVideoInfoTag()
     tag.setTitle(etichetta)
@@ -88,9 +93,11 @@ def _riga_continua():
         else:
             coda = "%s, episodio %d" % (serie["titolo"], t["ep"])
 
-        li = xbmcgui.ListItem(
-            label="[B]%s[/B]\n[COLOR grey]%s - %s[/COLOR]"
-                  % (p["titolo"], titolo_ep, coda))
+        # Titolo e dettaglio SEPARATI (label / label2), non uniti da un a
+        # capo: sulla tessera in stile Netflix il titolo si scrive sopra
+        # l'immagine, e la seconda riga usciva dalla tessera.
+        li = xbmcgui.ListItem(label=p["titolo"],
+                              label2="%s - %s" % (titolo_ep, coda))
         # "riproducibile" NON si decide qui: lo decide metti_tappa, in un
         # posto solo, guardando se la fonte e' davvero un file che Kodi apre.
 
@@ -151,6 +158,207 @@ ICONA = "special://home/addons/plugin.video.saghe/resources/icon.png"
 # nere" / "Goku ultraistinto su mezzo elenco").
 SEGNAPOSTO = "special://home/addons/plugin.video.saghe/resources/segnaposto.png"
 
+# LE BANDIERE DEI GRUPPI TV. Prima si prendeva il logo del primo canale del
+# gruppo che ne avesse uno: veniva fuori "7 Gold" per l'Italia (l'utente:
+# "quella italiana con un 7 non e' idonea") e NIENTE per la Russia, perche'
+# nessuno dei primi canali russi ha il logo - tessera nera.
+# Un gruppo di canali non ha un logo suo: la bandiera e' l'unica immagine
+# che dice davvero cosa c'e' dentro, e non dipende da quale canale capita
+# per primo nella lista.
+BANDIERE = {
+    "italy": "italia", "italia": "italia", "it": "italia",
+    "russia": "russia", "russian": "russia", "ru": "russia",
+}
+
+
+# LE TESSERE COL NOME SCRITTO SOPRA.
+# 39 voci su 409 non hanno una locandina, e non e' un difetto: "Lievitati",
+# "Barbecue", "Predatori" sono ricerche a TEMA, non programmi - un poster
+# loro non esiste, e prenderne uno a caso e' peggio che non averlo.
+# Fin qui portavano tutte lo stesso segnaposto scuro e VUOTO, e l'utente
+# vedeva "ancora tantissime locandine nere". Aveva ragione: da noi il nome
+# compare solo sotto la tessera SELEZIONATA, quindi una fila di voci a tema
+# era una fila di buchi.
+# La risposta si e' vista guardando Netflix davvero (10/09/2026): le loro
+# tessere hanno il titolo scritto SOPRA l'immagine. Quindi ora ogni voce
+# senza locandina ha la sua tessera col nome disegnato sopra, generata sul
+# PC da `traduttore/fai-tessere.py` e spedita con l'add-on.
+_TESSERE = None
+_SFONDI = None
+
+
+def _leggi_risorsa(nome):
+    """Un file JSON dentro l'add-on. {} se manca, con una riga di registro.
+
+    `xbmcvfs` NON e' importato in cima a questo file: si importa qui.
+    Senza, il NameError finiva in un `except` muto e le immagini restavano
+    tutte scure, senza un errore da nessuna parte - il modo in cui si sono
+    nascosti quasi tutti i guasti di questo add-on.
+    """
+    try:
+        import json as _json
+        import xbmcvfs as _vfs
+        p = _vfs.translatePath(
+            "special://home/addons/plugin.video.saghe/resources/" + nome)
+        with open(p, encoding="utf-8") as f:
+            d = _json.load(f) or {}
+        xbmc.log("[Le Saghe] %s: %d voci" % (nome, len(d)), xbmc.LOGINFO)
+        return d
+    except Exception as e:
+        xbmc.log("[Le Saghe] %s non letto: %s" % (nome, e), xbmc.LOGWARNING)
+        return {}
+
+
+def _sfondo_largo(etichetta):
+    """Lo sfondo 16:9 trovato su TMDb, se c'e'. Lo cerca fai-sfondi.py."""
+    global _SFONDI
+    if _SFONDI is None:
+        _SFONDI = _leggi_risorsa("sfondi.json")
+    return _SFONDI.get(etichetta) or ""
+
+
+def _tessera(etichetta):
+    """La tessera 16:9 generata, se c'e'. Altrimenti il segnaposto muto."""
+    global _TESSERE
+    if _TESSERE is None:
+        _TESSERE = _leggi_risorsa("tessere/indice.json")
+    nome = _TESSERE.get(etichetta)
+    if not nome:
+        return SEGNAPOSTO
+    return ("special://home/addons/plugin.video.saghe/resources/tessere/%s"
+            % nome)
+
+
+def _arte_scoperta(li, copertina, etichetta):
+    """L'immagine di una voce di documentari / cucina / YouTube.
+
+    IL TRANELLO, visto a schermo il 10/09/2026: mettendo la stessa immagine
+    su `poster`, `thumb` e `icon`, la skin la prendeva dal ramo `thumb` -
+    che e' pensato per le immagini ORIZZONTALI e le STIRA nella cornice
+    16:9. Le locandine verticali venivano fuori larghe e schiacciate.
+    Quindi:
+      - locandina verticale vera -> SOLO `poster`, e la skin usa il ramo che
+        ne tiene la forma (letterbox);
+      - nessuna locandina -> la tessera generata, che e' gia' 16:9, va
+        dichiarata come `landscape`.
+    `_voce` mette `thumb` da sola: qui va tolto, se no vince lui.
+    """
+    # In ordine, dal meglio al peggio:
+    #   1. lo SFONDO 16:9 vero, trovato su TMDb (fai-sfondi.py)
+    #   2. la tessera 16:9 costruita SOPRA la locandina (fai-tessere.py):
+    #      la locandina nitida al centro su una sua copia sfocata, cosi'
+    #      l'immagine vera non si butta e non restano bande nere
+    #   3. la tessera scura, col titolo scritto dalla skin
+    # La locandina verticale resta come `poster` per le schede e gli
+    # elenchi, dove la forma verticale e' quella giusta.
+    largo = _sfondo_largo(etichetta) or _tessera(etichetta)
+    arte = {"landscape": largo, "thumb": largo, "icon": largo}
+    # `thumb` non deve restare quello messo da _voce: la skin lo preferisce
+    # a `poster` e STIRAVA le locandine verticali nella cornice 16:9.
+    arte["poster"] = copertina or ""
+    li.setArt(arte)
+    return li
+
+
+# --------------------------------------------------------------------------
+# LE AZIONI SU UNA TESSERA (il tasto menu del telecomando)
+#
+# Chiesto dall'utente il 10/09/2026 guardando Netflix: "quando clicchi su una
+# locandina netflix dice aggiungi alla mia lista oppure riproduci o valuta
+# con il pollice". E poi: "si potrebbe usare questo sistema per la
+# riproduzione e per aggiungerle ai nostri cataloghi che poi vanno a cercare
+# ovunque".
+#
+# E' esattamente cosi': "Aggiungi alla Videoteca" NON e' una scorciatoia a
+# parte, passa dalla STESSA strada dei Consigliati (`consigli.aggiungi`), che
+# crea la serie E il suo percorso. Da li' in poi la cerca il motore delle
+# fonti su tutti i siti, come qualunque altra saga. Una strada sola.
+# --------------------------------------------------------------------------
+
+def _azioni(li, chiave, titolo, indirizzo="", arte=None, trama="",
+            sotto="", tmdb=""):
+    """Attacca il menu contestuale a una voce.
+
+    `chiave` deve essere STABILE nel tempo: il percorso per una saga,
+    "tmdb_<id>" per un titolo preso da Netflix o dai consigli. Se cambia, la
+    voce in lista e il pollice si perdono.
+    """
+    from resources.lib import miolista
+    voci = []
+    if indirizzo:
+        voci.append(("Riproduci",
+                     "Container.Update(%s)" % indirizzo))
+    if miolista.in_lista(chiave):
+        voci.append(("Togli da La mia lista",
+                     "RunPlugin(%s)" % url(azione="lista_togli", chiave=chiave)))
+    else:
+        voci.append(("Aggiungi a La mia lista",
+                     "RunPlugin(%s)" % url(azione="lista_metti", chiave=chiave,
+                                           titolo=titolo, dove=indirizzo)))
+    p = miolista.pollice(chiave)
+    voci.append((("Togli il mi piace" if p == "su" else "Mi piace"),
+                 "RunPlugin(%s)" % url(azione="pollice", chiave=chiave, verso="su")))
+    voci.append((("Togli il non mi piace" if p == "giu" else "Non mi piace"),
+                 "RunPlugin(%s)" % url(azione="pollice", chiave=chiave, verso="giu")))
+    if tmdb:
+        voci.append(("Aggiungi alla Videoteca (la cerca ovunque)",
+                     "RunPlugin(%s)" % url(azione="netflix_aggiungi",
+                                           tmdb=tmdb, tipo="serietv")))
+    li.addContextMenuItems(voci)
+    return li
+
+
+def _voce_netflix(v):
+    """Una scheda di "Su Netflix ora", con le sue azioni."""
+    from resources.lib import consigli as _c, miolista
+    sid = "tmdb_%s" % v["id"]
+    gia = sid in _c.serie_mie()
+    p = miolista.pollice(sid)
+    segno = {"su": "  [COLOR grey](mi piace)[/COLOR]",
+             "giu": "  [COLOR grey](non mi piace)[/COLOR]"}.get(p, "")
+    li = xbmcgui.ListItem(
+        label=v["titolo"],
+        label2=(("Ce l'hai gia'" if gia else
+                 "%s%s  -  OK per aggiungerla alla Videoteca"
+                 % (v.get("anno", ""),
+                    ("  voto %s" % v["voto"]) if v.get("voto") else "")) + segno))
+    arte = {"poster": v.get("poster", ""), "icon": v.get("poster", "")}
+    if v.get("sfondo"):
+        # lo sfondo 16:9 e' anche l'immagine della TESSERA, non solo lo
+        # sfondone della testata: la tessera e' orizzontale.
+        arte["fanart"] = arte["landscape"] = arte["thumb"] = v["sfondo"]
+    li.setArt(arte)
+    tag = li.getVideoInfoTag()
+    tag.setTitle(v["titolo"])
+    if v.get("trama"):
+        tag.setPlot(v["trama"])
+
+    # Chi c'e' gia' porta alla SUA CATENA. Il percorso di una serie aggiunta
+    # si chiama "mia_<id serie>" (lo crea catalogo.applica_serie_nuove): si
+    # controlla che esista DAVVERO invece di fidarsi del nome. Un pulsante
+    # che porta a un'azione inesistente non da' errore, riapre il menu e
+    # basta - e' gia' successo con "riproduci" il 07/09.
+    pid_mio = "mia_" + sid
+    if gia and pid_mio in catalogo.PERCORSI:
+        dove, cartella = url(azione="percorso", percorso=pid_mio), True
+    elif gia:
+        dove, cartella = url(azione="reparto", reparto="serietv"), True
+    else:
+        dove, cartella = url(azione="netflix_aggiungi", tmdb=str(v["id"]),
+                             tipo=v.get("tipo") or "serietv"), False
+    _azioni(li, sid, v["titolo"], arte=arte, trama=v.get("trama", ""),
+            tmdb="" if gia else str(v["id"]))
+    xbmcplugin.addDirectoryItem(MANIGLIA, dove, li, cartella)
+
+
+def _bandiera_gruppo(nome):
+    """La bandiera del gruppo TV, se e' un paese che conosciamo."""
+    chiave = BANDIERE.get((nome or "").strip().lower())
+    if not chiave:
+        return ""
+    return ("special://home/addons/plugin.video.saghe/resources/bandiere/%s.png"
+            % chiave)
+
 
 def _copertina(li, serie_id):
     """Mette locandina e sfondo di una serie su una voce. Silenzioso se non ci sono."""
@@ -198,10 +406,17 @@ def _voce_percorso(pid):
         stato = "%d%% vista - %d episodi su %d" % (
             progresso.percentuale(pid, totale), quanti_visti, totale)
 
-    li = _voce("%s\n[COLOR grey]%s[/COLOR]" % (p["titolo"], stato),
-               "%s\n\nSei arrivato a: %s"
+    li = _voce(p["titolo"], sotto=stato,
+               descrizione="%s\n\nSei arrivato a: %s"
                % (p["sottotitolo"], catalogo.descrizione_segmento(pid, idx)))
-    return _copertina_percorso(li, pid)
+    _copertina_percorso(li, pid)
+    # Le azioni del menu contestuale (tasto menu del telecomando). La chiave
+    # stabile di una saga e' il suo PERCORSO: non cambia se la serie cresce
+    # o se le si cambia il titolo, quindi la voce in lista e il pollice non
+    # si perdono.
+    _azioni(li, pid, p["titolo"],
+            indirizzo=url(azione="percorso", percorso=pid))
+    return li
 
 
 def _voce_gruppo(gid):
@@ -621,33 +836,48 @@ def widget(quale):
             nome = (g.get("label") or "").lower()
             if "tutti" in nome:
                 continue          # il gruppo "tutti" e' la somma degli altri
-            # Il logo di un canale del gruppo al posto dell'icona nostra:
-            # "Italia" e "Russia" con lo stesso quadratino non si
-            # distinguono, e la riga sembra vuota.
-            img = _logo_gruppo_tv(g["channelgroupid"]) or ICONA
+            # La BANDIERA del paese. Il logo del primo canale col logo dava
+            # "7 Gold" per l'Italia e niente per la Russia: dipendeva da
+            # quale canale capitava per primo. La bandiera dice cosa c'e'
+            # dentro e non cambia mai.
+            img = (_bandiera_gruppo(g.get("label"))
+                   or _logo_gruppo_tv(g["channelgroupid"]) or SEGNAPOSTO)
             li = _voce(g["label"], "I canali del gruppo %s." % g["label"],
                        icona=img)
-            li.setArt({"poster": img, "thumb": img, "icon": img})
+            # `landscape`: la bandiera e' 16:9 come la tessera. Messa su
+            # `poster` la skin la trattava da locandina verticale e la
+            # centrava fra due bande.
+            li.setArt({"landscape": img, "thumb": img, "icon": img})
             xbmcplugin.addDirectoryItem(
                 MANIGLIA,
                 url(azione="tv_gruppo", gruppo=str(g["channelgroupid"])),
                 li, True)
 
-    elif quale in ("documentari", "cucina", "youtube"):
+    elif quale.split(":")[0] in ("documentari", "cucina", "youtube"):
+        # UNA RIGA PER GRUPPO (scelta dell'utente, 10/09/2026 sera).
+        # Prima era UNA striscia sola: 143 tessere per i documentari, con
+        # dentro delle tessere-titolo scure a fare da separatore. Due difetti
+        # veri, tutti e due detti dall'utente:
+        #   - "la voce quella con fast and loud non esiste" - esisteva, ma
+        #     stava verso la centesima tessera: irraggiungibile.
+        #   - "appare un'icona nera chiamata a catalogo" - le tessere-titolo,
+        #     in una riga di locandine, sembrano buchi.
+        # Adesso `che` puo' portare l'indice del gruppo ("documentari:6") e
+        # il titolo del gruppo diventa il TITOLO DELLA RIGA, che e' il posto
+        # dove un titolo si legge davvero. Senza indice si comporta come
+        # prima (tutto insieme): serve al menu dentro l'add-on.
         xbmcplugin.setContent(MANIGLIA, "videos")
         from resources.lib import copertine
         copertine_note = copertine.leggi()
-        for intestazione, voci in scoperte.scaffale(quale):
-            # Una tessera-titolo prima di ogni gruppo: senza, la striscia era
-            # 147 riquadri di fila e "MOTORI, GARAGE E RESTAURI" non si
-            # vedeva come sezione (l'utente: "sezione inesistente").
-            if intestazione:
-                cap = _voce("[COLOR grey]— %s —[/COLOR]" % intestazione, "",
-                            icona=SEGNAPOSTO)
-                cap.setArt({"poster": SEGNAPOSTO, "thumb": SEGNAPOSTO})
-                cap.setProperty("SpecialSort", "top")
-                xbmcplugin.addDirectoryItem(
-                    MANIGLIA, url(azione="widget", che=quale), cap, False)
+        pezzi = quale.split(":")
+        gruppi = scoperte.scaffale(pezzi[0])
+        if len(pezzi) > 1:
+            try:
+                i = int(pezzi[1])
+                gruppi = [gruppi[i]] if 0 <= i < len(gruppi) else []
+            except ValueError:
+                gruppi = []
+        for intestazione, voci in gruppi:
             for etichetta, indirizzo, nota, tipo in voci:
                 if tipo.startswith("cerca:"):
                     indirizzo = url(azione="scaffale_cerca",
@@ -659,10 +889,41 @@ def widget(quale):
                 # locale, sempre uguale): non l'icona dell'addon come poster
                 # (la skin la riusava -> "Goku ultraistinto su mezzo
                 # elenco") e non vuoto (tessera NERA).
-                img = copertine_note.get(etichetta) or SEGNAPOSTO
-                li = _voce(etichetta, nota, icona=img)
-                li.setArt({"poster": img, "thumb": img, "icon": img})
+                li = _voce(etichetta, nota, icona=ICONA)
+                _arte_scoperta(li, copertine_note.get(etichetta), etichetta)
                 xbmcplugin.addDirectoryItem(MANIGLIA, indirizzo, li, True)
+
+    elif quale.split(":")[0] == "netflix":
+        # SU NETFLIX ORA, in TRE righe: Serie TV, Film, Anime.
+        # Sono le stesse tre di Netflix, guardate sul loro sito: nel menu in
+        # alto "Serie" e "Film" sono voci di primo livello, e fra i generi
+        # dei film "Anime" c'e' come voce propria. L'utente, vedendo la riga
+        # unica: "sono due categorie diverse". Aveva ragione.
+        # Legge la SOLA cache: la riempie il servizio. Una riga della home
+        # non va mai in rete.
+        from resources.lib import netflix as _nf
+        pezzi = quale.split(":")
+        sezione = pezzi[1] if len(pezzi) > 1 else "serietv"
+        for v in _nf.riga(sezione):
+            _voce_netflix(v)
+
+    elif quale == "lista":
+        # LA MIA LISTA. Netflix ce l'ha nel menu in alto; qui e' una riga,
+        # perche' la home e' fatta di righe. Le voci ci finiscono dal menu
+        # contestuale di qualunque tessera.
+        from resources.lib import miolista
+        for v in miolista.elenco():
+            li = xbmcgui.ListItem(label=v.get("titolo", ""),
+                                  label2=v.get("sotto", ""))
+            if v.get("arte"):
+                li.setArt(v["arte"])
+            tag = li.getVideoInfoTag()
+            tag.setTitle(v.get("titolo", ""))
+            if v.get("trama"):
+                tag.setPlot(v["trama"])
+            _azioni(li, v.get("chiave", ""), v.get("titolo", ""))
+            xbmcplugin.addDirectoryItem(
+                MANIGLIA, v.get("indirizzo") or url(), li, True)
 
     elif quale == "novita":
         # Le novita' di s4me, dalla cache: mai la rete, mai una rotellina.
@@ -729,9 +990,8 @@ def menu_scaffale(quale):
             elif tipo.startswith("diretta:"):
                 indirizzo = url(azione="diretta",
                                 canale=tipo.split(":", 1)[1])
-            img = copertine_note.get(etichetta) or SEGNAPOSTO
-            li = _voce(etichetta, nota, icona=img)
-            li.setArt({"poster": img, "thumb": img, "icon": img})
+            li = _voce(etichetta, nota, icona=ICONA)
+            _arte_scoperta(li, copertine_note.get(etichetta), etichetta)
             xbmcplugin.addDirectoryItem(MANIGLIA, indirizzo, li, True)
 
     xbmcplugin.endOfDirectory(MANIGLIA)
@@ -851,8 +1111,14 @@ def menu_tv():
         quanti = len(_canali_tv(g["channelgroupid"]))
         if not quanti:
             continue
+        # La stessa bandiera della riga nella home: le due strade devono
+        # mostrare la STESSA cosa, se no meta' delle volte sembra un'altra
+        # sezione.
+        img = (_bandiera_gruppo(g.get("label"))
+               or _logo_gruppo_tv(g["channelgroupid"]) or SEGNAPOSTO)
         li = _voce("%s\n[COLOR grey]%d canali[/COLOR]" % (g["label"], quanti),
-                   "I canali del gruppo %s." % g["label"], icona=_logo_gruppo_tv(g["channelgroupid"]) or ICONA)
+                   "I canali del gruppo %s." % g["label"], icona=img)
+        li.setArt({"poster": img, "thumb": img, "icon": img})
         xbmcplugin.addDirectoryItem(
             MANIGLIA, url(azione="tv_gruppo", gruppo=str(g["channelgroupid"])),
             li, True)
@@ -953,11 +1219,16 @@ def aggiungi_consiglio(tmdb_id):
 # SU NETFLIX ORA
 # --------------------------------------------------------------------------
 
+# LE TRE SEZIONI, le stesse della home e le stesse di Netflix: sul loro
+# sito "Serie" e "Film" sono voci di primo livello e "Anime" e' un genere a
+# se'. Mancavano i FILM, ed e' la prima cosa che ha notato l'utente.
 _NF_SEZIONI = [
-    ("anime",   "Anime su Netflix",
-     "Serie animate giapponesi ora nel catalogo Netflix Italia."),
     ("serietv", "Serie TV su Netflix",
      "Serie con attori veri ora nel catalogo Netflix Italia."),
+    ("film",    "Film su Netflix",
+     "I film ora nel catalogo Netflix Italia, per genere."),
+    ("anime",   "Anime su Netflix",
+     "Serie animate giapponesi ora nel catalogo Netflix Italia."),
 ]
 
 
@@ -980,7 +1251,10 @@ def menu_netflix(sez="", g=""):
         xbmcplugin.endOfDirectory(MANIGLIA, cacheToDisc=False)
         return
 
-    generi = netflix.GENERI_ANIME if sez == "anime" else netflix.GENERI_TV
+    # I generi li decide netflix.generi(): per i FILM sono i 22 del menu
+    # vero di Netflix, guardato sul sito. Se restassero qui, questa
+    # lista e quella del modulo si scosterebbero col tempo.
+    generi = netflix.generi(sez)
     tit_sez = dict((s, t) for s, t, _ in _NF_SEZIONI).get(sez, "Netflix")
 
     if not g:
@@ -997,7 +1271,7 @@ def menu_netflix(sez="", g=""):
     xbmcplugin.setPluginCategory(MANIGLIA, tit_sez)
     mie = consigli.serie_mie()
     try:
-        elenco = netflix.titoli(sez, g)
+        elenco = netflix.per_genere(sez, g)
     except Exception as e:
         xbmc.log("[Le Saghe] netflix: %s" % e, xbmc.LOGWARNING)
         elenco = []
@@ -2179,7 +2453,39 @@ def instrada(qs):
             "Episodi sbagliati", "\n".join(righe) or "Nessuna anomalia.")
     elif azione == "impostazioni":
         ADDON.openSettings()
+
+    # --- LA MIA LISTA E I POLLICI (menu contestuale della tessera) ---
+    elif azione == "lista_metti":
+        from resources.lib import miolista
+        miolista.aggiungi(p.get("chiave", ""), p.get("titolo", ""),
+                          p.get("dove", ""))
+        xbmcgui.Dialog().notification("La mia lista",
+                                      "Aggiunto: %s" % p.get("titolo", ""),
+                                      ICONA, 2500)
+        xbmc.executebuiltin("Container.Refresh")
+    elif azione == "lista_togli":
+        from resources.lib import miolista
+        miolista.togli(p.get("chiave", ""))
+        xbmcgui.Dialog().notification("La mia lista", "Tolto.", ICONA, 2000)
+        xbmc.executebuiltin("Container.Refresh")
+    elif azione == "pollice":
+        from resources.lib import miolista
+        v = miolista.metti_pollice(p.get("chiave", ""), p.get("verso", ""))
+        xbmcgui.Dialog().notification(
+            "Grazie",
+            {"su": "Te ne proporro' di simili.",
+             "giu": "Non te lo ripropongo piu'."}.get(v, "Giudizio tolto."),
+            ICONA, 2500)
+        xbmc.executebuiltin("Container.Refresh")
+
     else:
+        # UN'AZIONE CHE NON ESISTE NON DEVE SPARIRE IN SILENZIO.
+        # Il 07/09 "riproduci" mandava a un'azione mai scritta: si tornava al
+        # menu principale, senza errore e senza una riga nel registro. Un
+        # errore di battitura poteva restare li' per settimane.
+        if azione:
+            xbmc.log("[Le Saghe] azione sconosciuta: %r (indirizzo: %s)"
+                     % (azione, sys.argv[2]), xbmc.LOGWARNING)
         menu_principale()
 
 

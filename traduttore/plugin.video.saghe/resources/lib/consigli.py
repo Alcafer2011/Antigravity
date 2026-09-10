@@ -128,6 +128,12 @@ def _gusti(catalogo, progresso):
     return pesi
 
 
+# Quanti voti su TMDb deve avere un titolo per valere un consiglio.
+# Misurato sui consigliati di Naruto: con 100 restano 10 titoli su 16,
+# e spariscono proprio quelli che l'utente non riconosceva.
+SOGLIA_VOTI = 100
+
+
 def _titolo_leggibile(titolo):
     """Vero se il titolo e' scritto nel nostro alfabeto.
 
@@ -204,6 +210,14 @@ def calcola(catalogo, progresso, avvisa=False):
 
     nostre = _tmdb_gia_nostri(catalogo)
     gia_mie = set(k[5:] for k in _leggi_serie_mie() if k.startswith("tmdb_"))
+    # Quelle a cui hai messo il pollice GIU'. Lette una volta sola, non a
+    # ogni titolo: il file e' piccolo ma il giro e' di ~200 confronti.
+    # Se il modulo manca (add-on vecchio), i consigli funzionano lo stesso.
+    try:
+        from resources.lib import miolista
+        bocciate = miolista.bocciate_tmdb()
+    except Exception:
+        bocciate = set()
     punteggi = {}
 
     for sid, peso in sorted(pesi.items(), key=lambda x: -x[1])[:12]:
@@ -221,12 +235,31 @@ def calcola(catalogo, progresso, avvisa=False):
                 # TMDb, non sulle nostre chiavi: vedi _tmdb_gia_nostri.
                 if rid in nostre or rid in gia_mie:
                     continue
+                # IL POLLICE GIU' VALE DAVVERO. Senza questa riga sarebbe un
+                # giochino: continuare a riproporre una cosa che l'utente ha
+                # rifiutato e' peggio che non consigliare niente.
+                if rid in bocciate:
+                    continue
                 # SENZA TITOLO IN ITALIANO NON SI TROVA IN ITALIANO.
                 # TMDb, quando la traduzione non c'e', restituisce il titolo
                 # ORIGINALE: fra i primi consigli sono usciti "星の海のアムリ"
                 # e "真夜中ぱんチ". Proporre una cosa che l'utente non potra'
                 # mai guardare in italiano e' peggio che non proporla.
                 if not _titolo_leggibile(r.get("name")):
+                    continue
+                # TROPPO OSCURO PER ESSERE UN CONSIGLIO.
+                # L'utente (10/09/2026), guardando la riga: sono titoli che
+                # non riconosce. La prima diagnosi - "sono in inglese, quindi
+                # in italiano non esistono" - era SBAGLIATA: TMDb dice che
+                # "Kill Blue" e "True Beauty" IL titolo italiano ce l'hanno,
+                # ed e' quello (in Italia molti anime escono col nome
+                # inglese). Verificato anche con /translations.
+                # Il vero segno e' un altro, e si misura: i titoli oscuri
+                # hanno 40-50 voti su TMDb, quelli che uno riconosce ne
+                # hanno migliaia (Boruto 2522, Dragon Ball Z 4996, Young
+                # Justice 1249; Marriage Toxin 47, Black Cat 40).
+                # Sotto la soglia non e' un consiglio: e' rumore.
+                if (r.get("vote_count") or 0) < SOGLIA_VOTI:
                     continue
                 v = punteggi.setdefault(rid, {
                     "id": rid,

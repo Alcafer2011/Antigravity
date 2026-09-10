@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  LA VISTA "VIDEOTECA": gli elenchi con lo stesso aspetto della home.
+
+  PERCHE' UNA VISTA NOSTRA E NON QUELLE DI ESTUARY
+      Le viste di Estuary sono fatte per la LIBRERIA di Kodi: quasi tutte si
+      accendono solo se il contenuto e' `movies`, `tvshows`, `seasons`...
+      I nostri elenchi arrivano da un add-on e spesso sono `videos` o
+      `files`, quindi restavano sull'elenco di testo. Questa si accende
+      SEMPRE (non ha condizioni sul contenuto) ed e' l'unica cosa che serve
+      perche' l'aspetto sia lo stesso dappertutto.
+
+  IL CURSORE SI VEDE IN QUATTRO MODI, come nella home e per lo stesso
+  motivo (detto dall'utente due volte): cornice ambra, piena luce contro le
+  altre smorzate, titolo sotto la sola locandina scelta, e la crescita del
+  10%. Chi ne toglie uno rompe la cosa che l'utente ha chiesto di piu'.
+
+  A SINISTRA IL PANNELLO, A DESTRA LE LOCANDINE
+      Titolo grande, riga di stato e trama: le stesse tre informazioni della
+      home, nello stesso posto. Cosi' passando da una schermata all'altra
+      l'occhio non deve ricominciare da capo.
+
+  I NUMERI
+      56    la griglia delle locandine (il numero va anche in <views> di
+            MyVideoNav.xml, altrimenti la vista non compare fra quelle
+            selezionabili col tasto di cambio vista)
+      5699  la barra di scorrimento
+-->
+<includes>
+    <include name="View_56_Videoteca">
+
+        <control type="group">
+            <visible>Control.IsVisible(56)</visible>
+
+            <!-- Lo sfondo: la fanart di cio' che e' selezionato. Se non c'e'
+                 si usa la locandina: uno sfondo nero fisso fa sembrare la
+                 pagina spenta. -->
+            <control type="image">
+                <left>0</left><top>0</top><width>1920</width><height>1080</height>
+                <aspectratio>scale</aspectratio>
+                <fadetime>500</fadetime>
+                <texture background="true">$INFO[Container(56).ListItem.Art(fanart)]</texture>
+            </control>
+            <control type="image">
+                <left>0</left><top>0</top><width>1920</width><height>1080</height>
+                <aspectratio>scale</aspectratio>
+                <fadetime>500</fadetime>
+                <visible>String.IsEmpty(Container(56).ListItem.Art(fanart))</visible>
+                <texture background="true">$INFO[Container(56).ListItem.Art(poster)]</texture>
+            </control>
+
+            <!-- Velature: senza, il testo bianco su una fanart chiara non si
+                 legge. La sfumatura evita lo stacco netto a meta' schermo. -->
+            <control type="image">
+                <left>0</left><top>0</top><width>1920</width><height>1080</height>
+                <texture colordiffuse="B00B0B0B">bianco.png</texture>
+            </control>
+            <!-- Due sfumature sovrapposte: una corta e densa sotto al
+                 testo, una lunga e morbida che sfuma nell'immagine. Con una
+                 sola, o il testo non si leggeva o si vedeva lo stacco. -->
+            <control type="image">
+                <left>0</left><top>0</top><width>900</width><height>1080</height>
+                <texture colordiffuse="F50B0B0B">sfumatura.png</texture>
+            </control>
+            <control type="image">
+                <left>0</left><top>0</top><width>1500</width><height>1080</height>
+                <texture colordiffuse="C00B0B0B">sfumatura.png</texture>
+            </control>
+
+            <!-- ================= IL PANNELLO A SINISTRA ================= -->
+            <control type="label">
+                <left>70</left><top>150</top><width>760</width><height>70</height>
+                <font>font45_title</font>
+                <textcolor>FFF3EDE3</textcolor>
+                <shadowcolor>FF000000</shadowcolor>
+                <label>$INFO[Container(56).ListItem.Label]</label>
+            </control>
+            <control type="label">
+                <left>70</left><top>224</top><width>760</width><height>32</height>
+                <font>font13</font>
+                <textcolor>FFE8A24A</textcolor>
+                <shadowcolor>FF000000</shadowcolor>
+                <label>$INFO[Container(56).ListItem.Label2]</label>
+            </control>
+            <control type="textbox">
+                <left>70</left><top>272</top><width>720</width><height>560</height>
+                <font>font13</font>
+                <textcolor>FFC6BCAF</textcolor>
+                <shadowcolor>FF000000</shadowcolor>
+                <label>$INFO[Container(56).ListItem.Plot]</label>
+            </control>
+            <control type="label">
+                <left>70</left><top>860</top><width>760</width><height>30</height>
+                <font>font12</font>
+                <textcolor>FF8C8175</textcolor>
+                <label>$INFO[Container(56).CurrentItem] di $INFO[Container(56).NumItems]</label>
+            </control>
+
+            <!-- ================= LE LOCANDINE A DESTRA ================= -->
+            <control type="panel" id="56">
+                <left>880</left><top>90</top><width>1010</width><height>900</height>
+                <onleft>9000</onleft>
+                <onright>5699</onright>
+                <onup>56</onup>
+                <ondown>56</ondown>
+                <scrolltime tween="cubic" easing="out">400</scrolltime>
+                <preloaditems>2</preloaditems>
+                <pagecontrol>5699</pagecontrol>
+                <viewtype label="Videoteca">poster</viewtype>
+
+                <itemlayout width="202" height="300">
+                    <control type="image">
+                        <left>12</left><top>8</top><width>178</width><height>272</height>
+                        <aspectratio>scale</aspectratio>
+                        <texture background="true" colordiffuse="80FFFFFF"
+                                 fallback="DefaultVideo.png">$INFO[ListItem.Art(poster)]</texture>
+                    </control>
+                    <control type="image">
+                        <left>12</left><top>8</top><width>178</width><height>272</height>
+                        <aspectratio>scale</aspectratio>
+                        <visible>String.IsEmpty(ListItem.Art(poster))</visible>
+                        <texture background="true" colordiffuse="80FFFFFF"
+                                 fallback="DefaultVideo.png">$INFO[ListItem.Art(thumb)]</texture>
+                    </control>
+                </itemlayout>
+
+                <focusedlayout width="202" height="300">
+                    <control type="group">
+                        <animation type="Focus">
+                            <effect type="zoom" start="100" end="110" time="220"
+                                    tween="sine" easing="inout" center="101,146" />
+                        </animation>
+                        <animation type="Unfocus">
+                            <effect type="zoom" start="110" end="100" time="220"
+                                    tween="sine" easing="inout" center="101,146" />
+                        </animation>
+                        <control type="image">
+                            <left>6</left><top>2</top><width>190</width><height>284</height>
+                            <texture colordiffuse="FFE8A24A">bianco.png</texture>
+                        </control>
+                        <control type="image">
+                            <left>12</left><top>8</top><width>178</width><height>272</height>
+                            <aspectratio>scale</aspectratio>
+                            <texture background="true"
+                                     fallback="DefaultVideo.png">$INFO[ListItem.Art(poster)]</texture>
+                        </control>
+                        <control type="image">
+                            <left>12</left><top>8</top><width>178</width><height>272</height>
+                            <aspectratio>scale</aspectratio>
+                            <visible>String.IsEmpty(ListItem.Art(poster))</visible>
+                            <texture background="true"
+                                     fallback="DefaultVideo.png">$INFO[ListItem.Art(thumb)]</texture>
+                        </control>
+                    </control>
+                </focusedlayout>
+            </control>
+
+            <control type="scrollbar" id="5699">
+                <left>1896</left><top>90</top><width>10</width><height>900</height>
+                <onleft>56</onleft>
+                <onright>56</onright>
+                <orientation>vertical</orientation>
+                <showonepage>false</showonepage>
+                <texturesliderbackground colordiffuse="330B0B0B">bianco.png</texturesliderbackground>
+                <texturesliderbar colordiffuse="FFE8A24A">bianco.png</texturesliderbar>
+                <texturesliderbarfocus colordiffuse="FFE8A24A">bianco.png</texturesliderbarfocus>
+            </control>
+
+        </control>
+    </include>
+</includes>

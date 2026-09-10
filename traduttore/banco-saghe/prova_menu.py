@@ -72,12 +72,24 @@ def apri_menu():
 
 # --------------------------------------------------------------------------
 
-@prova("il menu si apre e non e' vuoto")
+@prova("la porta di casa e' corta: pochi reparti, non l'elenco di tutto")
 def _():
+    # Dal 07/09/2026 il menu principale NON elenca piu' le saghe: sono
+    # scese di un livello, nei reparti. Qui si controlla che la porta sia
+    # corta davvero (era il difetto: tutto insieme in una schermata sola) e
+    # che porti dove deve.
     scrivi_progresso({})
     voci = apri_menu()
-    assert len(voci) >= len(catalogo.ORDINE_PERCORSI), \
-        "solo %d voci" % len(voci)
+    # Il limite e' salito a 15 il 07/09/2026, quando l'utente ha chiesto
+    # documentari, cucina, YouTube, TV in diretta e i consigliati - e li ha
+    # voluti SEPARATI ("tienili separati, documentari una cosa, cucina
+    # un'altra"). Il senso della prova non cambia: la porta deve restare
+    # un menu di reparti, non l'elenco di tutto il catalogo (erano 62).
+    assert 4 <= len(voci) <= 15, "la porta ha %d voci" % len(voci)
+    testo = " ".join(v["url"] for v in voci)
+    for pezzo in ("reparto=cartoni", "azione=film_tutti", "azione=cerca",
+                  "azione=vetrina"):
+        assert pezzo in testo, "manca %s dalla porta" % pezzo
 
 
 def _raggiungibili():
@@ -89,12 +101,46 @@ def _raggiungibili():
     return fuori
 
 
-@prova("ogni saga del catalogo si puo' raggiungere (l'errore di ORDINE_PERCORSI)")
+def _voci_reparto(reparto):
+    finto_kodi.azzera()
+    main.menu_reparto(reparto)
+    return [v for v in finto_kodi.VOCI if isinstance(v, dict)]
+
+
+@prova("ogni raggruppamento sta in UN reparto, e quel reparto lo mostra")
 def _():
     scrivi_progresso({})
-    testo = " ".join(v["url"] for v in apri_menu())
+    for gid in getattr(catalogo, "ORDINE_GRUPPI", []):
+        reparto = catalogo.GRUPPI[gid].get("reparto", "cartoni")
+        assert reparto in main.REPARTI, "%s: reparto sconosciuto %r" % (gid, reparto)
+        testo = " ".join(v["url"] for v in _voci_reparto(reparto))
+        assert "gruppo=%s" % gid in testo, \
+            "%s non compare nel reparto %s" % (gid, reparto)
+
+
+@prova("i film hanno un reparto loro, e ogni saga con film ci si trova dentro")
+def _():
+    # L'utente non li trovava: stavano dentro "Altro..." di ogni saga.
+    scrivi_progresso({})
+    finto_kodi.azzera()
+    main.menu_film_tutti()
+    voci = [v for v in finto_kodi.VOCI if isinstance(v, dict)]
+    testo = " ".join(v["url"] for v in voci)
+    attese = [pid for pid, _ in main._saghe_con_film()]
+    assert attese, "nessuna saga ha film: il reparto sarebbe vuoto"
+    for pid in attese:
+        assert "percorso=%s" % pid in testo, "%s manca dal reparto film" % pid
+
+
+@prova("ogni saga del catalogo si puo' raggiungere (l'errore di ORDINE_PERCORSI)")
+def _():
+    # LO SCOPO NON E' CAMBIATO col menu nuovo: una saga che sta nel catalogo
+    # ma non si raggiunge da nessuna parte e' invisibile, ed e' gia'
+    # successo (Jeeg). Solo che adesso il cammino passa dai reparti.
+    scrivi_progresso({})
+    testo = " ".join(v["url"] for v in _voci_reparto("cartoni"))
     diretti = [p for p in catalogo.ORDINE_PERCORSI if "percorso=%s" % p not in testo]
-    assert not diretti, "saghe invisibili nel menu: %s" % ", ".join(diretti)
+    assert not diretti, "saghe invisibili nel reparto cartoni: %s" % ", ".join(diretti)
     mancanti = sorted(set(catalogo.PERCORSI) - _raggiungibili())
     assert not mancanti, "percorsi che non si raggiungono da nessuna parte: %s" % ", ".join(mancanti)
 
@@ -210,7 +256,8 @@ def _():
     voci = apri_menu()
     assert not [v for v in voci if _e_una_tappa(v["url"])], \
         "ha messo in menu una saga inesistente"
-    assert len(voci) >= len(catalogo.ORDINE_PERCORSI), "menu incompleto"
+    assert "reparto=cartoni" in " ".join(v["url"] for v in voci), \
+        "menu incompleto"
 
 
 @prova("una posizione oltre la fine della saga non fa cadere il menu")
@@ -649,6 +696,651 @@ def _():
 def _():
     vuote = [p for p in catalogo.ORDINE_PERCORSI if catalogo.lunghezza(p) < 1]
     assert not vuote, "saghe senza episodi: %s" % ", ".join(vuote)
+
+
+
+@prova("una serie con attori veri NON si cerca sui siti di cartoni")
+def _():
+    # IL GUASTO NOTATO DALL'UTENTE: "la serie turca a catalogo c'e',
+    # riproducibile no". Cercavamo una telenovela turca su cinque siti di
+    # anime giapponesi: non era sfortuna, era impossibile per costruzione.
+    import importlib
+    canale = importlib.import_module("resources.canale.lesaghe")
+    anime = set(canale.CANALI)
+    trovate = 0
+    for sid, serie in catalogo.SERIE.items():
+        if serie.get("tipo") != "serie_tv":
+            continue
+        trovate += 1
+        siti = set(canale._canali_per(serie))
+        assert not (siti & anime),             "%s (attori veri) verrebbe cercata su %s" % (sid, ", ".join(siti & anime))
+        assert siti, "%s non ha nessun sito dove cercarla" % sid
+    assert trovate, "nessuna serie marcata 'serie_tv': la marcatura si e' persa"
+
+
+@prova("ogni serie del catalogo ha dei siti dove cercarla")
+def _():
+    import importlib
+    canale = importlib.import_module("resources.canale.lesaghe")
+    for sid, serie in catalogo.SERIE.items():
+        assert canale._canali_per(serie), "%s: nessun sito" % sid
+
+
+@prova("un titolo che somiglia solo un po' NON viene accettato (Terra Nova)")
+def _():
+    # IL GUASTO DEL 07/09/2026, visto dal vivo: cercando "Terra amara" il
+    # risolutore ha aperto "Terra Nova" - una parola su due in comune, e la
+    # vecchia soglia era 30. Far partire la serie sbagliata e' peggio che
+    # dire "non l'ho trovata".
+    import importlib
+    canale = importlib.import_module("resources.canale.lesaghe")
+    assert canale._copertura("Terra Nova", "Terra amara") < canale.COPERTURA_MINIMA
+    assert canale._copertura("Terra amara", "Terra amara") == 100
+    assert canale._copertura("Terra amara - Stagione 1 ITA", "Terra amara") == 100
+    assert canale._copertura("Naruto Shippuden", "Naruto") == 100
+    assert canale._copertura("One Punch Man", "One Piece") < canale.COPERTURA_MINIMA
+
+
+@prova("le serie che cambiano nome hanno i loro alias")
+def _():
+    senza = [sid for sid, s in catalogo.SERIE.items()
+             if s.get("tipo") == "serie_tv" and not s.get("alias")]
+    assert not senza, "serie senza nome alternativo: %s" % ", ".join(senza)
+    import importlib
+    canale = importlib.import_module("resources.canale.lesaghe")
+    nomi = canale._titoli_da_provare(catalogo.SERIE["tr_terra_amara"], "Terra amara")
+    assert "Bir Zamanlar Cukurova" in nomi, nomi
+
+
+@prova("nel titolo passato a s4me gli spazi NON diventano '+'")
+def _():
+    # Il 07/09/2026 il registro mostrava che cercavamo "Terra+amara": chi
+    # rilegge l'indirizzo scioglie i %20 ma non i '+'.
+    indirizzo = main.indirizzo_s4me({"serie": "tr_terra_amara", "ep": 1})
+    assert "Terra+amara" not in indirizzo, indirizzo
+    assert "Terra%20amara" in indirizzo, indirizzo
+    import importlib
+    canale = importlib.import_module("resources.canale.lesaghe")
+    assert canale._titolo_pulito("Terra+amara") == "Terra amara"
+    # un titolo che ha DAVVERO un piu' dentro non va rovinato
+    assert canale._titolo_pulito("Dragon Ball Z + Kai") == "Dragon Ball Z + Kai"
+
+
+@prova("nessun film resta col quadratino grigio: c'e' sempre un'immagine")
+def _():
+    # L'utente: "l'idea della mia icona e' bella ma non puo' essere
+    # applicata anche ai film". Molti film vecchi non hanno la copertina su
+    # TMDb, e restava l'icona di Kodi.
+    scrivi_progresso({})
+    saghe = [pid for pid, _ in main._saghe_con_film()]
+    assert saghe
+    for pid in saghe[:6]:
+        finto_kodi.azzera()
+        main.elenco_film(pid)
+        for v in [v for v in finto_kodi.VOCI if isinstance(v, dict)]:
+            arte = v.get("arte") or {}
+            assert arte.get("poster") or arte.get("thumb"),                 "%s: un film senza nessuna immagine (%s)" % (pid, v["etichetta"][:40])
+
+
+@prova("i siti gratuiti e ufficiali si provano PRIMA di quelli che copiano")
+def _():
+    # "netflix mediaset infinity youtube non li usa in automatico".
+    import importlib
+    canale = importlib.import_module("resources.canale.lesaghe")
+    serie = canale.CANALI_PER_TIPO["serie_tv"]
+    for ufficiale in ("raiplay", "mediasetplay", "plutotv"):
+        assert ufficiale in serie, "manca %s" % ufficiale
+        assert serie.index(ufficiale) < serie.index("streamingcommunity"),             "%s viene dopo i siti che copiano" % ufficiale
+    assert "vvvvid" in canale.CANALI_PER_TIPO["anime"], "manca VVVVID"
+    assert "youtube" in canale.SERVIZI, "YouTube non e' fra i servizi"
+
+
+@prova("i canali che il custode riaccende esistono davvero")
+def _():
+    # Accendere un canale che non c'e' non rompe niente, ma vuol dire che la
+    # lista e' vecchia: meglio saperlo qui che scoprirlo fra sei mesi.
+    from resources.lib import custode
+    assert custode.DA_ACCENDERE, "la lista e' vuota"
+    assert "vvvvid" in custode.DA_ACCENDERE
+    assert "eurostreaming" in custode.DA_ACCENDERE
+
+
+@prova("si segue la strada che la voce indica, non sempre 'episodios'")
+def _():
+    # IL GUASTO: su Mediaset una serie porta a `epmenu` (le stagioni), non a
+    # `episodios`. Chiamando episodios a forza si cadeva con
+    # KeyError: 'entries' - e per due giorni e' sembrato un guasto di s4me.
+    import importlib, types
+    canale = importlib.import_module("resources.canale.lesaghe")
+
+    class Voce(object):
+        def __init__(self, **k): self.__dict__.update(k)
+
+    chiamate = []
+    finto = types.SimpleNamespace()
+    def episodios(v):
+        chiamate.append("episodios")
+        raise KeyError("entries")          # e' esattamente quello che faceva
+    def epmenu(v):
+        chiamate.append("epmenu")
+        return [Voce(action="episodios", title="Stagione 1",
+                     contentEpisodeNumber=None)]
+    finto.episodios, finto.epmenu = episodios, epmenu
+
+    partenza = Voce(action="epmenu", title="Terra amara")
+    canale._episodi_di(finto, partenza)
+    assert chiamate[0] == "epmenu",         "ha chiamato %s per prima invece di seguire l'azione della voce" % chiamate[0]
+
+
+@prova("si scende dalle stagioni fino agli episodi veri")
+def _():
+    import importlib, types
+    canale = importlib.import_module("resources.canale.lesaghe")
+
+    class Voce(object):
+        def __init__(self, **k): self.__dict__.update(k)
+
+    finto = types.SimpleNamespace()
+    def episodios(v):
+        if getattr(v, "livello", "") == "stagione":
+            return [Voce(action="findvideos", title="1x01 Prima puntata",
+                         contentEpisodeNumber=1)]
+        return [Voce(action="episodios", title="Stagione 1",
+                     livello="stagione")]
+    finto.episodios = episodios
+
+    ep = canale._episodi_di(finto, Voce(action="episodios", title="Serie"))
+    assert ep and canale._pare_un_episodio(ep[0]),         "si e' fermato alle stagioni: %r" % [getattr(e,"title","") for e in ep]
+
+
+@prova("non si chiamano mai le funzioni che fanno partire un video")
+def _():
+    import importlib
+    canale = importlib.import_module("resources.canale.lesaghe")
+    for pericolosa in ("findvideos", "play", "search"):
+        assert pericolosa in canale.AZIONI_DA_NON_SEGUIRE, pericolosa
+
+
+@prova("un numero qualunque nel titolo NON e' un numero di episodio")
+def _():
+    # Su Mediaset gli episodi si chiamano "Terra amara  [21 marzo]".
+    # La vecchia regola prendeva il primo numero del titolo: chiedendo la
+    # puntata 21 avrebbe dato quella del 21 marzo.
+    import importlib
+    canale = importlib.import_module("resources.canale.lesaghe")
+
+    class V(object):
+        def __init__(self, **k): self.__dict__.update(k)
+
+    elenco = [V(title="Terra amara  [%d marzo]" % g) for g in (19, 20, 21, 22)]
+    scelto = canale._episodio_giusto(elenco, 21)
+    # L'elenco ha 4 puntate: la 21 non c'e'. La risposta giusta e' "non lo
+    # so", NON la puntata del 21 marzo.
+    assert scelto is not elenco[2], "ha preso la puntata del 21 marzo"
+    assert scelto is None, "ha tirato a indovinare: %r" % getattr(scelto, "title", "")
+
+    # E con l'elenco completo, la 21 e' la ventunesima in ordine.
+    lungo = [V(title="Terra amara  [%d marzo]" % (g % 31 + 1)) for g in range(50)]
+    assert canale._episodio_giusto(lungo, 21) is lungo[20]
+
+
+@prova("quando NESSUN episodio e' numerato si usa la posizione, e si dice")
+def _():
+    import importlib
+    canale = importlib.import_module("resources.canale.lesaghe")
+
+    class V(object):
+        def __init__(self, **k): self.__dict__.update(k)
+
+    elenco = [V(title="Terra amara  [puntata del giorno %d]" % i) for i in range(1, 51)]
+    # nota: "puntata" seguito da numero e' una forma riconosciuta, quindi qui
+    # si deve trovare per titolo, non per posizione
+    assert canale._episodio_giusto(elenco, 7) is elenco[6]
+
+    senza = [V(title="Terra amara") for _ in range(50)]
+    assert canale._episodio_giusto(senza, 7) is senza[6], "non ha usato la posizione"
+    # ma se l'elenco e' piu' corto del numero chiesto, non si indovina
+    assert canale._episodio_giusto(senza[:3], 7) is None
+
+
+@prova("i numeri veri degli episodi vincono sempre sulla posizione")
+def _():
+    import importlib
+    canale = importlib.import_module("resources.canale.lesaghe")
+
+    class V(object):
+        def __init__(self, **k): self.__dict__.update(k)
+
+    elenco = [V(title="1x03 Terza", contentEpisodeNumber=3),
+              V(title="1x01 Prima", contentEpisodeNumber=1),
+              V(title="1x02 Seconda", contentEpisodeNumber=2)]
+    assert canale._episodio_giusto(elenco, 1) is elenco[1]
+
+
+@prova("un elenco lungo non viene scambiato per stagioni")
+def _():
+    # Con 166 voci il risolutore scendeva dentro ognuna: minuti buttati.
+    import importlib, types
+    canale = importlib.import_module("resources.canale.lesaghe")
+
+    class V(object):
+        def __init__(self, **k): self.__dict__.update(k)
+
+    discese = []
+    finto = types.SimpleNamespace()
+    def episodios(v):
+        if getattr(v, "figlio", False):
+            discese.append(1)
+            return []
+        return [V(title="Terra amara", figlio=True) for _ in range(166)]
+    finto.episodios = episodios
+    canale._episodi_di(finto, V(action="episodios", title="Serie"))
+    assert not discese, "e' sceso dentro %d voci di un elenco lungo" % len(discese)
+
+
+@prova("la Vetrina ha la riga delle novita', e non va in rete per disegnarla")
+def _():
+    # La Vetrina si era gia' rovinata una volta perche' costruiva tutto a
+    # schermo aperto: dieci secondi di rotellina. La riga nuova deve
+    # leggere SOLO la cache.
+    import importlib
+    v = importlib.import_module("resources.lib.vetrina")
+    n = importlib.import_module("resources.lib.novita")
+    assert hasattr(v, "RIGA_NOVITA") and v.RIGA_NOVITA == 102
+    # La cosa che conta non e' "non tocca la rete mai": e' che disegnare la
+    # Vetrina non ASPETTI la rete. L'aggiornamento puo' partire, ma in un
+    # filo a parte, e la funzione deve tornare subito.
+    import time
+    vero = n._scarica
+    n._scarica = lambda: (time.sleep(3), [])[1]
+    try:
+        inizio = time.time()
+        v._novita()
+        quanto = time.time() - inizio
+    finally:
+        n._scarica = vero
+    assert quanto < 1.0,         "disegnare la Vetrina ha aspettato la rete per %.1f secondi" % quanto
+
+
+@prova("senza novita' salvate la riga non compare (niente buco con la scritta)")
+def _():
+    import importlib
+    v = importlib.import_module("resources.lib.vetrina")
+    n = importlib.import_module("resources.lib.novita")
+    import os
+    try:
+        os.remove(n._file())
+    except Exception:
+        pass
+    assert v._novita() == [], "ha inventato delle voci"
+
+
+@prova("il disegno della Vetrina ci sta dentro i 1080 punti")
+def _():
+    # I conti sono facili da sbagliare spostando le righe: la scritta dei
+    # tasti sta a 1024, e sotto non deve finire niente.
+    import os, re
+    import xml.etree.ElementTree as ET
+    percorso = os.path.join(ADDON, "resources", "skins", "Default", "1080i",
+                            "vetrina.xml")
+    albero = ET.parse(percorso).getroot()
+    for gruppo in albero.iter("control"):
+        if gruppo.get("type") != "group":
+            continue
+        base = int(gruppo.findtext("top") or 0)
+        for c in gruppo.iter("control"):
+            if c.get("type") != "list":
+                continue
+            giu = base + int(c.findtext("top") or 0) + int(c.findtext("height") or 0)
+            # 1046 e' dove sta la scritta dei tasti: sotto non deve finire
+            # niente, TITOLO DELLA VOCE SELEZIONATA COMPRESO (che sporge di
+            # 220 punti dentro l'altezza della riga).
+            assert giu <= 1046, "una riga finisce a %d, sotto la scritta dei tasti" % giu
+
+
+@prova("i riquadri della home danno voci con locandina e senza voci di servizio")
+def _():
+    # Li legge la SKIN, non un utente: dentro non ci vanno intestazioni,
+    # "Altro...", pagine successive. Solo cose da guardare, con l'immagine.
+    scrivi_progresso({})
+    for quale in ("saghe", "film", "serietv"):
+        finto_kodi.azzera()
+        main.widget(quale)
+        voci = [v for v in finto_kodi.VOCI if isinstance(v, dict)]
+        assert voci, "il riquadro %s e' vuoto" % quale
+        for v in voci:
+            arte = v.get("arte") or {}
+            assert arte.get("poster") or arte.get("thumb"),                 "%s: una voce senza immagine (%s)" % (quale, v["etichetta"][:40])
+            assert "azione=altro" not in v["url"], "%s ha voci di servizio" % quale
+
+
+@prova("il riquadro delle novita' non va in rete")
+def _():
+    import importlib, time
+    n = importlib.import_module("resources.lib.novita")
+    vero = n._scarica
+    n._scarica = lambda: (time.sleep(3), [])[1]
+    try:
+        finto_kodi.azzera()
+        inizio = time.time()
+        main.widget("novita")
+        quanto = time.time() - inizio
+    finally:
+        n._scarica = vero
+    assert quanto < 1.0, "il riquadro ha aspettato la rete %.1f s" % quanto
+
+
+@prova("un riquadro con un nome sbagliato non fa cadere la home")
+def _():
+    finto_kodi.azzera()
+    main.widget("questo-non-esiste")     # non deve sollevare
+
+
+@prova("gli scaffali documentari/cucina/YouTube sono separati e ordinati")
+def _():
+    # "tienili separati: documentari una cosa, cucina un'altra, anche i
+    # canali youtube separati" - e dentro ognuno, gruppi con intestazione.
+    from resources.lib import scoperte
+    for quale, minimo in (("documentari", 80), ("cucina", 40), ("youtube", 8)):
+        gruppi = scoperte.scaffale(quale)
+        assert gruppi, "%s e' vuoto" % quale
+        assert scoperte.quante_voci(quale) >= minimo,             "%s ha solo %d voci" % (quale, scoperte.quante_voci(quale))
+        for intestazione, voci in gruppi:
+            assert intestazione, "%s: un gruppo senza titolo" % quale
+            assert voci, "%s: il gruppo %s e' vuoto" % (quale, intestazione)
+    # nessuna voce si ripete DENTRO lo stesso scaffale
+    for quale in ("documentari", "cucina", "youtube"):
+        viste = [e for _, v in scoperte.scaffale(quale) for e, _, _, _ in v]
+        doppie = set(x for x in viste if viste.count(x) > 1)
+        assert not doppie, "%s: voci doppie %s" % (quale, doppie)
+
+
+@prova("i programmi che l'utente guardava ci sono, col nome che usa lui")
+def _():
+    from resources.lib import scoperte
+    testo = " ".join(e.lower() for _, v in scoperte.scaffale("documentari")
+                     for e, _, _, _ in v)
+    for atteso in ("come e' fatto", "caccia all'oro", "gas monkey",
+                   "american chopper", "chernobyl"):
+        assert atteso in testo, "manca %r" % atteso
+    cucina = " ".join(e.lower() for _, v in scoperte.scaffale("cucina")
+                      for e, _, _, _ in v)
+    assert "masterchef italia" in cucina
+
+
+@prova("i canali YouTube si aprono con l'identificativo, non col nome")
+def _():
+    # Col nome si finisce su un canale che somiglia. Con l'identificativo no.
+    from resources.lib import scoperte
+    for nome, cid, _ in scoperte.CANALI_YOUTUBE:
+        assert cid.startswith("UC") and len(cid) >= 20, "%s: %r" % (nome, cid)
+
+
+@prova("ogni voce degli scaffali porta da qualche parte")
+def _():
+    scrivi_progresso({})
+    for quale in ("documentari", "cucina", "youtube"):
+        finto_kodi.azzera()
+        main.menu_scaffale(quale)
+        voci = [v for v in finto_kodi.VOCI if isinstance(v, dict)]
+        assert voci, "%s non ha prodotto voci" % quale
+        for v in voci:
+            assert v["url"], "%s: una voce senza indirizzo" % quale
+
+
+@prova("nessuna voce degli scaffali resta senza descrizione")
+def _():
+    # L'utente guardando la sezione a schermo: "mancano le informazioni".
+    # Nel pannello di sinistra la trama e' meta' della schermata: se e'
+    # vuota, sembra rotta.
+    from resources.lib import scoperte
+    for quale in ("documentari", "cucina", "youtube"):
+        vuote = [e for _, v in scoperte.scaffale(quale)
+                 for e, _, n, _ in v if not (n or "").strip()]
+        assert not vuote, "%s: senza descrizione %s" % (quale, vuote[:4])
+
+
+@prova("una saga cresciuta si allunga davvero, catena compresa")
+def _():
+    # Chiesto dall'utente: "se escono episodi nuovi la vede in automatico e
+    # me lo dice? e me la aggiunge?". Aggiungerli al conteggio non basta:
+    # se il segmento del percorso resta corto, gli episodi nuovi esistono
+    # ma non compaiono in nessuna catena, cioe' non si possono guardare.
+    prima_serie = catalogo.SERIE["bleach_tybw"]["episodi"]
+    prima_catena = len(catalogo.catena("m_bleach"))
+    cambiati = catalogo.applica_aggiunte({"bleach_tybw": prima_serie + 7})
+    try:
+        assert cambiati, "non ha applicato niente"
+        assert catalogo.SERIE["bleach_tybw"]["episodi"] == prima_serie + 7
+        assert len(catalogo.catena("m_bleach")) == prima_catena + 7,             "la catena non si e' allungata"
+    finally:
+        # rimetto com'era, se no le altre prove contano male
+        catalogo.SERIE["bleach_tybw"]["episodi"] = prima_serie
+        for pid, p in catalogo.PERCORSI.items():
+            for i, (s, a, b) in enumerate(p["segmenti"]):
+                if s == "bleach_tybw":
+                    p["segmenti"][i] = (s, a, prima_serie)
+        catalogo._cache_catene.clear()
+
+
+@prova("una fetta di serie NON si allunga (Ken 1-109 resta 1-109)")
+def _():
+    # Ken il guerriero e' spezzato in due serie che su TMDb sono una sola.
+    # Se una crescita allungasse anche i segmenti parziali, la prima meta'
+    # si mangerebbe la seconda.
+    prima = catalogo.SERIE["ken1"]["episodi"]
+    segmenti_prima = {pid: list(p["segmenti"])
+                      for pid, p in catalogo.PERCORSI.items()}
+    catalogo.applica_aggiunte({"ken1": prima + 5})
+    try:
+        for pid, p in catalogo.PERCORSI.items():
+            for (s, a, b), (s2, a2, b2) in zip(p["segmenti"], segmenti_prima[pid]):
+                if s == "ken1" and b2 != prima:
+                    assert b == b2, "%s: la fetta di ken1 e' stata allungata" % pid
+    finally:
+        catalogo.SERIE["ken1"]["episodi"] = prima
+        for pid, p in catalogo.PERCORSI.items():
+            p["segmenti"][:] = segmenti_prima[pid]
+        catalogo._cache_catene.clear()
+
+
+@prova("la sentinella guarda solo le serie che possono ancora crescere")
+def _():
+    from resources.lib import sentinella
+    anno = 2026
+    assert not sentinella._in_corso({"anni": "1986-1989"}, anno), "Dragon Ball non cresce piu'"
+    assert sentinella._in_corso({"anni": "2022-2026"}, anno), "Bleach TYBW e' in corso"
+    assert sentinella._in_corso({"anni": ""}, anno), "senza anni, nel dubbio si guarda"
+
+
+@prova("la sentinella toglie lo scostamento (il falso allarme di Bleach)")
+def _():
+    # Ha annunciato "Bleach TYBW da 50 a 416 episodi": falso, e' la stessa
+    # scheda TMDb di Bleach, spezzata in due. Senza sottrarre lo
+    # scostamento la seconda meta' sembra lunga quanto tutta la serie.
+    import io as _io, json as _json, os as _os
+    from resources.lib import sentinella
+    percorso = _os.path.join(ADDON, "resources", "tmdb.json")
+    ids = _json.load(_io.open(percorso, encoding="utf-8"))
+    assert isinstance(ids.get("bleach_tybw"), dict),         "tmdb.json non ha piu' la forma con lo scostamento"
+    assert ids["bleach_tybw"]["offset"] == 366, ids["bleach_tybw"]
+    assert ids["ken2"]["offset"] == 109, ids["ken2"]
+    # e le serie normali hanno scostamento zero
+    assert ids["demonslayer"]["offset"] == 0
+
+
+@prova("i consigli si leggono senza andare in rete, e dicono PERCHE'")
+def _():
+    # "uno script come quello di tiktok che analizza i miei comportamenti":
+    # un consiglio senza motivo e' pubblicita'. E disegnare la riga non deve
+    # mai aspettare la rete.
+    import time
+    from resources.lib import consigli
+    vero = consigli.calcola
+    consigli.calcola = lambda *a, **k: (time.sleep(3), [])[1]
+    try:
+        inizio = time.time()
+        voci = consigli.leggi()
+        quanto = time.time() - inizio
+    finally:
+        consigli.calcola = vero
+    assert quanto < 1.0, "leggere i consigli ha aspettato %.1f s" % quanto
+    for v in voci:
+        assert v.get("motivo"), "un consiglio senza il perche': %s" % v.get("titolo")
+
+
+@prova("una serie aggiunta da te finisce in un percorso e in un gruppo suo")
+def _():
+    # Aggiungerla al catalogo non basta: senza percorso resterebbe
+    # invisibile, lo stesso errore che una volta ha nascosto Jeeg.
+    prima_p, prima_s = len(catalogo.PERCORSI), len(catalogo.SERIE)
+    messe = catalogo.applica_serie_nuove(
+        {"tmdb_9999": {"titolo": "Prova consiglio", "anni": "2024-2025",
+                       "episodi": 24}})
+    try:
+        assert messe == ["tmdb_9999"], messe
+        assert "mia_tmdb_9999" in catalogo.PERCORSI
+        assert len(catalogo.catena("mia_tmdb_9999")) == 24
+        assert "mie" in catalogo.ORDINE_GRUPPI
+        assert "mia_tmdb_9999" in catalogo.GRUPPI["mie"]["percorsi"]
+    finally:
+        catalogo.SERIE.pop("tmdb_9999", None)
+        catalogo.PERCORSI.pop("mia_tmdb_9999", None)
+        if "mie" in catalogo.GRUPPI:
+            catalogo.GRUPPI["mie"]["percorsi"] = [
+                x for x in catalogo.GRUPPI["mie"]["percorsi"] if x != "mia_tmdb_9999"]
+            if not catalogo.GRUPPI["mie"]["percorsi"]:
+                catalogo.GRUPPI.pop("mie")
+                if "mie" in catalogo.ORDINE_GRUPPI:
+                    catalogo.ORDINE_GRUPPI.remove("mie")
+        catalogo._cache_catene.clear()
+    assert len(catalogo.PERCORSI) == prima_p and len(catalogo.SERIE) == prima_s
+
+
+@prova("i consigli non propongono roba che abbiamo gia'")
+def _():
+    # I primi consigli proponevano Naruto e Dragon Ball Z, che sono in
+    # catalogo da mesi: il confronto era fra le nostre chiavi ("naruto") e
+    # quelle di TMDb ("tmdb_31910"), due alfabeti diversi.
+    from resources.lib import consigli
+    gia = consigli._tmdb_gia_nostri(catalogo)
+    assert gia, "non riconosce nessuna serie come gia' nostra"
+    import io as _io, json as _json, os as _os
+    ids = _json.load(_io.open(_os.path.join(ADDON, "resources", "tmdb.json"),
+                              encoding="utf-8"))
+    for sid in ("naruto", "dbz", "one_piece"):
+        if sid in ids and sid in catalogo.SERIE:
+            conf = ids[sid]
+            tid = str(conf["id"] if isinstance(conf, dict) else conf)
+            assert tid in gia, "%s (%s) non e' riconosciuta come gia' nostra" % (sid, tid)
+
+
+@prova("i consigli scartano i titoli che in italiano non esistono")
+def _():
+    # TMDb, quando manca la traduzione, restituisce il titolo originale.
+    # Fra i primi consigli sono usciti due titoli in giapponese: proporre
+    # una cosa che non si potra' mai guardare in italiano e' peggio che
+    # non proporla.
+    from resources.lib import consigli
+    assert consigli._titolo_leggibile("Dragon Quest: L'avventura di Dai")
+    assert consigli._titolo_leggibile("Erased")
+    assert consigli._titolo_leggibile("Cowboy Bebop")
+    assert not consigli._titolo_leggibile("星の海のアムリ")
+    assert not consigli._titolo_leggibile("真夜中ぱんチ")
+    assert not consigli._titolo_leggibile("")
+    assert not consigli._titolo_leggibile("   ")
+
+
+@prova("Cerca non apre la tastiera di colpo: prima le ultime ricerche")
+def _():
+    # IL DIFETTO DEL 06/09/2026: la casella si presentava gia' piena con la
+    # ricerca di prima, e col telecomando il tasto Indietro CHIUDE la
+    # finestra invece di cancellare una lettera: non c'era modo di uscirne.
+    main.ricerche_recenti_svuota()
+    main.ricerche_recenti_aggiungi("dragon ball gt heroes")
+    finto_kodi.azzera()
+    main.menu_ricerca()
+    voci = [v for v in finto_kodi.VOCI if isinstance(v, dict)]
+    testo = " ".join(v["url"] for v in voci)
+    assert "nuova=1" in testo, "manca la voce 'Nuova ricerca'"
+    assert "dragon+ball+gt+heroes" in testo or "dragon%20ball%20gt%20heroes" in testo, \
+        "la ricerca di prima non e' fra quelle recenti"
+    assert "ricerche_svuota" in testo, "manca il modo di svuotare l'elenco"
+
+
+@prova("la tastiera della ricerca parte SEMPRE vuota")
+def _():
+    main.ricerche_recenti_aggiungi("qualcosa di vecchio")
+    finto_kodi.azzera()
+    finto_kodi.RISPOSTA_INPUT = ""      # l'utente annulla
+    main.menu_ricerca(nuova=True)
+    assert finto_kodi.ULTIMO_INPUT is not None, "non ha aperto la tastiera"
+    assert finto_kodi.ULTIMO_INPUT.get("defaultt", "") == "", \
+        "la casella parte con dentro %r" % finto_kodi.ULTIMO_INPUT.get("defaultt")
+
+
+# --------------------------------------------------------------------------
+# AL CINEMA ORA
+# --------------------------------------------------------------------------
+
+@prova("il cartellone si legge senza andare in rete")
+def _():
+    from resources.lib import cinema
+    import io as _io
+    import json as _json
+    # niente file: deve rispondere lista vuota, non esplodere
+    if os.path.exists(cinema.file_cinema()):
+        os.remove(cinema.file_cinema())
+    assert cinema.leggi() == [], "senza file dovrebbe dare lista vuota"
+    assert cinema.scaduto(), "senza file dovrebbe risultare scaduto"
+
+    with _io.open(cinema.file_cinema(), "w", encoding="utf-8") as f:
+        f.write(_json.dumps({"quando": time.time(), "film": [
+            {"tmdb": 1, "titolo": "Un film", "anno": "2026"}]}))
+    assert len(cinema.leggi()) == 1, "non rilegge quello che ha scritto"
+    assert not cinema.scaduto(), "appena scritto non puo' essere scaduto"
+
+
+@prova("se la rete e' giu' il cartellone di ieri NON si perde")
+def _():
+    from resources.lib import cinema
+    prima = cinema.leggi()
+    assert prima, "serve un cartellone di partenza"
+    vero = cinema._chiedi
+    cinema._chiedi = lambda url: {}          # rete morta
+    try:
+        assert cinema.aggiorna() == 0, "senza rete dovrebbe dire zero"
+    finally:
+        cinema._chiedi = vero
+    assert cinema.leggi() == prima,         "ha cancellato il cartellone invece di tenerlo"
+
+
+@prova("la voce Al cinema non compare se il cartellone e' vuoto")
+def _():
+    from resources.lib import cinema
+    if os.path.exists(cinema.file_cinema()):
+        os.remove(cinema.file_cinema())
+    finto_kodi.azzera()
+    main.menu_principale()
+    voci = [v.get("etichetta", "") for v in finto_kodi.VOCI]
+    assert not any("Al cinema" in v for v in voci),         "mostra la voce anche senza film: si aprirebbe su un elenco vuoto"
+
+
+@prova("col cartellone la voce compare, e dice quanti film")
+def _():
+    from resources.lib import cinema
+    import io as _io
+    import json as _json
+    with _io.open(cinema.file_cinema(), "w", encoding="utf-8") as f:
+        f.write(_json.dumps({"quando": time.time(), "film": [
+            {"tmdb": i, "titolo": "Film %d" % i, "anno": "2026"}
+            for i in range(7)]}))
+    finto_kodi.azzera()
+    main.menu_principale()
+    voci = [v.get("etichetta", "") for v in finto_kodi.VOCI]
+    trovata = [v for v in voci if "Al cinema" in v]
+    assert trovata, "la voce non c'e' nemmeno col cartellone pieno"
+    assert "7 film" in trovata[0],         "non dice quanti film: %r" % trovata[0]
 
 
 # --------------------------------------------------------------------------

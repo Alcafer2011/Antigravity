@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  LA VISTA "EPISODI": schede larghe, non locandine.
+
+  PERCHE' ESISTE, visto a schermo il 07/09/2026
+      Aprendo gli episodi di Dragon Ball con la vista a locandine si vedeva
+      un muro di CENTO IMMAGINI IDENTICHE: la locandina e' quella della
+      serie, uguale per tutti gli episodi. Bella e inutile - non si capiva
+      dove si era ne' cosa si stava per aprire.
+      Netflix, per gli episodi, non usa la locandina: usa il FOTOGRAMMA
+      dell'episodio, largo, col titolo sotto. Ed e' quello che serve, perche'
+      le nostre schede hanno gia' l'immagine di ogni singolo episodio
+      (campo "i", presa da TMDb).
+
+  QUINDI: due viste, non una.
+      56 = locandine verticali, per elenchi di SERIE, film, saghe.
+      57 = schede larghe 16:9, per elenchi di EPISODI.
+      Si assegnano una volta per sezione e Kodi le ricorda.
+
+  IL CURSORE, sempre in quattro modi: cornice ambra, piena luce contro le
+  altre smorzate, titolo sotto la sola scheda scelta, e la crescita.
+
+  I NUMERI
+      57    la griglia delle schede
+      5799  la barra di scorrimento
+-->
+<includes>
+    <include name="View_57_VideotecaEpisodi">
+
+        <control type="group">
+            <visible>Control.IsVisible(57)</visible>
+
+            <control type="image">
+                <left>0</left><top>0</top><width>1920</width><height>1080</height>
+                <aspectratio>scale</aspectratio>
+                <fadetime>500</fadetime>
+                <texture background="true">$INFO[Container(57).ListItem.Art(fanart)]</texture>
+            </control>
+            <control type="image">
+                <left>0</left><top>0</top><width>1920</width><height>1080</height>
+                <texture colordiffuse="B00B0B0B">bianco.png</texture>
+            </control>
+            <control type="image">
+                <left>0</left><top>0</top><width>820</width><height>1080</height>
+                <texture colordiffuse="F50B0B0B">sfumatura.png</texture>
+            </control>
+            <control type="image">
+                <left>0</left><top>0</top><width>1400</width><height>1080</height>
+                <texture colordiffuse="C00B0B0B">sfumatura.png</texture>
+            </control>
+
+            <!-- ================= IL PANNELLO A SINISTRA ================= -->
+            <control type="label">
+                <left>70</left><top>140</top><width>680</width><height>64</height>
+                <font>font40_title</font>
+                <textcolor>FFF3EDE3</textcolor>
+                <shadowcolor>FF000000</shadowcolor>
+                <label>$INFO[Container(57).ListItem.Label]</label>
+            </control>
+            <control type="label">
+                <left>70</left><top>210</top><width>680</width><height>32</height>
+                <font>font13</font>
+                <textcolor>FFE8A24A</textcolor>
+                <shadowcolor>FF000000</shadowcolor>
+                <label>$INFO[Container(57).ListItem.Label2]</label>
+            </control>
+            <control type="textbox">
+                <left>70</left><top>258</top><width>660</width><height>580</height>
+                <font>font13</font>
+                <textcolor>FFC6BCAF</textcolor>
+                <shadowcolor>FF000000</shadowcolor>
+                <label>$INFO[Container(57).ListItem.Plot]</label>
+            </control>
+            <control type="label">
+                <left>70</left><top>860</top><width>680</width><height>30</height>
+                <font>font12</font>
+                <textcolor>FF8C8175</textcolor>
+                <label>$INFO[Container(57).CurrentItem] di $INFO[Container(57).NumItems]</label>
+            </control>
+
+            <!-- ================= LE SCHEDE A DESTRA ================= -->
+            <control type="panel" id="57">
+                <left>810</left><top>80</top><width>1080</width><height>920</height>
+                <onleft>9000</onleft>
+                <onright>5799</onright>
+                <onup>57</onup>
+                <ondown>57</ondown>
+                <scrolltime tween="cubic" easing="out">400</scrolltime>
+                <preloaditems>2</preloaditems>
+                <pagecontrol>5799</pagecontrol>
+                <viewtype label="Episodi">wide</viewtype>
+
+                <itemlayout width="352" height="248">
+                    <control type="image">
+                        <left>12</left><top>8</top><width>328</width><height>185</height>
+                        <aspectratio>scale</aspectratio>
+                        <texture background="true" colordiffuse="80FFFFFF"
+                                 fallback="DefaultVideo.png">$INFO[ListItem.Art(thumb)]</texture>
+                    </control>
+                    <control type="label">
+                        <left>12</left><top>198</top><width>328</width><height>26</height>
+                        <font>font12</font>
+                        <textcolor>FF8C8175</textcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+                </itemlayout>
+
+                <focusedlayout width="352" height="248">
+                    <control type="group">
+                        <animation type="Focus">
+                            <effect type="zoom" start="100" end="107" time="220"
+                                    tween="sine" easing="inout" center="176,110" />
+                        </animation>
+                        <animation type="Unfocus">
+                            <effect type="zoom" start="107" end="100" time="220"
+                                    tween="sine" easing="inout" center="176,110" />
+                        </animation>
+                        <control type="image">
+                            <left>6</left><top>2</top><width>340</width><height>197</height>
+                            <texture colordiffuse="FFE8A24A">bianco.png</texture>
+                        </control>
+                        <control type="image">
+                            <left>12</left><top>8</top><width>328</width><height>185</height>
+                            <aspectratio>scale</aspectratio>
+                            <texture background="true"
+                                     fallback="DefaultVideo.png">$INFO[ListItem.Art(thumb)]</texture>
+                        </control>
+                        <control type="label">
+                            <left>12</left><top>198</top><width>328</width><height>28</height>
+                            <font>font12</font>
+                            <textcolor>FFE8A24A</textcolor>
+                            <shadowcolor>FF000000</shadowcolor>
+                            <label>$INFO[ListItem.Label]</label>
+                        </control>
+                    </control>
+                </focusedlayout>
+            </control>
+
+            <control type="scrollbar" id="5799">
+                <left>1896</left><top>80</top><width>10</width><height>920</height>
+                <onleft>57</onleft>
+                <onright>57</onright>
+                <orientation>vertical</orientation>
+                <showonepage>false</showonepage>
+                <texturesliderbackground colordiffuse="330B0B0B">bianco.png</texturesliderbackground>
+                <texturesliderbar colordiffuse="FFE8A24A">bianco.png</texturesliderbar>
+                <texturesliderbarfocus colordiffuse="FFE8A24A">bianco.png</texturesliderbarfocus>
+            </control>
+
+        </control>
+    </include>
+</includes>

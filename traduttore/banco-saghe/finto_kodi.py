@@ -22,6 +22,10 @@ VOCI = []
 CONTENUTO = []
 CATEGORIA = []
 
+# Come e' stata aperta l'ultima tastiera, e cosa deve rispondere.
+ULTIMO_INPUT = None
+RISPOSTA_INPUT = ""
+
 
 class ListItem(object):
     def __init__(self, label="", label2="", path=""):
@@ -90,6 +94,18 @@ class Dialog(object):
 
     def textviewer(self, *a, **k):
         VOCI.append(("testo", a[0] if a else "", ""))
+
+    def input(self, *a, **k):
+        """La tastiera. Registra COME e' stata aperta.
+
+        Serve a provare che la casella parte vuota: era il difetto del
+        06/09/2026, la casella arrivava gia' piena con la ricerca di prima e
+        col telecomando non si riusciva a svuotarla.
+        """
+        global ULTIMO_INPUT
+        ULTIMO_INPUT = {"heading": a[0] if a else "",
+                        "defaultt": k.get("defaultt", a[1] if len(a) > 1 else "")}
+        return RISPOSTA_INPUT
 
 
 class DialogProgress(object):
@@ -226,7 +242,11 @@ def installa(cartella_addon, impostazioni=None, profilo=None):
     xbmcgui.WindowXML = WindowXML
     xbmcgui.WindowXMLDialog = WindowXML
     for n, v in (("NOTIFICATION_INFO", 0), ("NOTIFICATION_WARNING", 1),
-                 ("NOTIFICATION_ERROR", 2)):
+                 ("NOTIFICATION_ERROR", 2),
+                 ("INPUT_ALPHANUM", 0), ("INPUT_NUMERIC", 1),
+                 ("INPUT_DATE", 2), ("INPUT_TIME", 3),
+                 ("INPUT_IPADDRESS", 4), ("INPUT_PASSWORD", 5),
+                 ("DLG_YESNO_YES_BTN", 11), ("DLG_YESNO_NO_BTN", 10)):
         setattr(xbmcgui, n, v)
     sys.modules["xbmcgui"] = xbmcgui
 
@@ -349,6 +369,8 @@ def installa_finto_s4me():
 
 
 def azzera():
+    global ULTIMO_INPUT
+    ULTIMO_INPUT = None
     del VOCI[:]
     del CONTENUTO[:]
     del CATEGORIA[:]

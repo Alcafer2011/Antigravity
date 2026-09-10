@@ -1,0 +1,2091 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  LA HOME IN STILE NETFLIX.
+
+  *** FILE GENERATO DA traduttore/fai-home.py - NON MODIFICARLO A MANO ***
+  Si cambia la tabella RIGHE dentro fai-home.py e si rilancia lo script.
+  Ogni riga porta con se', per forza, quattro cose: lo sfondo, la terna di
+  etichette della testata, la lista, e gli anelli su/giu'. Scritte a mano si
+  sono rotte tutte e quattro almeno una volta, sempre senza dare errore.
+
+  DA DOVE VENGONO LE LOCANDINE
+      Non dalla libreria di Kodi, che qui e' vuota: da indirizzi plugin://
+      del nostro add-on (`azione=widget`). La skin non sa niente di saghe:
+      chiede, e l'add-on risponde.
+
+  UNA RIGA PER GRUPPO (10/09/2026, scelta dell'utente)
+      Documentari e Cucina erano UNA striscia sola - 143 tessere i primi -
+      con dentro delle tessere scure a fare da separatore. "Fast N' Loud"
+      stava verso la centesima: c'era, ma non ci arrivava nessuno. Adesso
+      ogni gruppo e' una riga col suo titolo scritto sopra.
+-->
+<window>
+    <!-- IL FUOCO PARTE DA "LE TUE SAGHE", NON DA "CONTINUA A GUARDARE".
+         Provato il 07/09/2026 chiedendo a Kodi `System.CurrentControlId`: a
+         scatola nuova la riga "continua" e' VUOTA, ma il fuoco ci restava
+         sopra lo stesso e la testata restava tutta bianca. -->
+    <defaultcontrol always="true">5016</defaultcontrol>
+    <backgroundcolor>FF0B0B0B</backgroundcolor>
+
+    <!-- NON RIMETTERE <onload>Container(<id>).Refresh</onload>.
+         Aggiunto il 10/09/2026 per ricaricare le righe tornando alla home,
+         non ha MAI funzionato: `Container(id).Refresh` non e' un'azione di
+         Kodi. Quella forma esiste solo per le INFORMAZIONI
+         (Container(5010).NumItems), non per i comandi. Kodi la rifiutava a
+         ogni avvio, una riga per riga, e a schermo non si vedeva niente:
+             Keymapping error: no such action 'container(5010).refresh'
+         Non serve nemmeno: widget() chiude con cacheToDisc=False. -->
+
+    <controls>
+
+
+        <!-- ============ LO SFONDO: una immagine per riga.
+             Generato da fai-home.py: una per ogni riga, senza
+             saltarne nessuna. -->
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5010)</visible>
+            <texture background="true">$INFO[Container(5010).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5011)</visible>
+            <texture background="true">$INFO[Container(5011).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5012)</visible>
+            <texture background="true">$INFO[Container(5012).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5013)</visible>
+            <texture background="true">$INFO[Container(5013).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5014)</visible>
+            <texture background="true">$INFO[Container(5014).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5015)</visible>
+            <texture background="true">$INFO[Container(5015).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5016)</visible>
+            <texture background="true">$INFO[Container(5016).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5017)</visible>
+            <texture background="true">$INFO[Container(5017).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5018)</visible>
+            <texture background="true">$INFO[Container(5018).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5019)</visible>
+            <texture background="true">$INFO[Container(5019).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5020)</visible>
+            <texture background="true">$INFO[Container(5020).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5021)</visible>
+            <texture background="true">$INFO[Container(5021).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5022)</visible>
+            <texture background="true">$INFO[Container(5022).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5023)</visible>
+            <texture background="true">$INFO[Container(5023).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5024)</visible>
+            <texture background="true">$INFO[Container(5024).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5025)</visible>
+            <texture background="true">$INFO[Container(5025).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5026)</visible>
+            <texture background="true">$INFO[Container(5026).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5027)</visible>
+            <texture background="true">$INFO[Container(5027).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5028)</visible>
+            <texture background="true">$INFO[Container(5028).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5029)</visible>
+            <texture background="true">$INFO[Container(5029).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5030)</visible>
+            <texture background="true">$INFO[Container(5030).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5031)</visible>
+            <texture background="true">$INFO[Container(5031).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5032)</visible>
+            <texture background="true">$INFO[Container(5032).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5033)</visible>
+            <texture background="true">$INFO[Container(5033).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5034)</visible>
+            <texture background="true">$INFO[Container(5034).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5035)</visible>
+            <texture background="true">$INFO[Container(5035).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5036)</visible>
+            <texture background="true">$INFO[Container(5036).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5037)</visible>
+            <texture background="true">$INFO[Container(5037).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5038)</visible>
+            <texture background="true">$INFO[Container(5038).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5039)</visible>
+            <texture background="true">$INFO[Container(5039).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5040)</visible>
+            <texture background="true">$INFO[Container(5040).ListItem.Art(fanart)]</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>500</fadetime>
+            <visible>Control.HasFocus(5041)</visible>
+            <texture background="true">$INFO[Container(5041).ListItem.Art(fanart)]</texture>
+        </control>
+
+        <!-- Le velature. Senza, il testo bianco su una fanart
+             chiara non si legge: e' gia' successo con la Vetrina. -->
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
+            <texture colordiffuse="B00B0B0B">bianco.png</texture>
+        </control>
+        <!-- La velatura da SINISTRA. Era un rettangolo largo 1200 e
+             si vedeva lo stacco netto a meta' schermo. -->
+        <control type="image">
+            <left>0</left><top>0</top><width>1400</width><height>1080</height>
+            <texture colordiffuse="F00B0B0B">sfumatura.png</texture>
+        </control>
+        <!-- IL PASSAGGIO VERSO LE RIGHE: sfumato, non tagliato. -->
+        <control type="image">
+            <left>0</left><top>360</top><width>1920</width><height>240</height>
+            <texture>velo-righe.png</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>600</top><width>1920</width><height>480</height>
+            <texture colordiffuse="E60B0B0B">bianco.png</texture>
+        </control>
+
+        <!-- ============ LA BARRA IN ALTO -->
+        <control type="group" id="5001">
+            <left>0</left><top>0</top>
+
+            <control type="label">
+                <left>80</left><top>34</top><width>900</width><height>40</height>
+                <font>font30_title</font>
+                <textcolor>FFE8A24A</textcolor>
+                <label>LA VIDEOTECA DI ALESSANDRO</label>
+            </control>
+
+            <control type="label">
+                <left>1500</left><top>88</top><width>340</width><height>36</height>
+                <font>font13</font>
+                <align>right</align>
+                <textcolor>FF8C8175</textcolor>
+                <label>$INFO[System.Time]</label>
+            </control>
+        </control>
+
+
+        <!-- ============ LA BARRA PER USCIRE DALLA VIDEOTECA
+             Senza questa, dalla schermata iniziale non si arrivava piu' ne'
+             alle impostazioni di Kodi, ne' agli altri add-on, ne' al menu
+             completo di s4me: una porta che si apre da un lato solo.
+             Ci si arriva premendo Su dalla prima riga di locandine. -->
+        <control type="grouplist" id="6000">
+            <left>860</left><top>26</top><width>1040</width><height>50</height>
+            <orientation>horizontal</orientation>
+            <itemgap>8</itemgap>
+            <align>right</align>
+            <control type="button" id="6001">
+                <width>200</width><height>46</height>
+                <font>font13</font>
+                <label>Cerca</label>
+                <align>center</align>
+                <textcolor>FFC6BCAF</textcolor>
+                <focusedcolor>FF120E0B</focusedcolor>
+                <texturefocus colordiffuse="FFE8A24A" border="2">bianco.png</texturefocus>
+                <texturenofocus colordiffuse="330B0B0B" border="2">bianco.png</texturenofocus>
+                <onleft>6005</onleft><onright>6002</onright>
+                <onup>5010</onup><ondown>5010</ondown>
+                <onclick>ActivateWindow(Videos,"plugin://plugin.video.saghe/?azione=cerca",return)</onclick>
+            </control>
+            <control type="button" id="6002">
+                <width>200</width><height>46</height>
+                <font>font13</font>
+                <label>s4me</label>
+                <align>center</align>
+                <textcolor>FFC6BCAF</textcolor>
+                <focusedcolor>FF120E0B</focusedcolor>
+                <texturefocus colordiffuse="FFE8A24A" border="2">bianco.png</texturefocus>
+                <texturenofocus colordiffuse="330B0B0B" border="2">bianco.png</texturenofocus>
+                <onleft>6001</onleft><onright>6003</onright>
+                <onup>5010</onup><ondown>5010</ondown>
+                <onclick>ActivateWindow(Videos,"plugin://plugin.video.s4me/",return)</onclick>
+            </control>
+            <control type="button" id="6003">
+                <width>200</width><height>46</height>
+                <font>font13</font>
+                <label>Add-on</label>
+                <align>center</align>
+                <textcolor>FFC6BCAF</textcolor>
+                <focusedcolor>FF120E0B</focusedcolor>
+                <texturefocus colordiffuse="FFE8A24A" border="2">bianco.png</texturefocus>
+                <texturenofocus colordiffuse="330B0B0B" border="2">bianco.png</texturenofocus>
+                <onleft>6002</onleft><onright>6004</onright>
+                <onup>5010</onup><ondown>5010</ondown>
+                <onclick>ActivateWindow(Addons)</onclick>
+            </control>
+            <control type="button" id="6004">
+                <width>200</width><height>46</height>
+                <font>font13</font>
+                <label>Impostazioni</label>
+                <align>center</align>
+                <textcolor>FFC6BCAF</textcolor>
+                <focusedcolor>FF120E0B</focusedcolor>
+                <texturefocus colordiffuse="FFE8A24A" border="2">bianco.png</texturefocus>
+                <texturenofocus colordiffuse="330B0B0B" border="2">bianco.png</texturenofocus>
+                <onleft>6003</onleft><onright>6005</onright>
+                <onup>5010</onup><ondown>5010</ondown>
+                <onclick>ActivateWindow(Settings)</onclick>
+            </control>
+            <control type="button" id="6005">
+                <width>200</width><height>46</height>
+                <font>font13</font>
+                <label>Spegni</label>
+                <align>center</align>
+                <textcolor>FFC6BCAF</textcolor>
+                <focusedcolor>FF120E0B</focusedcolor>
+                <texturefocus colordiffuse="FFE8A24A" border="2">bianco.png</texturefocus>
+                <texturenofocus colordiffuse="330B0B0B" border="2">bianco.png</texturenofocus>
+                <onleft>6004</onleft><onright>6001</onright>
+                <onup>5010</onup><ondown>5010</ondown>
+                <onclick>ActivateWindow(shutdownmenu)</onclick>
+            </control>
+        </control>
+
+        <!-- ============ IL TITOLONE E LA TRAMA
+             Una terna per riga. Generata: non se ne puo'
+             dimenticare una. -->
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5010)</visible>
+            <label>$INFO[Container(5010).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5010)</visible>
+            <label>$INFO[Container(5010).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5010)</visible>
+            <label>$INFO[Container(5010).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5011)</visible>
+            <label>$INFO[Container(5011).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5011)</visible>
+            <label>$INFO[Container(5011).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5011)</visible>
+            <label>$INFO[Container(5011).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5012)</visible>
+            <label>$INFO[Container(5012).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5012)</visible>
+            <label>$INFO[Container(5012).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5012)</visible>
+            <label>$INFO[Container(5012).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5013)</visible>
+            <label>$INFO[Container(5013).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5013)</visible>
+            <label>$INFO[Container(5013).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5013)</visible>
+            <label>$INFO[Container(5013).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5014)</visible>
+            <label>$INFO[Container(5014).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5014)</visible>
+            <label>$INFO[Container(5014).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5014)</visible>
+            <label>$INFO[Container(5014).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5015)</visible>
+            <label>$INFO[Container(5015).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5015)</visible>
+            <label>$INFO[Container(5015).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5015)</visible>
+            <label>$INFO[Container(5015).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5016)</visible>
+            <label>$INFO[Container(5016).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5016)</visible>
+            <label>$INFO[Container(5016).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5016)</visible>
+            <label>$INFO[Container(5016).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5017)</visible>
+            <label>$INFO[Container(5017).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5017)</visible>
+            <label>$INFO[Container(5017).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5017)</visible>
+            <label>$INFO[Container(5017).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5018)</visible>
+            <label>$INFO[Container(5018).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5018)</visible>
+            <label>$INFO[Container(5018).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5018)</visible>
+            <label>$INFO[Container(5018).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5019)</visible>
+            <label>$INFO[Container(5019).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5019)</visible>
+            <label>$INFO[Container(5019).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5019)</visible>
+            <label>$INFO[Container(5019).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5020)</visible>
+            <label>$INFO[Container(5020).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5020)</visible>
+            <label>$INFO[Container(5020).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5020)</visible>
+            <label>$INFO[Container(5020).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5021)</visible>
+            <label>$INFO[Container(5021).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5021)</visible>
+            <label>$INFO[Container(5021).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5021)</visible>
+            <label>$INFO[Container(5021).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5022)</visible>
+            <label>$INFO[Container(5022).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5022)</visible>
+            <label>$INFO[Container(5022).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5022)</visible>
+            <label>$INFO[Container(5022).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5023)</visible>
+            <label>$INFO[Container(5023).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5023)</visible>
+            <label>$INFO[Container(5023).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5023)</visible>
+            <label>$INFO[Container(5023).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5024)</visible>
+            <label>$INFO[Container(5024).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5024)</visible>
+            <label>$INFO[Container(5024).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5024)</visible>
+            <label>$INFO[Container(5024).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5025)</visible>
+            <label>$INFO[Container(5025).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5025)</visible>
+            <label>$INFO[Container(5025).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5025)</visible>
+            <label>$INFO[Container(5025).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5026)</visible>
+            <label>$INFO[Container(5026).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5026)</visible>
+            <label>$INFO[Container(5026).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5026)</visible>
+            <label>$INFO[Container(5026).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5027)</visible>
+            <label>$INFO[Container(5027).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5027)</visible>
+            <label>$INFO[Container(5027).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5027)</visible>
+            <label>$INFO[Container(5027).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5028)</visible>
+            <label>$INFO[Container(5028).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5028)</visible>
+            <label>$INFO[Container(5028).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5028)</visible>
+            <label>$INFO[Container(5028).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5029)</visible>
+            <label>$INFO[Container(5029).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5029)</visible>
+            <label>$INFO[Container(5029).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5029)</visible>
+            <label>$INFO[Container(5029).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5030)</visible>
+            <label>$INFO[Container(5030).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5030)</visible>
+            <label>$INFO[Container(5030).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5030)</visible>
+            <label>$INFO[Container(5030).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5031)</visible>
+            <label>$INFO[Container(5031).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5031)</visible>
+            <label>$INFO[Container(5031).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5031)</visible>
+            <label>$INFO[Container(5031).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5032)</visible>
+            <label>$INFO[Container(5032).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5032)</visible>
+            <label>$INFO[Container(5032).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5032)</visible>
+            <label>$INFO[Container(5032).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5033)</visible>
+            <label>$INFO[Container(5033).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5033)</visible>
+            <label>$INFO[Container(5033).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5033)</visible>
+            <label>$INFO[Container(5033).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5034)</visible>
+            <label>$INFO[Container(5034).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5034)</visible>
+            <label>$INFO[Container(5034).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5034)</visible>
+            <label>$INFO[Container(5034).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5035)</visible>
+            <label>$INFO[Container(5035).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5035)</visible>
+            <label>$INFO[Container(5035).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5035)</visible>
+            <label>$INFO[Container(5035).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5036)</visible>
+            <label>$INFO[Container(5036).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5036)</visible>
+            <label>$INFO[Container(5036).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5036)</visible>
+            <label>$INFO[Container(5036).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5037)</visible>
+            <label>$INFO[Container(5037).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5037)</visible>
+            <label>$INFO[Container(5037).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5037)</visible>
+            <label>$INFO[Container(5037).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5038)</visible>
+            <label>$INFO[Container(5038).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5038)</visible>
+            <label>$INFO[Container(5038).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5038)</visible>
+            <label>$INFO[Container(5038).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5039)</visible>
+            <label>$INFO[Container(5039).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5039)</visible>
+            <label>$INFO[Container(5039).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5039)</visible>
+            <label>$INFO[Container(5039).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5040)</visible>
+            <label>$INFO[Container(5040).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5040)</visible>
+            <label>$INFO[Container(5040).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5040)</visible>
+            <label>$INFO[Container(5040).ListItem.Plot]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>150</top><width>1200</width><height>96</height>
+            <font>font45_title</font><textcolor>FFF3EDE3</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5041)</visible>
+            <label>$INFO[Container(5041).ListItem.Label]</label>
+        </control>
+        <control type="label">
+            <left>80</left><top>252</top><width>1200</width><height>36</height>
+            <font>font13</font><textcolor>FFE8A24A</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5041)</visible>
+            <label>$INFO[Container(5041).ListItem.Label2]</label>
+        </control>
+        <control type="textbox">
+            <left>80</left><top>300</top><width>1040</width><height>210</height>
+            <font>font13</font><textcolor>FFC6BCAF</textcolor>
+            <shadowcolor>FF000000</shadowcolor>
+            <visible>Control.HasFocus(5041)</visible>
+            <label>$INFO[Container(5041).ListItem.Plot]</label>
+        </control>
+
+        <!-- ============ LE RIGHE, dentro un gruppo che scorre in su
+             Un grouplist verticale scorre DA SOLO per tenere in
+             vista la riga scelta, e ritaglia quello che esce: e'
+             quello che usa Estuary per la sua home. Il primo
+             tentativo (un gruppo con le animazioni) non si mosse di
+             un punto e le righe finivano sopra la scritta in fondo.
+
+             GLI ANELLI onup/ondown SONO CALCOLATI. Scritti a mano,
+             il 07/09 ne mancavano due e quelle righe non le
+             raggiungeva nessun tasto.
+
+             ALTEZZA = 3 RIGHE ESATTE (3 x 214 = 642). Con un'altezza
+             qualunque il grouplist si fermava a META' RIGA e il
+             titolo di quella in cima si vedeva tagliato per lungo:
+             sembrava un errore di disegno. Un multiplo esatto fa
+             scorrere sempre righe intere. -->
+        <control type="grouplist" id="5000">
+            <left>0</left><top>600</top><width>1920</width><height>428</height>
+            <orientation>vertical</orientation>
+            <itemgap>0</itemgap>
+            <usecontrolcoords>false</usecontrolcoords>
+            <scrolltime tween="cubic" easing="out">500</scrolltime>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5010">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>6001</onup><ondown>5011</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=continua</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>CONTINUA A GUARDARE</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5011">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5010</onup><ondown>5012</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=lista</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>LA MIA LISTA</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5012">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5011</onup><ondown>5013</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=consigli</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>CONSIGLIATI PER TE</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5013">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5012</onup><ondown>5014</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=netflix:serietv</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>SU NETFLIX ORA - SERIE TV</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5014">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5013</onup><ondown>5015</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=netflix:film</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>SU NETFLIX ORA - FILM</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5015">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5014</onup><ondown>5016</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=netflix:anime</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>SU NETFLIX ORA - ANIME</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5016">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5015</onup><ondown>5017</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=saghe</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>LE TUE SAGHE</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5017">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5016</onup><ondown>5018</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=novita</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>NOVITA' DAI TUOI SITI</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5018">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5017</onup><ondown>5019</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=tv</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>TV IN DIRETTA</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5019">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5018</onup><ondown>5020</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=documentari:0</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>DOCUMENTARI - A CATALOGO</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5020">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5019</onup><ondown>5021</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=documentari:1</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>DOCUMENTARI - NATURA E ANIMALI</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5021">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5020</onup><ondown>5022</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=documentari:2</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>DOCUMENTARI - SPAZIO E SCIENZA</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5022">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5021</onup><ondown>5023</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=documentari:3</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>DOCUMENTARI - PREISTORIA E ARCHEOLOGIA</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5023">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5022</onup><ondown>5024</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=documentari:4</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>DOCUMENTARI - STORIA</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5024">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5023</onup><ondown>5025</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=documentari:5</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>DOCUMENTARI - I PROGRAMMI DI DISCOVERY E SKY</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5025">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5024</onup><ondown>5026</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=documentari:6</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>DOCUMENTARI - MOTORI, GARAGE E RESTAURI</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5026">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5025</onup><ondown>5027</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=documentari:7</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>DOCUMENTARI - MOTORI E INGEGNERIA</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5027">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5026</onup><ondown>5028</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=documentari:8</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>DOCUMENTARI - DISASTRI E MISTERI</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5028">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5027</onup><ondown>5029</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=documentari:9</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>DOCUMENTARI - CRONACA E CRIMINE</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5029">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5028</onup><ondown>5030</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=documentari:10</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>DOCUMENTARI - SOCIETA', ARTE E VIAGGI</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5030">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5029</onup><ondown>5031</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=documentari:11</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>DOCUMENTARI - IN DIRETTA</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5031">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5030</onup><ondown>5032</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=cucina:0</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>CUCINA - A CATALOGO</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5032">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5031</onup><ondown>5033</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=cucina:1</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>CUCINA - I PROGRAMMI</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5033">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5032</onup><ondown>5034</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=cucina:2</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>CUCINA - GLI CHEF</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5034">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5033</onup><ondown>5035</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=cucina:3</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>CUCINA - IMPARARE A CUCINARE</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5035">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5034</onup><ondown>5036</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=cucina:4</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>CUCINA - CUCINE DEL MONDO</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5036">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5035</onup><ondown>5037</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=cucina:5</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>CUCINA - PARTICOLARI</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5037">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5036</onup><ondown>5038</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=cucina:6</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>CUCINA - IN DIRETTA</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5038">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5037</onup><ondown>5039</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=youtube:0</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>YOUTUBE - I CANALI CHE SEGUI</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5039">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5038</onup><ondown>5040</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=film</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>I FILM DELLE SAGHE</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5040">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5039</onup><ondown>5041</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=cinema</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>AL CINEMA ORA</label>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>0</left><top>0</top><width>1920</width><height>214</height>
+                <control type="list" id="5041">
+                    <left>80</left><top>40</top><width>1790</width><height>174</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">400</scrolltime>
+                    <preloaditems>2</preloaditems>
+                    <onup>5040</onup><ondown>5010</ondown>
+                    <onleft>noop</onleft><onright>noop</onright>
+                    <!-- Le voci che non sono cartelle (aggiungi un
+                         titolo da Netflix o dai consigli) si
+                         ESEGUONO; mandarle al riproduttore darebbe
+                         "errore di riproduzione". Le cartelle le
+                         apre il target="videos" del content. -->
+                    <onclick condition="!ListItem.IsFolder">RunPlugin($INFO[ListItem.FileNameAndPath])</onclick>
+                    <itemlayout width="300" height="174">
+                        <include>VideotecaLocandina</include>
+                    </itemlayout>
+                    <focusedlayout width="300" height="174">
+                        <include>VideotecaLocandinaScelta</include>
+                    </focusedlayout>
+                    <content target="videos">plugin://plugin.video.saghe/?azione=widget&amp;che=serietv</content>
+                </control>
+                <control type="label">
+                    <left>80</left><top>0</top><width>1200</width><height>28</height>
+                    <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                    <shadowcolor>FF000000</shadowcolor>
+                    <label>SERIE TV</label>
+                </control>
+            </control>
+        </control>
+
+        <!-- ============ LA RIGA DEI TASTI, sempre in fondo -->
+        <control type="label">
+            <left>80</left><top>1034</top><width>1760</width><height>28</height>
+            <font>font12</font>
+            <textcolor>FF8C8175</textcolor>
+            <label>Frecce per spostarti  -  OK per aprire  -  SU in cima per s4me, add-on, impostazioni e spegnimento</label>
+        </control>
+
+    </controls>
+</window>

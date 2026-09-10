@@ -32,7 +32,37 @@ import zipfile
 UTENTE = "Alcafer2011"
 REPO = "kodi-s4me-addon-personale"
 RAMO = "main"
-RAW = "https://raw.githubusercontent.com/%s/%s/%s" % (UTENTE, REPO, RAMO)
+RAW_NUDO = "https://raw.githubusercontent.com/%s/%s/%s" % (UTENTE, REPO, RAMO)
+
+# IL TOKEN, E PERCHE' STA QUI DENTRO
+# Il repository su GitHub e' PRIVATO. raw.githubusercontent risponde 404 a
+# chi non e' autenticato, e Kodi un 404 non lo racconta a nessuno: gli
+# aggiornamenti semplicemente non arrivano mai, in silenzio.
+# Il 10/09/2026 questo script ha rigenerato `repository.videoteca/addon.xml`
+# SENZA token, cancellando quello buono: lo rimetteva uno script a parte che
+# poi e' sparito. Un pezzo indispensabile non puo' stare in uno script che
+# ci si deve ricordare di lanciare - sta qui, e se il token manca lo script
+# si FERMA invece di pubblicare un repository che non funziona.
+FILE_TOKEN = os.path.join(os.path.expanduser("~"), ".videoteca-repo-token")
+
+
+def _raw():
+    try:
+        with open(FILE_TOKEN, encoding="utf-8") as f:
+            tok = f.read().strip()
+    except Exception:
+        tok = ""
+    if not tok:
+        raise SystemExit(
+            "MANCA IL TOKEN (%s).\n"
+            "Il repository e' privato: senza token gli indirizzi danno 404 e\n"
+            "Kodi non aggiorna niente, senza dirlo. Rimetti il file e rilancia."
+            % FILE_TOKEN)
+    return "https://%s:%s@raw.githubusercontent.com/%s/%s/%s" % (
+        UTENTE, tok, UTENTE, REPO, RAMO)
+
+
+RAW = RAW_NUDO
 
 # Da dove prendere gli addon gia' testati (il Kodi del PC).
 KODI_ADDONS = os.path.expandvars(r"%APPDATA%\Kodi\addons")
@@ -41,7 +71,7 @@ DA_IMPACCHETTARE = ["plugin.video.saghe", "skin.saghe"]
 REPO_ADDON_ID = "repository.videoteca"
 REPO_ADDON_VER = "1.0.0"
 
-ESCLUDI = re.compile(r"(__pycache__|\.pyc$|\.pyo$|\.git|\.bak-|\.DS_Store)")
+ESCLUDI = re.compile(r"\.zip$|(__pycache__|\.pyc$|\.pyo$|\.git|\.bak-|\.DS_Store)")
 
 
 def versione(cartella_addon):
@@ -58,8 +88,22 @@ def blocco_addon_xml(cartella_addon):
 
 
 def zippa(cartella_addon, dentro_zip_root, dest_zip):
+    """Impacchetta un add-on come lo vuole Kodi: UNA cartella col suo nome,
+    e dentro `addon.xml`.
+
+    IL GUASTO (trovato il 10/09/2026, e c'era da sempre).
+    La base era `os.path.dirname(cartella_addon)`, cioe' la cartella che
+    CONTIENE l'add-on. Cosi' `relpath` tornava gia' "plugin.video.saghe/..."
+    e, unito a `dentro_zip_root`, veniva fuori
+        plugin.video.saghe/plugin.video.saghe/addon.xml
+    Kodi cerca `addon.xml` un livello piu' su, non lo trova, e l'installazione
+    fallisce. Siccome tutti gli zip pubblicati sono stati fatti da qui,
+    **il repository non ha mai potuto installare niente** - e nessuno se n'era
+    accorto perche' gli apparecchi li avevo sempre aggiornati copiando i file
+    a mano.
+    La base giusta e' la cartella dell'add-on stessa.
+    """
     os.makedirs(os.path.dirname(dest_zip), exist_ok=True)
-    base = os.path.dirname(cartella_addon)
     with zipfile.ZipFile(dest_zip, "w", zipfile.ZIP_DEFLATED) as z:
         for radice, _dirs, files in os.walk(cartella_addon):
             if ESCLUDI.search(radice):
@@ -69,8 +113,18 @@ def zippa(cartella_addon, dentro_zip_root, dest_zip):
                 if ESCLUDI.search(p):
                     continue
                 arc = os.path.join(dentro_zip_root,
-                                   os.path.relpath(p, base))
-                z.write(p, arc)
+                                   os.path.relpath(p, cartella_addon))
+                z.write(p, arc.replace("\\", "/"))
+
+    # SI CONTROLLA, non si spera: un pacchetto sbagliato non da' nessun
+    # segno finche' qualcuno non prova a installarlo.
+    atteso = dentro_zip_root + "/addon.xml"
+    with zipfile.ZipFile(dest_zip) as z:
+        if atteso not in z.namelist():
+            raise SystemExit(
+                "PACCHETTO SBAGLIATO: dentro %s non c'e' %s.\n"
+                "Kodi cerca addon.xml esattamente li' e senza non installa."
+                % (os.path.basename(dest_zip), atteso))
 
 
 def crea_repository_addon(dst):
@@ -94,7 +148,7 @@ def crea_repository_addon(dst):
     <platform>all</platform>
   </extension>
 </addon>
-""".format(id=REPO_ADDON_ID, ver=REPO_ADDON_VER, raw=RAW)
+""".format(id=REPO_ADDON_ID, ver=REPO_ADDON_VER, raw=_raw())
     open(os.path.join(d, "addon.xml"), "w", encoding="utf-8").write(xml)
     return d
 

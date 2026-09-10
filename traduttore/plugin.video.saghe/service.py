@@ -360,6 +360,27 @@ def principale():
     except Exception as e:
         xbmc.log("[Le Saghe] consigli non calcolati: %s" % e, xbmc.LOGWARNING)
 
+    # LA RIGA "SU NETFLIX ORA": la cache la riempie QUI, in un filo a parte.
+    # La riga della home legge solo il file (netflix.riga()) e non aspetta
+    # mai la rete: sono 29 righe che partono insieme all'apertura della
+    # schermata iniziale, e una sola che va a TMDb le blocca tutte.
+    def _scalda_netflix():
+        try:
+            from resources.lib import netflix as _nf
+            esito = _nf.aggiorna_righe()
+            xbmc.log("[Le Saghe] Su Netflix ora: " + ", ".join(
+                "%s %d" % (k, v) for k, v in sorted(esito.items())),
+                xbmc.LOGINFO)
+        except Exception as e:
+            xbmc.log("[Le Saghe] Su Netflix ora non aggiornata: %s" % e,
+                     xbmc.LOGWARNING)
+
+    try:
+        import threading
+        threading.Thread(target=_scalda_netflix, daemon=True).start()
+    except Exception as e:
+        xbmc.log("[Le Saghe] filo Netflix non avviato: %s" % e, xbmc.LOGWARNING)
+
     monitor = Monitor()
     kodi_era_in_primo_piano = True
     contatore = 0

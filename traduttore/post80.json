@@ -1,0 +1,1066 @@
+[
+ {
+  "nome": "Yu Yu Hakusho",
+  "id": 30669,
+  "titolo_it": "Yu degli spettri",
+  "anno": "1992",
+  "fine": "1994",
+  "episodi": 112,
+  "stagioni": [
+   [
+    1,
+    25,
+    "1992"
+   ],
+   [
+    2,
+    41,
+    "1993"
+   ],
+   [
+    3,
+    28,
+    "1994"
+   ],
+   [
+    4,
+    18,
+    "1994"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Yusuke Urameshi è un 14enne teppista, privo di rispetto per adulti e insegnanti e che passa tutto il tempo a fare risse con studenti di scuole rivali o a perdere tempo in sala giochi. Proprio per ques"
+ },
+ {
+  "nome": "Slam Dunk",
+  "id": 42573,
+  "titolo_it": "Slam Dunk",
+  "anno": "1993",
+  "fine": "1996",
+  "episodi": 101,
+  "stagioni": [
+   [
+    1,
+    101,
+    "1993"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Hanamichi Sakuragi è un giovane teppista attaccabrighe che si iscrive al primo anno della scuola superiore Shohoku, nella prefettura di Kanagawa. È particolarmente sfortunato con le ragazze e ciò lo r"
+ },
+ {
+  "nome": "Neon Genesis Evangelion",
+  "id": 890,
+  "titolo_it": "Neon Genesis Evangelion",
+  "anno": "1995",
+  "fine": "1996",
+  "episodi": 26,
+  "stagioni": [
+   [
+    1,
+    26,
+    "1995"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "La storia si svolge nella futuristica città di Neo Tokyo-3 a distanza di quindici anni da una catastrofe di impatto planetario nota come Second Impact e si incentra su Shinji Ikari, un ragazzo che vie"
+ },
+ {
+  "nome": "Rurouni Kenshin",
+  "id": 28136,
+  "titolo_it": "Kenshin samurai vagabondo",
+  "anno": "1996",
+  "fine": "1998",
+  "episodi": 94,
+  "stagioni": [
+   [
+    1,
+    27,
+    "1996"
+   ],
+   [
+    2,
+    35,
+    "1996"
+   ],
+   [
+    3,
+    32,
+    "1997"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Battōsai Himura (parzialmente basato sul personaggio storico dell'hitokiri Kawakami Gensai) è uno spietato assassino che a metà 1800 contribuì alla fine dello Shogunato Tokugawa, sul trono da 200 anni"
+ },
+ {
+  "nome": "Detective Conan",
+  "id": 30983,
+  "titolo_it": "Detective Conan",
+  "anno": "1996",
+  "fine": "2026",
+  "episodi": 1212,
+  "stagioni": [
+   [
+    1,
+    1212,
+    "1996"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "I casi di un detective la cui età fisica è stata invertita chimicamente a quella di un ragazzo prepubertale ma deve nascondere il suo vero sviluppo mentale."
+ },
+ {
+  "nome": "Berserk",
+  "id": 35935,
+  "titolo_it": "Berserk",
+  "anno": "1997",
+  "fine": "1998",
+  "episodi": 25,
+  "stagioni": [
+   [
+    1,
+    25,
+    "1997"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "In una sorta di Medioevo alternativo, Guts è un formidabile guerriero mercenario che nella vita non ha conosciuto altro che guerra e violenza. Continuando a guerreggiare da campo di battaglia in campo"
+ },
+ {
+  "nome": "Pokemon",
+  "id": 60572,
+  "titolo_it": "Pokémon",
+  "anno": "1997",
+  "fine": "2023",
+  "episodi": 1235,
+  "stagioni": [
+   [
+    1,
+    82,
+    "1997"
+   ],
+   [
+    2,
+    36,
+    "1999"
+   ],
+   [
+    3,
+    41,
+    "1999"
+   ],
+   [
+    4,
+    52,
+    "2000"
+   ],
+   [
+    5,
+    65,
+    "2001"
+   ],
+   [
+    6,
+    40,
+    "2002"
+   ],
+   [
+    7,
+    52,
+    "2003"
+   ],
+   [
+    8,
+    53,
+    "2004"
+   ],
+   [
+    9,
+    46,
+    "2005"
+   ],
+   [
+    10,
+    52,
+    "2006"
+   ],
+   [
+    11,
+    52,
+    "2007"
+   ],
+   [
+    12,
+    53,
+    "2008"
+   ],
+   [
+    13,
+    34,
+    "2010"
+   ],
+   [
+    14,
+    48,
+    "2010"
+   ],
+   [
+    15,
+    49,
+    "2011"
+   ],
+   [
+    16,
+    45,
+    "2012"
+   ],
+   [
+    17,
+    48,
+    "2013"
+   ],
+   [
+    18,
+    45,
+    "2014"
+   ],
+   [
+    19,
+    49,
+    "2015"
+   ],
+   [
+    20,
+    43,
+    "2016"
+   ],
+   [
+    21,
+    49,
+    "2017"
+   ],
+   [
+    22,
+    54,
+    "2018"
+   ],
+   [
+    23,
+    48,
+    "2019"
+   ],
+   [
+    24,
+    42,
+    "2020"
+   ],
+   [
+    25,
+    57,
+    "2021"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Pokémon è una serie animata giapponese con protagonista Ash Ketchum, un ragazzo il cui sogno è quello di diventare il miglior allenatore di Pokémon del mondo. Il giorno del suo decimo compleanno deve "
+ },
+ {
+  "nome": "Cowboy Bebop",
+  "id": 30991,
+  "titolo_it": "Cowboy Bebop",
+  "anno": "1998",
+  "fine": "1999",
+  "episodi": 26,
+  "stagioni": [
+   [
+    1,
+    26,
+    "1998"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Nel 2071, cinquant'anni dopo un incidente ad un portale iperspaziale che ha reso la terra inabitabile, l'umanità ha colonizzato gran parte dei pianeti e delle lune del Sistema Solare. Di fronte un cre"
+ },
+ {
+  "nome": "Trigun",
+  "id": 26453,
+  "titolo_it": "Trigun",
+  "anno": "1998",
+  "fine": "1998",
+  "episodi": 26,
+  "stagioni": [
+   [
+    1,
+    26,
+    "1998"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "In un mondo battuto da due Soli, dominato da immense ed aride distese di sabbia, vive Vash the Stampede, il tifone umanoide e leggendario ricercato da 60 miliardi di doppi dollari. Ma sarà davvero lui"
+ },
+ {
+  "nome": "Yu-Gi-Oh! Duel Monsters",
+  "id": 902,
+  "titolo_it": "Yu-Gi-Oh-Duel Monsters",
+  "anno": "2000",
+  "fine": "2004",
+  "episodi": 224,
+  "stagioni": [
+   [
+    1,
+    224,
+    "2000"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Il timido liceale Yugi Muto riceve dal nonno un misterioso pendente a forma di piramide, conosciuto con il nome di \"Puzzle del Millennio\". Dopo averne sciolto il rompicapo, Yugi fa venire alla luce il"
+ },
+ {
+  "nome": "Great Teacher Onizuka",
+  "id": 43017,
+  "titolo_it": "Great Teacher Onizuka",
+  "anno": "1999",
+  "fine": "2000",
+  "episodi": 43,
+  "stagioni": [
+   [
+    1,
+    43,
+    "1999"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Eikichi Onizuka è uno studente universitario ventiduenne ed è un ex moto-teppista e membro del duo Oni-Baku. Durante il suo soggiorno a Kichijōji riesce ad ottenere un appuntamento con una ragazza ma "
+ },
+ {
+  "nome": "Digimon Adventure",
+  "id": 31654,
+  "titolo_it": "Digimon: Digital Monsters",
+  "anno": "1999",
+  "fine": "2001",
+  "episodi": 104,
+  "stagioni": [
+   [
+    1,
+    54,
+    "1999"
+   ],
+   [
+    2,
+    50,
+    "2000"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Sette bambini delle scuole elementari, Taichi, Yamato, Sora, Koshiro, Mimi, TaKeru e Jo, durante una vacanza in un campo estivo si ritrovano misteriosamente catapultati in una nuova dimensione popolat"
+ },
+ {
+  "nome": "Hunter x Hunter",
+  "id": 45952,
+  "titolo_it": "Hunter x Hunter",
+  "anno": "1999",
+  "fine": "2001",
+  "episodi": 62,
+  "stagioni": [
+   [
+    1,
+    62,
+    "1999"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Gon Freecss è un bambino di dodici anni che vive sull'Isola Balena con la zia Mito, sua madre adottiva. Incontrando Kaito, un \"hunter\" professionista, scopre che suo padre Ging, che lui non ha mai con"
+ },
+ {
+  "nome": "Hunter x Hunter",
+  "id": 46298,
+  "titolo_it": "Hunter x Hunter",
+  "anno": "2011",
+  "fine": "2014",
+  "episodi": 148,
+  "stagioni": [
+   [
+    1,
+    62,
+    "2011"
+   ],
+   [
+    2,
+    74,
+    "2012"
+   ],
+   [
+    3,
+    12,
+    "2014"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Mostri, animali rari, tesori e meraviglie, terre selvagge e luoghi inesplorati. La parola \"sconosciuto\" reca in sé un enorme fascino e vi sono persone incredibili al mondo attratte da tale potere. Ess"
+ },
+ {
+  "nome": "Inuyasha",
+  "id": 35610,
+  "titolo_it": "InuYasha",
+  "anno": "2000",
+  "fine": "2010",
+  "episodi": 193,
+  "stagioni": [
+   [
+    1,
+    167,
+    "2000"
+   ],
+   [
+    2,
+    26,
+    "2009"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Kagome, una normale studentessa che frequenta la terza media, cade nel pozzo di casa sua e viene riportata indietro di 500 anni, nell'epoca Sengoku. In quest'epoca Kagome scopre di essere la reincarna"
+ },
+ {
+  "nome": "Yashahime: Princess Half-Demon",
+  "id": 103254,
+  "titolo_it": "Yashahime Princess Half-Demon",
+  "anno": "2020",
+  "fine": "2022",
+  "episodi": 48,
+  "stagioni": [
+   [
+    1,
+    48,
+    "2020"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Nel Giappone feudale, le gemelle mezze demoni Towa e Setsuna vengono separate a causa di un incendio. Alla disperata ricerca della sorella minore, Towa si imbatte in un tunnel misterioso che la porta "
+ },
+ {
+  "nome": "Fullmetal Alchemist",
+  "id": 37863,
+  "titolo_it": "Fullmetal Alchemist",
+  "anno": "2003",
+  "fine": "2004",
+  "episodi": 51,
+  "stagioni": [
+   [
+    1,
+    51,
+    "2003"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "L’alchimia permette di creare e manipolare gli oggetti, ma come scienza è soggetta alle leggi della natura. Nulla si crea, nulla si distrugge: la massa e il costo pagato per trasformare un oggetto dov"
+ },
+ {
+  "nome": "Fullmetal Alchemist: Brotherhood",
+  "id": 31911,
+  "titolo_it": "Fullmetal Alchemist: Brotherhood",
+  "anno": "2009",
+  "fine": "2010",
+  "episodi": 64,
+  "stagioni": [
+   [
+    1,
+    64,
+    "2009"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Ambientato in un mondo alternativo simile all'Europa di inizio 1900, narra i viaggi e la maturazione fisica e spirituale di due fratelli, Edward e Alphonse Elric. Abbandonati dal padre alchimista in t"
+ },
+ {
+  "nome": "Bleach",
+  "id": 30984,
+  "titolo_it": "Bleach",
+  "anno": "2004",
+  "fine": "2026",
+  "episodi": 416,
+  "stagioni": [
+   [
+    1,
+    366,
+    "2004"
+   ],
+   [
+    2,
+    50,
+    "2022"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Bleach segue la vita di Ichigo Kurosaki, uno studente quindicenne con l'abilità di vedere i fantasmi, e di Rukia Kuchiki, uno Shinigami che lo incontra durante una caccia ad un Hollow. Durante lo scon"
+ },
+ {
+  "nome": "Death Note",
+  "id": 13916,
+  "titolo_it": "Death Note",
+  "anno": "2006",
+  "fine": "2007",
+  "episodi": 37,
+  "stagioni": [
+   [
+    1,
+    37,
+    "2006"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Uno studente delle scuole superiori che trova un quaderno dai poteri soprannaturali chiamato Death Note, gettato sulla Terra dallo shinigami Ryuk. L'oggetto dona all'utilizzatore il potere di uccidere"
+ },
+ {
+  "nome": "Code Geass",
+  "id": 31724,
+  "titolo_it": "Code Geass: Lelouch of the Rebellion",
+  "anno": "2006",
+  "fine": "2008",
+  "episodi": 50,
+  "stagioni": [
+   [
+    1,
+    25,
+    "2006"
+   ],
+   [
+    2,
+    25,
+    "2008"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Il Giappone è diventato una colonia dell’impero della Britannia ed è conosciuto ora come Area 11; i giapponesi vengono ora chiamati Eleven e sono privati di buona parte dei propri diritti. Solo alcuni"
+ },
+ {
+  "nome": "Fairy Tail",
+  "id": 46261,
+  "titolo_it": "Fairy Tail",
+  "anno": "2009",
+  "fine": "2019",
+  "episodi": 328,
+  "stagioni": [
+   [
+    1,
+    48,
+    "2009"
+   ],
+   [
+    2,
+    48,
+    "2010"
+   ],
+   [
+    3,
+    54,
+    "2011"
+   ],
+   [
+    4,
+    25,
+    "2012"
+   ],
+   [
+    5,
+    51,
+    "2014"
+   ],
+   [
+    6,
+    39,
+    "2015"
+   ],
+   [
+    7,
+    12,
+    "2016"
+   ],
+   [
+    8,
+    51,
+    "2018"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Il Regno di Fiore è un paese neutrale di diciassette milioni di abitanti: in questa nazione la magia è comprata e venduta come una merce qualsiasi ed è parte integrante della vita quotidiana della pop"
+ },
+ {
+  "nome": "One Punch Man",
+  "id": 63926,
+  "titolo_it": "One-Punch Man",
+  "anno": "2015",
+  "fine": "2025",
+  "episodi": 36,
+  "stagioni": [
+   [
+    1,
+    12,
+    "2015"
+   ],
+   [
+    2,
+    12,
+    "2019"
+   ],
+   [
+    3,
+    12,
+    "2025"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Dopo un allenamento durato tre anni, un ragazzo di nome Saitama ha raggiunto il suo obiettivo: diventare la persona più forte del mondo. Passa i giorni scacciando i mostri e i criminali dalle città ma"
+ },
+ {
+  "nome": "JoJo's Bizarre Adventure",
+  "id": 45790,
+  "titolo_it": "Le bizzarre avventure di JoJo",
+  "anno": "2012",
+  "fine": "2026",
+  "episodi": 202,
+  "stagioni": [
+   [
+    1,
+    26,
+    "2012"
+   ],
+   [
+    2,
+    48,
+    "2014"
+   ],
+   [
+    3,
+    39,
+    "2016"
+   ],
+   [
+    4,
+    39,
+    "2018"
+   ],
+   [
+    5,
+    38,
+    "2022"
+   ],
+   [
+    6,
+    12,
+    "2026"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "La storia è articolata intorno alle peripezie della famiglia Joestar; ciascuna delle serie si sofferma sulle avventure di uno dei suoi discendenti, e ognuna si svolge in un diverso momento storico. Tu"
+ },
+ {
+  "nome": "Attack on Titan",
+  "id": 1429,
+  "titolo_it": "L'attacco dei giganti",
+  "anno": "2013",
+  "fine": "2022",
+  "episodi": 87,
+  "stagioni": [
+   [
+    1,
+    25,
+    "2013"
+   ],
+   [
+    2,
+    12,
+    "2017"
+   ],
+   [
+    3,
+    22,
+    "2018"
+   ],
+   [
+    4,
+    28,
+    "2020"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Diverse centinaia di anni fa, la razza umana fu quasi sterminata dai giganti. Si racconta di quanto questi fossero alti, privi di intelligenza e affamati di carne umana; peggio ancora, essi sembra div"
+ },
+ {
+  "nome": "My Hero Academia",
+  "id": 65930,
+  "titolo_it": "My Hero Academia",
+  "anno": "2016",
+  "fine": "2025",
+  "episodi": 170,
+  "stagioni": [
+   [
+    1,
+    13,
+    "2016"
+   ],
+   [
+    2,
+    25,
+    "2017"
+   ],
+   [
+    3,
+    25,
+    "2018"
+   ],
+   [
+    4,
+    25,
+    "2019"
+   ],
+   [
+    5,
+    25,
+    "2021"
+   ],
+   [
+    6,
+    25,
+    "2022"
+   ],
+   [
+    7,
+    21,
+    "2024"
+   ],
+   [
+    8,
+    11,
+    "2025"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "In un mondo in cui essere supereroi è la normalità, nascere senza particolari poteri equivale a una vera e propria disgrazia. Izuku Midoriya dovrà mettercela tutta per ottenere un superpotere e, nonos"
+ },
+ {
+  "nome": "Black Clover",
+  "id": 73223,
+  "titolo_it": "Black Clover",
+  "anno": "2017",
+  "fine": "2021",
+  "episodi": 170,
+  "stagioni": [
+   [
+    1,
+    170,
+    "2017"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "In un mondo dove la magia è al centro della vita quotidiana sono nati Asta, un ragazzo completamente privo di ogni abilità magica, e il suo amico Yuno, che al contrario è dotato di grande forza magica"
+ },
+ {
+  "nome": "Demon Slayer: Kimetsu no Yaiba",
+  "id": 85937,
+  "titolo_it": "Demon Slayer: Kimetsu no Yaiba",
+  "anno": "2019",
+  "fine": "2024",
+  "episodi": 63,
+  "stagioni": [
+   [
+    1,
+    26,
+    "2019"
+   ],
+   [
+    2,
+    7,
+    "2021"
+   ],
+   [
+    3,
+    11,
+    "2021"
+   ],
+   [
+    4,
+    11,
+    "2023"
+   ],
+   [
+    5,
+    8,
+    "2024"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Giappone, periodo Taisho. Tanjiro trova la sua famiglia massacrata da un demone mentre sua sorella minore Nezuko, l’unica sopravvissuta, è stata lei stessa trasformata in un demone. Tanjiro decide qui"
+ },
+ {
+  "nome": "Vinland Saga",
+  "id": 88803,
+  "titolo_it": "Vinland Saga",
+  "anno": "2019",
+  "fine": "2023",
+  "episodi": 48,
+  "stagioni": [
+   [
+    1,
+    24,
+    "2019"
+   ],
+   [
+    2,
+    24,
+    "2023"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Europa, Undicesimo Secolo. I popoli vichinghi sono ormai una forza inarrestabile e nessuna costa del continente può dirsi al sicuro dalle navi con la prua di drago, specialmente da quelle appartenenti"
+ },
+ {
+  "nome": "Jujutsu Kaisen",
+  "id": 95479,
+  "titolo_it": "Jujutsu Kaisen",
+  "anno": "2020",
+  "fine": "2026",
+  "episodi": 59,
+  "stagioni": [
+   [
+    1,
+    59,
+    "2020"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Itadori Yuji è un ragazzo dall'incredibile possanza fisica, malgrado viva una vita comune da liceale. Per salvare un amico attaccato da una Maledizione, un giorno, ingoia il dito dello Spettro Bifront"
+ },
+ {
+  "nome": "Chainsaw Man",
+  "id": 114410,
+  "titolo_it": "Chainsaw Man",
+  "anno": "2022",
+  "fine": "2022",
+  "episodi": 12,
+  "stagioni": [
+   [
+    1,
+    12,
+    "2022"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Denji ha un sogno semplice: vivere una vita felice e pacifica, trascorrendo del tempo con una ragazza che gli piace. Questo è molto lontano dalla realtà poiché Denji è costretto dalla yakuza a uccider"
+ },
+ {
+  "nome": "Sailor Moon",
+  "id": 3570,
+  "titolo_it": "Sailor Moon",
+  "anno": "1992",
+  "fine": "1997",
+  "episodi": 200,
+  "stagioni": [
+   [
+    1,
+    46,
+    "1992"
+   ],
+   [
+    2,
+    43,
+    "1993"
+   ],
+   [
+    3,
+    38,
+    "1994"
+   ],
+   [
+    4,
+    39,
+    "1995"
+   ],
+   [
+    5,
+    34,
+    "1996"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Bunny è una ragazza che frequenta le scuole medie, che tramite una gatta parlante chiamata Luna scopre di essere Sailor Moon, la guerriera dell'amore e della giustizia, il cui compito è quello di rint"
+ },
+ {
+  "nome": "Shaman King",
+  "id": 40143,
+  "titolo_it": "Shaman King",
+  "anno": "2001",
+  "fine": "2002",
+  "episodi": 64,
+  "stagioni": [
+   [
+    1,
+    64,
+    "2001"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Yoh Asakura è il discendente di una antichissima famiglia di sciamani. Fin da piccolo è in grado di vedere gli spiriti e, anziché ignorarli o essere spaventato da loro, tende sempre a farci amicizia. "
+ },
+ {
+  "nome": "Shaman King",
+  "id": 104699,
+  "titolo_it": "SHAMAN KING",
+  "anno": "2021",
+  "fine": "2022",
+  "episodi": 52,
+  "stagioni": [
+   [
+    1,
+    52,
+    "2021"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Il medium Yoh Asakura partecipa a un torneo che si svolge ogni 500 anni e si misura con altri sciamani per eleggere l'onnipotente Shaman King."
+ },
+ {
+  "nome": "Soul Eater",
+  "id": 37305,
+  "titolo_it": "Soul Eater",
+  "anno": "2008",
+  "fine": "2009",
+  "episodi": 51,
+  "stagioni": [
+   [
+    1,
+    51,
+    "2008"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "In un mondo in cui il male dilaga portando alla follia gli uomini, esiste una scuola nella città immaginaria di Death City situata nella Death Valley, in Nevada, che addestra giovani all'uso delle arm"
+ },
+ {
+  "nome": "Steins;Gate",
+  "id": 42509,
+  "titolo_it": "Steins;Gate",
+  "anno": "2011",
+  "fine": "2011",
+  "episodi": 24,
+  "stagioni": [
+   [
+    1,
+    24,
+    "2011"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Steins;Gate è ambientato nel distretto di Akihabara a Tokyo. Il 28 luglio 2010 Rintarō Okabe e la sua amica Mayuri Shiina si dirigono all'edificio Radio Kaikan per una conferenza, luogo in cui Rintarō"
+ },
+ {
+  "nome": "Naruto Shippuden",
+  "id": 31910,
+  "titolo_it": "Naruto Shippuden",
+  "anno": "2007",
+  "fine": "2017",
+  "episodi": 500,
+  "stagioni": [
+   [
+    1,
+    32,
+    "2007"
+   ],
+   [
+    2,
+    21,
+    "2007"
+   ],
+   [
+    3,
+    18,
+    "2008"
+   ],
+   [
+    4,
+    17,
+    "2008"
+   ],
+   [
+    5,
+    24,
+    "2008"
+   ],
+   [
+    6,
+    31,
+    "2009"
+   ],
+   [
+    7,
+    8,
+    "2010"
+   ],
+   [
+    8,
+    24,
+    "2010"
+   ],
+   [
+    9,
+    21,
+    "2010"
+   ],
+   [
+    10,
+    25,
+    "2011"
+   ],
+   [
+    11,
+    21,
+    "2011"
+   ],
+   [
+    12,
+    33,
+    "2012"
+   ],
+   [
+    13,
+    20,
+    "2012"
+   ],
+   [
+    14,
+    25,
+    "2013"
+   ],
+   [
+    15,
+    28,
+    "2013"
+   ],
+   [
+    16,
+    13,
+    "2014"
+   ],
+   [
+    17,
+    11,
+    "2014"
+   ],
+   [
+    18,
+    21,
+    "2014"
+   ],
+   [
+    19,
+    20,
+    ""
+   ],
+   [
+    20,
+    87,
+    "2015"
+   ]
+  ],
+  "scheda_it": true,
+  "trama": "Naruto Shippuden si svolge due anni e mezzo dopo che Naruto parte per allenarsi con Jiraiya. Al suo ritorno, Naruto scopre che tutti lo hanno superato di grado, e lui è rimasto indietro. Tuttavia, l'o"
+ }
+]
