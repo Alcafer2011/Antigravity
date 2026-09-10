@@ -374,6 +374,17 @@ def principale():
         except Exception as e:
             xbmc.log("[Le Saghe] Su Netflix ora non aggiornata: %s" % e,
                      xbmc.LOGWARNING)
+        # I LOGHI DEL TITOLO delle righe che arrivano da TMDb (Netflix,
+        # Consigliati, Cinema, serie aggiunte da te). Dopo Netflix, cosi' la
+        # sua cache e' gia' fresca; le righe poi li leggono dal file.
+        try:
+            from resources.lib import loghi
+            chiesti = loghi.riempi()
+            if chiesti:
+                xbmc.log("[Le Saghe] loghi del titolo chiesti a TMDb: %d"
+                         % chiesti, xbmc.LOGINFO)
+        except Exception as e:
+            xbmc.log("[Le Saghe] loghi non aggiornati: %s" % e, xbmc.LOGWARNING)
 
     try:
         import threading

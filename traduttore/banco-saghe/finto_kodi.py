@@ -30,6 +30,9 @@ RISPOSTA_INPUT = ""
 class ListItem(object):
     def __init__(self, label="", label2="", path=""):
         self.label = label
+        # label2 va tenuta: dal 10/09/2026 il dettaglio (minuto di ripresa,
+        # episodio) sta li', non piu' attaccato al titolo con un a capo.
+        self.label2 = label2
         self.path = path
         self.arte = {}
         self.proprieta = {}
@@ -52,6 +55,15 @@ class ListItem(object):
 
     def setLabel(self, v):
         self.label = v
+
+    def setLabel2(self, v):
+        self.label2 = v
+
+    def getLabel(self):
+        return self.label
+
+    def getLabel2(self):
+        return self.label2
 
     def setPath(self, v):
         self.path = v
@@ -291,7 +303,9 @@ def installa(cartella_addon, impostazioni=None, profilo=None):
     xbmcplugin = types.ModuleType("xbmcplugin")
 
     def addDirectoryItem(maniglia, url, li, cartella=False, totale=0):
-        VOCI.append({"url": url, "etichetta": li.label, "cartella": bool(cartella),
+        VOCI.append({"url": url, "etichetta": li.label,
+                     "etichetta2": getattr(li, "label2", ""),
+                     "cartella": bool(cartella),
                      "arte": dict(li.arte), "prop": dict(li.proprieta),
                      "tag": dict(li._tag.dati)})
         return True

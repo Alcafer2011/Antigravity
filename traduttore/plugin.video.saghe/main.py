@@ -4,6 +4,8 @@
 import io
 import json
 import os
+import html
+import re
 import sys
 import time
 from urllib.parse import parse_qsl, urlencode
@@ -102,7 +104,11 @@ def _riga_continua():
         # posto solo, guardando se la fonte e' davvero un file che Kodi apre.
 
         tag = li.getVideoInfoTag()
-        tag.setTitle("%s - %s" % (p["titolo"], titolo_ep))
+        # Il titolo e' la SAGA, corto. "Dragon Ball - Dragon Ball, episodio
+        # 1..." nella testata di Arctic Zephyr veniva troncato a meta'
+        # (visto sul banco il 10/09/2026); l'episodio sta gia' in label2 e
+        # nella trama.
+        tag.setTitle(p["titolo"])
         tag.setTvShowTitle(serie["titolo"])
         tag.setEpisode(t["ep"])
         tag.setMediaType("episode")
@@ -124,6 +130,9 @@ def _riga_continua():
             arte["poster"] = schede.poster(t["serie"])
         if schede.sfondo(t["serie"]):
             arte["fanart"] = schede.sfondo(t["serie"])
+        # La scritta del titolo sopra la tessera, come nelle altre righe.
+        if _logo_titolo(t["serie"]):
+            arte["clearlogo"] = _logo_titolo(t["serie"])
         if arte:
             li.setArt(arte)
 
@@ -327,6 +336,11 @@ def _voce_netflix(v):
         # lo sfondo 16:9 e' anche l'immagine della TESSERA, non solo lo
         # sfondone della testata: la tessera e' orizzontale.
         arte["fanart"] = arte["landscape"] = arte["thumb"] = v["sfondo"]
+    # La scritta del titolo: dalla cache che riempie il servizio, mai la rete.
+    from resources.lib import loghi
+    lg = loghi.logo("movie" if v.get("tipo") == "film" else "tv", v.get("id"))
+    if lg:
+        arte["clearlogo"] = lg
     li.setArt(arte)
     tag = li.getVideoInfoTag()
     tag.setTitle(v["titolo"])
@@ -344,8 +358,10 @@ def _voce_netflix(v):
     elif gia:
         dove, cartella = url(azione="reparto", reparto="serietv"), True
     else:
+        # CARTELLA anche questa: stesso motivo dei Consigliati.
+        # netflix_aggiungi chiude con endOfDirectory(succeeded=False).
         dove, cartella = url(azione="netflix_aggiungi", tmdb=str(v["id"]),
-                             tipo=v.get("tipo") or "serietv"), False
+                             tipo=v.get("tipo") or "serietv"), True
     _azioni(li, sid, v["titolo"], arte=arte, trama=v.get("trama", ""),
             tmdb="" if gia else str(v["id"]))
     xbmcplugin.addDirectoryItem(MANIGLIA, dove, li, cartella)
@@ -360,15 +376,36 @@ def _bandiera_gruppo(nome):
             % chiave)
 
 
+_LOGHI_TITOLO = None
+
+
+def _logo_titolo(serie_id):
+    """La scritta del titolo (clearlogo) di una serie, da TMDb.
+
+    Su skin come Arctic Zephyr il clearlogo e' il titolo disegnato sopra la
+    locandina scelta, come fa Netflix: all'utente e' piaciuto appena l'ha
+    visto. Lo prepara `traduttore/fai-loghi.py` in
+    `resources/loghi_titolo.json` (82 serie su 93 il 10/09/2026); qui si
+    legge soltanto, mai la rete.
+    """
+    global _LOGHI_TITOLO
+    if _LOGHI_TITOLO is None:
+        _LOGHI_TITOLO = _leggi_risorsa("loghi_titolo.json")
+    return _LOGHI_TITOLO.get(serie_id) or ""
+
+
 def _copertina(li, serie_id):
     """Mette locandina e sfondo di una serie su una voce. Silenzioso se non ci sono."""
     arte = {}
     po = schede.poster(serie_id)
     sf = schede.sfondo(serie_id)
+    lg = _logo_titolo(serie_id)
     if po:
         arte["poster"] = arte["thumb"] = arte["icon"] = po
     if sf:
         arte["fanart"] = sf
+    if lg:
+        arte["clearlogo"] = lg
     if arte:
         li.setArt(arte)
     return li
@@ -381,10 +418,16 @@ def _copertina_percorso(li, pid):
     arte = {}
     po = schede.poster_percorso(pid)
     sf = schede.sfondo_percorso(pid)
+    # Il logo del titolo di una saga e' quello della sua PRIMA serie: e' il
+    # nome con cui la saga si riconosce.
+    seg = (catalogo.PERCORSI.get(pid) or {}).get("segmenti") or []
+    lg = _logo_titolo(seg[0][0]) if seg else ""
     if po:
         arte["poster"] = arte["thumb"] = arte["icon"] = po
     if sf:
         arte["fanart"] = sf
+    if lg:
+        arte["clearlogo"] = lg
     if arte:
         li.setArt(arte)
     return li
@@ -753,6 +796,9 @@ def _voci_cinema():
             arte["poster"] = arte["thumb"] = arte["icon"] = f["poster"]
         if f.get("sfondo"):
             arte["fanart"] = f["sfondo"]
+        from resources.lib import loghi
+        if loghi.logo("movie", f.get("tmdb")):
+            arte["clearlogo"] = loghi.logo("movie", f.get("tmdb"))
         if arte:
             li.setArt(arte)
         tag = li.getVideoInfoTag()
@@ -770,6 +816,33 @@ def _voci_cinema():
             "&action=cinema_fonti&titolo_film=%s&titolo_originale=%s"
             % (quote(f["titolo"]), quote(f.get("originale", ""))),
             li, True)
+
+
+def _pulisci_s4me(etichetta):
+    """Da un'etichetta grezza di s4me a (titolo, dettaglio).
+
+    L'altra sessione di prova (10/09/2026) ha visto le Novita' sulle tessere
+    in stile Netflix con le etichette cosi' come le scrive s4me:
+        "[B]Biaoren - S01 E06[/B] [AnimeUnity]"
+    Tag di formattazione di Kodi, episodio e sito tutti nel titolo. Sopra
+    una locandina e' illeggibile. Si separa:
+        titolo    -> "Biaoren"
+        dettaglio -> "S01 E06 - AnimeUnity"
+    Se l'etichetta non ha questa forma si toglie solo la formattazione.
+    """
+    s = html.unescape(re.sub(r"\[/?(?:B|I|COLOR[^\]]*|UPPERCASE|LOWERCASE)\]", "",
+                             etichetta or "")).strip()
+    sito = ""
+    m = re.search(r"\s*\[([^\]]+)\]\s*$", s)
+    if m:
+        sito = m.group(1).strip()
+        s = s[:m.start()].strip()
+    episodio = ""
+    m = re.search(r"\s+-\s+(S\d+\s*E\d+)\s*$", s, re.I)
+    if m:
+        episodio = m.group(1).upper().replace("  ", " ")
+        s = s[:m.start()].strip()
+    return s, " - ".join(x for x in (episodio, sito) if x)
 
 
 def widget(quale):
@@ -820,6 +893,9 @@ def widget(quale):
                 arte["poster"] = arte["thumb"] = arte["icon"] = v["immagine"]
             if v.get("sfondo"):
                 arte["fanart"] = v["sfondo"]
+            from resources.lib import loghi
+            if loghi.logo("tv", v.get("id")):
+                arte["clearlogo"] = loghi.logo("tv", v.get("id"))
             if arte:
                 li.setArt(arte)
             tag = li.getVideoInfoTag()
@@ -827,11 +903,26 @@ def widget(quale):
             if v.get("trama"):
                 tag.setPlot(v["trama"])
             azione = "consiglio_togli" if sid in mie else "consiglio_aggiungi"
+            # CARTELLA, non voce semplice. Su skin come Arctic Zephyr la
+            # riga non ha un onclick per le voci che non sono cartelle: con
+            # OK la voce andava al riproduttore e dava "errore di
+            # riproduzione" (trovato dalla sessione di prova il 10/09/2026).
+            # aggiungi_consiglio/togli_consiglio chiudono gia' con
+            # endOfDirectory(succeeded=False): fanno il lavoro e si resta li'.
             xbmcplugin.addDirectoryItem(
-                MANIGLIA, url(azione=azione, id=str(v["id"])), li, False)
+                MANIGLIA, url(azione=azione, id=str(v["id"])), li, True)
 
     elif quale == "tv":
         xbmcplugin.setContent(MANIGLIA, "videos")
+        if not _gruppi_tv():
+            # Stessa cura della lista vuota: niente schermata nera muta.
+            li = _voce("Nessun canale TV",
+                       "La lista dei canali non e' caricata su questo "
+                       "apparecchio. Controlla che l'add-on IPTV Simple sia "
+                       "acceso e abbia la lista.", icona=SEGNAPOSTO)
+            li.setArt({"poster": SEGNAPOSTO, "thumb": SEGNAPOSTO,
+                       "landscape": SEGNAPOSTO, "icon": SEGNAPOSTO})
+            xbmcplugin.addDirectoryItem(MANIGLIA, url(azione="tv"), li, True)
         for g in _gruppi_tv():
             nome = (g.get("label") or "").lower()
             if "tutti" in nome:
@@ -912,6 +1003,17 @@ def widget(quale):
         # perche' la home e' fatta di righe. Le voci ci finiscono dal menu
         # contestuale di qualunque tessera.
         from resources.lib import miolista
+        if not miolista.elenco():
+            # Una riga vuota apriva una schermata tutta NERA senza una parola
+            # (visto sul banco il 10/09/2026). Meglio una tessera che dice
+            # come si riempie. Cartella, per lo stesso motivo dei Consigliati.
+            li = _voce("La tua lista e' vuota",
+                       "Su qualunque locandina premi il tasto MENU del "
+                       "telecomando e scegli 'Aggiungi a La mia lista'.",
+                       icona=SEGNAPOSTO)
+            li.setArt({"poster": SEGNAPOSTO, "thumb": SEGNAPOSTO,
+                       "landscape": SEGNAPOSTO, "icon": SEGNAPOSTO})
+            xbmcplugin.addDirectoryItem(MANIGLIA, url(), li, True)
         for v in miolista.elenco():
             li = xbmcgui.ListItem(label=v.get("titolo", ""),
                                   label2=v.get("sotto", ""))
@@ -929,7 +1031,9 @@ def widget(quale):
         # Le novita' di s4me, dalla cache: mai la rete, mai una rotellina.
         from resources.lib import novita as _n
         for v in _n.leggi():
-            li = xbmcgui.ListItem(label=v.get("titolo", ""))
+            titolo, sotto = _pulisci_s4me(v.get("titolo", ""))
+            li = xbmcgui.ListItem(label=titolo,
+                                  label2=" - ".join(x for x in (sotto, v.get("sotto", "")) if x))
             arte = {"poster": v.get("immagine", ""),
                     "thumb": v.get("immagine", ""),
                     "icon": v.get("immagine", "")}
@@ -937,9 +1041,9 @@ def widget(quale):
                 arte["fanart"] = v["sfondo"]
             li.setArt(arte)
             tag = li.getVideoInfoTag()
-            tag.setTitle(v.get("titolo", ""))
+            tag.setTitle(titolo)
             if v.get("trama"):
-                tag.setPlot(v["trama"])
+                tag.setPlot(html.unescape(v["trama"]))
             xbmcplugin.addDirectoryItem(MANIGLIA, v.get("indirizzo", ""),
                                         li, True)
 
@@ -1091,7 +1195,8 @@ def menu_tv():
         li = _voce("Nessun canale TV",
                    "La lista dei canali non e' caricata. Controlla che "
                    "l'add-on IPTV Simple sia acceso.", icona=ICONA)
-        xbmcplugin.addDirectoryItem(MANIGLIA, url(), li, False)
+        # cartella: una voce semplice non riproducibile andrebbe al lettore
+        xbmcplugin.addDirectoryItem(MANIGLIA, url(), li, True)
         xbmcplugin.endOfDirectory(MANIGLIA)
         return
 
@@ -1202,17 +1307,8 @@ def menu_consigli():
 
 def aggiungi_consiglio(tmdb_id):
     """Aggiunge la serie proposta. Scarica anche la sua scheda."""
-    from resources.lib import consigli
-    prog = xbmcgui.DialogProgress()
-    prog.create("Le Saghe", "Aggiungo la serie e scarico la sua scheda...")
-    try:
-        fatto, messaggio = consigli.aggiungi(tmdb_id)
-    finally:
-        prog.close()
-    xbmcgui.Dialog().ok("Aggiunta" if fatto else "Non riuscita", messaggio)
-    xbmcplugin.endOfDirectory(MANIGLIA, succeeded=False)
-    if fatto:
-        xbmc.executebuiltin("Container.Refresh")
+    # "anime": era il tipo predefinito di consigli.aggiungi.
+    _in_disparte("aggiungi_titolo", tmdb_id, "anime")
 
 
 # --------------------------------------------------------------------------
@@ -1311,35 +1407,31 @@ def menu_netflix(sez="", g=""):
     xbmcplugin.endOfDirectory(MANIGLIA, cacheToDisc=False)
 
 
-def netflix_aggiungi(tmdb_id, tipo):
-    from resources.lib import consigli
-    prog = xbmcgui.DialogProgress()
-    prog.create("Le Saghe", "Aggiungo il titolo e scarico la sua scheda...")
-    try:
-        fatto, messaggio = consigli.aggiungi(tmdb_id, tipo=tipo)
-    finally:
-        prog.close()
-    xbmcgui.Dialog().ok("Aggiunto" if fatto else "Non riuscito", messaggio)
+def _in_disparte(comando, *argomenti):
+    """Chiude SUBITO la cartella e fa il lavoro fuori, in avvio.py.
+
+    Aggiungere o togliere una serie apre finestre e va in rete: dentro una
+    cartella non si fa (vedi la testa di avvio.py). E niente
+    Container.Refresh da qui: sul banco, il 10/09/2026, rileggeva questa
+    stessa cartella e rifaceva l'aggiunta a ogni riquadro chiuso.
+    """
     xbmcplugin.endOfDirectory(MANIGLIA, succeeded=False)
-    if fatto:
-        xbmc.executebuiltin("Container.Refresh")
+    pezzi = [comando] + [str(a) for a in argomenti]
+    # Finiscono dentro un comando di Kodi: solo lettere, numeri e trattino
+    # basso, cosi' una virgola o una parentesi nell'indirizzo non possono
+    # cambiarlo. (isalnum() da solo rifiutava "aggiungi_titolo": provato.)
+    if not all(p and all(c.isalnum() or c == "_" for c in p) for p in pezzi):
+        xbmc.log("[Le Saghe] argomenti non validi: %r" % pezzi, xbmc.LOGWARNING)
+        return
+    xbmc.executebuiltin("RunScript(plugin.video.saghe,%s)" % ",".join(pezzi))
+
+
+def netflix_aggiungi(tmdb_id, tipo):
+    _in_disparte("aggiungi_titolo", tmdb_id, tipo)
 
 
 def togli_consiglio(tmdb_id):
-    from resources.lib import consigli
-    sid = "tmdb_%s" % tmdb_id
-    if not xbmcgui.Dialog().yesno(
-            "Toglierla?",
-            "Vuoi toglierla dalle tue serie?\n\nIl segno di dove sei "
-            "arrivato si perde. Puoi sempre riaggiungerla dai consigli."):
-        xbmcplugin.endOfDirectory(MANIGLIA, succeeded=False)
-        return
-    fatto, messaggio = consigli.togli(sid)
-    xbmcgui.Dialog().notification("Le Saghe", messaggio,
-                                  xbmcgui.NOTIFICATION_INFO, 6000)
-    xbmcplugin.endOfDirectory(MANIGLIA, succeeded=False)
-    if fatto:
-        xbmc.executebuiltin("Container.Refresh")
+    _in_disparte("togli_titolo", tmdb_id)
 
 
 def menu_gruppo(gid):
@@ -1886,7 +1978,12 @@ def sfoglia(pid, da):
         if fonte and fonte["id"] != "locale":
             lg = fonti.logo(fonte["id"])
             if lg:
-                arte["clearlogo"] = lg
+                # Il logo del SERVIZIO resta solo come icona. In `clearlogo`
+                # no: su skin come Arctic Zephyr il clearlogo e' la SCRITTA
+                # DEL TITOLO disegnata sopra la locandina, e ci sarebbe
+                # comparso il marchio Netflix al posto del nome della serie.
+                # Il servizio e' gia' scritto nella descrizione ("Partira'
+                # da").
                 arte["icon"] = lg
         po = schede.poster(t["serie"])
         if po:
@@ -2219,10 +2316,10 @@ def elenco_film(pid):
         # ponte s4me, non restituisce un video a Kodi.
         li = _voce("%s  [COLOR grey](%s)[/COLOR]%s" % (m["t"], anno, coda),
                    "%s\n\n%s" % (m["t"], trama))
-        if elenco:
-            lg = fonti.logo(elenco[0])
-            if lg:
-                li.setArt({"clearlogo": lg})
+        # NIENTE logo del servizio in `clearlogo`: su skin come Arctic
+        # Zephyr quello e' il titolo disegnato sopra la locandina, e ci
+        # sarebbe comparso il marchio del servizio. Il servizio e' gia'
+        # scritto nella coda dell'etichetta.
         if m.get("i"):
             li.setArt({"poster": m["i"], "thumb": m["i"], "icon": m["i"]})
         else:

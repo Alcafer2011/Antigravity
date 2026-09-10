@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<shortcuts>
+    <shortcut>
+        <label>Home</label>
+        <label2>Videoteca</label2>
+        <defaultID>home</defaultID>
+        <icon>DefaultFolder.png</icon>
+        <action>ActivateWindow(Videos,"plugin://plugin.video.saghe/?azione=",return)</action>
+    </shortcut>
+    <shortcut>
+        <label>Le tue saghe</label>
+        <label2>Videoteca</label2>
+        <defaultID>letuesaghe</defaultID>
+        <icon>DefaultFolder.png</icon>
+        <action>ActivateWindow(Videos,"plugin://plugin.video.saghe/?azione=reparto&amp;reparto=cartoni",return)</action>
+    </shortcut>
+    <shortcut>
+        <label>Serie TV</label>
+        <label2>Videoteca</label2>
+        <defaultID>serietv</defaultID>
+        <icon>DefaultFolder.png</icon>
+        <action>ActivateWindow(Videos,"plugin://plugin.video.saghe/?azione=reparto&amp;reparto=serietv",return)</action>
+    </shortcut>
+    <shortcut>
+        <label>Documentari</label>
+        <label2>Videoteca</label2>
+        <defaultID>documentari</defaultID>
+        <icon>DefaultFolder.png</icon>
+        <action>ActivateWindow(Videos,"plugin://plugin.video.saghe/?azione=scaffale&amp;scaffale=documentari",return)</action>
+    </shortcut>
+    <shortcut>
+        <label>Altri documentari</label>
+        <label2>Videoteca</label2>
+        <defaultID>altridocumentari</defaultID>
+        <icon>DefaultFolder.png</icon>
+        <action>ActivateWindow(Videos,"plugin://plugin.video.saghe/?azione=scaffale&amp;scaffale=documentari",return)</action>
+    </shortcut>
+    <shortcut>
+        <label>Cucina</label>
+        <label2>Videoteca</label2>
+        <defaultID>cucina</defaultID>
+        <icon>DefaultFolder.png</icon>
+        <action>ActivateWindow(Videos,"plugin://plugin.video.saghe/?azione=scaffale&amp;scaffale=cucina",return)</action>
+    </shortcut>
+    <shortcut>
+        <label>YouTube</label>
+        <label2>Videoteca</label2>
+        <defaultID>youtube</defaultID>
+        <icon>DefaultFolder.png</icon>
+        <action>ActivateWindow(Videos,"plugin://plugin.video.saghe/?azione=scaffale&amp;scaffale=youtube",return)</action>
+    </shortcut>
+    <shortcut>
+        <label>TV in diretta</label>
+        <label2>Videoteca</label2>
+        <defaultID>tvindiretta</defaultID>
+        <icon>DefaultFolder.png</icon>
+        <action>ActivateWindow(Videos,"plugin://plugin.video.saghe/?azione=tv",return)</action>
+    </shortcut>
+    <shortcut>
+        <label>Impostazioni</label>
+        <label2>Videoteca</label2>
+        <defaultID>settings</defaultID>
+        <icon>DefaultFolder.png</icon>
+        <action>ActivateWindow(Settings)</action>
+    </shortcut>
+    <shortcut>
+        <label>Uscita</label>
+        <label2>Videoteca</label2>
+        <defaultID>power</defaultID>
+        <icon>DefaultFolder.png</icon>
+        <action>ActivateWindow(shutdownmenu)</action>
+    </shortcut>
+</shortcuts>

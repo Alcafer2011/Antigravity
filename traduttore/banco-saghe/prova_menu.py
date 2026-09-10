@@ -244,8 +244,11 @@ def _():
 @prova("la ripresa mostra il minuto in modo leggibile")
 def _():
     voci = [v for v in apri_menu() if _e_una_tappa(v["url"])]
-    assert "5:00" in voci[0]["etichetta"], \
-        "manca il minuto: %r" % voci[0]["etichetta"]
+    # Il minuto sta nella SECONDA riga (label2): sulle tessere in stile
+    # Netflix titolo e dettaglio sono separati (10/09/2026). La prova
+    # guardava solo il titolo e falliva senza che mancasse niente.
+    testo = "%s %s" % (voci[0]["etichetta"], voci[0].get("etichetta2", ""))
+    assert "5:00" in testo, "manca il minuto: %r" % testo
 
 
 @prova("una saga sparita dal catalogo non fa cadere il menu")
@@ -1041,7 +1044,10 @@ def _():
     # "tienili separati: documentari una cosa, cucina un'altra, anche i
     # canali youtube separati" - e dentro ognuno, gruppi con intestazione.
     from resources.lib import scoperte
-    for quale, minimo in (("documentari", 80), ("cucina", 40), ("youtube", 8)):
+    # YouTube: dal 10/09/2026 SOLO i canali veri dell'utente ("i canali
+    # YouTube sono solo due, Elisa True Crime e ..."); le ricerche a tema
+    # stanno nei Documentari. Il vecchio minimo di 8 contava anche quelle.
+    for quale, minimo in (("documentari", 80), ("cucina", 40), ("youtube", 2)):
         gruppi = scoperte.scaffale(quale)
         assert gruppi, "%s e' vuoto" % quale
         assert scoperte.quante_voci(quale) >= minimo,             "%s ha solo %d voci" % (quale, scoperte.quante_voci(quale))
@@ -1060,7 +1066,10 @@ def _():
     from resources.lib import scoperte
     testo = " ".join(e.lower() for _, v in scoperte.scaffale("documentari")
                      for e, _, _, _ in v)
-    for atteso in ("come e' fatto", "caccia all'oro", "gas monkey",
+    # "Fast N' Loud" e' il nome con cui l'utente lo cerca (10/09/2026: "Fast
+    # N' Loud e quello delle Harley dovrebbero avere una loro sezione"), e
+    # sta cosi' in scoperte.py. "gas monkey" era il nome del garage.
+    for atteso in ("come e' fatto", "caccia all'oro", "fast n' loud",
                    "american chopper", "chernobyl"):
         assert atteso in testo, "manca %r" % atteso
     cucina = " ".join(e.lower() for _, v in scoperte.scaffale("cucina")
@@ -1344,6 +1353,31 @@ def _():
 
 
 # --------------------------------------------------------------------------
+
+@prova("il logo del titolo nelle righe si legge senza andare in rete")
+def _():
+    # La regola delle righe della home: MAI la rete. Il logo lo scarica il
+    # servizio (loghi.riempi); le righe leggono solo la cache (loghi.logo).
+    from resources.lib import loghi
+
+    def _vietato(*a, **k):
+        raise AssertionError("una riga e' andata in rete per un logo")
+
+    vecchio = loghi._chiedi
+    loghi._chiedi = _vietato
+    try:
+        loghi._CACHE = {"tv/123": {"url": "http://prova/logo.png", "quando": 0}}
+        assert loghi.logo("tv", 123) == "http://prova/logo.png"
+        assert loghi.logo("movie", 123) == "", "film e serie confusi"
+        assert loghi.logo("tv", "") == ""
+        for che in ("consigli", "netflix:serietv", "netflix:film", "cinema",
+                    "continua"):
+            finto_kodi.azzera()
+            main.widget(che)
+    finally:
+        loghi._chiedi = vecchio
+        loghi._CACHE = None
+
 
 def main_():
     larghezza = max(len(n) for _, n, _ in ESITI)

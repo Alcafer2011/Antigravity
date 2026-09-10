@@ -37,6 +37,8 @@
       <group id="1" label="Cartella delle serie">
         <setting id="cartella_serie" type="path" label="Cartella principale">
           <level>0</level>
+          <default/>
+          <constraints><allowempty>true</allowempty></constraints>
           <control type="button" format="path">
             <heading>Dove tieni le tue serie</heading>
           </control>
@@ -65,6 +67,8 @@
         </setting>
         <setting id="scadenza_netflix" type="string" label="Netflix scade il (gg/mm/aaaa)">
           <level>0</level>
+          <default/>
+          <constraints><allowempty>true</allowempty></constraints>
           <control type="edit" format="string">
             <heading>Lascia vuoto se si rinnova da solo</heading>
           </control>

@@ -27,6 +27,8 @@ REGOLA, da non dimenticare mai piu'
 COME SI CHIAMA
     RunScript(plugin.video.saghe, vetrina)
     RunScript(plugin.video.saghe, regola_s4me)
+    RunScript(plugin.video.saghe, aggiungi_titolo, <tmdb>, <anime|serietv>)
+    RunScript(plugin.video.saghe, togli_titolo, <tmdb>)
 
 NOTA STORICA, perche' il file resti comprensibile
     Qui dentro c'era anche l'apertura degli episodi, con tutto il motore
@@ -149,6 +151,115 @@ def _regola_s4me(muto=False):
         "quaderno, come prima: non si perde nulla.")
 
 
+def _una_riga(testo):
+    """Un avviso e' una riga sola: via grassetti, colori e a capo."""
+    import re
+    return re.sub(r"\[/?(B|I|COLOR)[^\]]*\]", "", testo or "").replace(
+        "\n", " ").strip()
+
+
+def _via_dalla_pagina_vuota():
+    """La tessera della home e' una cartella: chiusa senza contenuto, Kodi
+    resta sulla radice della finestra Video ("File", "Add-on"...). Visto sul
+    banco il 10/09/2026. Se succede entro pochi istanti si torna alla home.
+    Dal menu Netflix interno il percorso non e' vuoto e non si tocca nulla.
+    """
+    monitor = xbmc.Monitor()
+    for _ in range(15):
+        if (xbmcgui.getCurrentWindowId() == 10025
+                and not xbmc.getInfoLabel("Container.FolderPath")):
+            xbmc.executebuiltin("ActivateWindow(home)")
+            return
+        if monitor.waitForAbort(0.2):
+            return
+
+
+def _aggiorna_se_home():
+    # SOLO sulla home, dove Container.Refresh ricarica la riga di tessere.
+    # Sulla pagina che ha lanciato l'azione rileggerebbe la stessa cartella
+    # e rifarebbe l'aggiunta: e' il ciclo trovato sul banco il 10/09/2026.
+    if xbmcgui.getCurrentWindowId() == 10000:
+        xbmc.executebuiltin("Container.Refresh")
+
+
+def _aggiungi_titolo(tmdb_id, tipo):
+    """Aggiunge una serie da Consigliati o da Netflix, senza riquadri.
+
+    PERCHE' QUI E NON IN main.py (10/09/2026, provato col tasto OK sul
+    banco): la tessera e' una cartella, e quando l'aggiunta girava dentro
+    la cartella, chiudere il riquadro "Aggiunto" faceva rileggere la stessa
+    cartella a Kodi, che la aggiungeva di nuovo, all'infinito. Dietro al
+    riquadro si vedeva una pagina vuota "Video - 0 film".
+    Come fa Netflix: niente da confermare, una barra in un angolo mentre
+    scarica la scheda e un avviso con la locandina quando ha finito.
+    """
+    from resources.lib import consigli, schede
+    _via_dalla_pagina_vuota()
+    barra = xbmcgui.DialogProgressBG()
+    barra.create("Le Saghe", "Aggiungo il titolo e scarico la sua scheda...")
+    try:
+        fatto, messaggio = consigli.aggiungi(tmdb_id, tipo=tipo)
+    finally:
+        barra.close()
+    if not fatto:
+        xbmcgui.Dialog().notification("Non aggiunto", _una_riga(messaggio),
+                                      xbmcgui.NOTIFICATION_WARNING, 6000)
+        return
+    sid = "tmdb_%s" % tmdb_id
+    titolo = (consigli.serie_mie().get(sid) or {}).get("titolo") or "Aggiunto"
+    dove = "Serie TV" if tipo == "serietv" else "Cartoni animati"
+    _aggiorna_se_home()
+    _avviso(titolo, "Aggiunto alla Videoteca, in %s" % dove,
+            schede.poster(sid))
+
+
+# Quanto resta a schermo l'avviso. Netflix non chiede conferme: avvisa e
+# sparisce da solo.
+DURATA_AVVISO = 6
+
+
+def _avviso(titolo, testo, immagine=""):
+    """L'avviso grande con la locandina (resources/skins/.../avviso.xml).
+
+    La notifica di Kodi la disegna la skin, e su Arctic Zephyr dal divano
+    non si legge. Se la nostra finestra non si apre - skin strana, file
+    mancante - si ripiega sulla notifica normale: meglio piccola che niente.
+    """
+    try:
+        import xbmcaddon
+        percorso = xbmcaddon.Addon("plugin.video.saghe").getAddonInfo("path")
+        finestra = xbmcgui.WindowXMLDialog("avviso.xml", percorso,
+                                           "Default", "1080i")
+        finestra.setProperty("titolo", titolo or "")
+        finestra.setProperty("testo", testo or "")
+        finestra.setProperty("immagine", immagine or "")
+        finestra.show()
+        xbmc.Monitor().waitForAbort(DURATA_AVVISO)
+        finestra.close()
+        del finestra
+    except Exception as e:
+        xbmc.log("[Le Saghe] avviso grande non aperto: %s" % e, xbmc.LOGWARNING)
+        xbmcgui.Dialog().notification(titolo or "Le Saghe", testo or "",
+                                      immagine or xbmcgui.NOTIFICATION_INFO,
+                                      DURATA_AVVISO * 1000)
+
+
+def _togli_titolo(tmdb_id):
+    """Toglie una serie aggiunta da te. Qui la domanda resta: si perde il
+    segno di dove eri arrivato, e un tasto premuto per sbaglio non basta."""
+    from resources.lib import consigli
+    _via_dalla_pagina_vuota()
+    if not xbmcgui.Dialog().yesno(
+            "Toglierla?",
+            "Vuoi toglierla dalle tue serie?\n\nIl segno di dove sei "
+            "arrivato si perde. Puoi sempre riaggiungerla dai consigli."):
+        return
+    fatto, messaggio = consigli.togli("tmdb_%s" % tmdb_id)
+    if fatto:
+        _aggiorna_se_home()
+    _avviso("Tolta" if fatto else "Non tolta", _una_riga(messaggio))
+
+
 def main():
     comando = sys.argv[1] if len(sys.argv) > 1 else "vetrina"
     try:
@@ -157,6 +268,13 @@ def main():
         elif comando == "regola_s4me":
             # RunScript(plugin.video.saghe, regola_s4me, muto)
             _regola_s4me(muto=(len(sys.argv) > 2 and sys.argv[2] == "muto"))
+        elif comando == "aggiungi_titolo":
+            # RunScript(plugin.video.saghe, aggiungi_titolo, <tmdb>, <anime|serietv>)
+            _aggiungi_titolo(sys.argv[2],
+                             sys.argv[3] if len(sys.argv) > 3 else "anime")
+        elif comando == "togli_titolo":
+            # RunScript(plugin.video.saghe, togli_titolo, <tmdb>)
+            _togli_titolo(sys.argv[2])
         else:
             xbmc.log("[Le Saghe] comando sconosciuto: %s" % comando,
                      xbmc.LOGWARNING)

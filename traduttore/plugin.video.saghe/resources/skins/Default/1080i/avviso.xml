@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  L'AVVISO GRANDE: "aggiunto alla Videoteca", con la locandina.
+
+  PERCHE' NON LA NOTIFICA DI KODI
+      Quella la disegna la skin: su Arctic Zephyr e' un riquadrino 660x100
+      in alto a destra, scritta piccola e poco contrasto. Dal divano non si
+      legge (visto sul banco il 10/09/2026). Questa finestra sta dentro
+      l'add-on e ha lo stesso aspetto su tutte e tre le skin di casa.
+
+  IL CARATTERE E LO ZOOM
+      Un add-on non puo' portarsi i suoi caratteri: usa quelli della skin.
+      L'UNICO nome che esiste in Arctic Zephyr, Estuary e skin.saghe e'
+      `font13` (30 punti, controllato il 10/09/2026). Non si puo' scegliere
+      un carattere piu' grosso che esista ovunque: si disegna tutto a misura
+      normale e si ingrandisce il gruppo del 35% con un'animazione. Kodi
+      scala anche il testo, che arriva a circa 40 punti.
+
+  PROPRIETA' (le mette avvio.py con setProperty)
+      titolo   la prima riga, in grassetto
+      testo    la seconda riga
+      immagine la locandina (se manca resta il riquadro scuro)
+-->
+<window>
+    <animation effect="fade" start="0" end="100" time="250">WindowOpen</animation>
+    <animation effect="fade" start="100" end="0" time="300">WindowClose</animation>
+    <controls>
+        <control type="group">
+            <!-- misura base 620x160, in alto a destra; con lo zoom 837x216 -->
+            <left>1240</left>
+            <top>50</top>
+            <width>620</width>
+            <height>160</height>
+            <animation effect="zoom" start="135" end="135" center="1860,50" condition="true">Conditional</animation>
+            <animation effect="slide" start="80,0" end="0,0" time="300" tween="cubic" easing="out">WindowOpen</animation>
+
+            <control type="image">
+                <left>0</left><top>0</top><width>620</width><height>160</height>
+                <texture colordiffuse="F0141414">bianco.png</texture>
+            </control>
+            <!-- la striscia colorata a sinistra: si capisce a colpo d'occhio
+                 che e' un avviso della Videoteca, non un errore -->
+            <control type="image">
+                <left>0</left><top>0</top><width>8</width><height>160</height>
+                <texture colordiffuse="FFE50914">bianco.png</texture>
+            </control>
+            <control type="image">
+                <left>24</left><top>12</top><width>91</width><height>136</height>
+                <aspectratio>scale</aspectratio>
+                <texture background="true">$INFO[Window.Property(immagine)]</texture>
+            </control>
+            <control type="label">
+                <left>136</left><top>30</top><width>466</width><height>44</height>
+                <font>font13</font>
+                <textcolor>FFFFFFFF</textcolor>
+                <label>[B]$INFO[Window.Property(titolo)][/B]</label>
+            </control>
+            <control type="textbox">
+                <left>136</left><top>78</top><width>466</width><height>70</height>
+                <font>font13</font>
+                <textcolor>FFBDBDBD</textcolor>
+                <label>$INFO[Window.Property(testo)]</label>
+            </control>
+        </control>
+    </controls>
+</window>
