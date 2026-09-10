@@ -1,3 +1,15 @@
+# >>> STATO 10/09 sera <<<
+# COMMIT git `21de2fc` (Antigravity/main). Reversibile: `git revert 21de2fc`.
+# DEPLOY FATTO su ENTRAMBI: Raspberry .105 (era spento, fresco al boot) e
+#   Box .114 (Kodi 21.2, NON riavviato - SERVE riavviare Kodi sul box per
+#   la skin nuova). Backup `.bak-20260910` su entrambi. Pacchetto in
+#   tmp_addon_pull/DEPLOY-20260910/.
+# PROSSIMA SESSIONE: (1) riavviare Kodi box + verifica a video; (2) FASE 2
+#   "Su Netflix ora" = Film/Documentari per genere + righe locandine nella
+#   Home skin; (3) skin "stile Netflix" - chiedere cosa intende; (4)
+#   pacchetto finale (repository.videoteca + primo avvio + auto-update,
+#   serve repo GitHub utente; la skin ha bisogno di una sorgente unica).
+
 # Lavori Videoteca — banco di prova PC (10/09/2026)
 
 Kodi 21.3 sul PC, skin.saghe attiva, finestra, pilotato via JSON-RPC 8080.
