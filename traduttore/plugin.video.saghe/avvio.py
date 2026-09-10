@@ -225,17 +225,32 @@ def _avviso(titolo, testo, immagine=""):
     non si legge. Se la nostra finestra non si apre - skin strana, file
     mancante - si ripiega sulla notifica normale: meglio piccola che niente.
     """
+    # AL PRIMO TASTO SI CHIUDE. Una finestra di Python aperta con show()
+    # riceve lei i tasti: sul banco (10/09/2026) la freccia non spostava piu'
+    # le tessere finche' l'avviso restava a schermo. Chiuderla al primo tasto
+    # vuol dire al massimo un tasto "speso", mai sei secondi di telecomando
+    # morto.
+    class _Finestra(xbmcgui.WindowXMLDialog):
+        chiusa = False
+
+        def onAction(self, azione):
+            self.chiusa = True
+            self.close()
+
     try:
         import xbmcaddon
         percorso = xbmcaddon.Addon("plugin.video.saghe").getAddonInfo("path")
-        finestra = xbmcgui.WindowXMLDialog("avviso.xml", percorso,
-                                           "Default", "1080i")
+        finestra = _Finestra("avviso.xml", percorso, "Default", "1080i")
         finestra.setProperty("titolo", titolo or "")
         finestra.setProperty("testo", testo or "")
         finestra.setProperty("immagine", immagine or "")
         finestra.show()
-        xbmc.Monitor().waitForAbort(DURATA_AVVISO)
-        finestra.close()
+        monitor = xbmc.Monitor()
+        for _ in range(DURATA_AVVISO * 5):
+            if finestra.chiusa or monitor.waitForAbort(0.2):
+                break
+        if not finestra.chiusa:
+            finestra.close()
         del finestra
     except Exception as e:
         xbmc.log("[Le Saghe] avviso grande non aperto: %s" % e, xbmc.LOGWARNING)
