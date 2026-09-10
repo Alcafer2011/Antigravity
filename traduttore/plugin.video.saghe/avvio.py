@@ -71,26 +71,51 @@ LEVE_S4ME = [
     ("next_ep", "1",
      "Prossimo episodio: automatico",
      "Funziona per le saghe messe nella videoteca."),
-    ("trakt_sync", "true",
-     "Sincronia con Trakt",
-     "Tiene il segno di dove sei arrivato su TUTTI gli apparecchi, e anche "
-     "fuori casa - cosa che il nostro quaderno non sa fare. Attenzione: "
-     "accendere l'interruttore non basta, serve autorizzare l'account "
-     "dalla TV (vedi sotto)."),
+    # TRAKT: NON si accende, ed e' una scelta motivata.
+    #
+    # Provato il 06/09/2026: la chiave con cui QUESTA versione di s4me si
+    # presenta a Trakt non e' piu' registrata da loro. La risposta e'
+    #     401 {"error":"invalid_client","error_description":"client not found"}
+    # Non e' un problema di configurazione: e' l'applicazione di s4me su
+    # Trakt che non esiste piu'. Lasciare l'interruttore acceso darebbe
+    # l'impressione che sincronizzi, e non sincronizza niente.
+    ("trakt_sync", "false",
+     "Sincronia con Trakt: spenta apposta",
+     "La chiave di s4me non e' piu' valida su Trakt (risponde 'client not "
+     "found'). Acceso non farebbe niente, quindi resta spento: il segno di "
+     "dove sei arrivato lo teniamo noi, come prima."),
 ]
 
 
-def _regola_s4me():
-    """Mette in s4me i valori giusti per questa casa, e racconta cosa ha fatto."""
+# Leve che, nel metterle, fanno comparire una finestra.
+#
+# `videolibrary_kodi` acceso fa partire la procedura guidata che chiede i
+# provider delle informazioni: comodissima da fermi, insopportabile se
+# compare sopra un film gia' cominciato. In modo silenzioso si salta.
+LEVE_CHE_APRONO_FINESTRE = ("videolibrary_kodi",)
+
+
+def _regola_s4me(muto=False):
+    """Mette in s4me i valori giusti per questa casa, e racconta cosa ha fatto.
+
+    Con `muto` non apre NIENTE: ne' il riepilogo finale, ne' le leve che si
+    tirano dietro una finestra. Serve per regolare un apparecchio mentre lo
+    si sta usando, senza interrompere quello che c'e' sullo schermo.
+    """
     import xbmcaddon
     try:
         s4 = xbmcaddon.Addon("plugin.video.s4me")
     except Exception:
-        xbmcgui.Dialog().ok("Le Saghe", "s4me non e' installato.")
+        if not muto:
+            xbmcgui.Dialog().ok("Le Saghe", "s4me non e' installato.")
         return
 
     righe = []
     for chiave, valore, nome, perche in LEVE_S4ME:
+        if muto and chiave in LEVE_CHE_APRONO_FINESTRE:
+            xbmc.log("[Le Saghe] muto: salto %s (aprirebbe una finestra)"
+                     % chiave, xbmc.LOGINFO)
+            continue
         prima = s4.getSetting(chiave)
         if prima == valore:
             righe.append("[COLOR grey]gia' a posto[/COLOR]  %s" % nome)
@@ -100,6 +125,11 @@ def _regola_s4me():
             righe.append("[B]cambiato[/B]  %s\n   %s" % (nome, perche))
         except Exception as e:
             righe.append("[COLOR red]non riuscito[/COLOR]  %s (%s)" % (nome, e))
+
+    if muto:
+        for r in righe:
+            xbmc.log("[Le Saghe] %s" % r.replace("\n", " "), xbmc.LOGINFO)
+        return
 
     xbmcgui.Dialog().textviewer(
         "s4me regolato per questa casa",
@@ -111,13 +141,12 @@ def _regola_s4me():
         "Falla UNA saga per volta, quella che stai guardando: ogni saga "
         "crea un file per episodio, e con tutte insieme sarebbero migliaia "
         "di file da scansionare su un Raspberry.\n\n"
-        "[B]Per Trakt serve un passaggio in piu'[/B]\n"
-        "L'interruttore e' acceso, ma finche' non autorizzi l'account non "
-        "sincronizza niente. Si fa da: Impostazioni di s4me > Preferenze > "
-        "Trakt. Compare un codice da scrivere su [B]trakt.tv/activate[/B] "
-        "dal telefono o dal computer. L'account e' gratuito.\n"
-        "Finche' non lo fai, il segno resta quello che teniamo noi: non si "
-        "perde niente.")
+        "[B]Su Trakt: non si puo' fare, e non e' colpa tua[/B]\n"
+        "La chiave con cui questa versione di s4me si presenta a Trakt non "
+        "e' piu' registrata da loro: risponde 'client not found'. Acceso "
+        "non sincronizzerebbe niente, quindi resta spento apposta.\n"
+        "Il segno di dove sei arrivato continua a tenerlo il nostro "
+        "quaderno, come prima: non si perde nulla.")
 
 
 def main():
@@ -126,7 +155,8 @@ def main():
         if comando == "vetrina":
             _vetrina()
         elif comando == "regola_s4me":
-            _regola_s4me()
+            # RunScript(plugin.video.saghe, regola_s4me, muto)
+            _regola_s4me(muto=(len(sys.argv) > 2 and sys.argv[2] == "muto"))
         else:
             xbmc.log("[Le Saghe] comando sconosciuto: %s" % comando,
                      xbmc.LOGWARNING)

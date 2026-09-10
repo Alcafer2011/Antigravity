@@ -2,7 +2,7 @@
 <!--
   LA VETRINA: la schermata a righe orizzontali, disegnata da noi.
 
-  DUE COSE IMPARATE SUL CAMPO, che sembrano dettagli e non lo sono:
+  TRE COSE IMPARATE SUL CAMPO, che sembrano dettagli e non lo sono:
 
   1. LA VELATURA usa bianco.png e non white.png. `white.png` esiste solo se
      ce l'ha la pelle in uso: sul Raspberry non c'era, le velature non
@@ -16,10 +16,19 @@
      (Detto dall'utente il 06/09/2026: "non si vede su quale locandina si
      e' quando si scorre, non si leggono nemmeno i titoli".)
 
+  3. LO SPAZIO E' FINITO: 1080 righe, e in fondo c'e' la scritta dei tasti
+     a quota 1046 (era 1024: il titolo della terza riga ci finiva sopra).
+     Con la terza riga (07/09/2026) i conti non tornavano
+     piu: la testata e scesa da 428 a 260 e le locandine da 200 a 176
+     di altezza. Prima di aggiungere una quarta riga, rifare i conti -
+     non spostare e sperare.
+         testata 0-254   gruppo da 260   righe a 28/284/540 (alte 222)
+         l'ultima finisce a 260+540+222 = 1022, sopra i 1024 del fondo
+
   NUMERI DEI CONTROLLI (li usa vetrina.py, non cambiarli a cuor leggero)
       100  riga "Continua a guardare"      200  lo sfondo grande
       101  riga "Le tue saghe"             201  il titolo
-                                           202  la riga sotto il titolo
+      102  riga "Novita' dai tuoi siti"    202  la riga sotto il titolo
                                            203  la trama
 -->
 <window>
@@ -48,33 +57,33 @@
             <texture colordiffuse="D90E0B09">bianco.png</texture>
         </control>
         <control type="image">
-            <left>0</left><top>400</top><width>1920</width><height>680</height>
+            <left>0</left><top>280</top><width>1920</width><height>800</height>
             <texture colordiffuse="D00E0B09">bianco.png</texture>
         </control>
 
         <control type="label">
-            <left>80</left><top>46</top><width>900</width><height>34</height>
+            <left>80</left><top>34</top><width>900</width><height>34</height>
             <font>font13</font>
             <textcolor>FFE8A24A</textcolor>
-            <label>LE SAGHE</label>
+            <label>LA VIDEOTECA DI ALESSANDRO</label>
         </control>
 
         <control type="label" id="201">
-            <left>80</left><top>92</top><width>1020</width><height>66</height>
+            <left>80</left><top>74</top><width>1020</width><height>60</height>
             <font>font45</font>
             <textcolor>FFF3EDE3</textcolor>
             <shadowcolor>FF000000</shadowcolor>
             <label></label>
         </control>
         <control type="label" id="202">
-            <left>80</left><top>166</top><width>1020</width><height>32</height>
+            <left>80</left><top>140</top><width>1020</width><height>30</height>
             <font>font13</font>
             <textcolor>FFE8A24A</textcolor>
             <shadowcolor>FF000000</shadowcolor>
             <label></label>
         </control>
         <control type="textbox" id="203">
-            <left>80</left><top>208</top><width>1000</width><height>160</height>
+            <left>80</left><top>178</top><width>1000</width><height>76</height>
             <font>font12</font>
             <textcolor>FFC6BCAF</textcolor>
             <shadowcolor>FF000000</shadowcolor>
@@ -82,41 +91,41 @@
         </control>
 
         <control type="group">
-            <left>0</left><top>428</top>
+            <left>0</left><top>260</top>
 
             <control type="label">
-                <left>80</left><top>0</top><width>900</width><height>28</height>
+                <left>80</left><top>0</top><width>900</width><height>26</height>
                 <font>font13</font><textcolor>FFF3EDE3</textcolor>
                 <shadowcolor>FF000000</shadowcolor>
                 <label>$INFO[Window.Property(riga0)]</label>
                 <visible>!IsEmpty(Window.Property(riga0))</visible>
             </control>
             <control type="list" id="100">
-                <left>80</left><top>32</top><width>1790</width><height>250</height>
-                <onup>101</onup><ondown>101</ondown>
+                <left>80</left><top>28</top><width>1790</width><height>222</height>
+                <onup>102</onup><ondown>101</ondown>
                 <orientation>horizontal</orientation>
                 <!-- NON selezionata: locandina smorzata, nessuna cornice,
                      nessun titolo. Serve il contrasto, non la simmetria. -->
-                <itemlayout width="152" height="250">
+                <itemlayout width="136" height="222">
                     <control type="image">
-                        <left>6</left><top>10</top><width>140</width><height>200</height>
+                        <left>6</left><top>8</top><width>124</width><height>176</height>
                         <aspectratio>scale</aspectratio>
                         <texture background="true" colordiffuse="80FFFFFF">$INFO[ListItem.Art(poster)]</texture>
                     </control>
                 </itemlayout>
                 <!-- SELEZIONATA: cornice ambra, piena luce, titolo sotto -->
-                <focusedlayout width="152" height="250">
+                <focusedlayout width="136" height="222">
                     <control type="image">
-                        <left>0</left><top>4</top><width>152</width><height>212</height>
+                        <left>0</left><top>2</top><width>136</width><height>188</height>
                         <texture colordiffuse="FFE8A24A">bianco.png</texture>
                     </control>
                     <control type="image">
-                        <left>6</left><top>10</top><width>140</width><height>200</height>
+                        <left>6</left><top>8</top><width>124</width><height>176</height>
                         <aspectratio>scale</aspectratio>
                         <texture background="true">$INFO[ListItem.Art(poster)]</texture>
                     </control>
                     <control type="label">
-                        <left>0</left><top>216</top><width>152</width><height>30</height>
+                        <left>0</left><top>192</top><width>136</width><height>28</height>
                         <font>font12</font>
                         <align>center</align>
                         <textcolor>FFE8A24A</textcolor>
@@ -127,35 +136,79 @@
             </control>
 
             <control type="label">
-                <left>80</left><top>302</top><width>900</width><height>28</height>
+                <left>80</left><top>256</top><width>900</width><height>26</height>
                 <font>font13</font><textcolor>FFF3EDE3</textcolor>
                 <shadowcolor>FF000000</shadowcolor>
                 <label>$INFO[Window.Property(riga1)]</label>
                 <visible>!IsEmpty(Window.Property(riga1))</visible>
             </control>
             <control type="list" id="101">
-                <left>80</left><top>334</top><width>1790</width><height>250</height>
-                <onup>100</onup><ondown>100</ondown>
+                <left>80</left><top>284</top><width>1790</width><height>222</height>
+                <onup>100</onup><ondown>102</ondown>
                 <orientation>horizontal</orientation>
-                <itemlayout width="152" height="250">
+                <itemlayout width="136" height="222">
                     <control type="image">
-                        <left>6</left><top>10</top><width>140</width><height>200</height>
+                        <left>6</left><top>8</top><width>124</width><height>176</height>
                         <aspectratio>scale</aspectratio>
                         <texture background="true" colordiffuse="80FFFFFF">$INFO[ListItem.Art(poster)]</texture>
                     </control>
                 </itemlayout>
-                <focusedlayout width="152" height="250">
+                <focusedlayout width="136" height="222">
                     <control type="image">
-                        <left>0</left><top>4</top><width>152</width><height>212</height>
+                        <left>0</left><top>2</top><width>136</width><height>188</height>
                         <texture colordiffuse="FFE8A24A">bianco.png</texture>
                     </control>
                     <control type="image">
-                        <left>6</left><top>10</top><width>140</width><height>200</height>
+                        <left>6</left><top>8</top><width>124</width><height>176</height>
                         <aspectratio>scale</aspectratio>
                         <texture background="true">$INFO[ListItem.Art(poster)]</texture>
                     </control>
                     <control type="label">
-                        <left>0</left><top>216</top><width>152</width><height>30</height>
+                        <left>0</left><top>192</top><width>136</width><height>28</height>
+                        <font>font12</font>
+                        <align>center</align>
+                        <textcolor>FFE8A24A</textcolor>
+                        <shadowcolor>FF000000</shadowcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+                </focusedlayout>
+            </control>
+
+            <!-- LA TERZA RIGA: le novita' di s4me, con lo stesso aspetto.
+                 Se s4me non c'e' o la cache e' vuota, vetrina.py non la
+                 riempie e l'etichetta resta vuota: la riga sparisce da
+                 sola, non resta un buco con una scritta sopra. -->
+            <control type="label">
+                <left>80</left><top>512</top><width>900</width><height>26</height>
+                <font>font13</font><textcolor>FFF3EDE3</textcolor>
+                <shadowcolor>FF000000</shadowcolor>
+                <label>$INFO[Window.Property(riga2)]</label>
+                <visible>!IsEmpty(Window.Property(riga2))</visible>
+            </control>
+            <control type="list" id="102">
+                <left>80</left><top>540</top><width>1790</width><height>222</height>
+                <onup>101</onup><ondown>100</ondown>
+                <orientation>horizontal</orientation>
+                <visible>!IsEmpty(Window.Property(riga2))</visible>
+                <itemlayout width="136" height="222">
+                    <control type="image">
+                        <left>6</left><top>8</top><width>124</width><height>176</height>
+                        <aspectratio>scale</aspectratio>
+                        <texture background="true" colordiffuse="80FFFFFF">$INFO[ListItem.Art(poster)]</texture>
+                    </control>
+                </itemlayout>
+                <focusedlayout width="136" height="222">
+                    <control type="image">
+                        <left>0</left><top>2</top><width>136</width><height>188</height>
+                        <texture colordiffuse="FFE8A24A">bianco.png</texture>
+                    </control>
+                    <control type="image">
+                        <left>6</left><top>8</top><width>124</width><height>176</height>
+                        <aspectratio>scale</aspectratio>
+                        <texture background="true">$INFO[ListItem.Art(poster)]</texture>
+                    </control>
+                    <control type="label">
+                        <left>0</left><top>192</top><width>136</width><height>28</height>
                         <font>font12</font>
                         <align>center</align>
                         <textcolor>FFE8A24A</textcolor>
@@ -168,7 +221,7 @@
         </control>
 
         <control type="label">
-            <left>80</left><top>1024</top><width>1700</width><height>28</height>
+            <left>80</left><top>1046</top><width>1700</width><height>28</height>
             <font>font12</font>
             <textcolor>FF8C8175</textcolor>
             <label>Frecce per spostarti  -  OK per aprire  -  Indietro per uscire</label>

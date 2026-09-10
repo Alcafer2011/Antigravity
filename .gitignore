@@ -79,3 +79,6 @@ src/.undo/
 src/.checkpoints/
 src/.bugHunter/
 src/.permessi-strumenti.json
+
+traduttore/plugin.video.saghe/**/__pycache__/
+traduttore/plugin.video.saghe/**/*.pyc

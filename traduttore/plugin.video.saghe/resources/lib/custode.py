@@ -154,3 +154,108 @@ def racconta():
             "arrivato tenuto da lui.\n\n"
             "Se un aggiornamento di s4me se lo porta via, torna da solo al "
             "riavvio successivo.")
+
+
+# --------------------------------------------------------------------------
+# I CANALI DI s4me CHE ERANO SPENTI
+#
+# SCOPERTA DEL 07/09/2026: quasi tutti i canali di s4me sono `active: false`
+# nella sua configurazione. Non e' un guasto - e' come arriva - ma vuol dire
+# che la sua ricerca non guarda NEMMENO siti che funzionano benissimo, fra
+# cui VVVVID (che e' gratuito, legale e italiano) e Eurostreaming (che ha
+# davvero le serie turche). L'utente se ne era accorto dall'effetto: "non
+# trova le cose, e i servizi gratis non li usa".
+#
+# QUI SI CAMBIA UNA REGOLA CHE AVEVAMO SCRITTO NOI
+#     Fino a ieri il custode non toccava NESSUN file di s4me. Adesso ne
+#     tocca uno per canale, e solo un campo: `active`. E' una scelta presa
+#     apposta, su richiesta dell'utente ("metterei ordine anche a lui").
+#     Si riapplica a ogni avvio, quindi un aggiornamento di s4me che la
+#     azzera dura al massimo fino al riavvio dopo: e' la risposta alla sua
+#     domanda "ma l'ordine regge agli aggiornamenti?".
+#     Per tornare indietro basta togliere questa lista.
+# --------------------------------------------------------------------------
+
+# Canali verificati il 07/09/2026: esistono, hanno una funzione di ricerca,
+# ed erano spenti.
+DA_ACCENDERE = [
+    # anime, in italiano
+    "vvvvid",            # ufficiale, gratuito, legale
+    "animeforce",
+    "dreamsub",
+    "cb01anime",
+    "animeuniverse",
+    # serie con attori veri: senza questi le turche non si trovano
+    "eurostreaming",
+    "serietvu",
+    "mondoserietv",
+    "altadefinizione01",
+]
+
+
+def _accendi_canale(cartella, nome):
+    """Mette active=true nella scheda del canale. Vero se l'ha cambiato."""
+    import json
+    percorso = os.path.join(cartella, nome + ".json")
+    if not os.path.exists(percorso):
+        return False
+    try:
+        with open(percorso, "r", encoding="utf-8") as f:
+            dati = json.load(f)
+    except Exception as e:
+        xbmc.log("[Le Saghe] %s.json illeggibile: %s" % (nome, e), xbmc.LOGWARNING)
+        return False
+    if dati.get("active"):
+        return False
+    dati["active"] = True
+    try:
+        with open(percorso, "w", encoding="utf-8") as f:
+            json.dump(dati, f, indent=4, ensure_ascii=False)
+    except Exception as e:
+        xbmc.log("[Le Saghe] non ho potuto accendere %s: %s" % (nome, e),
+                 xbmc.LOGWARNING)
+        return False
+    return True
+
+
+def _metti_nella_ricerca(nome):
+    """Fa partecipare il canale alla ricerca globale di s4me.
+
+    Questo NON sta nei file di s4me ma nei dati dell'utente
+    (`settings_channels/`), quindi sopravvive da solo agli aggiornamenti.
+    """
+    import json
+    cartella = xbmcvfs.translatePath(
+        "special://profile/addon_data/%s/settings_channels/" % S4ME)
+    if not os.path.isdir(cartella):
+        return False
+    percorso = os.path.join(cartella, "%s_data.json" % nome)
+    try:
+        if os.path.exists(percorso):
+            with open(percorso, "r", encoding="utf-8") as f:
+                dati = json.load(f)
+        else:
+            dati = {"settings": {}}
+        if dati.setdefault("settings", {}).get("include_in_global_search"):
+            return False
+        dati["settings"]["include_in_global_search"] = True
+        with open(percorso, "w", encoding="utf-8") as f:
+            json.dump(dati, f, indent=4, ensure_ascii=False)
+        return True
+    except Exception as e:
+        xbmc.log("[Le Saghe] ricerca globale di %s: %s" % (nome, e),
+                 xbmc.LOGWARNING)
+        return False
+
+
+def assicura_canali():
+    """Riaccende i canali utili di s4me. (quanti accesi, quanti in ricerca)"""
+    cartella = _cartella_s4me()
+    if not cartella:
+        return 0, 0
+    accesi = sum(1 for n in DA_ACCENDERE if _accendi_canale(cartella, n))
+    cercabili = sum(1 for n in DA_ACCENDERE if _metti_nella_ricerca(n))
+    if accesi or cercabili:
+        xbmc.log("[Le Saghe] canali di s4me: %d accesi, %d messi in ricerca"
+                 % (accesi, cercabili), xbmc.LOGINFO)
+    return accesi, cercabili

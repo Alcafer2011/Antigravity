@@ -43,16 +43,24 @@ _PERCORSO = xbmcvfs.translatePath(ADDON.getAddonInfo("path"))
 
 RIGA_CONTINUA = 100
 RIGA_SAGHE = 101
+RIGA_NOVITA = 102
 TITOLO = 201
 SOTTO = 202
 TRAMA = 203
 
 
-def _voce(titolo, sotto, trama, serie_id, indirizzo):
+def _voce(titolo, sotto, trama, serie_id, indirizzo, pid=None):
     li = xbmcgui.ListItem(label=titolo, label2=sotto)
     arte = {}
-    po = schede.poster(serie_id)
-    sf = schede.sfondo(serie_id)
+    # Con `pid` si usa la locandina PROPRIA della saga (due saghe che partono
+    # dalla stessa serie non devono avere lo stesso poster); senza, quella
+    # della serie.
+    if pid:
+        po = schede.poster_percorso(pid)
+        sf = schede.sfondo_percorso(pid)
+    else:
+        po = schede.poster(serie_id)
+        sf = schede.sfondo(serie_id)
     if po:
         arte["poster"] = arte["thumb"] = arte["icon"] = po
     if sf:
@@ -63,6 +71,39 @@ def _voce(titolo, sotto, trama, serie_id, indirizzo):
     li.setProperty("indirizzo", indirizzo)
     li.setProperty("trama", trama or "")
     return li
+
+
+def _novita():
+    """Le novita' di s4me, dalla cache. NON va in rete: sarebbe una rotellina.
+
+    La Vetrina si era gia' rovinata una volta perche' costruiva tutto a
+    schermo aperto. Qui si legge SOLO quello che c'e' gia' su disco.
+
+    E l'aggiornamento non si chiede nemmeno da qui, nonostante fosse in un
+    filo a parte: provato il 07/09/2026, s4me apre una SUA finestra di
+    avanzamento ("Novita' in Anime - completato in 6/7 canali") che
+    compare sopra la Vetrina. Due finestre sovrapposte sono esattamente
+    cio' che fa chiudere Kodi. L'aggiornamento lo fa il servizio, dove non
+    c'e' nessuna finestra aperta: vedi service.py.
+    """
+    from resources.lib import novita as _n
+    fuori = []
+    try:
+        for v in _n.leggi():
+            li = xbmcgui.ListItem(label=v.get("titolo", ""),
+                                  label2=v.get("sotto", ""))
+            arte = {"poster": v.get("immagine", ""),
+                    "thumb": v.get("immagine", ""),
+                    "icon": v.get("immagine", "")}
+            if v.get("sfondo"):
+                arte["fanart"] = v["sfondo"]
+            li.setArt(arte)
+            li.setProperty("indirizzo", v.get("indirizzo", ""))
+            li.setProperty("trama", v.get("trama", ""))
+            fuori.append(li)
+    except Exception as e:
+        xbmc.log("[Le Saghe] vetrina, novita': %s" % e, xbmc.LOGWARNING)
+    return fuori
 
 
 def _continua(base):
@@ -83,7 +124,8 @@ def _continua(base):
             "Riprendi da: %s" % titolo_ep,
             sch["trama"] or p.get("spiegazione", ""),
             t["serie"],
-            "%s?azione=apri&percorso=%s&idx=%d" % (base, pid, r["idx"])))
+            "%s?azione=apri&percorso=%s&idx=%d" % (base, pid, r["idx"]),
+            pid=pid))
     return fuori
 
 
@@ -114,7 +156,8 @@ def _saghe(base):
             p["titolo"], p.get("sottotitolo", ""),
             p.get("spiegazione", "") or p.get("sottotitolo", ""),
             p["segmenti"][0][0],
-            "%s?azione=percorso&percorso=%s" % (base, pid))
+            "%s?azione=percorso&percorso=%s" % (base, pid),
+            pid=pid)
         # si segna QUALE percorso e', cosi' il conteggio si puo' fare dopo
         li.setProperty("percorso", pid)
         fuori.append(li)
@@ -147,15 +190,19 @@ class _Finestra(xbmcgui.WindowXML):
         try:
             continua = _continua(self.base)
             saghe = _saghe(self.base)
+            novita = _novita()
 
             # La scritta sopra ogni riga passa da una proprieta' della
             # finestra: nel disegno c'e' $INFO[Window.Property(riga0)].
             self.setProperty("riga0", "CONTINUA A GUARDARE" if continua else "")
             self.setProperty("riga1", "LE TUE SAGHE" if saghe else "")
+            self.setProperty("riga2", "NOVITA' DAI TUOI SITI" if novita else "")
 
             if continua:
                 self.getControl(RIGA_CONTINUA).addItems(continua)
             self.getControl(RIGA_SAGHE).addItems(saghe)
+            if novita:
+                self.getControl(RIGA_NOVITA).addItems(novita)
 
             # Se non c'e' niente da riprendere si parte dalle saghe,
             # altrimenti il primo tasto premuto cadrebbe nel vuoto.
@@ -168,7 +215,7 @@ class _Finestra(xbmcgui.WindowXML):
     def _elemento(self):
         try:
             cid = self.getFocusId()
-            if cid not in (RIGA_CONTINUA, RIGA_SAGHE):
+            if cid not in (RIGA_CONTINUA, RIGA_SAGHE, RIGA_NOVITA):
                 return None
             lista = self.getControl(cid)
             return lista.getSelectedItem()

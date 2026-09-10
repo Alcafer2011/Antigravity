@@ -113,6 +113,19 @@ def ripresa(percorso_id):
     return int(s.get("secondi", 0)), int(s.get("durata", 0))
 
 
+def tutte():
+    """Lo stato di TUTTI i percorsi toccati. Serve ai consigli.
+
+    I consigli si basano su cosa guardi davvero: quali saghe hai aperto e
+    quanti episodi hai visto. Quel dato e' gia' tutto qui dentro, non serve
+    spiare niente d'altro.
+    """
+    try:
+        return dict(_leggi())
+    except Exception:
+        return {}
+
+
 def visti(percorso_id):
     return set(_stato_percorso(_leggi(), percorso_id).get("visti", []))
 
@@ -232,6 +245,21 @@ def marca_controllata():
     if not s:
         return
     s["controllata"] = True
+    try:
+        with open(_FILE_SESSIONE, "w", encoding="utf-8") as f:
+            json.dump(s, f)
+    except OSError:
+        pass
+
+
+def marca_visto_play():
+    """Il video di questa sessione E' PARTITO almeno una volta. Serve al
+    servizio per distinguere 'finito' da 'non ancora partito' quando il
+    video lo apre s4me e ci mette secondi a risolvere la fonte."""
+    s = sessione()
+    if not s or s.get("visto_play"):
+        return
+    s["visto_play"] = True
     try:
         with open(_FILE_SESSIONE, "w", encoding="utf-8") as f:
             json.dump(s, f)

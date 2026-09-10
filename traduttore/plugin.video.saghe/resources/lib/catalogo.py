@@ -609,6 +609,13 @@ SERIE = {
     },
 
     "tr_terra_amara": {
+        # Gli altri nomi con cui la stessa serie gira in rete: i siti
+        # usano ora quello italiano ora quello originale turco.
+        "alias": ["Bir Zamanlar Cukurova"],
+        # Non e' un cartone: va cercata sui siti di serie TV, non su
+        # quelli di anime. Senza questa riga il risolutore guardava
+        # solo animeworld & c. e non la trovava MAI.
+        "tipo": "serie_tv",
         "titolo": "Terra amara",
         "anni": "2018-2022",
         "episodi": 141,
@@ -620,6 +627,13 @@ SERIE = {
                 "anni, spostandola di orario di continuo.",
     },
     "tr_endless_love": {
+        # Gli altri nomi con cui la stessa serie gira in rete: i siti
+        # usano ora quello italiano ora quello originale turco.
+        "alias": ["Kara Sevda"],
+        # Non e' un cartone: va cercata sui siti di serie TV, non su
+        # quelli di anime. Senza questa riga il risolutore guardava
+        # solo animeworld & c. e non la trovava MAI.
+        "tipo": "serie_tv",
         "titolo": "Endless Love",
         "anni": "2015-2017",
         "episodi": 74,
@@ -631,6 +645,13 @@ SERIE = {
                 "le altre in Europa.",
     },
     "tr_daydreamer": {
+        # Gli altri nomi con cui la stessa serie gira in rete: i siti
+        # usano ora quello italiano ora quello originale turco.
+        "alias": ["Erkenci Kus"],
+        # Non e' un cartone: va cercata sui siti di serie TV, non su
+        # quelli di anime. Senza questa riga il risolutore guardava
+        # solo animeworld & c. e non la trovava MAI.
+        "tipo": "serie_tv",
         "titolo": "Daydreamer - Le ali del sogno",
         "anni": "2018-2019",
         "episodi": 51,
@@ -641,6 +662,13 @@ SERIE = {
                 "leggera del gruppo.",
     },
     "tr_love_air": {
+        # Gli altri nomi con cui la stessa serie gira in rete: i siti
+        # usano ora quello italiano ora quello originale turco.
+        "alias": ["Sen Cal Kapimi"],
+        # Non e' un cartone: va cercata sui siti di serie TV, non su
+        # quelli di anime. Senza questa riga il risolutore guardava
+        # solo animeworld & c. e non la trovava MAI.
+        "tipo": "serie_tv",
         "titolo": "Love Is in the Air",
         "anni": "2020-2021",
         "episodi": 52,
@@ -650,6 +678,13 @@ SERIE = {
         "nota": "'Sen Cal Kapimi'. Trasmessa da Canale 5 nel pomeriggio.",
     },
     "tr_my_home": {
+        # Gli altri nomi con cui la stessa serie gira in rete: i siti
+        # usano ora quello italiano ora quello originale turco.
+        "alias": ["Doktor Ali", "Sefirin Kizi"],
+        # Non e' un cartone: va cercata sui siti di serie TV, non su
+        # quelli di anime. Senza questa riga il risolutore guardava
+        # solo animeworld & c. e non la trovava MAI.
+        "tipo": "serie_tv",
         "titolo": "My Home My Destiny",
         "anni": "2019-2021",
         "episodi": 43,
@@ -660,6 +695,13 @@ SERIE = {
                 "via dalla famiglia.",
     },
     "tr_brave": {
+        # Gli altri nomi con cui la stessa serie gira in rete: i siti
+        # usano ora quello italiano ora quello originale turco.
+        "alias": ["Cesur ve Guzel"],
+        # Non e' un cartone: va cercata sui siti di serie TV, non su
+        # quelli di anime. Senza questa riga il risolutore guardava
+        # solo animeworld & c. e non la trovava MAI.
+        "tipo": "serie_tv",
         "titolo": "Brave and Beautiful",
         "anni": "2016-2017",
         "episodi": 32,
@@ -669,6 +711,13 @@ SERIE = {
         "nota": "'Cesur ve Guzel'. Vendetta e amore fra due famiglie nemiche.",
     },
     "tr_segreti": {
+        # Gli altri nomi con cui la stessa serie gira in rete: i siti
+        # usano ora quello italiano ora quello originale turco.
+        "alias": ["Yargi"],
+        # Non e' un cartone: va cercata sui siti di serie TV, non su
+        # quelli di anime. Senza questa riga il risolutore guardava
+        # solo animeworld & c. e non la trovava MAI.
+        "tipo": "serie_tv",
         "titolo": "Segreti di famiglia",
         "anni": "2021-2024",
         "episodi": 95,
@@ -679,6 +728,13 @@ SERIE = {
                 "ministero e un avvocato. Considerata la meglio scritta.",
     },
     "tr_cherry": {
+        # Gli altri nomi con cui la stessa serie gira in rete: i siti
+        # usano ora quello italiano ora quello originale turco.
+        "alias": ["Kiraz Mevsimi"],
+        # Non e' un cartone: va cercata sui siti di serie TV, non su
+        # quelli di anime. Senza questa riga il risolutore guardava
+        # solo animeworld & c. e non la trovava MAI.
+        "tipo": "serie_tv",
         "titolo": "Cherry Season - La stagione del cuore",
         "anni": "2014-2016",
         "episodi": 59,
@@ -688,6 +744,13 @@ SERIE = {
         "nota": "'Kiraz Mevsimi'. Una delle prime arrivate in Italia.",
     },
     "tr_mr_wrong": {
+        # Gli altri nomi con cui la stessa serie gira in rete: i siti
+        # usano ora quello italiano ora quello originale turco.
+        "alias": ["Bay Yanlis"],
+        # Non e' un cartone: va cercata sui siti di serie TV, non su
+        # quelli di anime. Senza questa riga il risolutore guardava
+        # solo animeworld & c. e non la trovava MAI.
+        "tipo": "serie_tv",
         "titolo": "Mr. Wrong - Lezioni d'amore",
         "anni": "2020",
         "episodi": 14,
@@ -697,6 +760,13 @@ SERIE = {
         "nota": "'Bay Yanlis'. Corta e comica.",
     },
     "tr_come_sorelle": {
+        # Gli altri nomi con cui la stessa serie gira in rete: i siti
+        # usano ora quello italiano ora quello originale turco.
+        "alias": ["Sevgili Gecmis"],
+        # Non e' un cartone: va cercata sui siti di serie TV, non su
+        # quelli di anime. Senza questa riga il risolutore guardava
+        # solo animeworld & c. e non la trovava MAI.
+        "tipo": "serie_tv",
         "titolo": "Come sorelle",
         "anni": "2019",
         "episodi": 8,
@@ -707,6 +777,13 @@ SERIE = {
                 "settimana.",
     },
     "tr_hercai": {
+        # Gli altri nomi con cui la stessa serie gira in rete: i siti
+        # usano ora quello italiano ora quello originale turco.
+        "alias": ["Hercai"],
+        # Non e' un cartone: va cercata sui siti di serie TV, non su
+        # quelli di anime. Senza questa riga il risolutore guardava
+        # solo animeworld & c. e non la trovava MAI.
+        "tipo": "serie_tv",
         "titolo": "Hercai - Amore e vendetta",
         "anni": "2019-2021",
         "episodi": 69,
@@ -717,6 +794,13 @@ SERIE = {
                 "famiglie.",
     },
     "tr_ragazza_ufficiale": {
+        # Gli altri nomi con cui la stessa serie gira in rete: i siti
+        # usano ora quello italiano ora quello originale turco.
+        "alias": ["Kizim"],
+        # Non e' un cartone: va cercata sui siti di serie TV, non su
+        # quelli di anime. Senza questa riga il risolutore guardava
+        # solo animeworld & c. e non la trovava MAI.
+        "tipo": "serie_tv",
         "titolo": "La ragazza e l'ufficiale",
         "anni": "2014",
         "episodi": 21,
@@ -727,6 +811,13 @@ SERIE = {
                 "un ufficiale turco.",
     },
     "tr_bitter_sweet": {
+        # Gli altri nomi con cui la stessa serie gira in rete: i siti
+        # usano ora quello italiano ora quello originale turco.
+        "alias": ["Dolunay"],
+        # Non e' un cartone: va cercata sui siti di serie TV, non su
+        # quelli di anime. Senza questa riga il risolutore guardava
+        # solo animeworld & c. e non la trovava MAI.
+        "tipo": "serie_tv",
         "titolo": "Bitter Sweet - Ingredienti d'amore",
         "anni": "2017",
         "episodi": 26,
@@ -736,6 +827,13 @@ SERIE = {
         "nota": "'Dolunay'. GRATIS su Mediaset Infinity, verificato.",
     },
     "tr_forbidden": {
+        # Gli altri nomi con cui la stessa serie gira in rete: i siti
+        # usano ora quello italiano ora quello originale turco.
+        "alias": ["Yasak Elma"],
+        # Non e' un cartone: va cercata sui siti di serie TV, non su
+        # quelli di anime. Senza questa riga il risolutore guardava
+        # solo animeworld & c. e non la trovava MAI.
+        "tipo": "serie_tv",
         "titolo": "Forbidden Fruit",
         "anni": "2018-2023",
         "episodi": 177,
@@ -745,6 +843,13 @@ SERIE = {
         "nota": "'Yasak Elma'. La piu' lunga: centosettantasette puntate.",
     },
     "tr_far_away": {
+        # Gli altri nomi con cui la stessa serie gira in rete: i siti
+        # usano ora quello italiano ora quello originale turco.
+        "alias": ["Uzak Sehrin Masali"],
+        # Non e' un cartone: va cercata sui siti di serie TV, non su
+        # quelli di anime. Senza questa riga il risolutore guardava
+        # solo animeworld & c. e non la trovava MAI.
+        "tipo": "serie_tv",
         "titolo": "Far Away",
         "anni": "2024-2026",
         "episodi": 98,
@@ -754,6 +859,13 @@ SERIE = {
         "nota": "Su Mediaset Infinity e Timvision, verificato.",
     },
     "tr_mezarlik": {
+        # Gli altri nomi con cui la stessa serie gira in rete: i siti
+        # usano ora quello italiano ora quello originale turco.
+        "alias": ["Mezarlik"],
+        # Non e' un cartone: va cercata sui siti di serie TV, non su
+        # quelli di anime. Senza questa riga il risolutore guardava
+        # solo animeworld & c. e non la trovava MAI.
+        "tipo": "serie_tv",
         "titolo": "Mezarlik",
         "anni": "2022-2026",
         "episodi": 20,
@@ -764,6 +876,13 @@ SERIE = {
                 "d'amore.",
     },
     "tr_arafta": {
+        # Gli altri nomi con cui la stessa serie gira in rete: i siti
+        # usano ora quello italiano ora quello originale turco.
+        "alias": ["Arafta"],
+        # Non e' un cartone: va cercata sui siti di serie TV, non su
+        # quelli di anime. Senza questa riga il risolutore guardava
+        # solo animeworld & c. e non la trovava MAI.
+        "tipo": "serie_tv",
         "titolo": "Arafta",
         "anni": "2025-2026",
         "episodi": 129,
@@ -777,6 +896,441 @@ SERIE = {
                 "fatto in tempo a esistere.",
     },
 
+
+    # ======================================================================
+    # DAGLI ANNI NOVANTA A OGGI
+    # Conteggi chiesti a TMDb il 06/09/2026.
+    # ======================================================================
+
+    "yuyu": {
+        "titolo": "Yu Yu Hakusho",
+        "anni": "1992-1994",
+        "episodi": 112,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": ["netflix"],
+        "nota": "In Italia si chiamava 'Yu degli spettri'. Stesso autore di "
+                "Hunter x Hunter: comincia come storia di fantasmi e diventa "
+                "un torneo di combattimento.",
+    },
+    "slamdunk": {
+        "titolo": "Slam Dunk",
+        "anni": "1993-1996",
+        "episodi": 101,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": [],
+        "nota": "L'anime finisce a meta' del campionato nazionale: il fumetto "
+                "va avanti, l'anime no. Non e' un taglio italiano, manca "
+                "anche in Giappone.",
+    },
+    "evangelion": {
+        "titolo": "Neon Genesis Evangelion",
+        "anni": "1995-1996",
+        "episodi": 26,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": ["netflix"],
+        "nota": "Ventisei episodi, ma il finale vero e' il film 'The End of "
+                "Evangelion': gli ultimi due episodi della serie furono "
+                "girati senza soldi e senza tempo.",
+    },
+    "kenshin": {
+        "titolo": "Kenshin - Samurai vagabondo",
+        "anni": "1996-1998",
+        "episodi": 94,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": [],
+        "nota": "Dall'episodio 63 in poi la storia se la inventa l'anime: il "
+                "fumetto prosegue altrove. La parte migliore, Kyoto, sta fra "
+                "il 28 e il 62.",
+    },
+    "berserk": {
+        "titolo": "Berserk",
+        "anni": "1997-1998",
+        "episodi": 25,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": [],
+        "nota": "Racconta un solo arco, l'Eta' dell'Oro, e finisce di colpo "
+                "senza concluderlo. Non e' un guasto: e' cosi'.",
+    },
+    "cowboy": {
+        "titolo": "Cowboy Bebop",
+        "anni": "1998-1999",
+        "episodi": 26,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": ["netflix"],
+        "nota": "Ogni episodio si regge da solo, ma la storia di Spike va in "
+                "ordine: dal 5 in poi conviene non saltare.",
+    },
+    "trigun": {
+        "titolo": "Trigun",
+        "anni": "1998",
+        "episodi": 26,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": [],
+        "nota": "Western fantascientifico. Il rifacimento del 2023 "
+                "('Stampede') racconta la stessa storia in modo diverso e non "
+                "e' un seguito.",
+    },
+    "gto": {
+        "titolo": "GTO - Great Teacher Onizuka",
+        "anni": "1999-2000",
+        "episodi": 43,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": [],
+        "nota": "In Italia arrivo' su MTV, quasi integrale.",
+    },
+    "hxh99": {
+        "titolo": "Hunter x Hunter (1999)",
+        "anni": "1999-2001",
+        "episodi": 62,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": [],
+        "nota": "La prima versione. Si ferma a meta' storia e prosegue solo "
+                "in tre OVA. Piu' cupa e piu' lenta di quella del 2011.",
+    },
+    "hxh": {
+        "titolo": "Hunter x Hunter (2011)",
+        "anni": "2011-2014",
+        "episodi": 148,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": ["crunchyroll"],
+        "nota": "Rifacimento completo che riparte da zero e arriva molto piu' "
+                "avanti, fino alle Formiche Chimera. E' la versione da "
+                "guardare se se ne guarda una sola.",
+    },
+    "inuyasha": {
+        "titolo": "Inuyasha",
+        "anni": "2000-2010",
+        "episodi": 193,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": [],
+        "nota": "Gli episodi 1-167 sono la serie originale; dal 168 al 193 e' "
+                "'The Final Act', girata nove anni dopo per dare alla storia "
+                "il finale che le mancava.",
+    },
+    "yashahime": {
+        "titolo": "Yashahime",
+        "anni": "2020-2022",
+        "episodi": 48,
+        "verificato": True,
+        "audio_ita": False,
+        "sottotitoli_ita": True,
+        "fonti": ["crunchyroll"],
+        "nota": "Il seguito: protagoniste le figlie. ATTENZIONE, questa non "
+                "e' doppiata in italiano, ci sono solo i sottotitoli.",
+    },
+    "fma03": {
+        "titolo": "Fullmetal Alchemist (2003)",
+        "anni": "2003-2004",
+        "episodi": 51,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": [],
+        "nota": "Fino all'episodio 25 circa segue il fumetto; poi il fumetto "
+                "non era ancora finito e l'anime si inventa un finale tutto "
+                "suo, molto diverso.",
+    },
+    "fmab": {
+        "titolo": "Fullmetal Alchemist: Brotherhood",
+        "anni": "2009-2010",
+        "episodi": 64,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": ["netflix", "prime"],
+        "nota": "Non e' un seguito: e' la STESSA storia rifatta da capo, "
+                "questa volta fedele al fumetto e conclusa davvero.",
+    },
+    "bleach": {
+        "titolo": "Bleach",
+        "anni": "2004-2012",
+        "episodi": 366,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": [],
+        "nota": "Finisce senza concludere: l'ultimo arco del fumetto resto' "
+                "fuori per dieci anni.",
+    },
+    "bleach_tybw": {
+        "titolo": "Bleach: Thousand-Year Blood War",
+        "anni": "2022-2026",
+        "episodi": 50,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": ["disney"],
+        "nota": "Il finale mancante, ripreso nel 2022 esattamente dove la "
+                "serie si era fermata. Ancora in corso.",
+    },
+    "deathnote": {
+        "titolo": "Death Note",
+        "anni": "2006-2007",
+        "episodi": 37,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": ["netflix"],
+        "nota": "Trentasette episodi, nessun riempitivo, un finale vero.",
+    },
+    "codegeass": {
+        "titolo": "Code Geass",
+        "anni": "2006-2008",
+        "episodi": 50,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": [],
+        "nota": "Due stagioni da 25, di seguito: 'Lelouch of the Rebellion' e "
+                "'R2'.",
+    },
+    "fairytail": {
+        "titolo": "Fairy Tail",
+        "anni": "2009-2019",
+        "episodi": 328,
+        "verificato": True,
+        "audio_ita": True,
+        "sottotitoli_ita": True,
+        "fonti": [],
+        "nota": "ATTENZIONE: il doppiaggio italiano copre solo la prima parte "
+                "(circa i primi 175 episodi). Da li' in avanti esistono solo "
+                "i sottotitoli.",
+    },
+    "opm": {
+        "titolo": "One Punch Man",
+        "anni": "2015-2025",
+        "episodi": 36,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": ["prime"],
+        "nota": "Tre stagioni da 12. La prima e' fatta da uno studio diverso "
+                "e si vede: e' la piu' bella da guardare.",
+    },
+    "jojo": {
+        "titolo": "Le bizzarre avventure di JoJo",
+        "anni": "2012-2026",
+        "episodi": 202,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": ["netflix", "prime"],
+        "nota": "Ogni parte cambia protagonista, epoca e paese, ma sono la "
+                "stessa famiglia: vanno in ordine, dal nonno al nipote.",
+    },
+    "aot": {
+        "titolo": "L'attacco dei giganti",
+        "anni": "2013-2023",
+        "episodi": 87,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": ["prime", "crunchyroll"],
+        "nota": "Le quattro stagioni contate da TMDb sono 87 episodi; il "
+                "finale del 2023-2024 e' uscito come due film-speciale e non "
+                "e' compreso in questo conteggio.",
+    },
+    "mha": {
+        "titolo": "My Hero Academia",
+        "anni": "2016-2025",
+        "episodi": 170,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": ["crunchyroll", "prime"],
+        "nota": "Otto stagioni, conclusa nel 2025.",
+    },
+    "blackclover": {
+        "titolo": "Black Clover",
+        "anni": "2017-2021",
+        "episodi": 170,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": ["netflix", "crunchyroll"],
+        "nota": "Si ferma all'episodio 170 e prosegue in un film su Netflix.",
+    },
+    "demonslayer": {
+        "titolo": "Demon Slayer",
+        "anni": "2019-2024",
+        "episodi": 63,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": ["netflix", "prime", "crunchyroll"],
+        "nota": "Gli episodi 27-33 sono il 'Treno Mugen', uscito prima al "
+                "cinema come film: in questa catena stanno al loro posto "
+                "nella storia, fra la prima e la seconda stagione.",
+    },
+    "vinland": {
+        "titolo": "Vinland Saga",
+        "anni": "2019-2023",
+        "episodi": 48,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": ["netflix", "prime"],
+        "nota": "Vichinghi, storico. La seconda stagione cambia completamente "
+                "tono rispetto alla prima: e' voluto.",
+    },
+    "jjk": {
+        "titolo": "Jujutsu Kaisen",
+        "anni": "2020-2026",
+        "episodi": 59,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": ["crunchyroll", "netflix"],
+        "nota": "Il film 'Jujutsu Kaisen 0' e' un antefatto, ma va guardato "
+                "DOPO la prima stagione: se lo si guarda prima si rovina una "
+                "sorpresa.",
+    },
+    "chainsaw": {
+        "titolo": "Chainsaw Man",
+        "anni": "2022",
+        "episodi": 12,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": ["crunchyroll", "prime"],
+        "nota": "Dodici episodi, poi la storia prosegue al cinema.",
+    },
+    "shamanking01": {
+        "titolo": "Shaman King (2001)",
+        "anni": "2001-2002",
+        "episodi": 64,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": [],
+        "nota": "La versione che passo' in Italia. Il finale se lo inventa: "
+                "il fumetto non era finito.",
+    },
+    "shamanking21": {
+        "titolo": "Shaman King (2021)",
+        "anni": "2021-2022",
+        "episodi": 52,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": ["netflix"],
+        "nota": "Rifacimento completo e fedele, con il finale vero. Non e' un "
+                "seguito: ricomincia da capo.",
+    },
+    "souleater": {
+        "titolo": "Soul Eater",
+        "anni": "2008-2009",
+        "episodi": 51,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": [],
+        "nota": "Dall'episodio 36 circa si stacca dal fumetto e chiude a modo "
+                "suo.",
+    },
+    "steinsgate": {
+        "titolo": "Steins;Gate",
+        "anni": "2011",
+        "episodi": 24,
+        "verificato": True,
+        "audio_ita": False,
+        "sottotitoli_ita": True,
+        "fonti": ["crunchyroll"],
+        "nota": "ATTENZIONE: non e' doppiata in italiano, solo sottotitoli. "
+                "Viaggi nel tempo; i primi episodi sono lenti apposta.",
+    },
+    "digimon": {
+        "titolo": "Digimon Adventure",
+        "anni": "1999-2001",
+        "episodi": 104,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": [],
+        "nota": "Episodi 1-54 la prima serie, 55-104 'Digimon Adventure 02', "
+                "il seguito diretto con gli stessi ragazzi tre anni dopo.",
+    },
+
+    # ---- Pokemon, Doraemon, Yu-Gi-Oh (aggiunti il 07/09/2026) ----
+
+    "pokemon": {
+        "titolo": "Pokemon",
+        "anni": "1997-2023",
+        "episodi": 1235,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": ["netflix", "prime"],
+        "nota": "Venticinque stagioni. La storia di Ash finisce con la "
+                "stagione 25: da li' in poi i protagonisti cambiano.",
+    },
+    "doraemon2005": {
+        "titolo": "Doraemon",
+        "anni": "2005-2026",
+        "episodi": 1464,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": [],
+        "nota": "La versione moderna, quella passata in Italia su Boing. "
+                "Ancora in corso in Giappone.",
+    },
+    "doraemon1979": {
+        "titolo": "Doraemon (1979)",
+        "anni": "1979-2005",
+        "episodi": 1836,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": [],
+        "nota": "La serie storica, milleottocento episodi in ventisei anni. "
+                "In Italia se n'e' vista solo una parte.",
+    },
+    "yugioh_dm": {
+        "titolo": "Yu-Gi-Oh! Duel Monsters",
+        "anni": "2000-2004",
+        "episodi": 224,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": [],
+        "nota": "Quella con Yugi: e' da qui che comincia tutto.",
+    },
+    "yugioh_gx": {
+        "titolo": "Yu-Gi-Oh! GX",
+        "anni": "2004-2008",
+        "episodi": 180,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": [],
+        "nota": "Una generazione dopo, nella scuola dei duellanti.",
+    },
+    "yugioh_5ds": {
+        "titolo": "Yu-Gi-Oh! 5D's",
+        "anni": "2008-2011",
+        "episodi": 154,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": [],
+        "nota": "I duelli in moto.",
+    },
+    "yugioh_zexal": {
+        "titolo": "Yu-Gi-Oh! Zexal",
+        "anni": "2011-2014",
+        "episodi": 146,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": [],
+        "nota": "",
+    },
+    "yugioh_arcv": {
+        "titolo": "Yu-Gi-Oh! Arc-V",
+        "anni": "2014-2017",
+        "episodi": 148,
+        "verificato": True,
+        "audio_ita": True,
+        "fonti": [],
+        "nota": "",
+    },
+    "yugioh_vrains": {
+        "titolo": "Yu-Gi-Oh! VRAINS",
+        "anni": "2017-2019",
+        "episodi": 120,
+        "verificato": True,
+        "audio_ita": False,
+        "sottotitoli_ita": True,
+        "fonti": [],
+        "nota": "ATTENZIONE: in italiano non e' mai arrivata; ci sono solo "
+                "i sottotitoli.",
+    },
 }
 
 
@@ -867,6 +1421,66 @@ TAGLI = {
                  "rispetto all'originale."},
     ],
 
+    # ---- Aggiunti il 10/09/2026. I "nota" sono contesto verificato; dove
+    #      non ho una data/emittente certa e' scritto "da confermare". ----
+    "goldrake": [
+        {"ep": 1, "tipo": "nota", "verificato": True,
+         "cosa": "Rai 2, dal 4 aprile 1978: il cartone che ha aperto l'era "
+                 "dei robot giapponesi in Italia. Andarono in onda tutti e 74 "
+                 "gli episodi, ma con tagli ai combattimenti e ai morti. Fu "
+                 "proprio il suo successo a scatenare, nell'aprile 1980, la "
+                 "campagna contro i cartoni giapponesi."},
+    ],
+    "grande_mazinga": [
+        {"ep": 1, "tipo": "nota", "verificato": True,
+         "cosa": "In Giappone viene PRIMA di Goldrake e comincia dove finisce "
+                 "Mazinga Z. In Italia arrivo' DOPO Goldrake (1979-80, su tv "
+                 "private), e per questo sembra una storia a se'. Guardato al "
+                 "suo posto e' il capitolo centrale della trilogia di Go Nagai."},
+    ],
+    "gt": [
+        {"ep": 1, "tipo": "nota", "verificato": True,
+         "cosa": "Mediaset, dal 2000: trasmessi tutti e 64 gli episodi, ma "
+                 "con i dialoghi pesantemente riscritti (le morti diventano "
+                 "'un altro mondo', le minacce spariscono). La storia si "
+                 "segue lo stesso; le sfumature no."},
+    ],
+    "naruto": [
+        {"ep": 1, "tipo": "nota", "verificato": True,
+         "cosa": "Italia 1, dal 2006. Trasmessi tutti e 220 gli episodi ma "
+                 "con censura pesante: sangue tolto o colorato di nero, "
+                 "sigarette cancellate, alcune morti trasformate in "
+                 "sparizioni. L'edizione integrale in italiano e' arrivata "
+                 "solo anni dopo in DVD e streaming."},
+    ],
+    "naruto_shippuden": [
+        {"ep": 500, "tipo": "stop", "verificato": False,
+         "cosa": "In Italia il doppiaggio ufficiale si e' fermato intorno a "
+                 "qui e per anni non e' andato oltre (data e numero esatto "
+                 "DA CONFERMARE). Gli episodi successivi si trovano quasi "
+                 "solo sottotitolati."},
+    ],
+    "boruto": [
+        {"ep": 1, "tipo": "nota", "verificato": False,
+         "cosa": "In Italia e' arrivato a singhiozzo, prima in streaming poi "
+                 "in TV, e il doppiaggio e' rimasto indietro di parecchie "
+                 "stagioni rispetto al Giappone (DA CONFERMARE il punto "
+                 "esatto in cui si e' fermato)."},
+    ],
+    "lupin2": [
+        {"ep": 1, "tipo": "nota", "verificato": True,
+         "cosa": "E' LA serie che in Italia hanno visto tutti: la giacca "
+                 "rossa, la sigla 'Lupin, l'incorreggibile Lupin'. Trasmessa "
+                 "e ritrasmessa dagli anni Ottanta in poi, praticamente "
+                 "sempre completa."},
+    ],
+    "lamu": [
+        {"ep": 1, "tipo": "nota", "verificato": True,
+         "cosa": "In Italia (dal 1983, prima tv locali poi Odeon e Italia 7) "
+                 "arrivo' con episodi tagliati, riordinati e con i nomi "
+                 "cambiati (Lum diventa 'Lamu'). Molti episodi restarono "
+                 "inediti per decenni: l'edizione completa e' recente."},
+    ],
 }
 
 
@@ -918,6 +1532,8 @@ PERCORSI = {
     "dragonball_veloce": {
         "titolo": "Dragon Ball - via veloce",
         "sottotitolo": "Stessa storia senza riempitivo, con Kai al posto di Z",
+        # Poster suo (di Kai): senza, mostrava lo stesso di "Dragon Ball".
+        "poster": "https://image.tmdb.org/t/p/w500/yh11eNQyZOgZLMEW7llKYQ0oGcJ.jpg",
         "segmenti": [
             ("db",      1, 153),
             ("dbz_kai", 1, 158),
@@ -962,8 +1578,15 @@ PERCORSI = {
             ("ken_blue_sky",      1,  46),
         ],
         "spiegazione": (
-            "Centocinquantadue episodi in tutto. In Italia arrivarono spezzati "
-            "e a distanza di anni."
+            "COSA: le due serie animate anni Ottanta - Ken il guerriero "
+            "(1984, 109 episodi) e il seguito Hokuto no Ken 2 (1987, 43) - "
+            "una dopo l'altra, 152 puntate in tutto.\n\n"
+            "DOVE: le prendiamo dai canali anime di s4me; dove manca la "
+            "fonte, il ripiego cerca su YouTube.\n\n"
+            "QUANDO / COME: in Italia arrivo' nel 1988, su emittenti locali "
+            "private e non sulle grandi reti - per questo lo trovavi a orari "
+            "improbabili e a singhiozzo. Il fumetto ha tre archi finali che "
+            "NON sono mai stati animati: la storia a cartoni finisce prima."
         ),
     },
 
@@ -976,8 +1599,14 @@ PERCORSI = {
             ("holly_road2002",    1,  52),
         ],
         "spiegazione": (
-            "Il seguito e' gratuito e completo su Mediaset Infinity: e' la cosa "
-            "piu' facile da recuperare di tutto l'elenco."
+            "COSA: la serie storica di Holly e Benji (1983-85, 128 episodi) "
+            "e i due seguiti - Holly e Benji Forever e Road to 2002.\n\n"
+            "DOVE: il seguito e' gratuito e completo su Mediaset Infinity, "
+            "ed e' la cosa piu' facile da recuperare di tutto l'elenco; la "
+            "serie storica dai canali anime di s4me.\n\n"
+            "QUANDO / COME: Italia 1 dagli anni Ottanta, riproposto infinite "
+            "volte. Nell'edizione italiana gli episodi 65 e 66 sono "
+            "invertiti rispetto all'originale."
         ),
     },
 
@@ -990,12 +1619,23 @@ PERCORSI = {
             ("grendizer_u",       1,  13),
         ],
         "spiegazione": (
-            "Mazinga Z originale, poi la rilettura del 2009."
+            "COSA: Mazinga Z, l'originale del 1972 (92 episodi), poi la "
+            "rilettura moderna Mazinkaiser SKL / Edition Z e infine il "
+            "recente Grendizer U.\n\n"
+            "DOVE: canali anime di s4me; ripiego YouTube dove manca.\n\n"
+            "QUANDO / COME: in Italia Mazinga Z arrivo' nel 1980 sulla Rai, "
+            "ma DOPO Goldrake e il Grande Mazinga (ordine sbagliato), e la "
+            "Rai si fermo' all'episodio 56 su 92 per le polemiche di "
+            "quell'anno. I 41 episodi finali sono stati doppiati per la "
+            "prima volta solo nel 2015: la tua generazione non li ha visti "
+            "da ragazzo perche' non esistevano in italiano."
         ),
     },
     "gonagai": {
         "titolo": "I robot di Go Nagai",
         "sottotitolo": "Mazinga, il Grande Mazinga e Goldrake sono UNA storia sola",
+        # Poster di Goldrake: senza, mostrava lo stesso di "Mazinga".
+        "poster": "https://image.tmdb.org/t/p/w780/5Atj9CWW3TM8SnSdIWN5xF5Ajgc.jpg",
         "segmenti": [
             ("mazinga",        1, 92),
             ("grande_mazinga", 1, 56),
@@ -1043,21 +1683,29 @@ PERCORSI = {
 
     "heroes": {
         "titolo": "Dragon Ball Heroes",
-        "sottotitolo": "Il fuori-programma: tutte le epoche che si scontrano",
+        "sottotitolo": "Spin-off promozionale - 54 episodi - FUORI dalla storia principale",
         "segmenti": [
             ("sdbh", 1, 54),
         ],
         "spiegazione": (
-            "Sta FUORI dalla catena principale, ed e' voluto: non e' un "
-            "seguito ne' un antefatto, e' un 'e se'. Goku incontra se stesso "
-            "di altre epoche, i cattivi tornano dal passato, si viaggia nel "
-            "tempo. Metterlo dentro Dragon Ball avrebbe rotto l'ordine "
-            "cronologico che tiene in piedi tutto il resto.\n\n"
-            "Nasce per pubblicizzare un gioco di carte ed e' uscito gratis "
-            "in rete a episodi brevi: e' per questo che si trova su YouTube "
-            "e non nei cataloghi degli abbonamenti.\n\n"
-            "Attenzione: NON esiste un doppiaggio italiano. Questa e' "
-            "l'unica saga del catalogo che si guarda per forza sottotitolata."
+            "NON e' la continuazione di Dragon Ball e non si aggancia a "
+            "niente: e' un 'e se' promozionale, a se' stante.\n\n"
+            "Se cerchi la trasformazione in Super Saiyan Divino (Goku che "
+            "'diventa un dio'): quella e' CANONE e sta nella saga "
+            "\"Dragon Ball\", nel blocco Super - arco 'La battaglia degli "
+            "Dei'. NON e' qui.\n\n"
+            "Qui Goku incontra se stesso di altre epoche, i cattivi tornano "
+            "dal passato, si viaggia nel tempo. Da' per scontato che tu "
+            "conosca gia' tutta la storia: si guarda come extra, quando "
+            "vuoi.\n\n"
+            "Finisce all'episodio 54 (agosto 2024), nell'arco di Majin "
+            "Ozotto - quello che divora pianeti, persone e dei - su un "
+            "finale sospeso. Toei non ne ha fatti altri: non manca niente, "
+            "e' l'anime stesso che si interrompe li'.\n\n"
+            "Nasce per pubblicizzare un gioco di carte, uscito gratis in "
+            "rete a episodi brevi: per questo sta su YouTube e non negli "
+            "abbonamenti. NON esiste doppiaggio italiano - e' l'unica saga "
+            "del catalogo che si guarda per forza sottotitolata."
         ),
     },
 
@@ -1150,6 +1798,8 @@ PERCORSI = {
     "naruto_veloce": {
         "titolo": "Naruto - senza riempitivo",
         "sottotitolo": "Solo la storia vera: 427 episodi invece di 720",
+        # Poster di Shippuden: senza, mostrava lo stesso di "Naruto".
+        "poster": "https://image.tmdb.org/t/p/w780/qOxedwaJzdms2alAmIEHEnDeDzg.jpg",
         "segmenti": [
             # Naruto: 130 episodi su 220
             ("naruto",   1,  25),
@@ -1379,6 +2029,378 @@ PERCORSI = {
         ),
     },
 
+
+    # ======================================================================
+    # DAGLI ANNI NOVANTA A OGGI - raggruppamento "moderne"
+    # ======================================================================
+
+    "m_yuyu": {
+        "titolo": "Yu Yu Hakusho",
+        "sottotitolo": "Yu degli spettri, tutti e 112 gli episodi",
+        "segmenti": [("yuyu", 1, 112)],
+        "spiegazione": (
+            "In Italia usci' come 'Yu degli spettri'. E' dello stesso autore "
+            "di Hunter x Hunter e si vede: comincia come storia di fantasmi e "
+            "finisce come torneo di combattimento."
+        ),
+    },
+    "m_slamdunk": {
+        "titolo": "Slam Dunk",
+        "sottotitolo": "La serie completa",
+        "segmenti": [("slamdunk", 1, 101)],
+        "spiegazione": (
+            "Non aspettarti la finale: l'anime si ferma a meta' del "
+            "campionato nazionale e non riprende. Non e' un taglio italiano, "
+            "manca anche in Giappone. Il fumetto invece finisce."
+        ),
+    },
+    "m_evangelion": {
+        "titolo": "Evangelion",
+        "sottotitolo": "La serie del 1995",
+        "segmenti": [("evangelion", 1, 26)],
+        "spiegazione": (
+            "Ventisei episodi. Gli ultimi due furono girati senza piu' soldi "
+            "ne' tempo e non concludono niente: il finale vero e' il film "
+            "'The End of Evangelion'. I film non stanno ancora in questa "
+            "catena."
+        ),
+    },
+    "m_kenshin": {
+        "titolo": "Kenshin - Samurai vagabondo",
+        "sottotitolo": "La serie originale",
+        "segmenti": [("kenshin", 1, 94)],
+        "spiegazione": (
+            "La parte che conta e' Kyoto, dall'episodio 28 al 62. Dal 63 in "
+            "poi il fumetto era finito e l'anime va avanti inventando: molti "
+            "si fermano li'."
+        ),
+    },
+    "m_hxh": {
+        "titolo": "Hunter x Hunter",
+        "sottotitolo": "La versione del 2011, quella completa",
+        "segmenti": [("hxh", 1, 148)],
+        "spiegazione": (
+            "Esistono due versioni della stessa storia, come Dragon Ball Z e "
+            "Kai. Questa del 2011 riparte da zero e arriva molto piu' avanti: "
+            "centoquarantotto episodi fino alle Formiche Chimera. Se se ne "
+            "guarda una sola, e' questa."
+        ),
+    },
+    "m_hxh99": {
+        "titolo": "Hunter x Hunter - via del 1999",
+        "sottotitolo": "La prima versione, piu' cupa e incompiuta",
+        "segmenti": [("hxh99", 1, 62)],
+        "spiegazione": (
+            "La versione originale: piu' lenta, piu' cupa, con musiche "
+            "diverse. Si ferma pero' a meta' storia e prosegue solo in tre "
+            "OVA difficili da trovare. Le due vie hanno progressi separati: "
+            "puoi tenerle tutte e due."
+        ),
+    },
+    "m_inuyasha": {
+        "titolo": "Inuyasha",
+        "sottotitolo": "La serie, il finale girato nove anni dopo, e il seguito",
+        "segmenti": [
+            ("inuyasha",  1, 193),
+            ("yashahime", 1,  48),
+        ],
+        "spiegazione": (
+            "Gli episodi 1-167 sono la serie del 2000, che finisce senza "
+            "finale. Dal 168 al 193 e' 'The Final Act', girata nel 2009 "
+            "apposta per concluderla: qui e' di fila, come va guardata. Dopo "
+            "viene Yashahime, il seguito con le figlie - ma quello NON e' "
+            "doppiato in italiano, solo sottotitoli."
+        ),
+    },
+    "m_fma": {
+        "titolo": "Fullmetal Alchemist",
+        "sottotitolo": "Brotherhood: la storia intera, fedele al fumetto",
+        "segmenti": [("fmab", 1, 64)],
+        "spiegazione": (
+            "Attenzione al tranello: esistono due Fullmetal Alchemist e non "
+            "sono uno il seguito dell'altro. Questa del 2009 e' la storia "
+            "completa, fedele al fumetto e conclusa. E' quella da guardare "
+            "per prima."
+        ),
+    },
+    "m_fma03": {
+        "titolo": "Fullmetal Alchemist - via del 2003",
+        "sottotitolo": "La prima versione, con un finale tutto suo",
+        "segmenti": [("fma03", 1, 51)],
+        "spiegazione": (
+            "Fino all'episodio 25 circa e' la stessa storia; poi il fumetto "
+            "non era ancora finito e l'anime prosegue inventandosi un finale "
+            "completamente diverso. Vale la pena, ma DOPO Brotherhood: "
+            "guardata per prima confonde e basta."
+        ),
+    },
+    "m_bleach": {
+        "titolo": "Bleach",
+        "sottotitolo": "La serie e il finale ripreso dieci anni dopo",
+        "segmenti": [
+            ("bleach",      1, 366),
+            ("bleach_tybw", 1,  50),
+        ],
+        "spiegazione": (
+            "Bleach si fermo' nel 2012 all'episodio 366 lasciando fuori "
+            "l'ultimo arco del fumetto. Nel 2022 l'hanno ripreso esattamente "
+            "da li': 'Thousand-Year Blood War' e' la continuazione diretta, "
+            "non un rifacimento. Qui i due pezzi sono uno dietro l'altro."
+        ),
+    },
+    "m_deathnote": {
+        "titolo": "Death Note",
+        "sottotitolo": "Trentasette episodi, nessun riempitivo",
+        "segmenti": [("deathnote", 1, 37)],
+        "spiegazione": (
+            "Una delle poche serie di questo elenco che non ha un solo "
+            "episodio di riempimento e finisce dove doveva finire."
+        ),
+    },
+    "m_codegeass": {
+        "titolo": "Code Geass",
+        "sottotitolo": "Le due stagioni, di fila",
+        "segmenti": [("codegeass", 1, 50)],
+        "spiegazione": (
+            "Venticinque episodi piu' venticinque: 'Lelouch of the Rebellion' "
+            "e 'R2' sono una storia sola, spezzata solo dalla messa in onda."
+        ),
+    },
+    "m_jojo": {
+        "titolo": "Le bizzarre avventure di JoJo",
+        "sottotitolo": "Tutte le parti, dal nonno al nipote",
+        "segmenti": [("jojo", 1, 202)],
+        "spiegazione": (
+            "Ogni parte cambia protagonista, epoca e continente - Inghilterra "
+            "1880, Giappone 1938, il viaggio in Egitto, l'Italia del 2001 - "
+            "ma sono tutti la stessa famiglia, in ordine di generazione. "
+            "Vanno guardate in ordine: e' l'unica serie qui dentro dove "
+            "saltare una parte rende la successiva incomprensibile."
+        ),
+    },
+    "m_aot": {
+        "titolo": "L'attacco dei giganti",
+        "sottotitolo": "Le quattro stagioni in ordine",
+        "segmenti": [("aot", 1, 87)],
+        "spiegazione": (
+            "Ottantasette episodi. Il finale, uscito nel 2023-2024, non e' un "
+            "episodio ma due film-speciale: non e' in questo conteggio."
+        ),
+    },
+    "m_mha": {
+        "titolo": "My Hero Academia",
+        "sottotitolo": "Dalla prima all'ottava stagione",
+        "segmenti": [("mha", 1, 170)],
+        "spiegazione": (
+            "Centosettanta episodi, conclusa nel 2025."
+        ),
+    },
+    "m_blackclover": {
+        "titolo": "Black Clover",
+        "sottotitolo": "La serie televisiva",
+        "segmenti": [("blackclover", 1, 170)],
+        "spiegazione": (
+            "Si ferma all'episodio 170 e prosegue in un film. I primi venti "
+            "episodi sono i piu' lenti: chi li supera di solito arriva in "
+            "fondo."
+        ),
+    },
+    "m_demonslayer": {
+        "titolo": "Demon Slayer",
+        "sottotitolo": "Con il Treno Mugen al posto giusto",
+        "segmenti": [("demonslayer", 1, 63)],
+        "spiegazione": (
+            "Qui c'e' il caso che questo add-on esiste per risolvere: il "
+            "'Treno Mugen' usci' al cinema come film, e chi guarda solo le "
+            "stagioni televisive salta un pezzo di storia. Nella catena sta "
+            "al suo posto, agli episodi 27-33, fra la prima e la seconda "
+            "stagione."
+        ),
+    },
+    "m_vinland": {
+        "titolo": "Vinland Saga",
+        "sottotitolo": "Le due stagioni",
+        "segmenti": [("vinland", 1, 48)],
+        "spiegazione": (
+            "Vichinghi, storico, adulto. La seconda stagione cambia "
+            "completamente tono rispetto alla prima: non e' un calo, e' "
+            "voluto e va superato."
+        ),
+    },
+    "m_jjk": {
+        "titolo": "Jujutsu Kaisen",
+        "sottotitolo": "La serie in ordine di visione",
+        "segmenti": [("jjk", 1, 59)],
+        "spiegazione": (
+            "Il film 'Jujutsu Kaisen 0' racconta fatti PRECEDENTI, ma va "
+            "guardato DOPO la prima stagione: messo prima rovina una "
+            "sorpresa. Anche l'inizio della seconda stagione e' un antefatto, "
+            "ed e' voluto."
+        ),
+    },
+    "m_opm": {
+        "titolo": "One Punch Man",
+        "sottotitolo": "Tre stagioni da dodici",
+        "segmenti": [("opm", 1, 36)],
+        "spiegazione": (
+            "La prima stagione e' fatta da uno studio diverso dalle altre due "
+            "e la differenza di disegno si vede parecchio."
+        ),
+    },
+    "m_chainsaw": {
+        "titolo": "Chainsaw Man",
+        "sottotitolo": "La prima stagione",
+        "segmenti": [("chainsaw", 1, 12)],
+        "spiegazione": (
+            "Dodici episodi, poi la storia prosegue al cinema."
+        ),
+    },
+    "m_berserk": {
+        "titolo": "Berserk",
+        "sottotitolo": "La serie del 1997",
+        "segmenti": [("berserk", 1, 25)],
+        "spiegazione": (
+            "Racconta un solo arco, l'Eta' dell'Oro, e si interrompe di colpo "
+            "senza concluderlo. Va saputo prima di cominciare."
+        ),
+    },
+    "m_cowboy": {
+        "titolo": "Cowboy Bebop",
+        "sottotitolo": "Ventisei episodi",
+        "segmenti": [("cowboy", 1, 26)],
+        "spiegazione": (
+            "Quasi ogni episodio si regge da solo, ma la storia di Spike va "
+            "in ordine: dal quinto in poi conviene non saltare."
+        ),
+    },
+    "m_trigun": {
+        "titolo": "Trigun",
+        "sottotitolo": "La serie del 1998",
+        "segmenti": [("trigun", 1, 26)],
+        "spiegazione": (
+            "Western fantascientifico. Il 'Trigun Stampede' del 2023 non e' "
+            "un seguito: e' la stessa storia raccontata daccapo in modo molto "
+            "diverso."
+        ),
+    },
+    "m_gto": {
+        "titolo": "GTO",
+        "sottotitolo": "Great Teacher Onizuka",
+        "segmenti": [("gto", 1, 43)],
+        "spiegazione": (
+            "In Italia arrivo' su MTV quasi integrale, che per l'epoca era "
+            "un'eccezione."
+        ),
+    },
+    "m_souleater": {
+        "titolo": "Soul Eater",
+        "sottotitolo": "La serie completa",
+        "segmenti": [("souleater", 1, 51)],
+        "spiegazione": (
+            "Dall'episodio 36 circa si stacca dal fumetto e chiude a modo "
+            "suo, perche' il fumetto non era finito."
+        ),
+    },
+    "m_shamanking": {
+        "titolo": "Shaman King",
+        "sottotitolo": "Le due versioni: quella vista in Italia e quella vera",
+        "segmenti": [
+            ("shamanking01", 1, 64),
+            ("shamanking21", 1, 52),
+        ],
+        "spiegazione": (
+            "La versione del 2001 e' quella passata in Italia, e il finale se "
+            "lo inventa perche' il fumetto non era ancora finito. Quella del "
+            "2021 NON e' un seguito: ricomincia da capo ed e' fedele, col "
+            "finale vero. Sono di fila perche' cosi' si vede la differenza, "
+            "ma se hai fretta guarda solo la seconda."
+        ),
+    },
+    "m_fairytail": {
+        "titolo": "Fairy Tail",
+        "sottotitolo": "Tutte e otto le stagioni in un filo solo",
+        "segmenti": [("fairytail", 1, 328)],
+        "spiegazione": (
+            "Trecentoventotto episodi divisi in otto stagioni con nomi "
+            "diversi, che e' esattamente il motivo per cui esiste questo "
+            "add-on: qui sono un elenco unico numerato da 1 a 328. "
+            "ATTENZIONE: il doppiaggio italiano copre circa i primi 175 "
+            "episodi. Da li' in poi ci sono solo i sottotitoli."
+        ),
+    },
+    "m_steinsgate": {
+        "titolo": "Steins;Gate",
+        "sottotitolo": "Ventiquattro episodi - solo sottotitoli",
+        "segmenti": [("steinsgate", 1, 24)],
+        "spiegazione": (
+            "ATTENZIONE: non esiste doppiaggio italiano, solo i sottotitoli. "
+            "I primi episodi sono lenti apposta: quello che sembra tempo "
+            "perso serve tutto dalla meta' in poi."
+        ),
+    },
+    "m_digimon": {
+        "titolo": "Digimon",
+        "sottotitolo": "Adventure e Adventure 02, di fila",
+        "segmenti": [("digimon", 1, 104)],
+        "spiegazione": (
+            "Gli episodi 1-54 sono 'Digimon Adventure', dal 55 al 104 e' "
+            "'Adventure 02', il seguito diretto con gli stessi ragazzi tre "
+            "anni dopo."
+        ),
+    },
+
+    "m_pokemon": {
+        "titolo": "Pokemon",
+        "sottotitolo": "Venticinque stagioni, di fila",
+        "segmenti": [("pokemon", 1, 1235)],
+        "spiegazione": (
+            "Milleduecentotrentacinque episodi numerati da 1 a 1235: le "
+            "stagioni hanno tutte un nome diverso e trovare il punto in cui "
+            "si era arrivati e' sempre stato il problema. Qui e' un elenco "
+            "solo.\n\nI film escono ogni anno e si incastrano fra le "
+            "stagioni: li trovi nel reparto 'I film delle saghe'."
+        ),
+    },
+    "m_doraemon": {
+        "titolo": "Doraemon",
+        "sottotitolo": "La serie del 2005, quella vista in Italia",
+        "segmenti": [("doraemon2005", 1, 1464)],
+        "spiegazione": (
+            "Esistono due Doraemon e non sono la stessa cosa: questa del "
+            "2005 e' quella passata in Italia su Boing, ed e' ancora in "
+            "corso in Giappone. L'altra, del 1979, e' una via separata."
+        ),
+    },
+    "m_doraemon1979": {
+        "titolo": "Doraemon - la serie del 1979",
+        "sottotitolo": "L'originale: 1836 episodi in ventisei anni",
+        "segmenti": [("doraemon1979", 1, 1836)],
+        "spiegazione": (
+            "La serie storica. In Italia se n'e' vista solo una parte, e "
+            "molti episodi non sono mai stati doppiati. Via separata da "
+            "quella del 2005: i progressi non si disturbano."
+        ),
+    },
+    "m_yugioh": {
+        "titolo": "Yu-Gi-Oh!",
+        "sottotitolo": "Tutte le generazioni in ordine, 972 episodi",
+        "segmenti": [
+            ("yugioh_dm",     1, 224),
+            ("yugioh_gx",     1, 180),
+            ("yugioh_5ds",    1, 154),
+            ("yugioh_zexal",  1, 146),
+            ("yugioh_arcv",   1, 148),
+            ("yugioh_vrains", 1, 120),
+        ],
+        "spiegazione": (
+            "Non sono sei serie diverse: sono sei generazioni dello stesso "
+            "mondo, una dopo l'altra. Duel Monsters e' quella di Yugi; GX "
+            "sta nella scuola dei duellanti; in 5D's si duella in moto; poi "
+            "Zexal, Arc-V e VRAINS.\n\nATTENZIONE: VRAINS in italiano non "
+            "e' mai arrivata, ha solo i sottotitoli - e' scritto anche "
+            "nell'elenco degli episodi."
+        ),
+    },
 }
 
 # L'ORDINE IN CUI COMPAIONO NEL MENU.
@@ -1400,6 +2422,8 @@ PERCORSI = {
 
 GRUPPI = {
     "turche": {
+        # In quale reparto del menu finisce.
+        "reparto": "serietv",
         "titolo": "Serie turche",
         "sottotitolo": "Doppiate in italiano, dalla prima all'ultima puntata",
         "icona": "DefaultTVShows.png",
@@ -1433,13 +2457,47 @@ GRUPPI = {
             "tr_arafta",
         ],
     },
+    "moderne": {
+        # In quale reparto del menu finisce.
+        "reparto": "cartoni",
+        "titolo": "Dagli anni Novanta a oggi",
+        "sottotitolo": "Le saghe venute dopo, con lo stesso criterio",
+        "icona": "DefaultTVShows.png",
+        "spiegazione": (
+            "Il menu principale e' quello degli anni Ottanta: e' il cuore di "
+            "questo add-on e resta com'e'. Qui dentro ci sono le saghe "
+            "arrivate dopo, trattate esattamente allo stesso modo - non un "
+            "elenco di titoli, ma l'ordine reale in cui gli episodi vanno "
+            "guardati, con scritto il perche' quando l'ordine non e' ovvio. "
+            "I casi che contano di piu': DEMON SLAYER, dove il 'Treno Mugen' "
+            "era un film e chi guarda solo le stagioni salta un pezzo di "
+            "storia; BLEACH, che si fermo' nel 2012 e riprese nel 2022; "
+            "INUYASHA, il cui finale fu girato nove anni dopo; FULLMETAL "
+            "ALCHEMIST e HUNTER x HUNTER, che esistono in due versioni della "
+            "stessa storia come Dragon Ball Z e Kai - qui sono due vie "
+            "separate, con progressi separati. "
+            "Tre non sono doppiate in italiano e c'e' scritto nella loro "
+            "scheda: Yashahime, Steins;Gate e la seconda meta' di Fairy Tail."
+        ),
+        "percorsi": [
+            "m_demonslayer", "m_aot", "m_jojo", "m_hxh", "m_hxh99",
+            "m_fma", "m_fma03", "m_bleach", "m_inuyasha", "m_mha",
+            "m_jjk", "m_vinland", "m_deathnote", "m_codegeass",
+            "m_evangelion", "m_cowboy", "m_berserk", "m_trigun",
+            "m_kenshin", "m_yuyu", "m_slamdunk", "m_gto",
+            "m_fairytail", "m_blackclover", "m_opm", "m_souleater",
+            "m_pokemon", "m_doraemon", "m_doraemon1979",
+            "m_yugioh",
+            "m_shamanking", "m_steinsgate", "m_chainsaw", "m_digimon",
+        ],
+    },
 }
 
 
 # I raggruppamenti mostrati nel menu, in quest'ordine.
 # ATTENZIONE, stessa regola dei percorsi: un raggruppamento non messo qui
 # NON SI VEDE, anche se esiste in GRUPPI.
-ORDINE_GRUPPI = ["turche"]
+ORDINE_GRUPPI = ["moderne", "turche"]
 
 ORDINE_PERCORSI = [
     "dragonball", "dragonball_veloce",
@@ -1462,6 +2520,141 @@ ORDINE_PERCORSI = [
 # --------------------------------------------------------------------------
 
 _cache_catene = {}
+
+
+# --------------------------------------------------------------------------
+# LE SAGHE CHE CRESCONO
+#
+# Bleach, One Piece, Jujutsu Kaisen, Detective Conan: escono episodi nuovi
+# ogni settimana. Il conteggio scritto qui sopra invecchia da solo.
+#
+# La sentinella (resources/lib/sentinella.py) chiede a TMDb chi e' cresciuto
+# e passa QUI il risultato. Non e' lei a modificare questo file - questo file
+# resta CODICE, e un aggiornamento dell'add-on lo riscrive: le crescite
+# stanno nei dati dell'utente e vengono riapplicate a ogni avvio.
+#
+# NIENTE IMPORTAZIONI, nemmeno qui: questo modulo si legge anche con exec()
+# dal canale dentro s4me, e una sola importazione lo romperebbe.
+# --------------------------------------------------------------------------
+
+def applica_aggiunte(dati):
+    """Allunga le serie cresciute. `dati` e' {id_serie: nuovo_totale}.
+
+    Allunga anche l'ULTIMO segmento dei percorsi che finivano dove finiva
+    la serie: senza, gli episodi nuovi esisterebbero nel catalogo ma non
+    comparirebbero in nessuna catena - cioe' non si potrebbero guardare.
+
+    Torna l'elenco di cosa ha cambiato, cosi' chi chiama puo' dirlo.
+    """
+    cambiati = []
+    for sid, quanti in (dati or {}).items():
+        serie = SERIE.get(sid)
+        if not serie:
+            continue
+        try:
+            quanti = int(quanti)
+        except (TypeError, ValueError):
+            continue
+        vecchi = int(serie.get("episodi") or 0)
+        if quanti <= vecchi:
+            continue
+
+        serie["episodi"] = quanti
+        serie["cresciuta"] = True      # cosi' si puo' mostrare "NUOVI"
+
+        for pid, p in PERCORSI.items():
+            segmenti = p.get("segmenti") or []
+            for i, (s, primo, ultimo) in enumerate(segmenti):
+                # Solo il segmento che arrivava alla FINE della serie: se
+                # qualcuno ne guardava una fetta (Ken 1-109), quella fetta
+                # deve restare com'e'.
+                if s == sid and ultimo == vecchi:
+                    segmenti[i] = (s, primo, quanti)
+        cambiati.append((sid, vecchi, quanti))
+
+    if cambiati:
+        _cache_catene.clear()          # le catene vanno ricostruite
+    return cambiati
+
+def applica_serie_nuove(dati):
+    """Mette nel catalogo le serie che l'utente ha aggiunto dalla TV.
+
+    `dati` e' {id: {titolo, anni, episodi, audio_ita, nota, tipo}}.
+    Ognuna diventa anche un percorso di una sola serie, dentro il
+    raggruppamento "Aggiunte da te": senza il percorso la serie ci sarebbe
+    ma non si aprirebbe da nessuna parte - lo stesso errore che una volta
+    ha reso Jeeg invisibile.
+
+    Come per le crescite, questi dati NON stanno qui: stanno nei dati
+    dell'utente, e vengono riapplicati a ogni avvio. Cosi' un aggiornamento
+    dell'add-on non se li porta via.
+    """
+    messe = []
+    for sid, s in (dati or {}).items():
+        if not sid or sid in SERIE:
+            continue
+        try:
+            quanti = int(s.get("episodi") or 0)
+        except (TypeError, ValueError):
+            continue
+        if quanti < 1:
+            continue
+
+        SERIE[sid] = {
+            "titolo": s.get("titolo") or sid,
+            "anni": s.get("anni") or "",
+            "episodi": quanti,
+            "verificato": True,
+            "audio_ita": bool(s.get("audio_ita", True)),
+            "fonti": s.get("fonti") or [],
+            "nota": s.get("nota") or "",
+            "aggiunta_da_te": True,
+        }
+        if s.get("tipo"):
+            SERIE[sid]["tipo"] = s["tipo"]
+        if s.get("sottotitoli_ita"):
+            SERIE[sid]["sottotitoli_ita"] = True
+
+        pid = "mia_" + sid
+        PERCORSI[pid] = {
+            "titolo": s.get("titolo") or sid,
+            "sottotitolo": s.get("sottotitolo") or "Aggiunta da te",
+            "segmenti": [(sid, 1, quanti)],
+            "spiegazione": ((s.get("nota") + "\n\n") if s.get("nota") else "")
+                           + "L'hai aggiunta tu dai consigli.",
+        }
+
+        # La sezione dipende dal `tipo`: una serie con attori veri va fra le
+        # Serie TV, un cartone fra i Cartoni. Cosi' "l'ho aggiunta da Netflix"
+        # finisce dove l'utente andrebbe a cercarla.
+        tipo = (s.get("tipo") or "").lower()
+        if tipo in ("serietv", "serie", "live", "liveaction", "attori"):
+            gid, reparto = "mie_serietv", "serietv"
+            gtit = "Aggiunte da te - Serie TV"
+        else:
+            gid, reparto = "mie", "cartoni"
+            gtit = "Aggiunte da te"
+
+        g = GRUPPI.setdefault(gid, {
+            "reparto": reparto,
+            "titolo": gtit,
+            "sottotitolo": "Le cose che hai aggiunto tu",
+            "icona": "DefaultAddonVideo.png",
+            "spiegazione": ("Quello che hai aggiunto tu - dai 'Consigliati "
+                            "per te' o dalla riga 'Su Netflix ora'. Si toglie "
+                            "da li', o cancellando il file serie_mie.json."),
+            "percorsi": [],
+        })
+        if pid not in g["percorsi"]:
+            g["percorsi"].append(pid)
+        if gid not in ORDINE_GRUPPI:
+            ORDINE_GRUPPI.append(gid)
+        messe.append(sid)
+
+    if messe:
+        _cache_catene.clear()
+    return messe
+
 
 
 def catena(percorso_id):

@@ -254,8 +254,111 @@ def principale():
         fatto, perche = custode.assicura()
         if fatto:
             xbmc.log("[Le Saghe] custode: %s" % perche, xbmc.LOGINFO)
+        # E riaccende i canali di s4me che arrivano spenti (VVVVID,
+        # Eurostreaming e compagnia): un suo aggiornamento li rispegne, noi
+        # li riaccendiamo qui, a ogni avvio.
+        custode.assicura_canali()
     except Exception as e:
         xbmc.log("[Le Saghe] custode non riuscito: %s" % e, xbmc.LOGWARNING)
+
+    # Le regolazioni di s4me, in silenzio, a ogni avvio.
+    #
+    # PERCHE' QUI: il 06/09/2026 il salotto era regolato e la camera no, e la
+    # differenza si vedeva - in camera compariva "scegli un'opzione" a ogni
+    # episodio e la qualita' partiva alta su una linea da 4 Mbps. Applicarle
+    # a mano su ogni apparecchio vuol dire dimenticarsene su uno.
+    # In modo muto non apre NIENTE, quindi e' sicuro anche se l'avvio del
+    # servizio capita mentre c'e' gia' qualcosa sullo schermo.
+    try:
+        import avvio
+        avvio._regola_s4me(muto=True)
+    except Exception as e:
+        xbmc.log("[Le Saghe] regolazioni s4me non riuscite: %s" % e,
+                 xbmc.LOGWARNING)
+
+    # Le novita' di s4me per la Vetrina.
+    #
+    # SI FANNO QUI, NON NELLA VETRINA. Interrogare s4me gli fa aprire una
+    # sua finestra di avanzamento; se succede mentre la Vetrina e' a
+    # schermo si ritrovano due finestre sovrapposte, ed e' cosi' che Kodi
+    # si chiude (successo il 06/09 con il ponte). Qui non c'e' niente a
+    # schermo, quindi e' innocuo - e quando l'utente apre la Vetrina le
+    # locandine sono gia' pronte, senza aspettare.
+    try:
+        from resources.lib import novita
+        novita.aggiorna_se_serve()
+    except Exception as e:
+        xbmc.log("[Le Saghe] novita' non aggiornate: %s" % e, xbmc.LOGWARNING)
+
+    # IL CARTELLONE DEL CINEMA.
+    #
+    # Chiede a TMDB quali film sono nelle sale ITALIANE, una volta al
+    # giorno, e scrive l'elenco su file. Qui si scarica solo CHI c'e' al
+    # cinema: DOVE guardarlo lo cerca il nostro canale dentro s4me, e solo
+    # quando apri un film - cercare quaranta titoli su otto siti a ogni
+    # avvio vorrebbe dire minuti di rete per niente.
+    # Se la rete e' giu' non tocca il file: meglio il cartellone di ieri
+    # che una sezione vuota.
+    try:
+        from resources.lib import cinema
+        quanti = cinema.aggiorna_se_serve()
+        if quanti:
+            xbmc.log("[Le Saghe] cartellone aggiornato: %d film in sala"
+                     % quanti, xbmc.LOGINFO)
+    except Exception as e:
+        xbmc.log("[Le Saghe] cartellone non aggiornato: %s" % e,
+                 xbmc.LOGWARNING)
+
+    # LE LOCANDINE DI DOCUMENTARI, CUCINA E YOUTUBE.
+    #
+    # Prima quelle righe mettevano l'icona della videoteca su ogni voce:
+    # 129 quadratini identici, che e' come non avere locandine (segnalato
+    # dall'utente il 07/09). Qui si cercano i poster veri su TMDB e le
+    # immagini dei canali YouTube, una volta al mese, in sottofondo.
+    # Chi non ha una corrispondenza sicura tiene l'icona: non si mette
+    # una locandina a caso, che sembrerebbe giusta ed e' peggio.
+    try:
+        from resources.lib import copertine
+        from resources.lib import scoperte as _sc
+        quante = copertine.calcola_se_serve(_sc.scaffale)
+        if quante:
+            xbmc.log("[Le Saghe] copertine trovate: %d" % quante,
+                     xbmc.LOGINFO)
+    except Exception as e:
+        xbmc.log("[Le Saghe] copertine non aggiornate: %s" % e,
+                 xbmc.LOGWARNING)
+
+    # LA SENTINELLA DEGLI EPISODI NUOVI.
+    #
+    # ATTENZIONE AL NOME: in questo file c'e' gia' una funzione `_sentinella`,
+    # ed e' un'altra cosa (controlla che parta l'episodio giusto). Questa e'
+    # `resources/lib/sentinella.py`: una volta alla settimana chiede a TMDb
+    # se le serie ancora in corso sono cresciute, allunga le catene e
+    # avvisa. Gira in un filo a parte: se la rete non risponde non blocca
+    # l'avvio.
+    try:
+        from resources.lib import sentinella as guardia_episodi
+        cambiati = catalogo.applica_aggiunte(guardia_episodi.leggi_aggiunte())
+        if cambiati:
+            xbmc.log("[Le Saghe] saghe allungate: %s"
+                     % ", ".join("%s %d->%d" % c for c in cambiati),
+                     xbmc.LOGINFO)
+        if guardia_episodi.controlla_se_serve(catalogo):
+            xbmc.log("[Le Saghe] sentinella: controllo episodi nuovi avviato",
+                     xbmc.LOGINFO)
+    except Exception as e:
+        xbmc.log("[Le Saghe] sentinella non avviata: %s" % e, xbmc.LOGWARNING)
+
+    # I CONSIGLI: si rifanno ogni tre giorni, guardando cosa hai guardato.
+    # Anche questi in un filo a parte, e anche questi qui e non a schermo:
+    # interrogare TMDb trenta volte mentre l'utente aspetta e' inaccettabile.
+    try:
+        from resources.lib import consigli, progresso as _prog
+        catalogo.applica_serie_nuove(consigli.serie_mie())
+        if consigli.calcola_se_serve(catalogo, _prog):
+            xbmc.log("[Le Saghe] consigli: ricalcolo avviato", xbmc.LOGINFO)
+    except Exception as e:
+        xbmc.log("[Le Saghe] consigli non calcolati: %s" % e, xbmc.LOGWARNING)
 
     monitor = Monitor()
     kodi_era_in_primo_piano = True
@@ -273,13 +376,21 @@ def principale():
 
         if sess.get("dentro_kodi"):
             if monitor.lettore.isPlayingVideo():
+                if not sess.get("visto_play"):
+                    progresso.marca_visto_play()
                 _sentinella(monitor, sess)
                 if contatore % INTERVALLO == 0:
                     _salva_se_in_riproduzione(monitor)
             else:
-                # Il video e' finito o e' stato fermato.
-                if int(time.time()) - sess.get("avviata", 0) > 3:
-                    _chiudi_riproduzione_interna(sess)
+                eta = int(time.time()) - sess.get("avviata", 0)
+                if sess.get("visto_play"):
+                    # E' partito e ora non c'e' piu': e' finito o fermato.
+                    if eta > 3:
+                        _chiudi_riproduzione_interna(sess)
+                elif eta > 90:
+                    # Non e' MAI partito in 90 secondi: s4me non ce l'ha
+                    # fatta. Si chiude la sessione senza avanzare.
+                    progresso.chiudi_sessione()
         else:
             # Sessione su app esterna: si aspetta il rientro in Kodi.
             in_primo_piano = not xbmc.getCondVisibility("System.IdleTime(1)") \

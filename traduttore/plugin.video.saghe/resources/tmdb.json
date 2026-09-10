@@ -1,0 +1,374 @@
+{
+ "aot": {
+  "id": 1429,
+  "offset": 0
+ },
+ "berserk": {
+  "id": 35935,
+  "offset": 0
+ },
+ "blackclover": {
+  "id": 73223,
+  "offset": 0
+ },
+ "bleach": {
+  "id": 30984,
+  "offset": 0
+ },
+ "bleach_tybw": {
+  "id": 30984,
+  "offset": 366
+ },
+ "boruto": {
+  "id": 70881,
+  "offset": 0
+ },
+ "chainsaw": {
+  "id": 114410,
+  "offset": 0
+ },
+ "codegeass": {
+  "id": 31724,
+  "offset": 0
+ },
+ "cowboy": {
+  "id": 30991,
+  "offset": 0
+ },
+ "daima": {
+  "id": 236994,
+  "offset": 0
+ },
+ "db": {
+  "id": 12609,
+  "offset": 0
+ },
+ "dbs": {
+  "id": 62715,
+  "offset": 0
+ },
+ "dbz": {
+  "id": 12971,
+  "offset": 0
+ },
+ "dbz_kai": {
+  "id": 61709,
+  "offset": 0
+ },
+ "deathnote": {
+  "id": 13916,
+  "offset": 0
+ },
+ "demonslayer": {
+  "id": 85937,
+  "offset": 0
+ },
+ "devilman_crybaby": {
+  "id": 75208,
+  "offset": 0
+ },
+ "digimon": {
+  "id": 31654,
+  "offset": 0
+ },
+ "doraemon1979": {
+  "id": 57911,
+  "offset": 0
+ },
+ "doraemon2005": {
+  "id": 65733,
+  "offset": 0
+ },
+ "evangelion": {
+  "id": 890,
+  "offset": 0
+ },
+ "fairytail": {
+  "id": 46261,
+  "offset": 0
+ },
+ "fma03": {
+  "id": 37863,
+  "offset": 0
+ },
+ "fmab": {
+  "id": 31911,
+  "offset": 0
+ },
+ "galaxy999": {
+  "id": 31709,
+  "offset": 0
+ },
+ "grande_mazinga": {
+  "id": 9148,
+  "offset": 0
+ },
+ "gt": {
+  "id": 12697,
+  "offset": 0
+ },
+ "gto": {
+  "id": 43017,
+  "offset": 0
+ },
+ "gundam0079": {
+  "id": 21731,
+  "offset": 0
+ },
+ "gundam_0083": {
+  "id": 72677,
+  "offset": 0
+ },
+ "gundam_zz": {
+  "id": 5660,
+  "offset": 0
+ },
+ "harlock": {
+  "id": 31714,
+  "offset": 0
+ },
+ "holly": {
+  "id": 25707,
+  "offset": 0
+ },
+ "holly2": {
+  "id": 65835,
+  "offset": 0
+ },
+ "holly_road2002": {
+  "id": 24106,
+  "offset": 0
+ },
+ "hxh": {
+  "id": 46298,
+  "offset": 0
+ },
+ "hxh99": {
+  "id": 45952,
+  "offset": 0
+ },
+ "inuyasha": {
+  "id": 35610,
+  "offset": 0
+ },
+ "jeeg": {
+  "id": 9152,
+  "offset": 0
+ },
+ "jjk": {
+  "id": 95479,
+  "offset": 0
+ },
+ "jojo": {
+  "id": 45790,
+  "offset": 0
+ },
+ "ken1": {
+  "id": 56387,
+  "offset": 0
+ },
+ "ken2": {
+  "id": 56387,
+  "offset": 109
+ },
+ "kenshin": {
+  "id": 28136,
+  "offset": 0
+ },
+ "lamu": {
+  "id": 34163,
+  "offset": 0
+ },
+ "lupin_fujiko": {
+  "id": 45860,
+  "offset": 0
+ },
+ "mazinga": {
+  "id": 19253,
+  "offset": 0
+ },
+ "mazinga_edition_z": {
+  "id": 36249,
+  "offset": 0
+ },
+ "mha": {
+  "id": 65930,
+  "offset": 0
+ },
+ "naruto": {
+  "id": 46260,
+  "offset": 0
+ },
+ "naruto_shippuden": {
+  "id": 31910,
+  "offset": 0
+ },
+ "one_piece": {
+  "id": 37854,
+  "offset": 0
+ },
+ "opm": {
+  "id": 63926,
+  "offset": 0
+ },
+ "pokemon": {
+  "id": 60572,
+  "offset": 0
+ },
+ "sdbh": {
+  "id": 80020,
+  "offset": 0
+ },
+ "shamanking01": {
+  "id": 40143,
+  "offset": 0
+ },
+ "shamanking21": {
+  "id": 104699,
+  "offset": 0
+ },
+ "slamdunk": {
+  "id": 42573,
+  "offset": 0
+ },
+ "souleater": {
+  "id": 37305,
+  "offset": 0
+ },
+ "ss": {
+  "id": 42444,
+  "offset": 0
+ },
+ "ss_hades": {
+  "id": 67199,
+  "offset": 0
+ },
+ "ss_lost_canvas": {
+  "id": 61389,
+  "offset": 0
+ },
+ "ss_omega": {
+  "id": 44317,
+  "offset": 0
+ },
+ "ss_soul_of_gold": {
+  "id": 62428,
+  "offset": 0
+ },
+ "steinsgate": {
+  "id": 42509,
+  "offset": 0
+ },
+ "tr_arafta": {
+  "id": 306118,
+  "offset": 0
+ },
+ "tr_bitter_sweet": {
+  "id": 73506,
+  "offset": 0
+ },
+ "tr_brave": {
+  "id": 68848,
+  "offset": 0
+ },
+ "tr_cherry": {
+  "id": 62217,
+  "offset": 0
+ },
+ "tr_come_sorelle": {
+  "id": 94935,
+  "offset": 0
+ },
+ "tr_daydreamer": {
+  "id": 80411,
+  "offset": 0
+ },
+ "tr_endless_love": {
+  "id": 31642,
+  "offset": 0
+ },
+ "tr_far_away": {
+  "id": 274556,
+  "offset": 0
+ },
+ "tr_forbidden": {
+  "id": 52645,
+  "offset": 0
+ },
+ "tr_hercai": {
+  "id": 87623,
+  "offset": 0
+ },
+ "tr_love_air": {
+  "id": 104877,
+  "offset": 0
+ },
+ "tr_mezarlik": {
+  "id": 204255,
+  "offset": 0
+ },
+ "tr_mr_wrong": {
+  "id": 105052,
+  "offset": 0
+ },
+ "tr_my_home": {
+  "id": 96775,
+  "offset": 0
+ },
+ "tr_ragazza_ufficiale": {
+  "id": 62553,
+  "offset": 0
+ },
+ "tr_segreti": {
+  "id": 133490,
+  "offset": 0
+ },
+ "tr_terra_amara": {
+  "id": 82328,
+  "offset": 0
+ },
+ "trigun": {
+  "id": 26453,
+  "offset": 0
+ },
+ "vinland": {
+  "id": 88803,
+  "offset": 0
+ },
+ "yashahime": {
+  "id": 103254,
+  "offset": 0
+ },
+ "yugioh_5ds": {
+  "id": 20695,
+  "offset": 0
+ },
+ "yugioh_arcv": {
+  "id": 67460,
+  "offset": 0
+ },
+ "yugioh_dm": {
+  "id": 902,
+  "offset": 0
+ },
+ "yugioh_gx": {
+  "id": 12536,
+  "offset": 0
+ },
+ "yugioh_vrains": {
+  "id": 71360,
+  "offset": 0
+ },
+ "yugioh_zexal": {
+  "id": 45854,
+  "offset": 0
+ },
+ "yuyu": {
+  "id": 30669,
+  "offset": 0
+ },
+ "zeta_gundam": {
+  "id": 13674,
+  "offset": 0
+ }
+}
