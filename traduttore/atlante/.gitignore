@@ -1,0 +1,5 @@
+# I file copiati dagli apparecchi: dati locali, non codice.
+copie/
+# I rapporti contengono le chat e le memorie dell'utente: restano sul PC.
+uscita/
+__pycache__/
