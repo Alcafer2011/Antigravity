@@ -66,6 +66,7 @@ class Scatola(object):
         self.ultima_voce = ""
         self.attesa_da = 0
         self.attesa_segnalata = False
+        self.voci_in_arrivo = False
         self.video = None
         self.ultimo_scatto = 0
         self.ultimo_controllo = 0
@@ -198,9 +199,17 @@ class Scatola(object):
         finestra = xbmcgui.getCurrentWindowId()
         dialogo = xbmcgui.getCurrentWindowDialogId()
         cartella = xbmc.getInfoLabel("Container.FolderPath")
+        # Mentre la pagina carica, Kodi ha gia' il nuovo indirizzo ma zero voci:
+        # "Chernobyl 0 voci" dell'11/09 aveva in realta' 36 risultati arrivati
+        # otto secondi dopo. Le voci si contano quando la rotellina si ferma.
+        in_arrivo = xbmc.getCondVisibility("Container.IsUpdating") or dialogo in ATTESE
         if finestra != self.prima.get("finestra") or cartella != self.prima.get("cartella"):
             self.evento("schermata", finestra=finestra, nome=self._nome_finestra(finestra), cartella=cartella,
-                        da_voce=self.ultima_voce, voci=xbmc.getInfoLabel("Container.NumItems"))
+                        da_voce=self.ultima_voce, voci="" if in_arrivo else xbmc.getInfoLabel("Container.NumItems"))
+            self.voci_in_arrivo = in_arrivo
+        elif self.voci_in_arrivo and not in_arrivo:
+            self.voci_in_arrivo = False
+            self.evento("cartella_pronta", cartella=cartella, voci=xbmc.getInfoLabel("Container.NumItems"))
         if dialogo != self.prima.get("dialogo"):
             self._dialogo_cambiato(adesso, dialogo)
         if dialogo in ATTESE and not self.attesa_segnalata and adesso - self.attesa_da > ATTESA_LUNGA:
@@ -322,7 +331,10 @@ class Scatola(object):
             if len(self.gia_visti) > 500:
                 self.gia_visti = {}
             self.evento("registro", livello=livello, testo=messaggio[:600])
-            if re.search(r"(?i)playback failed|two concurrent busydialogs|failed to open", messaggio):
+            # "LoadTimers: ... Failed to open file" e' la skin senza Timers.xml
+            # (facoltativo): ogni avvio del Raspberry, e non e' un guasto.
+            if re.search(r"(?i)playback failed|two concurrent busydialogs|failed to open", messaggio) \
+                    and not messaggio.startswith("LoadTimers"):
                 self.anomalia("registro", messaggio)
 
     def _errore_python(self, blocco):

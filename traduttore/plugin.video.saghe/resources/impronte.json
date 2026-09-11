@@ -1,6 +1,6 @@
 {
 "file": {
-"addon.xml": "26d98a58ab88f67238a80e20175d2022",
+"addon.xml": "804575672f8f3c5cb0239daf897256e5",
 "avvio.py": "8e2b4553fc49f3c6a60fe6e580b86dd3",
 "main.py": "7d171e582611fbca662ba70a3a56e013",
 "resources/__init__.py": "d41d8cd98f00b204e9800998ecf8427e",
@@ -10,7 +10,7 @@
 "resources/canale/abbonamenti.json": "775d5422adc4b5d2b22d7a6e81959576",
 "resources/canale/abbonamenti.py": "8451899f04d14aff29495be6c776eea0",
 "resources/canale/lesaghe.json": "5d7fdff0906c65886b890c0495d19c6c",
-"resources/canale/lesaghe.py": "9676487d8f2c9ead7a1ea498e1713f90",
+"resources/canale/lesaghe.py": "30db9b616d679478c72597bdc6b0c0f5",
 "resources/film/dragonball.json": "43c79b89a09b4104ba98804adb9fcddc",
 "resources/film/dragonball_veloce.json": "43c79b89a09b4104ba98804adb9fcddc",
 "resources/film/gonagai.json": "ce07a33e9f5e186a855508270b2ff772",
@@ -72,8 +72,9 @@
 "resources/lib/copertine.py": "a3e4188ed3242652dfccffa02afd03de",
 "resources/lib/custode.py": "f982dc2669499a1c2dcb9a6ae9ce2064",
 "resources/lib/dettagli.py": "667cc2dc1c0f599f3ea35f8c26aebadd",
-"resources/lib/disponibilita.py": "2ac1967b8fca13f0c59b048e26175241",
+"resources/lib/disponibilita.py": "5393203ae107118078bba2e268b0d819",
 "resources/lib/fonti.py": "10ad317719efac396d8f3dc081da1f45",
+"resources/lib/immagine.py": "48d689d57b51915b11f5d617e1f6adbb",
 "resources/lib/loghi.py": "d119dd6493104b141fc79d169d614a96",
 "resources/lib/miolista.py": "ba3c959ec802d4849503283525ff1a91",
 "resources/lib/netflix.py": "30771484e2a32341f018a41345f41ee2",
@@ -334,7 +335,7 @@
 "resources/schede/yuyu.json": "490b98c9a80908e6997ae07412bc0844",
 "resources/schede/zeta_gundam.json": "4d933dacaff4bc5790dc4031d303c574",
 "resources/segnaposto.png": "ad9f35b0872039aaf7d42b742146965f",
-"resources/settings.xml": "986fdf1df4527e59e01fb0db4851499e",
+"resources/settings.xml": "52216a9abb842e0ab9fa84c72d5b57c5",
 "resources/sfondi.json": "a73d52f0d1855d1d03c5d5cfb57fbddc",
 "resources/skins/Default/1080i/avviso.xml": "6ff290c04dd3be3fa56e9360cf7a9175",
 "resources/skins/Default/1080i/vetrina.xml": "38165700c38e3fa0194afb6b48eccb71",
@@ -464,7 +465,7 @@
 "resources/tessere/v3_fdef6daa799e80db.png": "deb6e9890268086fa356b3202239d63d",
 "resources/tessere/v3_ff8313f335ceeaa1.png": "780ef4c72db72a6296d9a5e2cf078efd",
 "resources/tmdb.json": "627d132d1795e2b945ff47acd3090b77",
-"service.py": "5951c9778c00a51e3ee8ae4970a2fb8b"
+"service.py": "dff8e4a9427a13ec9ac8970edfddc3e9"
 },
-"versione": "1.1.3"
+"versione": "1.1.4"
 }

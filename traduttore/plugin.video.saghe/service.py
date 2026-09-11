@@ -40,11 +40,18 @@ class Lettore(xbmc.Player):
         # l'inizio, e chiederle subito darebbe una lista vuota.
         if xbmc.Monitor().waitForAbort(2):
             return
-        try:
-            if not ADDON.getSettingBool("audio_scelta_automatica"):
-                return
-        except Exception as _errore:
-            xbmc.log("[Le Saghe] onAVStarted: errore ignorato: %s" % _errore, xbmc.LOGDEBUG)
+        # L'immagine prima dell'audio (12/09/2026): uno zoom rimasto salvato
+        # si vede subito, e non deve aspettare la scelta delle tracce.
+        if _impostazione("zoom_automatico", True):
+            try:
+                from resources.lib import immagine
+                fatto = immagine.adatta_allo_schermo()
+                if fatto:
+                    xbmc.log("[Le Saghe] immagine: %s" % fatto, xbmc.LOGINFO)
+            except Exception as e:
+                xbmc.log("[Le Saghe] immagine non adattata: %s" % e, xbmc.LOGWARNING)
+        if not _impostazione("audio_scelta_automatica", True):
+            return
         try:
             cambiata, perche = audio.scegli_traccia_migliore()
             if cambiata:
@@ -428,12 +435,50 @@ PASSI_ALL_AVVIO = (_avvio_custode, _avvio_regolazioni_s4me, _avvio_novita, _avvi
                    _avvio_copertine, _avvio_sentinella, _avvio_consigli, _avvio_netflix,
                    _avvio_controllore)
 
+# CON CALMA (12/09/2026). L'utente: il box "ha poca potenza e rallenta
+# all'inizio". Il registro dell'11/09 lo spiega: Kodi arriva alla home in 11 s
+# e nello stesso minuto partono insieme le 29 righe della home, s4me col suo
+# aggiornamento e tutti i passi qui sopra (TMDb, Netflix, loghi, copertine) su
+# quattro core a 32 bit. Subito restano solo i due passi che servono prima di
+# aprire qualcosa (i nostri canali dentro s4me e le sue regolazioni); gli altri
+# aspettano che la home sia pronta e partono uno alla volta. Le righe intanto
+# leggono i file del giro precedente, quindi non restano vuote.
+PASSI_CON_CALMA = (_avvio_novita, _avvio_cinema, _avvio_copertine, _avvio_sentinella,
+                   _avvio_consigli, _avvio_netflix, _avvio_controllore)
+PAUSA_FRA_PASSI = 5
+
+
+def _attesa_all_avvio():
+    if xbmc.getCondVisibility("System.Platform.Android"):
+        return 120
+    if xbmc.getCondVisibility("System.Platform.Linux.RaspberryPi"):
+        return 60
+    return 15
+
+
+def _passi_con_calma(monitor):
+    if monitor.waitForAbort(_attesa_all_avvio()):
+        return
+    for passo in PASSI_CON_CALMA:
+        passo()
+        if monitor.waitForAbort(PAUSA_FRA_PASSI):
+            return
+
 
 def principale():
-    for passo in PASSI_ALL_AVVIO:
-        passo()
-
     monitor = Monitor()
+    for passo in PASSI_ALL_AVVIO:
+        if passo not in PASSI_CON_CALMA:
+            passo()
+    try:
+        import threading
+        threading.Thread(target=_passi_con_calma, args=(monitor,), name="avvio-con-calma",
+                         daemon=True).start()
+    except Exception as e:
+        xbmc.log("[Le Saghe] avvio con calma non riuscito, passi subito: %s" % e, xbmc.LOGWARNING)
+        for passo in PASSI_CON_CALMA:
+            passo()
+
     kodi_era_in_primo_piano = True
     contatore = 0
 

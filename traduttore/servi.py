@@ -99,6 +99,48 @@ def _suono_apertura(testo):
                   '<setting id="lookandfeel.soundskin"></setting>', testo)
 
 
+def _audio_e_immagine(testo):
+    """Audio e immagine uguali sui tre apparecchi (12/09/2026).
+
+    L'utente: "migliorare la gestione del suono automatico" e "schermo intero
+    automatico secondo la TV, senza deformare".
+      - locale.audiolanguage = Italian e preferdefaultflag = false: la traccia
+        italiana vince anche su quella che il file segna come predefinita (sul
+        PC la lingua era "quella del file", sul Raspberry vinceva il segno);
+      - videoplayer.stretch43 = 0 e le impostazioni video predefinite a
+        Normale, zoom 1, pixel 1, nessuno spostamento: il video si allarga fino
+        ai bordi senza uscire e senza deformarsi. Lo zoom rimasto salvato sul
+        singolo video lo toglie il servizio (resources/lib/immagine.py).
+    NON si tocca audiooutput.maintainoriginalvolume: acceso (com'e') e' gia' il
+    volume piu' alto; spento, Kodi abbassa il downmix per non saturare."""
+    for chiave, valore in (("locale.audiolanguage", "Italian"), ("videoplayer.preferdefaultflag", "false"),
+                           ("videoplayer.stretch43", "0")):
+        testo = re.sub(r'<setting id="%s"[^>]*?(?:/>|>[^<]*</setting>)' % re.escape(chiave),
+                       '<setting id="%s">%s</setting>' % (chiave, valore), testo)
+
+    def _normale(blocco):
+        b = blocco.group(0)
+        for tag, valore in (("viewmode", "0"), ("zoomamount", "1.000000"), ("pixelratio", "1.000000"),
+                            ("verticalshift", "0.000000"), ("nonlinstretch", "false")):
+            b = re.sub(r"<%s>[^<]*</%s>" % (tag, tag), "<%s>%s</%s>" % (tag, valore, tag), b)
+        return b
+    return re.sub(r"<defaultvideosettings>.*?</defaultvideosettings>", _normale, testo, flags=re.S)
+
+
+def _buffer_box(testo):
+    """Il buffer del box da 100 a 150 MB, e il riempimento come sul Raspberry (12/09/2026).
+
+    L'utente: "migliorare la gestione del buffer". Con la linea 4G da 5-8 Mbps e
+    un flusso da ~3 Mbps, 100 MB sono circa 4 minuti di riserva; 150 MB ne danno
+    quasi 7 per superare i cali della SIM. Il box ha 4 GB e ne usa 2,3: il margine
+    c'e' anche col processo a 32 bit. readfactor 20 (era 10) riempie la riserva
+    piu' in fretta subito dopo l'avvio, quando serve. Il tetto di qualita' dei
+    flussi adattivi resta alla taratura della linea (resources/lib/taratura.py)."""
+    testo = testo.replace("<!-- 100 MB di buffer.", "<!-- 150 MB di buffer (era 100 fino al 12/09/2026).")
+    testo = re.sub(r"<memorysize>\d+</memorysize>", "<memorysize>157286400</memorysize>", testo)
+    return re.sub(r"<readfactor>\d+</readfactor>", "<readfactor>20</readfactor>", testo)
+
+
 YOUTUBE_PRONTO = {
     "kodion.setup_wizard": "false",
     # YouTube rilancia la procedura se questo numero e' sotto la data della sua
@@ -423,7 +465,7 @@ def servi_pc(tar, impronte, riavvia=True):
     if os.path.exists(gs):
         vecchio = io.open(gs, encoding="utf-8").read()
         with io.open(gs, "w", encoding="utf-8") as f:
-            f.write(_suono_apertura(_guisettings_sicure(vecchio, password=_password_api_pc())))
+            f.write(_audio_e_immagine(_suono_apertura(_guisettings_sicure(vecchio, password=_password_api_pc()))))
         print("  origini sconosciute spente")
     # YouTube del banco: mai aperto, alla prima riga chiedeva la procedura guidata.
     # Box e Pi sono gia' configurati: si tocca solo il PC.
@@ -538,11 +580,20 @@ def servi_box(tar, impronte, riavvia=True):
     if "<settings" in gs_testo:
         locale_gs = os.path.join(tempfile.gettempdir(), "servi-guisettings.xml")
         with io.open(locale_gs, "w", encoding="utf-8") as f:
-            f.write(_suono_apertura(_guisettings_sicure(gs_testo)))
+            f.write(_audio_e_immagine(_suono_apertura(_guisettings_sicure(gs_testo))))
         R._adb("push", locale_gs, "/sdcard/servi-guisettings.xml")
         _su("cp /sdcard/servi-guisettings.xml %s/userdata/guisettings.xml && chown %s %s/userdata/guisettings.xml && rm /sdcard/servi-guisettings.xml"
             % (k, proprietario, k))
-        print("  origini sconosciute spente")
+        print("  origini sconosciute spente, audio in italiano, video Normale")
+    adv = _su("cat %s/userdata/advancedsettings.xml 2>/dev/null" % k)
+    if "<cache>" in adv:
+        locale_adv = os.path.join(tempfile.gettempdir(), "servi-advancedsettings.xml")
+        with io.open(locale_adv, "w", encoding="utf-8") as f:
+            f.write(_buffer_box(adv))
+        R._adb("push", locale_adv, "/sdcard/servi-advancedsettings.xml")
+        _su("cp /sdcard/servi-advancedsettings.xml %s/userdata/advancedsettings.xml && chown %s %s/userdata/advancedsettings.xml && rm /sdcard/servi-advancedsettings.xml"
+            % (k, proprietario, k))
+        print("  buffer del box: 150 MB, readfactor 20")
     db = _su("ls %s/userdata/Database | grep -E '^Addons[0-9]+\\.db$' | sort | tail -n 1" % k).strip()
     locale = os.path.join(tempfile.gettempdir(), "servi-box-%s" % db)
     _su("cp %s/userdata/Database/%s /sdcard/servi.db" % (k, db))
@@ -657,7 +708,7 @@ def servi_pi(tar, impronte, riavvia=True):
         gs_testo = fh.read().decode("utf-8", "replace")
     if "<settings" in gs_testo:
         with sftp.open("%s/userdata/guisettings.xml" % k, "w") as fh:
-            fh.write(_suono_apertura(_guisettings_sicure(gs_testo)))
+            fh.write(_audio_e_immagine(_suono_apertura(_guisettings_sicure(gs_testo))))
         print("  origini sconosciute spente")
     print("  " + _rtmp_pi(run, sftp))
     db = run("ls %s/userdata/Database | grep -E '^Addons[0-9]+\\.db$' | sort | tail -n 1" % k).strip()

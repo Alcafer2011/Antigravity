@@ -86,6 +86,10 @@
           <level>0</level><default>false</default>
           <control type="toggle"/>
         </setting>
+        <setting id="zoom_automatico" type="boolean" label="Video a tutto schermo senza deformarlo (toglie lo zoom rimasto salvato)">
+          <level>0</level><default>true</default>
+          <control type="toggle"/>
+        </setting>
       </group>
     </category>
 

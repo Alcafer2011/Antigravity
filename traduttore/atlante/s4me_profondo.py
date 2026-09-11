@@ -395,6 +395,9 @@ def problemi(dati):
     usati.update(nostro.get("CANALI_FILM") or [])
     rotti = set(nostro.get("CANALI_ROTTI") or [])
     a_monte = dati.get("a_monte") or {}
+    # I canali spenti sono gli stessi su tutti gli apparecchi (li decide s4me):
+    # un problema solo con dentro chi li ha, non uno per apparecchio.
+    spenti_per_app = {}
     for app, d in (dati.get("apparecchi") or {}).items():
         if not d.get("installato"):
             p("alto", "malfunzionamento", app, "s4me non e' installato",
@@ -407,10 +410,7 @@ def problemi(dati):
               "Mancano: %s." % ", ".join(mancanti), ["resources/canale/lesaghe.py (CANALI_PER_TIPO, CANALI_FILM)"],
               "Toglierli dalle liste: s4me li ha eliminati.")
         if spenti:
-            p("basso", "manutenzione", app, "Canali delle nostre liste spenti da s4me stesso (%d)" % len(spenti),
-              "Spenti: %s. Li spegne s4me quando il sito muore; il nostro canale li salta da solo (lesaghe._acceso) "
-              "e li riprende quando s4me li riaccende." % ", ".join(spenti),
-              ["resources/canale/lesaghe.py (CANALI_PER_TIPO, CANALI_FILM)"], "")
+            spenti_per_app[app] = spenti
         if d["lesaghe_md5"] and d["lesaghe_md5"] != nostro.get("testo_md5"):
             p("alto", "incoerenza", app, "Il nostro canale dentro s4me e' una versione diversa dal sorgente",
               "channels/lesaghe.py sull'apparecchio non coincide con resources/canale/lesaghe.py: gira il codice di prima.",
@@ -477,6 +477,12 @@ def problemi(dati):
               "Commit locale %s, su GitHub %s (%s: %s)." % (commit[:10], testa[:10], a_monte["s4me_ultimo"]["data"][:10],
                                                           a_monte["s4me_ultimo"]["messaggio"]),
               [], "s4me si aggiorna da solo all'avvio (updater.check): controllare che la rete arrivi a api.github.com.")
+    if spenti_per_app:
+        tutti = sorted({c for v in spenti_per_app.values() for c in v})
+        p("basso", "manutenzione", "addon", "Canali delle nostre liste spenti da s4me stesso (%d)" % len(tutti),
+          "Spenti: %s (su %s). Li spegne s4me quando il sito muore; il nostro canale li salta da solo "
+          "(lesaghe._acceso) e li riprende quando s4me li riaccende." % (", ".join(tutti), ", ".join(sorted(spenti_per_app))),
+          ["resources/canale/lesaghe.py (CANALI_PER_TIPO, CANALI_FILM)"], "")
     morti = [u for u, s in (dati.get("domini_provati") or {}).items() if not s.startswith(("2", "3", "403"))]
     if morti:
         p("medio", "malfunzionamento", "addon", "Siti usati dal nostro canale che non rispondono (%d)" % len(morti),

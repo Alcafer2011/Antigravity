@@ -37,6 +37,65 @@ from core.item import Item
 from platformcode import logger
 
 
+# UNA VOCE DOPO L'ALTRA NELLE NOSTRE PAGINE (12/09/2026)
+#     Il Raspberry (Kodi 20) si e' spento di colpo l'11/09 alle 18:46 aprendo
+#     "Harley Davidson e la sua storia": il registro si ferma a meta' mentre s4me
+#     costruisce le 56 voci della ricerca in otto fili insieme
+#     (platformtools.render_items crea gli xbmcgui.ListItem dentro un
+#     ThreadPoolExecutor). Oggetti dell'interfaccia di Kodi creati da piu' fili
+#     nello stesso istante: a volte va, a volte crolla tutto Kodi.
+#     s4me non si tocca (si aggiorna da solo e cancellerebbe la modifica):
+#     quando la pagina e' del nostro canale, al posto dei fili si mette un
+#     esecutore che fa una voce dopo l'altra. Vale solo per questa chiamata:
+#     ogni pagina di un add-on gira in un Python tutto suo.
+class _Fatto(object):
+    def __init__(self, funzione, argomenti, nominati):
+        self._errore = None
+        self._risultato = None
+        try:
+            self._risultato = funzione(*argomenti, **nominati)
+        except Exception as errore:
+            self._errore = errore
+
+    def result(self, timeout=None):
+        if self._errore is not None:
+            raise self._errore
+        return self._risultato
+
+
+class _EsecutoreInFila(object):
+    def __init__(self, *argomenti, **nominati):
+        pass
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *dettagli):
+        return False
+
+    def submit(self, funzione, *argomenti, **nominati):
+        return _Fatto(funzione, argomenti, nominati)
+
+
+class _FuturesInFila(object):
+    ThreadPoolExecutor = _EsecutoreInFila
+
+    @staticmethod
+    def as_completed(fatti, timeout=None):
+        return iter(list(fatti))
+
+
+def _voci_in_fila():
+    try:
+        from platformcode import platformtools
+        platformtools.futures = _FuturesInFila
+    except Exception as errore:
+        logger.info("Le Saghe: voci in fila non attivate: %s" % errore)
+
+
+_voci_in_fila()
+
+
 def _json_atomico(percorso, dati, **opzioni):
     """Scrive in un file provvisorio e lo sostituisce in un colpo: se il box si
     spegne a meta' resta il file vecchio intero, non un JSON troncato
@@ -1559,6 +1618,10 @@ def verifica_film(item):
         _json_atomico(xbmcvfs.translatePath(VERIFICA_ESITO), esito, ensure_ascii=False)
     except Exception as e:
         logger.error("Le Saghe: esito del controllo non scritto: %s" % e)
+    # Lanciata con RunPlugin dal controllore (12/09/2026): non c'e' nessuna
+    # pagina da disegnare. None e non [] -> s4me non chiama render_items.
+    if getattr(item, "in_disparte", ""):
+        return None
     return []
 
 

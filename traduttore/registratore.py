@@ -269,6 +269,8 @@ def _racconta(e, titoli):
         return "Il video si ferma dopo %s secondi%s" % (e.get("durata"), " (finito)" if e.get("finito") else "")
     if t == "attesa_finita":
         return "La rotellina sparisce dopo %s secondi" % e.get("secondi")
+    if t == "cartella_pronta":
+        return "La pagina ha finito di caricare: %s voci" % e.get("voci", "?")
     if t == "anomalia":
         return "PROBLEMA - %s: %s" % (GENERI.get(e.get("genere"), (e.get("genere"), ""))[0], e.get("testo", ""))
     if t == "registro":

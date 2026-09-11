@@ -152,22 +152,33 @@ class _Visita(ast.NodeVisitor):
         self.rel, self.servizio, self.fuori = rel, servizio, []
         self.funzione = "(modulo)"
         self.complessita = {}
+        # la funzione in corso mette ".daemon = True" su un filo (vedi visit_Call)
+        self.daemon_dopo = False
 
     def _f(self, nodo, testo, livello, tipo, spiega):
         self.fuori.append(_reperto("instabilita", self.rel, getattr(nodo, "lineno", 0),
                                    "%s  [in %s]" % (testo, self.funzione), livello, tipo, spiega))
 
     def visit_FunctionDef(self, nodo):
-        prima = self.funzione
+        prima, daemon_prima = self.funzione, self.daemon_dopo
         self.funzione = nodo.name
+        self.daemon_dopo = any(
+            isinstance(n, ast.Assign) and isinstance(n.value, ast.Constant) and n.value.value is True
+            and any(isinstance(t, ast.Attribute) and t.attr == "daemon" for t in n.targets)
+            for n in ast.walk(nodo))
         rami = sum(isinstance(n, (ast.If, ast.For, ast.While, ast.Try, ast.With, ast.BoolOp,
                                   ast.ExceptHandler, ast.IfExp)) for n in ast.walk(nodo))
         righe = getattr(nodo, "end_lineno", nodo.lineno) - nodo.lineno + 1
         self.complessita[nodo.name] = (rami, righe, nodo.lineno)
         self.generic_visit(nodo)
-        self.funzione = prima
+        self.funzione, self.daemon_dopo = prima, daemon_prima
 
     visit_AsyncFunctionDef = visit_FunctionDef
+
+    @staticmethod
+    def _generico(tipo):
+        nomi = tipo.elts if isinstance(tipo, ast.Tuple) else [tipo]
+        return any(getattr(n, "id", getattr(n, "attr", "")) in ("Exception", "BaseException") for n in nomi)
 
     def visit_ExceptHandler(self, nodo):
         corpo_vuoto = all(isinstance(b, ast.Pass) or (isinstance(b, ast.Expr) and isinstance(b.value, ast.Constant))
@@ -175,7 +186,10 @@ class _Visita(ast.NodeVisitor):
         if nodo.type is None:
             self._f(nodo, "except: nudo", "medio", "instabilita",
                     "prende anche l'uscita di Kodi (SystemExit): il servizio puo' non chiudersi")
-        elif corpo_vuoto:
+        elif corpo_vuoto and self._generico(nodo.type):
+            # "except OSError: pass" attorno a os.remove di un file che puo' non
+            # esserci e' una scelta, non un guasto nascosto: si segnala solo chi
+            # ingoia TUTTO (Exception, BaseException). 11/09/2026
             self._f(nodo, "except ...: pass", "basso", "instabilita",
                     "errore ingoiato in silenzio: il guasto c'e' ma nessun registro lo dice")
         self.generic_visit(nodo)
@@ -189,7 +203,9 @@ class _Visita(ast.NodeVisitor):
         if nome == "sleep" and isinstance(f, ast.Attribute) and getattr(f.value, "id", "") == "time" and self.servizio:
             self._f(nodo, "time.sleep nel servizio", "medio", "instabilita",
                     "Kodi non riesce a chiudere il servizio mentre dorme: si usa monitor.waitForAbort")
-        if nome == "Thread" and not any(k.arg == "daemon" for k in nodo.keywords):
+        # "filo = Thread(...)" e subito sotto "filo.daemon = True" e' la stessa cosa
+        # di daemon=True: prima era un falso allarme (11/09/2026)
+        if nome == "Thread" and not any(k.arg == "daemon" for k in nodo.keywords) and not self.daemon_dopo:
             self._f(nodo, "Thread senza daemon", "basso", "instabilita", "puo' tenere Kodi aperto in chiusura")
         self.generic_visit(nodo)
 

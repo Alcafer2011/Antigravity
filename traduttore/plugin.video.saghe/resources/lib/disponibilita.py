@@ -48,6 +48,7 @@ PER_GIRO = 12
 OGNI = 30 * 60
 PRIMA_ATTESA = 10 * 60
 FERMO_DA = 180
+ATTESA_ESITO = 180
 
 
 def _file():
@@ -141,25 +142,37 @@ def _da_controllare():
     return fuori
 
 
-def controlla(voce):
-    """Prova UN film dentro s4me. L'esito (dict) oppure None se s4me non ha risposto."""
+def controlla(voce, monitor=None, attesa=ATTESA_ESITO):
+    """Prova UN film dentro s4me. L'esito (dict) oppure None se s4me non ha risposto.
+
+    Con RunPlugin e non con Files.GetDirectory (12/09/2026): la domanda a
+    JSON-RPC tiene fermo il filo finche' s4me non ha finito, anche un minuto,
+    e se Kodi si chiudeva in quel momento il servizio non riusciva a fermarsi
+    ("service.py: script didn't stop in 5 seconds - let's kill it", Raspberry
+    11/09 alle 17:35). RunPlugin fa partire s4me e torna subito; qui si aspetta
+    il file dell'esito un secondo alla volta, pronti a lasciar perdere.
+    """
+    monitor = monitor or xbmc.Monitor()
+    percorso = xbmcvfs.translatePath(ESITO)
     try:
-        os.remove(xbmcvfs.translatePath(ESITO))
+        os.remove(percorso)
     except OSError:
         pass
     indirizzo = s4me_link.indirizzo({"channel": "lesaghe", "action": "verifica_film"},
                                     titolo_film=voce["titolo"], titolo_originale=voce.get("originale", ""),
-                                    anno=voce.get("anno", ""), chiave=voce["chiave"])
-    richiesta = {"jsonrpc": "2.0", "id": 1, "method": "Files.GetDirectory",
-                 "params": {"directory": indirizzo, "media": "video"}}
-    try:
-        xbmc.executeJSONRPC(json.dumps(richiesta))
-        with io.open(xbmcvfs.translatePath(ESITO), encoding="utf-8") as f:
-            esito = json.load(f)
-    except (OSError, ValueError) as errore:
-        xbmc.log("[Le Saghe] controllore: %s senza esito: %s" % (voce["titolo"], errore), xbmc.LOGDEBUG)
-        return None
-    return esito if esito.get("chiave") == voce["chiave"] else None
+                                    anno=voce.get("anno", ""), chiave=voce["chiave"], in_disparte=1)
+    xbmc.executebuiltin('RunPlugin("%s")' % indirizzo)
+    for _secondo in range(int(attesa)):
+        if monitor.waitForAbort(1):
+            return None
+        try:
+            with io.open(percorso, encoding="utf-8") as f:
+                esito = json.load(f)
+        except (OSError, ValueError):
+            continue
+        return esito if esito.get("chiave") == voce["chiave"] else None
+    xbmc.log("[Le Saghe] controllore: %s senza esito dopo %d secondi" % (voce["titolo"], attesa), xbmc.LOGDEBUG)
+    return None
 
 
 def _libero():
@@ -184,7 +197,7 @@ def giro(monitor, massimo=PER_GIRO):
     for v in candidati[:massimo]:
         if not _libero():
             break
-        esito = controlla(v)
+        esito = controlla(v, monitor)
         if esito:
             esito.update({"titolo": v["titolo"], "anno": v.get("anno", "")})
             dati[v["chiave"]] = esito
