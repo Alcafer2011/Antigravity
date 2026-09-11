@@ -296,3 +296,21 @@ def raccogli(apparecchi=("pc", "box", "pi")):
             esiti[app] = {"errore": str(ex)}
             print("  %-4s NON RACCOLTO: %s" % (app, ex))
     return esiti
+
+
+def apri_nel_browser(percorso):
+    """Apre un rapporto HTML nel BROWSER. Su questo PC i .html sono associati al
+    Blocco note: con os.startfile l'utente si e' trovato il codice invece dei
+    grafici (11/09/2026)."""
+    import subprocess
+    for b in (r"%ProgramFiles%\Google\Chrome\Application\chrome.exe",
+              r"%ProgramFiles(x86)%\Google\Chrome\Application\chrome.exe",
+              r"%LOCALAPPDATA%\Google\Chrome\Application\chrome.exe",
+              r"%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge.exe",
+              r"%ProgramFiles%\Microsoft\Edge\Application\msedge.exe"):
+        b = os.path.expandvars(b)
+        if os.path.exists(b):
+            subprocess.Popen([b, "file:///" + os.path.abspath(percorso).replace("\\", "/")])
+            return b
+    os.startfile(percorso)  # noqa: S606
+    return "programma predefinito"

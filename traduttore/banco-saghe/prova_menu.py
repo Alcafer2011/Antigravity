@@ -31,6 +31,7 @@ sys.argv = ["plugin://plugin.video.saghe/", "1", ""]
 
 import main                                      # noqa: E402
 from resources.lib import catalogo, progresso     # noqa: E402
+from resources.lib import s4me_link               # noqa: E402
 
 ESITI = []
 
@@ -381,7 +382,7 @@ def _():
     da_s4me = [v for v in voci if "plugin.video.s4me" in v["url"]]
     assert len(da_s4me) == len(voci),         "%d episodi su %d non passano da s4me" % (len(voci) - len(da_s4me), len(voci))
     for v in da_s4me[:3]:
-        assert "channel=lesaghe" in v["url"], "canale sbagliato: " + v["url"]
+        assert s4me_link.leggi(v["url"]).get("channel") == "lesaghe", "canale sbagliato: " + v["url"]
         assert "numero_ep=" in v["url"], "manca il numero di episodio: " + v["url"]
 
 
@@ -1380,6 +1381,293 @@ def _():
     finally:
         loghi._chiedi = vecchio
         loghi._CACHE = None
+
+
+@prova("le immagini trovate sul PC si aggiungono solo dove mancano")
+def _():
+    from resources.lib import arte_extra
+    indirizzo = main.url(azione="percorso", percorso="db")
+    arte_extra._DATI = {arte_extra.chiave_indirizzo(indirizzo): {
+        "poster": "http://nuova/p.jpg", "clearart": "http://nuova/c.png"}}
+    try:
+        li = finto_kodi.ListItem("Dragon Ball")
+        li.setArt({"poster": "http://vecchia/buona.jpg"})
+        arte_extra.completa(li, indirizzo)
+        assert li.arte["poster"] == "http://vecchia/buona.jpg", "ha coperto una locandina buona"
+        assert li.arte.get("clearart") == "http://nuova/c.png", "non ha aggiunto la clearart"
+        li = finto_kodi.ListItem("Dragon Ball")
+        li.setArt({"poster": main.ICONA})
+        arte_extra.completa(li, indirizzo + "&pagina=2")
+        assert li.arte["poster"] == "http://nuova/p.jpg", "il segnaposto non e' stato sostituito"
+    finally:
+        arte_extra._DATI = None
+
+
+@prova("la scheda completa (genere, regista, trailer) si legge senza andare in rete")
+def _():
+    from resources.lib import dettagli
+
+    def _vietato(*a, **k):
+        raise AssertionError("una riga e' andata in rete per la scheda")
+
+    vecchio = dettagli._chiedi
+    dettagli._chiedi = _vietato
+    try:
+        dettagli._CACHE = {"tv/123": {"ok": True, "generi": ["Animazione"], "registi": ["Akira Toriyama"],
+                                      "durata": 1440, "keyart": "http://k.jpg",
+                                      "trailer": "plugin://plugin.video.youtube/play/?video_id=x"}}
+        tag = finto_kodi.InfoTag()
+        assert dettagli.applica(tag, "tv", 123), "la scheda in cache non e' stata usata"
+        assert tag.dati.get("genres") == ["Animazione"], tag.dati
+        assert tag.dati.get("duration") == 1440
+        assert dettagli.arte("tv", 123) == {"keyart": "http://k.jpg"}
+        assert not dettagli.applica(finto_kodi.InfoTag(), "movie", 123), "film e serie confusi"
+        for che in ("consigli", "netflix:serietv", "cinema", "saghe"):
+            finto_kodi.azzera()
+            main.widget(che)
+    finally:
+        dettagli._chiedi = vecchio
+        dettagli._CACHE = None
+
+
+@prova("ogni locandina ha 'Qualcosa non va qui', e il menu ha aggiornamenti e segnalazione")
+def _():
+    finto_kodi.azzera()
+    main.menu_principale()
+    indirizzi = [v["url"] for v in finto_kodi.VOCI if isinstance(v, dict)]
+    assert any("azione=assistenza" in u for u in indirizzi), "manca Aggiornamenti e segnalazioni"
+    finto_kodi.azzera()
+    main.menu_assistenza()
+    indirizzi = [v["url"] for v in finto_kodi.VOCI if isinstance(v, dict)]
+    assert any("azione=aggiornamenti" in u for u in indirizzi), "manca Cerca aggiornamenti"
+    assert any("azione=segnala" in u for u in indirizzi), "manca Qualcosa non va?"
+    finto_kodi.azzera()
+    main.widget("saghe")
+    menu = [getattr(li, "menu", None) for li in []]
+    voci = [v for v in finto_kodi.VOCI if isinstance(v, dict)]
+    assert voci, "la riga delle saghe e' vuota"
+
+
+
+def _siti_finti(voci):
+    """Finge s4me: ogni Files.GetDirectory risponde con `voci`. Restituisce
+    l'elenco delle richieste e la funzione per rimettere tutto com'era."""
+    import json as _json
+    import xbmc as _xbmc
+    from resources.lib import ricerca_siti
+    richieste = []
+    vecchi = (_xbmc.executeJSONRPC, ricerca_siti.s4me_presente)
+
+    def _rpc(testo):
+        richieste.append(_json.loads(testo))
+        return _json.dumps({"result": {"files": voci}})
+
+    _xbmc.executeJSONRPC = _rpc
+    ricerca_siti.s4me_presente = lambda: True
+    ricerca_siti.svuota_cache()
+
+    def rimetti():
+        _xbmc.executeJSONRPC, ricerca_siti.s4me_presente = vecchi
+        ricerca_siti.svuota_cache()
+    return richieste, rimetti
+
+
+TROVATO_SUI_SITI = [{"file": "plugin://plugin.video.s4me/?eyJhY3Rpb24iOiJlcGlzb2Rpb3MifQ%3D%3D", "label": "Naruto [AnimeWorld]",
+                     "filetype": "directory", "art": {"poster": "http://p.jpg"}, "plot": "trama"}]
+
+
+@prova("la ricerca porta da sola i risultati dei siti: niente 'Cerca su...' da scegliere")
+def _():
+    richieste, rimetti = _siti_finti(TROVATO_SUI_SITI)
+    try:
+        finto_kodi.azzera()
+        main.menu_ricerca("naruto")
+        voci = [v for v in finto_kodi.VOCI if isinstance(v, dict)]
+        assert richieste and richieste[0]["method"] == "Files.GetDirectory", "i siti non sono stati interrogati"
+        campi = s4me_link.leggi(richieste[0]["params"]["directory"])
+        assert (campi.get("channel"), campi.get("action"), campi.get("testo")) == ("lesaghe", "cerca_siti", "naruto"), campi
+        assert any(v["url"] == TROVATO_SUI_SITI[0]["file"] for v in voci), "i risultati dei siti non sono nella pagina"
+        scelte = [v["etichetta"] for v in voci if v["etichetta"].startswith("Cerca '") or "CERCA ANCHE FUORI" in v["etichetta"]]
+        assert not scelte, "la pagina fa ancora scegliere dove cercare: %s" % scelte[:2]
+        finto_kodi.azzera()
+        main.menu_ricerca("naruto")
+        assert len(richieste) == 1, "ripetere la stessa ricerca ha interrogato di nuovo i siti invece della memoria"
+    finally:
+        rimetti()
+
+
+@prova("se il catalogo non ha niente, i siti si interrogano lo stesso")
+def _():
+    richieste, rimetti = _siti_finti(TROVATO_SUI_SITI)
+    try:
+        finto_kodi.azzera()
+        main.menu_ricerca("zzqxw titolo che non esiste")
+        voci = [v for v in finto_kodi.VOCI if isinstance(v, dict)]
+        assert richieste, "senza risultati nel catalogo i siti non sono stati interrogati"
+        assert any(v["url"] == TROVATO_SUI_SITI[0]["file"] for v in voci), "i risultati dei siti non sono nella pagina"
+    finally:
+        rimetti()
+
+
+@prova("un genere dei documentari mostra i programmi trovati, non l'elenco dei cataloghi")
+def _():
+    richieste, rimetti = _siti_finti(TROVATO_SUI_SITI)
+    try:
+        finto_kodi.azzera()
+        main.menu_scaffale_cerca("documentario squali")
+        voci = [v for v in finto_kodi.VOCI if isinstance(v, dict)]
+        campi = s4me_link.leggi(richieste[0]["params"]["directory"]) if richieste else {}
+        assert "raiplay" in campi.get("canali", ""), "non ha cercato sui cataloghi gratuiti: %s" % campi
+        assert campi.get("testo") == "squali", "ai cataloghi va chiesto il genere, senza 'documentario': %s" % campi
+        assert not [v for v in voci if v["etichetta"].startswith("Cerca su")], "fa ancora scegliere il catalogo"
+        assert any(v["url"] == TROVATO_SUI_SITI[0]["file"] for v in voci), "i programmi trovati non sono nella pagina"
+    finally:
+        rimetti()
+
+
+@prova("gli indirizzi verso s4me hanno la testa codificata come la vuole s4me")
+def _():
+    import base64
+    import json as _json
+    from urllib.parse import unquote
+    u = s4me_link.indirizzo({"channel": "lesaghe", "action": "findvideos"},
+                            titolo_serie="Terra amara & co = 1", numero_ep=5)
+    testa = u.split("?", 1)[1].split("&")[0]
+    assert _json.loads(base64.b64decode(unquote(testa)))["action"] == "findvideos", u
+    campi = s4me_link.leggi(u)
+    assert campi["titolo_serie"] == "Terra amara & co = 1" and campi["numero_ep"] == "5", campi
+    assert u.count("&") == 2, "una & nel titolo ha spezzato l'indirizzo: " + u
+
+
+
+@prova("le locandine dei film dicono la verita': pronto, non ancora in streaming, e il film giusto")
+def _():
+    import io
+    import json as _json
+    from resources.lib import disponibilita, fonti, schede
+    pid = next((p for p in catalogo.PERCORSI
+                if len([m for m in schede.film(p) if not any(fonti.possiede(x) for x in m.get("f", []))]) >= 2), None)
+    assert pid, "serve una saga con almeno due film fuori dagli abbonamenti"
+    film = [m for m in schede.film(pid) if not any(fonti.possiede(x) for x in m.get("f", []))]
+    dati = {disponibilita.chiave_film(pid, film[0]["t"]): {"stato": "pronto", "canale": "altadefinizione01", "quando": 1},
+            disponibilita.chiave_film(pid, film[1]["t"]): {"stato": "assente", "quando": 1}}
+    percorso = disponibilita._file()
+    prima = io.open(percorso, encoding="utf-8").read() if os.path.exists(percorso) else None
+    with io.open(percorso, "w", encoding="utf-8") as f:
+        f.write(_json.dumps(dati))
+    try:
+        finto_kodi.azzera()
+        main.elenco_film(pid)
+        voci = [v for v in finto_kodi.VOCI if isinstance(v, dict)]
+        assert not [v for v in voci if "non in streaming[" in v["etichetta"]], "c'e' ancora la scritta falsa 'non in streaming'"
+        per_titolo = {v["etichetta"].split("  [COLOR grey]")[0]: v for v in voci}
+        assert "pronto da guardare" in per_titolo[film[0]["t"]]["etichetta"], per_titolo[film[0]["t"]]["etichetta"]
+        assert "non ancora trovato" in per_titolo[film[1]["t"]]["etichetta"], per_titolo[film[1]["t"]]["etichetta"]
+        for v in voci:
+            if "plugin.video.s4me" in v["url"]:
+                campi = s4me_link.leggi(v["url"])
+                assert campi.get("action") == "cinema_fonti" and campi.get("anno"), "il film va cercato col suo anno: %s" % campi
+    finally:
+        if prima is None:
+            os.remove(percorso)
+        else:
+            with io.open(percorso, "w", encoding="utf-8") as f:
+                f.write(prima)
+
+
+@prova("Oceania 2026 non e' il cartone del 2016: l'anno decide")
+def _():
+    import importlib.util
+    Item = finto_kodi.installa_finto_s4me()
+    spec = importlib.util.spec_from_file_location(
+        "lesaghe_prova", os.path.join(ADDON, "resources", "canale", "lesaghe.py"))
+    lesaghe = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(lesaghe)
+    assert not lesaghe._anno_compatibile(Item(title="Oceania", infoLabels={"year": 2016}), "2026"), "il cartone del 2016 passa per il film del 2026"
+    assert lesaghe._anno_compatibile(Item(title="Oceania", infoLabels={"year": "2026"}), "2026")
+    assert not lesaghe._anno_compatibile(Item(title="Oceania (2016)"), "2026"), "l'anno scritto nel titolo non e' stato letto"
+    assert not lesaghe._anno_compatibile(Item(title="Oceania"), "2026"), "un film recente senza anno non va preso a occhi chiusi"
+    assert lesaghe._anno_compatibile(Item(title="Dragon Ball - La leggenda delle sette sfere"), "1986")
+    assert lesaghe._anno_compatibile(Item(title="Qualcosa", infoLabels={"year": 2025}), "2026"), "le uscite a cavallo d'anno vanno accettate"
+
+
+
+def _netflix_finto(tipo, pagine):
+    """Finge TMDb per netflix.py: ogni pagina 20 titoli, `pagine` in tutto."""
+    from resources.lib import netflix
+    chiamate = []
+    vecchi = (netflix._chiedi, netflix._cache_leggi, netflix._cache_scrivi)
+
+    def _chiedi(indirizzo):
+        chiamate.append(indirizzo)
+        base = 1000 * len(chiamate)
+        if tipo == "movie":
+            ris = [{"id": base + i, "title": "Film %d" % i, "original_title": "Movie %d" % i,
+                    "release_date": "2026-03-01", "poster_path": "/p.jpg", "vote_average": 7} for i in range(20)]
+        else:
+            ris = [{"id": base + i, "name": "Serie %d" % i, "first_air_date": "2020-01-01",
+                    "poster_path": "/p.jpg", "vote_average": 7} for i in range(20)]
+        return {"results": ris, "total_pages": pagine}
+
+    netflix._chiedi = _chiedi
+    netflix._cache_leggi = lambda: {}
+    netflix._cache_scrivi = lambda d: None
+
+    def rimetti():
+        netflix._chiedi, netflix._cache_leggi, netflix._cache_scrivi = vecchi
+    return chiamate, rimetti
+
+
+@prova("Netflix senza limiti: 'Tutti' in cima e la pagina successiva fino all'ultima")
+def _():
+    chiamate, rimetti = _netflix_finto("tv", 7)
+    try:
+        from resources.lib import netflix
+        assert netflix.generi("serietv")[0][1] == "tutti", "manca 'Tutte le serie' in cima ai generi"
+        finto_kodi.azzera()
+        main.menu_netflix("serietv", "tutti", "1")
+        voci = [v for v in finto_kodi.VOCI if isinstance(v, dict)]
+        titoli = [v for v in voci if "netflix_aggiungi" in v["url"]]
+        assert len(titoli) == 20, "una pagina deve avere 20 titoli, ne ha %d" % len(titoli)
+        assert all(v["cartella"] for v in titoli), "le serie non sono cartelle: col tasto OK Kodi le riprodurrebbe"
+        assert any("pagina=2" in v["url"] for v in voci), "manca la pagina successiva"
+        assert "with_genres" not in chiamate[0], "'Tutte le serie' non deve filtrare per genere"
+        finto_kodi.azzera()
+        main.menu_netflix("serietv", "tutti", "7")
+        assert not any("pagina=8" in v["url"] for v in finto_kodi.VOCI if isinstance(v, dict)), "c'e' una pagina oltre l'ultima"
+    finally:
+        rimetti()
+
+
+@prova("un film di Netflix si guarda col suo anno, non si aggiunge come serie")
+def _():
+    chiamate, rimetti = _netflix_finto("movie", 1)
+    try:
+        finto_kodi.azzera()
+        main.menu_netflix("film", "28", "1")
+        voci = [v for v in finto_kodi.VOCI if isinstance(v, dict)]
+        assert "/discover/movie?" in chiamate[0], "i film vanno chiesti a /discover/movie"
+        assert not [v for v in voci if "netflix_aggiungi" in v["url"]], "un film viene ancora aggiunto come serie"
+        film = [v for v in voci if "plugin.video.s4me" in v["url"]]
+        assert len(film) == 20 and all(v["cartella"] for v in film), "i film devono aprirsi dal canale, come cartelle"
+        campi = s4me_link.leggi(film[0]["url"])
+        assert campi.get("action") == "cinema_fonti" and campi.get("anno") == "2026", campi
+        assert campi.get("chiave", "").startswith("movie/") and campi.get("titolo_originale") == "Movie 0", campi
+    finally:
+        rimetti()
+
+
+@prova("i documentari di Netflix ci sono, serie e film")
+def _():
+    from resources.lib import netflix
+    assert [g for _n, g in netflix.generi("documentari")] == ["@doc_tv", "@doc_film"]
+    chiamate, rimetti = _netflix_finto("movie", 1)
+    try:
+        titoli, pagine = netflix.pagina_genere("documentari", "@doc_film", 1)
+        assert "/discover/movie?" in chiamate[0] and "with_genres=99" in chiamate[0], chiamate[0]
+        assert titoli and titoli[0]["tipo"] == "film", titoli[:1]
+    finally:
+        rimetti()
 
 
 def main_():

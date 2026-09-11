@@ -47,7 +47,7 @@ def ricette(R):
          "comandi": [
              ("Copiare i file cambiati", "copy \"%s\\main.py\" \"%s\\addons\\plugin.video.saghe\\main.py\"" % (sorgente, appdata), "bat"),
              ("Riavviare Kodi in modo pulito (JSON-RPC)",
-              "curl -s -H \"Content-Type: application/json\" -d \"{\\\"jsonrpc\\\":\\\"2.0\\\",\\\"id\\\":1,\\\"method\\\":\\\"Application.Quit\\\"}\" http://127.0.0.1:8080/jsonrpc\n"
+              "curl -s -u kodi:<password in ~/.kodi-pc-api> -H \"Content-Type: application/json\" -d \"{\\\"jsonrpc\\\":\\\"2.0\\\",\\\"id\\\":1,\\\"method\\\":\\\"Application.Quit\\\"}\" http://127.0.0.1:8080/jsonrpc\n"
               "start \"\" \"C:\\Program Files\\Kodi\\kodi.exe\"", "bat"),
              ("Rimetterlo in finestra (mai GUI.SetFullscreen: fa crashare)",
               "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"Input.ExecuteAction\",\"params\":{\"action\":\"togglefullscreen\"}}", "json"),

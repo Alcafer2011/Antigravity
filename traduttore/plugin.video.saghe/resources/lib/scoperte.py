@@ -20,19 +20,31 @@ LE TRE REGOLE DI QUESTO FILE
     3. OGNI GENERE E' UNA VOCE. Non "cerca un documentario": sessanta
        generi gia' scritti, che col telecomando si aprono con un tasto.
 
-COME SONO FATTI GLI INDIRIZZI
-    s4me accetta i parametri in chiaro:
-        plugin://plugin.video.s4me/?channel=<canale>&action=mainlist
-        plugin://plugin.video.s4me/?channel=<canale>&action=search&search_text=<cosa>
-    Provato dal vivo su raiplay, la7 e plutotv: rispondono.
+COME SONO FATTI GLI INDIRIZZI (11/09/2026)
+    Il catalogo di un canale si apre con la testa codificata come la scrive
+    s4me (`_s4me`, vedi resources/lib/s4me_link.py): in chiaro funzionava, ma
+    lasciava un errore nel registro a ogni apertura.
+    La RICERCA non passa piu' da qui: `action=search` di un canale riapriva la
+    tastiera invece di usare la parola gia' scritta. I generi li cerca
+    ricerca_siti.py su tutti i cataloghi insieme (CANALI_CATALOGHI).
 
 I CANALI DI YOUTUBE
     Si aprono con l'identificativo del canale, non col nome: col nome si
     finisce facilmente su un canale che gli somiglia. Presi il 07/09/2026.
 """
 
-S4ME = "plugin://plugin.video.s4me/?channel=%s&action=mainlist"
-S4ME_CERCA = "plugin://plugin.video.s4me/?channel=%s&action=search&search_text=%s"
+
+
+def _s4me(canale, azione="mainlist"):
+    """plugin://plugin.video.s4me/?<testa codificata>. Scritto qui a mano, senza
+    importare s4me_link, perche' fai-menu-arctic.py carica questo file da solo."""
+    import base64
+    import json
+    from urllib.parse import quote
+    testa = json.dumps({"action": azione, "channel": canale}, separators=(",", ":"), sort_keys=True)
+    return "plugin://plugin.video.s4me/?" + quote(base64.b64encode(testa.encode("utf-8")).decode("ascii"), safe="")
+
+
 YT_CANALE = "plugin://plugin.video.youtube/channel/%s/"
 YT_CERCA = "plugin://plugin.video.youtube/kodion/search/query/?q=%s"
 
@@ -43,6 +55,7 @@ CATALOGHI_RICERCA = (("RaiPlay", "raiplay"),
                      ("Pluto TV", "plutotv"),
                      ("Paramount", "paramount"),
                      ("Mediaset Infinity", "mediasetplay"))
+CANALI_CATALOGHI = tuple(c for _nome, c in CATALOGHI_RICERCA)
 
 
 # --------------------------------------------------------------------------
@@ -368,7 +381,7 @@ def scaffale(quale):
     """
     if quale == "documentari":
         fuori = [("A CATALOGO",
-                  [(n, S4ME % c, nota, "catalogo") for n, c, nota in CATALOGHI_DOC])]
+                  [(n, _s4me(c), nota, "catalogo") for n, c, nota in CATALOGHI_DOC])]
         for nome, generi in GENERI_DOC:
             fuori.append((nome, [(e, None, _spiega(e, q, "documentari"),
                                   "cerca:" + q) for e, q in generi]))
@@ -379,7 +392,7 @@ def scaffale(quale):
 
     if quale == "cucina":
         fuori = [("A CATALOGO",
-                  [(n, S4ME % c, nota, "catalogo") for n, c, nota in CATALOGHI_CUCINA])]
+                  [(n, _s4me(c), nota, "catalogo") for n, c, nota in CATALOGHI_CUCINA])]
         for nome, generi in GENERI_CUCINA:
             fuori.append((nome, [(e, None, _spiega(e, q, "cucina"),
                                   "cerca:" + q) for e, q in generi]))
@@ -405,7 +418,3 @@ def quante_voci(quale):
     return sum(len(v) for _, v in scaffale(quale))
 
 
-def dove_cercare(cosa):
-    """I cataloghi su cui provare la stessa ricerca."""
-    return [(nome, S4ME_CERCA % (canale, cosa.replace(" ", "%20")))
-            for nome, canale in CATALOGHI_RICERCA]

@@ -71,6 +71,9 @@ class ListItem(object):
     def getProperty(self, k):
         return self.proprieta.get(k, "")
 
+    def getArt(self, k):
+        return self.arte.get(k, "")
+
 
 class InfoTag(object):
     def __init__(self):

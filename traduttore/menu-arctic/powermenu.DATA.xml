@@ -16,6 +16,20 @@
     </shortcut>
     <shortcut>
         <label2>Power Menu Shortcut</label2>
+        <label>Cerca aggiornamenti</label>
+        <action>RunScript(plugin.video.saghe,aggiornamenti)</action>
+        <icon />
+        <thumb />
+    </shortcut>
+    <shortcut>
+        <label2>Power Menu Shortcut</label2>
+        <label>Qualcosa non va? Segnalalo</label>
+        <action>RunScript(plugin.video.saghe,segnala,00)</action>
+        <icon />
+        <thumb />
+    </shortcut>
+    <shortcut>
+        <label2>Power Menu Shortcut</label2>
         <label>$LOCALIZE[31195]</label>
         <action>ReloadSkin()</action>
         <icon />

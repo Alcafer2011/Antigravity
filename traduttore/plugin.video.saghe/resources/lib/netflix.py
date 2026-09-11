@@ -201,6 +201,13 @@ GENERI_FILM = [
     ("Western",             "37"),
 ]
 
+# I DOCUMENTARI (11/09/2026): su Netflix sono sia serie sia film, e l'utente li
+# vuole tutti. Genere 99 di TMDb, chiesto una volta alle serie e una ai film.
+GENERI_DOC = [
+    ("Serie documentarie", "@doc_tv"),
+    ("Film documentari",   "@doc_film"),
+]
+
 
 def _alfabeto_nostro(titolo):
     """Vero se il titolo e' scritto con le nostre lettere.
@@ -228,7 +235,22 @@ def _voce(r, tipo):
         "trama": (r.get("overview") or "").strip(),
         "poster": (IMG + r["poster_path"]) if r.get("poster_path") else "",
         "sfondo": (SFONDO + r["backdrop_path"]) if r.get("backdrop_path") else "",
+        # il titolo originale serve a trovare il film sui siti che archiviano in inglese
+        "originale": (r.get("original_title") or r.get("original_name") or "").strip(),
     }
+
+
+def _cosa(sezione, genere=""):
+    """'tv' o 'movie': cosa chiedere a /discover per questa sezione e genere."""
+    if sezione == "documentari":
+        return "movie" if genere == "@doc_film" else "tv"
+    return next((s[2] for s in SEZIONI if s[0] == sezione), "tv")
+
+
+def _tipo_voce(sezione, genere=""):
+    if sezione == "anime":
+        return "anime"
+    return "film" if _cosa(sezione, genere) == "movie" else "serietv"
 
 
 def _parametri(sezione, genere=""):
@@ -244,6 +266,8 @@ def _parametri(sezione, genere=""):
         # entrerebbero anche i cartoni occidentali.
         par.update({"with_genres": "16", "with_keywords": "210024",
                     "with_original_language": "ja"})
+    if genere == "tutti":
+        genere = ""
     if genere.startswith("@"):
         speciale = genere[1:]
         if speciale == "anime":
@@ -256,6 +280,8 @@ def _parametri(sezione, genere=""):
             # vince un titolo con tre voti da dieci.
             par["sort_by"] = "vote_average.desc"
             par["vote_count.gte"] = "300"
+        elif speciale in ("doc_tv", "doc_film"):
+            par["with_genres"] = "99"
     elif genere:
         g = par.get("with_genres")
         par["with_genres"] = (g + "," + genere) if g else genere
@@ -263,7 +289,7 @@ def _parametri(sezione, genere=""):
 
 
 def _scarica(sezione, genere="", pagine=1):
-    _, _, cosa = next(s for s in SEZIONI if s[0] == sezione)
+    cosa = _cosa(sezione, genere)
     fuori = []
     for pagina in range(1, pagine + 1):
         par = _parametri(sezione, genere)
@@ -281,8 +307,7 @@ def _scarica(sezione, genere="", pagine=1):
             if not _alfabeto_nostro(r.get("name") or r.get("title")):
                 continue
             if True:
-                fuori.append(_voce(r, "anime" if sezione == "anime"
-                                   else ("film" if sezione == "film" else "serietv")))
+                fuori.append(_voce(r, _tipo_voce(sezione, genere)))
         if pagina >= d.get("total_pages", 1):
             break
     return fuori
@@ -345,10 +370,44 @@ def per_genere(sezione, genere):
 
 
 def generi(sezione):
-    """I generi di una sezione. Per le serie e gli anime quelli TV, per i
-    film la lista del menu di Netflix."""
+    """I generi di una sezione, con "Tutti" in cima (11/09/2026: niente limiti).
+    Per le serie e gli anime quelli TV, per i film la lista del menu di Netflix."""
     if sezione == "film":
-        return GENERI_FILM
+        return [("Tutti i film", "tutti")] + GENERI_FILM
     if sezione == "anime":
-        return GENERI_ANIME
-    return GENERI_TV
+        return [("Tutti gli anime", "tutti")] + GENERI_ANIME
+    if sezione == "documentari":
+        return GENERI_DOC
+    return [("Tutte le serie", "tutti")] + GENERI_TV
+
+
+def pagina_genere(sezione, genere, pagina=1):
+    """UNA pagina (20 titoli) di un genere, e quante pagine ci sono in tutto.
+
+    NESSUN LIMITE (l'utente, 11/09/2026: "lascia che mostrino tutta la sezione
+    di Netflix dedicata, non dargli limiti"). Prima un genere erano due pagine,
+    40 titoli, e il resto del catalogo non si vedeva. Adesso in fondo a ogni
+    pagina c'e' la successiva, fin dove arriva Netflix (TMDb ne da' fino a 500).
+    Cache di un giorno per pagina: si va in rete solo aprendo una pagina nuova."""
+    try:
+        pagina = max(1, int(pagina or 1))
+    except (TypeError, ValueError):
+        pagina = 1
+    chiave = "%s/%s/p%d" % (sezione, genere or "tutti", pagina)
+    cache = _cache_leggi()
+    voce = cache.get(chiave)
+    if voce and (time.time() - voce.get("quando", 0)) < DURATA_CACHE:
+        return voce.get("titoli") or [], voce.get("pagine", 1)
+    par = _parametri(sezione, genere)
+    par["page"] = str(pagina)
+    d = _chiedi("%s/discover/%s?%s" % (BASE, _cosa(sezione, genere), urllib.parse.urlencode(par)))
+    titoli = [_voce(r, _tipo_voce(sezione, genere)) for r in d.get("results", [])
+              if r.get("id") and r.get("poster_path") and _alfabeto_nostro(r.get("name") or r.get("title"))]
+    pagine = min(int(d.get("total_pages") or 1), 500)
+    if d:
+        adesso = time.time()
+        # le pagine vecchie si buttano: sfogliando tutto il catalogo il file crescerebbe per sempre
+        cache = {k: v for k, v in cache.items() if adesso - (v or {}).get("quando", 0) < 3 * DURATA_CACHE}
+        cache[chiave] = {"quando": adesso, "titoli": titoli, "pagine": pagine}
+        _cache_scrivi(cache)
+    return titoli, pagine

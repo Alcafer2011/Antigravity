@@ -33,7 +33,7 @@ def _indirizzo():
     if not v:
         return ""
     if not v.startswith("http"):
-        v = "http://" + v
+        v = "http://" + v  # atlante: http voluto - il quaderno comune sta in casa, sulla rete locale
     return v.rstrip("/") + "/progressi"
 
 

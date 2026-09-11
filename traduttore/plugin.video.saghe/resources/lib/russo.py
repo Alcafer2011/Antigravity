@@ -26,7 +26,7 @@ CANALI = [
     {
         "id": "karusel",
         "nome": "Карусель  (Carousel)",
-        "url": "http://185.37.150.46/Karusel/index.m3u8",
+        "url": "http://185.37.150.46/Karusel/index.m3u8",  # atlante: http voluto - il canale non ha https (provato 11/09/2026)
         "livello": 1,
         "eta": "3-8 anni",
         "perche": "IL canale da cui cominciare. E' la televisione pubblica "
@@ -38,7 +38,7 @@ CANALI = [
     {
         "id": "mult_muzyka",
         "nome": "Мульт и музыка  (cartoni e canzoni)",
-        "url": "http://hls127.freeott.top:8080/Mult_Muzika/video.m3u8",
+        "url": "http://hls127.freeott.top:8080/Mult_Muzika/video.m3u8",  # atlante: http voluto - niente https (provato 11/09/2026)
         "livello": 1,
         "eta": "tutte",
         "perche": "Cartoni brevi e canzoni. Le canzoni servono in un modo "
@@ -58,7 +58,7 @@ CANALI = [
     {
         "id": "nickelodeon_ru",
         "nome": "Nickelodeon  (in russo)",
-        "url": "http://stream.mcquack.net/443/index.m3u8",
+        "url": "https://stream.mcquack.net/443/index.m3u8",
         "livello": 3,
         "eta": "6-12 anni",
         "perche": "Cartoni moderni doppiati in russo. Qui si parla in fretta "

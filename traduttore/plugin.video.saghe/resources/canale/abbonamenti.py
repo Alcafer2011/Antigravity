@@ -45,8 +45,6 @@ SERVIZI = [
      "plugin://plugin.video.netflix/directory/search/search/%s/"),
     ("Prime Video", "plugin.video.amazon-test",
      "plugin://plugin.video.amazon-test/?mode=search&searchstring=%s"),
-    ("Mediaset Infinity", "plugin.video.s4me",
-     "plugin://plugin.video.s4me/?channel=mediasetplay&action=search&search_text=%s"),
 ]
 
 

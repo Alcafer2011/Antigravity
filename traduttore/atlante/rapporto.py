@@ -7,6 +7,7 @@ grafico, codice, dettagli); _md() resta solo per chi volesse un testo.
 I grafici sono SVG scritti a mano: niente librerie, niente internet.
 """
 
+import base64
 import collections
 import datetime
 import html
@@ -144,6 +145,188 @@ def _salute_colore(p):
 
 # ---------------------------------------------------------------- contenuto
 
+SEGNI_STATO = {"regge": "🟢 regge", "riserva": "🟠 riserva", "rotto": "🔴 ROTTO", "ignoto": "⚪ non verificabile"}
+
+
+def _immagine(percorso, stile=""):
+    try:
+        with open(percorso, "rb") as f:
+            dati = base64.b64encode(f.read()).decode("ascii")
+    except OSError:
+        return ""
+    tipo = "image/png" if percorso.lower().endswith(".png") else "image/jpeg"
+    return '<img src="data:%s;base64,%s" style="%s" alt="">' % (tipo, dati, stile)
+
+
+def _storia_svg(storia):
+    """Problemi per livello, analisi dopo analisi: barre impilate."""
+    ultime = storia[-12:]
+    massimo = max([sum(s["conta"].values()) for s in ultime] + [1])
+    larg, alt, fondo = 760, 250, 200
+    passo = (larg - 60) / max(1, len(ultime))
+    parti = ['<svg viewBox="0 0 %d %d" class="graf" role="img"><title>Andamento dei problemi</title>' % (larg, alt)]
+    for i, s in enumerate(ultime):
+        x = 50 + i * passo
+        y = fondo
+        for livello in reversed(LIVELLI):
+            n = s["conta"].get(livello, 0)
+            h = (fondo - 20) * n / massimo
+            if n:
+                parti.append('<rect x="%.0f" y="%.0f" width="%.0f" height="%.0f" fill="%s"><title>%s: %d</title></rect>'
+                             % (x, y - h, passo * 0.7, h, COLORI[livello], livello, n))
+            y -= h
+        parti.append('<text x="%.0f" y="%.0f" text-anchor="middle" class="val">%d</text>' % (x + passo * 0.35, y - 4, sum(s["conta"].values())))
+        parti.append('<text x="%.0f" y="%d" text-anchor="middle" class="etic" style="font-size:10px">%s</text>'
+                     % (x + passo * 0.35, fondo + 16, html.escape(s["quando"][5:16].replace("T", " "))))
+    for j, livello in enumerate(LIVELLI):
+        parti.append('<rect x="%d" y="%d" width="12" height="12" fill="%s"/><text x="%d" y="%d" class="etic">%s</text>'
+                     % (50 + j * 120, alt - 18, COLORI[livello], 66 + j * 120, alt - 8, livello))
+    parti.append("</svg>")
+    return "".join(parti)
+
+
+def _sezioni_nuove(R):
+    """A. mappa dei dialoghi, B. s4me visto da dentro, C. il logo, D. correzioni (11/09/2026)."""
+    B = []
+    mappa = R.get("dialoghi") or {}
+    if mappa.get("frecce"):
+        B.append(titolo("A. Chi parla con chi: la mappa dei dialoghi", ancora="mappa"))
+        B.append(para("Ogni freccia e' un **contratto letto nei file**: chi chiama, con che cosa, cosa si aspetta, e la prova presa "
+                      "dall'altra parte (il codice di chi risponde, il registro, lo stato del guardiano). **Verde** regge, "
+                      "**arancio** regge con riserva, **rosso** e' rotto, **grigio** non si puo' verificare dai file. Il numero "
+                      "sulla freccia rimanda alla tabella; il bordo di ogni riquadro prende il colore della sua freccia peggiore."))
+        B.append(grafico(mappa["svg"], ""))
+        nomi = {n["id"]: n["nome"] for n in mappa.get("nodi", [])}
+        conta = collections.Counter(f["stato"] for f in mappa["frecce"])
+        B.append(para("Frecce: %s." % ", ".join("%s %d" % (SEGNI_STATO[s], conta.get(s, 0)) for s in ("rotto", "riserva", "regge", "ignoto"))))
+        B.append(tabella(["N.", "Chi chiama → chi risponde", "Con che cosa", "Chi chiama si aspetta", "Stato", "PC", "Box", "Pi"],
+                         [[str(f["n"]), "%s → %s" % (nomi.get(f["da"], f["da"]), nomi.get(f["a"], f["a"])), f["cosa"], f["aspetta"],
+                           SEGNI_STATO[f["stato"]]] + [SEGNI_STATO.get(f["per_app"].get(a, ""), "-").split(" ")[0] for a in ("pc", "box", "pi")]
+                          for f in mappa["frecce"]]))
+        for f in mappa["frecce"]:
+            if f["prove"]:
+                B.append(dettagli("Freccia %d: %s → %s — le prove (%s)" % (f["n"], nomi.get(f["da"], f["da"]), nomi.get(f["a"], f["a"]),
+                                                                          SEGNI_STATO[f["stato"]]), [codice("\n".join(f["prove"]))]))
+
+    s4 = R.get("s4me") or {}
+    if s4.get("apparecchi"):
+        B.append(titolo("B. s4me visto da dentro", ancora="s4me"))
+        B.append(para("Com'e' fatto il motore delle fonti su ogni apparecchio, e cosa e' successo **davvero** quando lo si e' usato: "
+                      "ogni tentativo su un server letto nel registro filo per filo, le cartelle che non si sono aperte, i canali "
+                      "in errore. \"Adesso\" = dopo l'ultimo avvio di Kodi; il resto e' storico."))
+        righe = []
+        for app, d in s4["apparecchi"].items():
+            if not d.get("installato"):
+                righe.append([NOMI_AREA.get(app, app), "NON installato", "", "", "", "", "", ""])
+                continue
+            reg = d.get("registro") or {}
+            righe.append([NOMI_AREA.get(app, app), d["versione"], (d.get("commit") or "")[:10],
+                          "%d accesi su %d" % (sum(1 for c in d["canali"].values() if c["acceso"]), len(d["canali"])),
+                          str(len(d["server"])), str((d.get("impostazioni") or {}).get("autoplay", "?")),
+                          "sì" if d.get("resolveurl") else "NO",
+                          "%d (adesso %d)" % (reg.get("indirizzi_in_chiaro", 0), reg.get("indirizzi_in_chiaro_adesso", 0))])
+        B.append(tabella(["Apparecchio", "Versione", "Commit", "Canali", "Server", "Autoplay", "ResolveURL", "Indirizzi in chiaro"], righe))
+        for app, d in s4["apparecchi"].items():
+            if not d.get("installato"):
+                continue
+            reg = d.get("registro") or {}
+            srv = reg.get("server") or {}
+            blocchi = []
+            if srv:
+                val = [("%s (%d)" % (k, v["tentativi"]), v["brutti"]) for k, v in sorted(srv.items(), key=lambda x: -x[1]["tentativi"])[:15]]
+                blocchi.append(para("**Tentativi andati male, server per server** (fra parentesi i tentativi in tutto):"))
+                blocchi.append(grafico(_barre(val, "Tentativi andati male per server", "#c62828"), ""))
+                blocchi.append(tabella(["Server", "Tentativi (adesso)", "Come sono finiti", "Link cancellati / provati", "Alternativa ResolveURL", "Ultimi indirizzi"],
+                                       [[k, "%d (%d)" % (v["tentativi"], v.get("tentativi_adesso", 0)),
+                                         ", ".join("%s %d" % e for e in v["esiti"].items()),
+                                         "%s / %s" % (v.get("link_cancellati", "-"), v.get("link_provati", "-")),
+                                         v.get("alternativa_resolveurl") or "-", ", ".join(v["indirizzi"][-3:])]
+                                        for k, v in sorted(srv.items(), key=lambda x: -x[1]["tentativi"])]))
+            if reg.get("cartelle_fallite"):
+                blocchi.append(tabella(["Canale", "Azione", "Volte", "Adesso"],
+                                       [[c["canale"], c["azione"], str(c["volte"]), str(c.get("volte_adesso", 0))] for c in reg["cartelle_fallite"]]))
+            if reg.get("canali_in_errore"):
+                blocchi.append(tabella(["Canale in errore", "Volte (adesso)", "Righe del codice", "Errore"],
+                                       [[k, "%d (%d)" % (e["volte"], e.get("volte_adesso", 0)), ", ".join(str(r) for r in e["righe"][:6]), e["errore"]]
+                                        for k, e in sorted(reg["canali_in_errore"].items(), key=lambda x: -x[1]["volte"])]))
+            if reg.get("ricerche"):
+                blocchi.append(tabella(["Quando", "Cosa ha deciso il nostro canale"], [[r["quando"], r["testo"]] for r in reg["ricerche"][-15:]]))
+            blocchi.append(dettagli("Tutti i canali di s4me (%d)" % len(d["canali"]), [tabella(
+                ["Canale", "Nome", "Acceso", "Lingue", "Categorie", "Dominio"],
+                [[k, c["nome"], "sì" if c["acceso"] else "no", ", ".join(c["lingue"]), ", ".join(c["categorie"]), c.get("dominio", "")]
+                 for k, c in sorted(d["canali"].items())])]))
+            B.append(dettagli("%s — %d tentativi sui server, %d cartelle fallite, %d canali in errore"
+                              % (NOMI_AREA.get(app, app), sum(v["tentativi"] for v in srv.values()),
+                                 len(reg.get("cartelle_fallite") or []), len(reg.get("canali_in_errore") or {})), blocchi))
+        a_m = s4.get("a_monte") or {}
+        if a_m:
+            B.append(titolo("A monte: chi aggiorna i collegamenti", 3))
+            ultimo = a_m.get("s4me_ultimo") or {}
+            B.append(para("**s4me** (github.com/stream4me/addon, ramo stable) si aggiorna da solo a ogni avvio: ultimo aggiornamento "
+                          "**%s** — %s. I domini dei siti stanno in `channels.json`: e' li' che insegue i siti che cambiano indirizzo."
+                          % ((ultimo.get("data") or "?")[:10], ultimo.get("messaggio", ""))))
+            if a_m.get("s4me_server_toccati"):
+                B.append(tabella(["Quando s4me ha toccato i server", "Cosa"], [[c["data"], c["messaggio"]] for c in a_m["s4me_server_toccati"]]))
+            if a_m.get("resolveurl_plugin"):
+                B.append(para("**ResolveURL** (github.com/Gujal00/ResolveURL) e' l'alternativa che si aggiorna da sola dal suo repository: "
+                              "copre **%d** server. La Videoteca lo installa insieme a se' e il nostro canale lo prova quando un server di "
+                              "s4me non da' il video." % len(a_m["resolveurl_plugin"])))
+            if a_m.get("resolveurl_ultimi"):
+                B.append(tabella(["Ultimi aggiornamenti di ResolveURL", "Cosa"], [[c["data"], c["messaggio"]] for c in a_m["resolveurl_ultimi"]]))
+        if s4.get("domini_provati"):
+            B.append(tabella(["Sito usato dal nostro canale", "Risposta adesso"], [[u, r] for u, r in sorted(s4["domini_provati"].items())]))
+
+    logo = os.path.join(R.get("cartella_addon", ""), "resources", "media", "logo")
+    if os.path.exists(os.path.join(logo, "marchio.png")):
+        B.append(titolo("C. Il logo NOVIX", ancora="logo"))
+        B.append(para("Scelto da te fra NOVIX, ZEFIRA, VIDORA e LUMIRA. La **N a nastro** prende il posto del logo di Kodi in alto a "
+                      "sinistra di ogni schermata di Arctic Zephyr; all'accensione lo **splash** di Kodi e' la N, poi parte "
+                      "l'**animazione** di 4,8 secondi col suo suono (il tuffo nella N che si scioglie in strisce di luce fino ai bordi, poi il ta-DUM) e si va dritti "
+                      "alla home, senza piu' la schermata col logo di Arctic Zephyr. Lo cuce sulla skin `service.videoteca.guardiano/vestito.py`, e il guardiano lo ricuce se un "
+                      "aggiornamento della skin lo toglie. Disegnato da `traduttore/fai-logo.py`."))
+        B.append({"t": "html", "html": '<div style="background:#000;padding:30px;border-radius:10px;text-align:center">%s%s</div>'
+                  % (_immagine(os.path.join(logo, "marchio.png"), "max-width:55%;vertical-align:middle"),
+                     _immagine(os.path.join(logo, "monogramma.png"), "width:130px;margin-left:40px;vertical-align:middle"))})
+        cartella_intro = os.path.join(logo, "intro")
+        fotogrammi = sorted(os.listdir(cartella_intro)) if os.path.isdir(cartella_intro) else []
+        scelti = [fotogrammi[i] for i in (10, 34, 46, 58, 70, 84, 96, 106, 112) if i < len(fotogrammi)]
+        B.append(para("**L'animazione, fotogramma per fotogramma:**"))
+        B.append({"t": "html", "html": '<div style="display:flex;flex-wrap:wrap;gap:6px">%s</div>'
+                  % "".join(_immagine(os.path.join(cartella_intro, f), "width:32%;min-width:150px;border-radius:4px") for f in scelti)})
+        stato_vestito = []
+        for app in ("pc", "box", "pi"):
+            skin = os.path.join(R.get("copie", ""), app, "addons", "skin.arctic.zephyr.mod", "1080i")
+            esiti = []
+            for nome, segno in (("Startup.xml", "videoteca-apertura-3"), ("Includes_Defs.xml", "videoteca-vestito-1")):
+                p = os.path.join(skin, nome)
+                if not os.path.exists(p):
+                    esiti.append("manca")
+                    continue
+                with io.open(p, encoding="utf-8", errors="replace") as f:
+                    testo = f.read()
+                esiti.append("cucito" if segno in testo else ("versione 1 (3 s, poi il logo della skin)"
+                                                              if "videoteca-vestito-1" in testo else "non ancora"))
+            stato_vestito.append([NOMI_AREA.get(app, app), esiti[0], esiti[1]])
+        B.append(tabella(["Apparecchio (copia dell'ultima raccolta)", "Apertura animata col suono (Startup.xml)", "N in ogni schermata (Kodi_Logo)"], stato_vestito))
+
+    storia = R.get("storia") or []
+    if storia:
+        B.append(titolo("D. Correzioni: prima e dopo", ancora="correzioni"))
+        B.append(para("Ogni analisi lascia la sua fotografia: qui come cambiano i problemi da una volta all'altra, e l'elenco di "
+                      "quelli spariti e di quelli nuovi rispetto all'analisi precedente."))
+        B.append(grafico(_storia_svg(storia), ""))
+        if len(storia) >= 2:
+            prima, dopo = storia[-2], storia[-1]
+            spariti = sorted(set(prima["chiavi"]) - set(dopo["chiavi"]))
+            nuovi = sorted(set(dopo["chiavi"]) - set(prima["chiavi"]))
+            B.append(para("Rispetto all'analisi del **%s**: **%d problemi spariti**, **%d nuovi**." % (prima["quando"].replace("T", " "), len(spariti), len(nuovi))))
+            if spariti:
+                B.append(dettagli("✅ Spariti (%d)" % len(spariti), [tabella(["Problema"], [[prima["chiavi"][k]] for k in spariti])]))
+            if nuovi:
+                B.append(dettagli("🆕 Nuovi (%d)" % len(nuovi), [tabella(["Problema"], [[dopo["chiavi"][k]] for k in nuovi])]))
+    return B
+
+
 def _costruisci(R, voci, regole, salute, ricette):
     B = []
     ora = datetime.datetime.now().strftime("%d/%m/%Y %H:%M")
@@ -174,6 +357,8 @@ def _costruisci(R, voci, regole, salute, ricette):
         B.append(titolo("Da sistemare per primi", 3))
         B.append(tabella(["ID", "Livello", "Dove", "Problema"],
                          [[v["id"], "%s %s" % (EMOJI[v["livello"]], v["livello"]), NOMI_AREA.get(v["area"], v["area"]), v["titolo"]] for v in critici[:40]]))
+
+    B.extend(_sezioni_nuove(R))
 
     # 2. APPARECCHI E PROGRAMMI
     B.append(titolo("2. Gli apparecchi e i programmi in gioco", ancora="apparecchi"))
@@ -423,7 +608,9 @@ def _html_blocchi(B):
         t = b["t"]
         if t == "copertina":
             nums = "".join('<div class="num" style="background:%s"><b>%d</b>%s</div>' % (COLORI[l], n, l) for l, n in b["numeri"])
-            voci = [("sintesi", "1. In una pagina"), ("apparecchi", "2. Apparecchi e programmi"), ("problemi", "3. Tutti i problemi"),
+            voci = [("sintesi", "1. In una pagina"), ("mappa", "A. Chi parla con chi"), ("s4me", "B. s4me visto da dentro"),
+                    ("logo", "C. Il logo NOVIX"), ("correzioni", "D. Correzioni: prima e dopo"),
+                    ("apparecchi", "2. Apparecchi e programmi"), ("problemi", "3. Tutti i problemi"),
                     ("regole", "4. Regole di casa"), ("skin", "5. Cosa pretende la skin"), ("addon", "6. Il nostro add-on"),
                     ("incroci", "7. Skin contro add-on"), ("registri", "8. Registri"), ("richieste", "9. Cosa vuole Alessandro"),
                     ("ricettario", "10. Ricettario")]
@@ -449,6 +636,8 @@ def _html_blocchi(B):
             out.append(b["svg"])
         elif t == "mermaid":
             out.append('<pre class="mermaid">%s</pre>' % html.escape(b["testo"]))
+        elif t == "html":
+            out.append(b["html"])
         elif t == "dettagli":
             out.append("<details><summary>%s</summary>%s</details>" % (_html_inline(b["sommario"]), _html_blocchi(b["blocchi"])))
     return "\n".join(out)
@@ -528,8 +717,37 @@ def _requisiti_blocchi(ch):
     return B
 
 
+def _fotografia(problemi, quando):
+    """Il riassunto di un'analisi per il confronto con la successiva."""
+    conta = collections.Counter(v["livello"] for v in problemi)
+    chiavi = {}
+    for v in problemi:
+        chiavi["%s|%s" % (v["area"], re.sub(r"\d+", "#", v["titolo"]))] = "%s %s — %s" % (EMOJI.get(v["livello"], ""), NOMI_AREA.get(v["area"], v["area"]), v["titolo"])
+    return {"quando": str(quando)[:16], "conta": dict(conta), "chiavi": chiavi}
+
+
 def scrivi(R, voci, regole, salute, ricette, cartella):
     os.makedirs(cartella, exist_ok=True)
+    # D. CORREZIONI: la storia delle analisi. La prima volta si parte dall'analisi
+    # precedente rimasta in atlante.json (11/09/2026).
+    p_storia = os.path.join(cartella, "storia.json")
+    try:
+        with io.open(p_storia, encoding="utf-8") as f:
+            storia = json.load(f)
+    except (OSError, ValueError):
+        storia = []
+    if not storia:
+        try:
+            with io.open(os.path.join(cartella, "atlante.json"), encoding="utf-8") as f:
+                vecchio = json.load(f)
+            storia.append(_fotografia(vecchio.get("problemi") or [], vecchio.get("generato", "prima")))
+        except (OSError, ValueError):
+            pass
+    storia.append(_fotografia(voci, datetime.datetime.now().isoformat()))
+    storia = storia[-40:]
+    with io.open(p_storia, "w", encoding="utf-8") as f:
+        json.dump(storia, f, ensure_ascii=False)
+    R["storia"] = storia
     B = _costruisci(R, voci, regole, salute, ricette)
     # SOLO HTML (11/09/2026, l'utente: "non voglio vedere il file di testo, e' meglio
     # l'html da vedere e capire"). I vecchi .md si tolgono per non confondere.

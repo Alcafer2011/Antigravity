@@ -28,6 +28,12 @@ AUTOMATICHE = {"Label", "Label2", "Icon", "Thumb", "FolderPath", "FileNameAndPat
                "Size", "Date", "DateAdded", "StartTime", "EndTime", "ChannelName", "ChannelNumberLabel",
                "HasEpg", "IsRecording", "Overlay", "IsCollection", "DBID", "Property", "Art", "PictureDateTime"}
 
+# Etichette che hanno senso solo per la libreria video di Kodi: Top250 e' la
+# classifica IMDb che mette lo scraper, Season la stagione di un episodio in
+# libreria. Le nostre tappe sono anelli di una catena che attraversa piu' serie:
+# una "stagione" non esiste, e inventarla confonderebbe (11/09/2026).
+SOLO_LIBRERIA = {"Top250", "Season"}
+
 
 def _md5_sorgente(cartella):
     fuori = {}
@@ -67,7 +73,7 @@ def analizza(addon, skin_per_app, kodi_per_app, cartella_addon):
         art_lette = set(sk["art"])
         # le chiavi di arte composte (tvshow.poster, season.poster) le riempie Kodi dalla libreria
         art_nostre_utili = sorted(a for a in art_lette if "." not in a and "$" not in a and "(" not in a)
-        etichette = set(sk["etichette_voce"]) - AUTOMATICHE
+        etichette = set(sk["etichette_voce"]) - AUTOMATICHE - SOLO_LIBRERIA
         mancano_etichette = []
         for e in sorted(etichette):
             s = ETICHETTE_INFOTAG.get(e)

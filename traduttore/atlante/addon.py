@@ -266,6 +266,17 @@ def analizza(cartella_addon, cartella_menu=None):
                     _aggiungi(link, a, dove)
                     contesti[a].add("indirizzo")
 
+    # ---- CHIAVI D'IMMAGINE DA UNA TABELLA (arte_extra.CHIAVI_ARTE, 11/09/2026): la voce le
+    #      riceve quando l'immagine esiste, quindi valgono come date
+    for m in moduli.values():
+        rel_m = os.path.relpath(m.percorso, cartella_addon).replace("\\", "/")
+        for n in m.albero.body:
+            if isinstance(n, ast.Assign) and any(isinstance(b, ast.Name) and b.id == "CHIAVI_ARTE" for b in n.targets) \
+                    and isinstance(n.value, (ast.Tuple, ast.List)):
+                for k in n.value.elts:
+                    if _costante(k):
+                        _aggiungi(art, _costante(k), "%s:%d" % (rel_m, k.lineno))
+
     # ---- ROUTER, RIGHE E COMANDI A TABELLA (11/09/2026: instrada, widget e il main di
     #      avvio.py sono dizionari; senza leggerli sembrerebbe sparito ogni collegamento)
     for nome_mod, m in moduli.items():
@@ -446,8 +457,9 @@ def analizza(cartella_addon, cartella_menu=None):
             "dichiarate": dichiarate, "usate": dict(impost_usate),
             "usate_non_dichiarate": sorted(k for k in impost_usate if k not in dichiarate),
             "dichiarate_mai_usate": sorted(k for k in dichiarate if k not in impost_usate
-                                           and k not in _letture_indirette(moduli, dichiarate)),
-            "senza_default": sorted(k for k, v in dichiarate.items() if not v["default"]),
+                                           and k not in _letture_indirette(moduli, dichiarate)
+                                           and dichiarate[k]["tipo"] != "action"),
+            "senza_default": sorted(k for k, v in dichiarate.items() if not v["default"] and v["tipo"] != "action"),
         },
         "finestre_in_cartella": finestre,
         "refresh_in_cartella": refresh,

@@ -56,20 +56,47 @@ MENU = os.path.join(QUI, "menu-arctic")
 DA_INSTALLARE = ("plugin.video.saghe", "service.videoteca.guardiano")
 # repository.videoteca: senza, gli aggiornamenti automatici non arrivano. L'11/09
 # era SPENTO sul Raspberry e mai registrato sul box.
-DA_ACCENDERE = ("plugin.video.saghe", "service.videoteca.guardiano", "skin.arctic.zephyr.mod",
+DA_ACCENDERE = ("plugin.video.saghe", "service.videoteca.guardiano", "inputstream.rtmp", "skin.arctic.zephyr.mod",
                 "script.skinshortcuts", "script.embuary.helper", "script.embuary.info",
-                "plugin.video.themoviedb.helper", "repository.videoteca")
+                "plugin.video.themoviedb.helper", "repository.videoteca",
+                # ResolveURL e il suo repository (11/09/2026): vedi _pacchetti_extra
+                "repository.resolveurl", "script.module.resolveurl", "script.module.six",
+                "script.module.kodi-six", "script.module.pyqrcode")
 ORA = time.strftime("%Y%m%d-%H%M%S")
 EMBUARY_IT = ('<settings version="2">\n    <setting id="language_code">it</setting>\n'
               '    <setting id="country_code">IT</setting>\n</settings>\n')
 
 
-def _guisettings_sicure(testo):
+def _guisettings_sicure(testo, password=None):
     """Origini sconosciute SPENTE: servono solo per installare uno zip a mano; gli
-    aggiornamenti dai repository gia' installati funzionano lo stesso (11/09/2026)."""
+    aggiornamenti dai repository gia' installati funzionano lo stesso (11/09/2026).
+    Con `password` (solo il PC): l'API di Kodi chiede utente e password - box e
+    Raspberry ce l'avevano gia', il banco no, e sulla rete di casa chiunque poteva
+    comandarlo."""
     import re as _re
-    return _re.sub(r'<setting id="addons.unknownsources"[^>]*>[^<]*</setting>',
-                   '<setting id="addons.unknownsources">false</setting>', testo)
+    testo = _re.sub(r'<setting id="addons.unknownsources"[^>]*>[^<]*</setting>',
+                    '<setting id="addons.unknownsources">false</setting>', testo)
+    if password:
+        testo = _re.sub(r'<setting id="services.webserverauthentication"[^>]*?(?:/>|>[^<]*</setting>)',
+                        '<setting id="services.webserverauthentication">true</setting>', testo)
+        testo = _re.sub(r'<setting id="services.webserverpassword"[^>]*?(?:/>|>[^<]*</setting>)',
+                        lambda _m: '<setting id="services.webserverpassword">%s</setting>' % password, testo)
+    return testo
+
+
+def _suono_apertura(testo):
+    """Il suono di NOVIX all'accensione passa da PlaySFX, cioe' dai suoni
+    dell'interfaccia: con "Suoni dell'interfaccia: mai" non si sente. L'11/09/2026
+    sul box era cosi' (audiooutput.guisoundmode = 0). Si passa a "solo quando non
+    si riproduce" (1) e si toglie la serie di bip dei tasti (lookandfeel.soundskin
+    vuoto): il suono dell'apertura si', i bip a ogni tasto no. Se non era "mai",
+    non si tocca niente."""
+    if not re.search(r'<setting id="audiooutput.guisoundmode"[^>]*>0</setting>', testo):
+        return testo
+    testo = re.sub(r'<setting id="audiooutput.guisoundmode"[^>]*>0</setting>',
+                   '<setting id="audiooutput.guisoundmode">1</setting>', testo)
+    return re.sub(r'<setting id="lookandfeel.soundskin"[^>]*?(?:/>|>[^<]*</setting>)',
+                  '<setting id="lookandfeel.soundskin"></setting>', testo)
 
 
 YOUTUBE_PRONTO = {
@@ -165,6 +192,54 @@ def _file(cartella):
                 yield p, rel
 
 
+RESOLVEURL_REPO = "https://raw.githubusercontent.com/Gujal00/smrzips/master"
+DIPENDENZE_RESOLVEURL = ("script.module.six", "script.module.kodi-six", "script.module.pyqrcode")
+
+
+def _pacchetti_extra():
+    """Le cartelle che viaggiano insieme alla Videoteca (11/09/2026).
+
+    - repository.videoteca ricostruito SENZA <checksum>: sul Raspberry Kodi
+      chiedeva addons.xml.md5 senza la password del repository privato,
+      riceveva 404 e dava per illeggibile il repository intero. Un repository
+      rotto non puo' aggiornare se stesso: va portato a mano, qui.
+    - ResolveURL e il suo repository, che poi si aggiorna da solo: la seconda
+      opinione quando un server di s4me non da' il video (lesaghe._server_vivi).
+    - le tre dipendenze di ResolveURL, dal repository ufficiale di Kodi.
+    Restituisce (cartella d'appoggio, [cartelle da mettere in addons/]).
+    """
+    import importlib.util
+    import zipfile
+    base = tempfile.mkdtemp(prefix="servi-extra-")
+    spec = importlib.util.spec_from_file_location("costruisci_repo", os.path.join(QUI, "costruisci-repo-kodi.py"))
+    repo = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(repo)
+    cartelle = [repo.crea_repository_addon(base)]
+    indice = urllib.request.urlopen(urllib.request.Request(RESOLVEURL_REPO + "/addons.xml",
+                                                           headers={"User-Agent": "Kodi"}), timeout=60).read()
+    indice = indice.decode("utf-8", "replace")
+    for aid in ("repository.resolveurl", "script.module.resolveurl"):
+        m = re.search(r'<addon\b[^>]*\bid="%s"[^>]*>' % re.escape(aid), indice)
+        v = re.search(r'\bversion="([^"]+)"', m.group(0)) if m else None
+        if not v:
+            raise SystemExit("%s non c'e' nel repository di ResolveURL" % aid)
+        locale = os.path.join(base, "%s-%s.zip" % (aid, v.group(1)))
+        urllib.request.urlretrieve("%s/zips/%s/%s-%s.zip" % (RESOLVEURL_REPO, aid, aid, v.group(1)), locale)
+        with zipfile.ZipFile(locale) as z:
+            if "%s/addon.xml" % aid not in z.namelist():
+                raise SystemExit("il pacchetto di %s non ha %s/addon.xml" % (aid, aid))
+            z.extractall(base)
+        os.remove(locale)
+        cartelle.append(os.path.join(base, aid))
+    spec = importlib.util.spec_from_file_location("installa_skin", os.path.join(QUI, "installa-skin.py"))
+    inst = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(inst)
+    for aid in DIPENDENZE_RESOLVEURL:
+        inst.installa(aid, "nexus", base)
+    cartelle += [os.path.join(base, d) for d in DIPENDENZE_RESOLVEURL if os.path.isdir(os.path.join(base, d))]
+    return base, cartelle
+
+
 def prepara():
     titolo("PACCHETTO")
     impronte = {}
@@ -180,12 +255,18 @@ def prepara():
     for f in os.listdir(MENU):
         shutil.copyfile(os.path.join(MENU, f), os.path.join(scorta, f))
     tar = os.path.join(tempfile.gettempdir(), "servi-%s.tar" % ORA)
+    appoggio, extra = _pacchetti_extra()
     with tarfile.open(tar, "w") as t:
         for cart, aid in ((ADDON, "plugin.video.saghe"), (GUARDIANO, "service.videoteca.guardiano")):
             for p, rel in _file(cart):
                 t.add(p, arcname="%s/%s" % (aid, rel))
+        for cart in extra:
+            for p, rel in _file(cart):
+                t.add(p, arcname="%s/%s" % (os.path.basename(cart), rel))
+    shutil.rmtree(appoggio, ignore_errors=True)
     print("  Videoteca %s: %d file   guardiano %s   menu %d file   pacchetto %d KB"
           % (_versione(ADDON), len(impronte), _versione(GUARDIANO), len(os.listdir(MENU)), os.path.getsize(tar) // 1024))
+    print("  insieme: %s" % ", ".join(os.path.basename(c) for c in extra))
     return tar, impronte
 
 
@@ -238,10 +319,28 @@ def _confronta(md5_remoti, impronte):
 # PC
 # --------------------------------------------------------------------------
 
+FILE_API_PC = os.path.join(os.path.expanduser("~"), ".kodi-pc-api")
+
+
+def _password_api_pc():
+    """La password dell'API del Kodi del PC: creata la prima volta, poi sempre quella."""
+    if not os.path.exists(FILE_API_PC):
+        import secrets
+        with io.open(FILE_API_PC, "w", encoding="utf-8") as f:
+            f.write(secrets.token_urlsafe(12))
+    with io.open(FILE_API_PC, encoding="utf-8") as f:
+        return f.read().strip()
+
+
 def _rpc(metodo, params=None, tempo=5):
+    import base64
     corpo = json.dumps({"jsonrpc": "2.0", "id": 1, "method": metodo, "params": params or {}}).encode()
+    intestazioni = {"Content-Type": "application/json"}
+    if os.path.exists(FILE_API_PC):
+        segreto = "kodi:" + _password_api_pc()
+        intestazioni["Authorization"] = "Basic " + base64.b64encode(segreto.encode()).decode()
     try:
-        r = urllib.request.Request("http://127.0.0.1:8080/jsonrpc", corpo, {"Content-Type": "application/json"})
+        r = urllib.request.Request("http://127.0.0.1:8080/jsonrpc", corpo, intestazioni)
         return json.load(urllib.request.urlopen(r, timeout=tempo)).get("result")
     except Exception:
         return None
@@ -250,6 +349,31 @@ def _rpc(metodo, params=None, tempo=5):
 def _kodi_pc_acceso():
     r = subprocess.run(["tasklist", "/FI", "IMAGENAME eq kodi.exe"], capture_output=True, text=True)
     return "kodi.exe" in r.stdout.lower()
+
+
+def _vestito_modulo():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("vestito_servi", os.path.join(GUARDIANO, "vestito.py"))
+    modulo = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(modulo)
+    return modulo
+
+
+def _vestito_testi(leggi_file, scrivi_file):
+    """Il logo NOVIX sulla skin di un apparecchio lontano: leggi_file(nome) -> testo o None,
+    scrivi_file(nome, testo). A Kodi FERMO: la skin si rilegge al riavvio (11/09/2026)."""
+    vestito = _vestito_modulo()
+    esiti = []
+    for nome, cuci, _segno in vestito.FILE:
+        testo = leggi_file(nome)
+        if not testo or "<" not in testo:
+            esiti.append("%s manca" % nome)
+            continue
+        nuovo, esito = cuci(testo)
+        if esito == "cucito":
+            scrivi_file(nome, nuovo)
+        esiti.append("%s %s" % (nome, esito))
+    return ", ".join(esiti)
 
 
 def servi_pc(tar, impronte, riavvia=True):
@@ -284,6 +408,10 @@ def servi_pc(tar, impronte, riavvia=True):
     for f in os.listdir(menu):
         if f.endswith(".hash"):
             os.remove(os.path.join(menu, f))
+    skin_pc = os.path.join(addons, "skin.arctic.zephyr.mod")
+    if os.path.isdir(skin_pc):
+        print("  logo NOVIX sulla skin: %s" % ", ".join("%s %s" % kv for kv in _vestito_modulo().applica(skin_pc).items()))
+    print("  " + _vestito_modulo().assicura_splash(kodi, os.path.join(addons, "plugin.video.saghe", "resources", "media", "logo")))
     emb = os.path.join(kodi, "userdata", "addon_data", "script.embuary.info")
     os.makedirs(emb, exist_ok=True)
     p_emb = os.path.join(emb, "settings.xml")
@@ -295,7 +423,7 @@ def servi_pc(tar, impronte, riavvia=True):
     if os.path.exists(gs):
         vecchio = io.open(gs, encoding="utf-8").read()
         with io.open(gs, "w", encoding="utf-8") as f:
-            f.write(_guisettings_sicure(vecchio))
+            f.write(_suono_apertura(_guisettings_sicure(vecchio, password=_password_api_pc())))
         print("  origini sconosciute spente")
     # YouTube del banco: mai aperto, alla prima riga chiedeva la procedura guidata.
     # Box e Pi sono gia' configurati: si tocca solo il PC.
@@ -374,6 +502,29 @@ def servi_box(tar, impronte, riavvia=True):
     _su("mkdir -p %s && cp %s/addons/service.videoteca.guardiano/resources/menu/* %s/ && rm -f %s/*.hash && chown -R %s %s"
         % (menu, k, menu, menu, proprietario, menu))
     print("  menu della home copiato")
+    cartella_skin = "%s/addons/skin.arctic.zephyr.mod/1080i" % k
+
+    def _leggi_box(nome):
+        locale = os.path.join(tempfile.gettempdir(), "servi-vestito-box-" + nome)
+        if os.path.exists(locale):
+            os.remove(locale)
+        _su("cp %s/%s /sdcard/servi-vestito.xml" % (cartella_skin, nome))
+        R._adb("pull", "/sdcard/servi-vestito.xml", locale)
+        _su("rm -f /sdcard/servi-vestito.xml")
+        return io.open(locale, encoding="utf-8", errors="replace").read() if os.path.exists(locale) else None
+
+    def _scrivi_box(nome, testo):
+        locale = os.path.join(tempfile.gettempdir(), "servi-vestito-box-" + nome)
+        with io.open(locale, "w", encoding="utf-8", newline="") as fh:
+            fh.write(testo)
+        R._adb("push", locale, "/sdcard/servi-vestito.xml")
+        _su("cp /sdcard/servi-vestito.xml %s/%s && chown %s %s/%s && rm /sdcard/servi-vestito.xml"
+            % (cartella_skin, nome, proprietario, cartella_skin, nome))
+    print("  logo NOVIX sulla skin: %s" % _vestito_testi(_leggi_box, _scrivi_box))
+    logo_box = "%s/addons/plugin.video.saghe/resources/media/logo" % k
+    esito_splash = _su("mkdir -p %s/media && cp %s/splash.jpg %s/splash.png %s/media/ && chown -R %s %s/media && echo messo"
+                       % (k, logo_box, logo_box, k, proprietario, k))
+    print("  splash NOVIX: %s" % ("messo" if "messo" in esito_splash else "NON messo " + esito_splash[-120:]))
     emb = "%s/userdata/addon_data/script.embuary.info" % k
     attuale = _su("cat %s/settings.xml 2>/dev/null" % emb)
     locale_emb = os.path.join(tempfile.gettempdir(), "servi-embuary.xml")
@@ -387,7 +538,7 @@ def servi_box(tar, impronte, riavvia=True):
     if "<settings" in gs_testo:
         locale_gs = os.path.join(tempfile.gettempdir(), "servi-guisettings.xml")
         with io.open(locale_gs, "w", encoding="utf-8") as f:
-            f.write(_guisettings_sicure(gs_testo))
+            f.write(_suono_apertura(_guisettings_sicure(gs_testo)))
         R._adb("push", locale_gs, "/sdcard/servi-guisettings.xml")
         _su("cp /sdcard/servi-guisettings.xml %s/userdata/guisettings.xml && chown %s %s/userdata/guisettings.xml && rm /sdcard/servi-guisettings.xml"
             % (k, proprietario, k))
@@ -427,6 +578,29 @@ def servi_box(tar, impronte, riavvia=True):
 # RASPBERRY
 # --------------------------------------------------------------------------
 
+def _rtmp_pi(run, sftp):
+    """inputstream.rtmp dal repository di LibreELEC: pvr.iptvsimple lo chiede e sul
+    Raspberry non c'era da nessuna parte (atlante, 11/09/2026). Kodi fermo."""
+    import gzip
+    if run("ls -d %s/addons/inputstream.rtmp /usr/lib/kodi/addons/inputstream.rtmp 2>/dev/null" % R.PI_KODI):
+        return "inputstream.rtmp gia' presente"
+    repo = "/usr/share/kodi/addons/repository.libreelec.tv/addon.xml"
+    info = run("grep -o -E '<info>[^<]*' %s" % repo).replace("<info>", "").strip()
+    datadir = run("grep -o -E '<datadir[^>]*>[^<]*' %s" % repo).split(">", 1)[-1].strip().rstrip("/")
+    if not info or not datadir:
+        return "inputstream.rtmp NON installato: repository di LibreELEC non letto"
+    dati = urllib.request.urlopen(urllib.request.Request(info, headers={"User-Agent": "Kodi"}), timeout=60).read()
+    indice = (gzip.decompress(dati) if info.endswith(".gz") else dati).decode("utf-8", "replace")
+    m = re.search(r'<addon\b[^>]*\bid="inputstream\.rtmp"[^>]*\bversion="([^"]+)"', indice)
+    if not m:
+        return "inputstream.rtmp NON installato: non c'e' nel repository di LibreELEC"
+    locale = os.path.join(tempfile.gettempdir(), "inputstream.rtmp-%s.zip" % m.group(1))
+    urllib.request.urlretrieve("%s/inputstream.rtmp/inputstream.rtmp-%s.zip" % (datadir, m.group(1)), locale)
+    sftp.put(locale, "/tmp/inputstream.rtmp.zip")
+    esito = run("cd %s/addons && unzip -o -q /tmp/inputstream.rtmp.zip && rm /tmp/inputstream.rtmp.zip && echo fatto" % R.PI_KODI)
+    return "inputstream.rtmp %s %s" % (m.group(1), "installato" if "fatto" in esito else "NON installato: " + esito[-200:])
+
+
 def servi_pi(tar, impronte, riavvia=True):
     import paramiko
     titolo("RASPBERRY")
@@ -457,6 +631,22 @@ def servi_pi(tar, impronte, riavvia=True):
     menu = "%s/userdata/addon_data/script.skinshortcuts" % k
     run("mkdir -p %s && cp %s/addons/service.videoteca.guardiano/resources/menu/* %s/ && rm -f %s/*.hash" % (menu, k, menu, menu))
     print("  menu della home copiato")
+    cartella_skin = "%s/addons/skin.arctic.zephyr.mod/1080i" % k
+
+    def _leggi_pi(nome):
+        try:
+            with sftp.open("%s/%s" % (cartella_skin, nome), "r") as fh:
+                return fh.read().decode("utf-8", "replace")
+        except IOError:
+            return None
+
+    def _scrivi_pi(nome, testo):
+        with sftp.open("%s/%s" % (cartella_skin, nome), "w") as fh:
+            fh.write(testo.encode("utf-8"))
+    print("  logo NOVIX sulla skin: %s" % _vestito_testi(_leggi_pi, _scrivi_pi))
+    logo_pi = "%s/addons/plugin.video.saghe/resources/media/logo" % k
+    esito_splash = run("mkdir -p %s/media && cp %s/splash.jpg %s/splash.png %s/media/ && echo messo" % (k, logo_pi, logo_pi, k))
+    print("  splash NOVIX: %s" % ("messo" if "messo" in esito_splash else "NON messo " + esito_splash[-120:]))
     emb = "%s/userdata/addon_data/script.embuary.info" % k
     attuale = run("cat %s/settings.xml 2>/dev/null" % emb)
     run("mkdir -p %s" % emb)
@@ -467,8 +657,9 @@ def servi_pi(tar, impronte, riavvia=True):
         gs_testo = fh.read().decode("utf-8", "replace")
     if "<settings" in gs_testo:
         with sftp.open("%s/userdata/guisettings.xml" % k, "w") as fh:
-            fh.write(_guisettings_sicure(gs_testo))
+            fh.write(_suono_apertura(_guisettings_sicure(gs_testo)))
         print("  origini sconosciute spente")
+    print("  " + _rtmp_pi(run, sftp))
     db = run("ls %s/userdata/Database | grep -E '^Addons[0-9]+\\.db$' | sort | tail -n 1" % k).strip()
     locale = os.path.join(tempfile.gettempdir(), "servi-pi-%s" % db)
     sftp.get("%s/userdata/Database/%s" % (k, db), locale)
@@ -602,6 +793,136 @@ def dipendenze(app):
     return True
 
 
+# --------------------------------------------------------------------------
+# VERSIONI E REPOSITORY (11/09/2026: il pulsante "Cerca aggiornamenti")
+# --------------------------------------------------------------------------
+
+CLONE_REPO = os.path.join(os.path.expanduser("~"), "kodi-s4me-addon-personale")
+PUBBLICATO = os.path.join(QUI, ".pubblicato.json")
+NOSTRI = ((ADDON, "plugin.video.saghe"), (GUARDIANO, "service.videoteca.guardiano"))
+
+
+def _tupla(v):
+    return tuple(int(x) for x in re.findall(r"\d+", v or "0"))
+
+
+def _impronta(cartella):
+    """Il codice di un add-on in un numero, senza il numero di versione."""
+    h = hashlib.md5()
+    for p, rel in sorted(_file(cartella), key=lambda x: x[1]):
+        if rel == "resources/impronte.json":
+            continue
+        with open(p, "rb") as f:
+            dati = f.read()
+        if rel == "addon.xml":
+            dati = re.sub(rb'(<addon\b[^>]*?\bversion=")[^"]+', rb"\1", dati)
+        h.update(rel.encode("utf-8"))
+        h.update(dati)
+    return h.hexdigest()
+
+
+def _pubblicate():
+    p = os.path.join(CLONE_REPO, "zips", "addons.xml")
+    if not os.path.exists(p):
+        return {}
+    with io.open(p, encoding="utf-8") as f:
+        indice = f.read()
+    fuori = {}
+    for m in re.finditer(r"<addon\b[^>]*>", indice):
+        ident, ver = re.search(r'\bid="([^"]+)"', m.group(0)), re.search(r'\bversion="([^"]+)"', m.group(0))
+        if ident and ver:
+            fuori[ident.group(1)] = ver.group(1)
+    return fuori
+
+
+def _alza_versione(cartella, sopra):
+    p = os.path.join(cartella, "addon.xml")
+    with io.open(p, encoding="utf-8") as f:
+        testo = f.read()
+    base = max(_versione(cartella), sopra, key=_tupla)
+    pezzi = (list(_tupla(base)) + [0, 0, 0])[:3]
+    nuova = "%d.%d.%d" % (pezzi[0], pezzi[1], pezzi[2] + 1)
+    testo = re.sub(r'(<addon\b[^>]*?\bversion=")[^"]+', lambda m: m.group(1) + nuova, testo, count=1)
+    with io.open(p, "w", encoding="utf-8", newline="") as f:
+        f.write(testo)
+    return nuova
+
+
+def versioni():
+    """Kodi aggiorna SOLO se il numero sale: con lo stesso numero e codice diverso
+    non succede niente (il 10/09 repository e apparecchi erano tutti e due 1.0.0).
+    Codice cambiato rispetto a quello pubblicato -> versione alzata qui, da sola."""
+    titolo("VERSIONI")
+    try:
+        with io.open(PUBBLICATO, encoding="utf-8") as f:
+            stato = json.load(f)
+    except (OSError, ValueError):
+        stato = {}
+    pubblicate = _pubblicate()
+    for cartella, aid in NOSTRI:
+        adesso, fuori = _versione(cartella), pubblicate.get(aid, "")
+        if (stato.get(aid) or {}).get("impronta") == _impronta(cartella):
+            print("  %-28s %s (uguale a quella pubblicata)" % (aid, adesso))
+        elif fuori and _tupla(adesso) <= _tupla(fuori):
+            print("  %-28s %s -> %s (codice cambiato)" % (aid, adesso, _alza_versione(cartella, fuori)))
+        else:
+            print("  %-28s %s (pubblicata: %s)" % (aid, adesso, fuori or "mai"))
+
+
+def _indice_su_github():
+    """addons.xml letto dall'API di GitHub: raw.githubusercontent tiene copie di
+    qualche minuto, l'API no - si verifica quello che c'e' davvero."""
+    with io.open(os.path.join(os.path.expanduser("~"), ".videoteca-repo-token"), encoding="utf-8") as f:
+        segreto = f.read().strip()
+    r = urllib.request.Request("https://api.github.com/repos/Alcafer2011/kodi-s4me-addon-personale/contents/zips/addons.xml?ref=main",
+                               headers={"Authorization": "token " + segreto, "User-Agent": "servi.py",
+                                        "Accept": "application/vnd.github.raw"})
+    return urllib.request.urlopen(r, timeout=30).read().decode("utf-8", "replace")
+
+
+def pubblica():
+    titolo("REPOSITORY (per il pulsante Cerca aggiornamenti)")
+    if not os.path.isdir(os.path.join(CLONE_REPO, ".git")):
+        print("  manca il clone %s: non pubblico" % CLONE_REPO)
+        return False
+    subprocess.run(["git", "-C", CLONE_REPO, "pull", "--ff-only", "-q"], capture_output=True, text=True, timeout=120)
+    r = subprocess.run([sys.executable, os.path.join(QUI, "costruisci-repo-kodi.py"), CLONE_REPO],
+                       capture_output=True, text=True, encoding="utf-8", errors="replace")
+    if r.returncode != 0:
+        print("  costruzione NON riuscita:\n%s%s" % (r.stdout[-800:], r.stderr[-800:]))
+        return False
+    subprocess.run(["git", "-C", CLONE_REPO, "add", "-A"], capture_output=True, text=True)
+    messaggio = "Videoteca %s, guardiano %s" % (_versione(ADDON), _versione(GUARDIANO))
+    c = subprocess.run(["git", "-C", CLONE_REPO, "commit", "-q", "-m", messaggio], capture_output=True, text=True)
+    if c.returncode != 0 and "nothing to commit" not in (c.stdout + c.stderr):
+        print("  commit NON riuscito: %s" % (c.stdout + c.stderr)[-400:])
+        return False
+    p = subprocess.run(["git", "-C", CLONE_REPO, "push", "-q"], capture_output=True, text=True, timeout=300)
+    if p.returncode != 0:
+        print("  push NON riuscito: %s" % p.stderr[-400:])
+        return False
+    try:
+        indice = _indice_su_github()
+    except Exception as e:
+        print("  pubblicato, ma non verificato su GitHub: %s" % e)
+        return False
+    ok = True
+    stato = {}
+    for cartella, aid in NOSTRI:
+        m = re.search(r'<addon\b[^>]*\bid="%s"[^>]*\bversion="([^"]+)"' % re.escape(aid), indice)
+        su_github = m.group(1) if m else "assente"
+        giusta = su_github == _versione(cartella)
+        ok = ok and giusta
+        print("  %-28s su GitHub %s %s" % (aid, su_github, "OK" if giusta else "DIVERSA da %s" % _versione(cartella)))
+        stato[aid] = {"versione": _versione(cartella), "impronta": _impronta(cartella),
+                      "quando": time.strftime("%Y-%m-%d %H:%M")}
+    if ok:
+        with io.open(PUBBLICATO, "w", encoding="utf-8") as f:
+            json.dump(stato, f, ensure_ascii=False, indent=1)
+        print("  il pulsante lo vede entro ~5 minuti (raw.githubusercontent tiene una copia)")
+    return ok
+
+
 def main(argv):
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -610,9 +931,12 @@ def main(argv):
         return 0 if all([dipendenze(a) for a in (argv[2:] or ["box", "pi"])]) else 1
     riavvia = "--senza-riavvio" not in argv
     dove = [a for a in argv[1:] if not a.startswith("--")] or ["tutti"]
+    solo_pubblica = dove == ["pubblica"]
     if "tutti" in dove:
         dove = ["pc", "box", "pi"]
+    dove = [a for a in dove if a != "pubblica"]
     prove()
+    versioni()
     tar, impronte = prepara()
     esiti = {}
     for app in dove:
@@ -622,6 +946,10 @@ def main(argv):
             print("  %s NON RIUSCITO: %s" % (app, e))
             esiti[app] = False
     os.remove(tar)
+    # Si pubblica solo quello che si e' appena installato bene: cosi' il pulsante
+    # "Cerca aggiornamenti" porta agli altri apparecchi esattamente questo codice.
+    if solo_pubblica or (esiti and all(esiti.values()) and "--senza-pubblicare" not in argv):
+        esiti["repository"] = pubblica()
     titolo("ESITO")
     for app, ok in esiti.items():
         print("  %-4s %s" % (app, "OK" if ok else "DA CONTROLLARE"))

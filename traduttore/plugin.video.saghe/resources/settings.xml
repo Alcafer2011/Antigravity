@@ -105,5 +105,26 @@
       </group>
     </category>
 
+    <category id="aggiornamenti" label="Aggiornamenti e immagini">
+      <group id="1" label="Aggiornamenti">
+        <setting id="cerca_aggiornamenti" type="action" label="Cerca aggiornamenti adesso">
+          <level>0</level>
+          <data>RunScript(plugin.video.saghe,aggiornamenti)</data>
+          <constraints><allowempty>true</allowempty></constraints>
+          <control type="button" format="action"><close>true</close></control>
+        </setting>
+      </group>
+      <group id="2" label="Immagini in piu'">
+        <setting id="fanart_chiave" type="string" label="Chiave personale di fanart.tv (clearart e disco)">
+          <level>0</level>
+          <default/>
+          <constraints><allowempty>true</allowempty></constraints>
+          <control type="edit" format="string">
+            <heading>Gratuita su fanart.tv, dopo la registrazione</heading>
+          </control>
+        </setting>
+      </group>
+    </category>
+
   </section>
 </settings>

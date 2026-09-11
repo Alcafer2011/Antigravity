@@ -32,6 +32,8 @@ sys.path.insert(0, QUI)
 
 import addon as m_addon      # noqa: E402
 import chat as m_chat        # noqa: E402
+import dialoghi as m_dialoghi  # noqa: E402
+import s4me_profondo as m_s4me  # noqa: E402
 import codice as m_codice    # noqa: E402
 import incroci as m_incroci  # noqa: E402
 import kodi as m_kodi        # noqa: E402
@@ -45,6 +47,9 @@ USCITA = os.path.join(QUI, "uscita")
 SORGENTE = os.path.join(raccolta.ANTIGRAVITY, "traduttore", "plugin.video.saghe")
 MENU = os.path.join(raccolta.ANTIGRAVITY, "traduttore", "menu-arctic")
 APPARECCHI = ("pc", "box", "pi")
+# L'esame IN RETE (link dei server, domini dei siti, GitHub di s4me e ResolveURL):
+# sempre con "tutto", a richiesta con "analizza --vivo". Un minuto in piu'.
+VIVO = "--vivo" in sys.argv or (len(sys.argv) > 1 and sys.argv[1] == "tutto")
 
 
 def _cartella_skin(copia, nome):
@@ -57,7 +62,7 @@ def _cartella_skin(copia, nome):
 
 def analizza():
     t0 = time.time()
-    R = {"cartella_addon": SORGENTE, "apparecchi": {}, "skin": {}, "skin_attiva": {}}
+    R = {"cartella_addon": SORGENTE, "copie": raccolta.COPIE, "apparecchi": {}, "skin": {}, "skin_attiva": {}}
     print("  add-on ...")
     R["addon"] = m_addon.analizza(SORGENTE, MENU)
     print("  codice ...")
@@ -78,6 +83,10 @@ def analizza():
             R["skin_attiva"][app] = {"nome": attiva, "analizzata": bool(ca)}
     print("  incroci ...")
     R["incroci"] = m_incroci.analizza(R["addon"], R["skin"], R["apparecchi"], SORGENTE)
+    print("  s4me visto da dentro%s ..." % (" (e in rete)" if VIVO else ""))
+    R["s4me"] = m_s4me.analizza(raccolta.COPIE, APPARECCHI, vivo=VIVO)
+    print("  mappa dei dialoghi ...")
+    R["dialoghi"] = m_dialoghi.analizza(R, raccolta.COPIE)
     print("  chat e memorie ...")
     R["chat"] = m_chat.analizza()
     voci, regole, salute = m_regole.trova(R)
@@ -128,7 +137,7 @@ def cerca(testo):
 def apri():
     p = os.path.join(USCITA, "REPORT.html")
     if os.path.exists(p):
-        os.startfile(p)  # noqa: S606 - solo Windows, apre il browser
+        print("  aperto con %s" % raccolta.apri_nel_browser(p))
     else:
         print("Prima: python atlante.py analizza")
 

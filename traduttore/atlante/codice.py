@@ -127,6 +127,10 @@ def _schemi(cartella, schemi, controllo, tipo):
                 continue
             for schema, livello, spiega in schemi:
                 if re.search(schema, riga):
+                    if controllo == "sicurezza" and "atlante: http voluto" in riga:
+                        # http scelto a ragione e spiegato nella riga stessa (un canale
+                        # senza https, un indirizzo di casa): non e' una svista (11/09/2026)
+                        continue
                     if controllo == "sicurezza" and "http://" in riga and (
                             ".m3u8" in riga or '"http://" +' in riga or "'http://' +" in riga):
                         livello, spiega = "info", ("flusso video di terzi, o indirizzo del quaderno comune in casa: "

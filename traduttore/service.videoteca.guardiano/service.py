@@ -18,6 +18,11 @@ COSA RIPARA DA SOLO (poco, e solo cose sicure)
     Tutto il resto lo SEGNALA: riparare codice o database a Kodi acceso fa
     piu' danni di quanti ne toglie.
 
+LA SCATOLA NERA (1.2.0, chiesta dall'utente l'11/09/2026)
+    Oltre ai controlli ogni 15 minuti, ogni secondo guarda cosa succede
+    sullo schermo e scrive quello che cambia: vedi scatola.py. Sul PC la
+    legge `traduttore/registratore.py`.
+
 REGOLE DI UN SERVIZIO BUONO
     niente finestre (solo notifiche), niente attese che Kodi non puo'
     interrompere (monitor.waitForAbort), registro letto a pezzi dall'ultimo
@@ -36,6 +41,8 @@ import xbmc
 import xbmcaddon
 import xbmcgui
 import xbmcvfs
+
+import scatola as _scatola
 
 ID = "service.videoteca.guardiano"
 PRIMO_GIRO = 90
@@ -272,10 +279,36 @@ def macchina():
 # IL GIRO
 # --------------------------------------------------------------------------
 
+def vestito_skin():
+    """Il vestito NOVIX sulla skin (vestito.py): l'apertura animata e la N in ogni schermata.
+
+    Un aggiornamento di Arctic Zephyr riscrive i suoi file e il vestito sparisce:
+    qui si ricuce, e si vede dal prossimo avvio di Kodi (11/09/2026)."""
+    import vestito
+    skin = xbmcvfs.translatePath("special://home/addons/skin.arctic.zephyr.mod/")
+    if not os.path.isdir(skin):
+        return _esito("vestito", "ok", "Arctic Zephyr non installata: niente da vestire")
+    esiti = vestito.applica(skin)
+    # lo splash di Kodi all'accensione: la N su nero, da cui riparte l'animazione
+    try:
+        esiti["splash"] = vestito.assicura_splash(
+            xbmcvfs.translatePath("special://home/"),
+            xbmcvfs.translatePath("special://home/addons/plugin.video.saghe/resources/media/logo/"))
+    except OSError as e:
+        esiti["splash"] = "non messo: %s" % e
+    cuciti = [f for f, e in esiti.items() if e == "cucito"]
+    strani = [f for f, e in esiti.items() if e in ("non riconosciuto", "manca")]
+    if strani:
+        return _esito("vestito", "attenzione", "la skin e' cambiata, il logo non si ricuce: %s" % ", ".join(strani), esiti)
+    if cuciti:
+        return _esito("vestito", "riparato", "logo NOVIX ricucito su %s: si vede dal prossimo avvio" % ", ".join(cuciti), esiti)
+    return _esito("vestito", "ok", "logo NOVIX, splash e apertura animata al loro posto", esiti)
+
+
 def giro():
     stato = _leggi_json("stato.json", {})
     esiti = []
-    for controllo in (integrita, backup_in_addons, leggibili, skin_e_menu, addon_chiave, trailer, macchina):
+    for controllo in (integrita, backup_in_addons, leggibili, skin_e_menu, addon_chiave, trailer, macchina, vestito_skin):
         try:
             esiti.append(controllo())
         except Exception as e:
@@ -289,7 +322,12 @@ def giro():
     gravi_prima = set(stato.get("gravi", []))
     gravi = ["%s: %s" % (e["controllo"], e["testo"]) for e in esiti if e["livello"] in ("problema", "riparato")]
     nuovi = [g for g in gravi if g not in gravi_prima]
+    try:
+        nera = SCATOLA.riassunto() if SCATOLA else None
+    except Exception as ex:
+        nera = {"errore": str(ex)}
     nuovo_stato = {
+        "scatola_nera": nera,
         "quando": time.strftime("%Y-%m-%d %H:%M:%S"),
         "versione": xbmcaddon.Addon(ID).getAddonInfo("version"),
         "kodi": xbmc.getInfoLabel("System.BuildVersion"),
@@ -314,18 +352,40 @@ def giro():
                                       xbmcgui.NOTIFICATION_WARNING, 9000)
 
 
+SCATOLA = None
+
+
+class _Monitor(xbmc.Monitor):
+    """Passa alla scatola nera le notifiche di Kodi (video, sonno, uscita...)."""
+
+    def onNotification(self, mittente, metodo, dati):
+        if SCATOLA:
+            SCATOLA.notifica(mittente, metodo, dati)
+
+
 def main():
-    monitor = xbmc.Monitor()
-    _log("avviato: primo controllo fra %d s, poi ogni %d minuti" % (PRIMO_GIRO, OGNI // 60))
-    if monitor.waitForAbort(PRIMO_GIRO):
-        return
+    global SCATOLA
+    try:
+        SCATOLA = _scatola.Scatola()
+    except Exception as e:
+        _log("scatola nera spenta: %s" % e, xbmc.LOGWARNING)
+    monitor = _Monitor()
+    _log("avviato: primo controllo fra %d s, poi ogni %d minuti; scatola nera %s"
+         % (PRIMO_GIRO, OGNI // 60, "accesa" if SCATOLA else "spenta"))
+    prossimo = time.time() + PRIMO_GIRO
     while not monitor.abortRequested():
-        try:
-            giro()
-        except Exception as e:
-            _log("giro non riuscito: %s" % e, xbmc.LOGERROR)
-        if monitor.waitForAbort(OGNI):
+        if SCATOLA:
+            SCATOLA.tick()
+        if time.time() >= prossimo:
+            try:
+                giro()
+            except Exception as e:
+                _log("giro non riuscito: %s" % e, xbmc.LOGERROR)
+            prossimo = time.time() + OGNI
+        if monitor.waitForAbort(1):
             break
+    if SCATOLA:
+        SCATOLA.chiudi()
 
 
 if __name__ == "__main__":

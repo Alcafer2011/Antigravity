@@ -146,9 +146,8 @@ def _codice(e, c, cartella_addon):
     for r in c["reperti"]:
         dove = "%s:%s" % (r["file"], r["riga"])
         if r["controllo"] == "sicurezza" and "chiave" in (r["dettaglio"] or "") and r["file"].endswith("tmdb.py"):
-            e.aggiungi("info", "vulnerabilita", "codice", "Chiave TMDb tenuta in un solo modulo",
-                       "E' la chiave gratuita di TMDb, in resources/lib/tmdb.py: se TMDb la blocca si cambia li'.",
-                       [dove], "")
+            # La chiave gratuita di TMDb tenuta apposta in un modulo solo: e' la
+            # soluzione, non un problema da contare (11/09/2026).
             continue
         if r["controllo"] == "sicurezza" and "chiave" in (r["dettaglio"] or ""):
             # Sempre la stessa chiave gratuita di TMDb, in piu' moduli: UNA voce, non sette.
@@ -179,7 +178,7 @@ def _codice(e, c, cartella_addon):
                        "Il modulo resources/lib/%s.py esiste ma non e' importato qui." % nome if esiste else
                        "Non esiste nessun modulo con questo nome: e' stato tolto (per ponte_s4me: commit 77d75a7, "
                        "'Diradamento') ma le chiamate sono rimaste."),
-                   dove, "Importare il modulo o sostituire le chiamate (per s4me: plugin://plugin.video.s4me/?channel=search&action=Search&search_text=...).")
+                   dove, "Importare il modulo o sostituire le chiamate (per cercare su s4me: resources/lib/ricerca_siti.py, che chiama lesaghe.cerca_siti; action=Search in s4me NON esiste).")
     for (f, controllo, dettaglio, livello, tipo), righe in minori.items():
         e.aggiungi(livello, tipo, "codice", "%s in %s: %s (%d)" % (controllo, f, dettaglio, len(righe)),
                    "\n".join(righe[:40]), [x.split("  ")[0] for x in righe], "")
@@ -266,6 +265,21 @@ def _apparecchio(e, app, k):
                        "Il guardiano segnala (%s): %s" % (esito.get("controllo"), esito.get("testo", "")[:110]),
                        "Controllo del %s.\n%s" % (g.get("quando", "?"), json.dumps(esito.get("dettagli"), ensure_ascii=False)[:1500]),
                        [], "Vedi addon_data/service.videoteca.guardiano/stato.json sull'apparecchio.")
+    # LA SCATOLA NERA del guardiano (1.2.0): cosa e' andato storto mentre si usava la TV.
+    nera = g.get("scatola_nera") or {}
+    livelli_nera = {"video_non_partito": ("alto", "video che non sono partiti"),
+                    "kodi_chiuso_da_solo": ("alto", "chiusure improvvise di Kodi"),
+                    "segnalata": ("medio", "problemi segnalati dall'utente"),
+                    "errore_python": ("medio", "errori Python"),
+                    "attesa_lunga": ("basso", "attese lunghe (rotellina oltre 15 secondi)"),
+                    "messaggio": ("basso", "messaggi di errore a schermo"),
+                    "registro": ("basso", "errori gravi nel registro")}
+    for genere, quanti in sorted((nera.get("conti") or {}).items()):
+        livello, nome = livelli_nera.get(genere, ("basso", genere))
+        esempi = [x for x in nera.get("ultime") or [] if x.get("genere") == genere][-3:]
+        e.aggiungi(livello, "malfunzionamento", app, "Scatola nera, ultime %s ore: %d %s" % (nera.get("ore", 24), quanti, nome),
+                   "\n".join("%s  %s" % (x.get("t"), x.get("testo")) for x in esempi), [],
+                   "Il rapporto con le foto dello schermo e il registro: python registratore.py %s" % app)
     imp = k.get("impostazioni") or {}
     if (imp.get("services.webserver") or {}).get("valore") == "true" and \
             (imp.get("services.webserverauthentication") or {}).get("valore") == "false":
@@ -415,6 +429,17 @@ def trova(R):
         e.aggiungi("medio", "aspetto", "addon", "clearlogo con il logo del servizio",
                    "Su Arctic Zephyr il clearlogo e' la scritta del titolo: con fonti.logo compare il marchio Netflix/Prime.",
                    [dove], "Usare loghi.logo o _logo_titolo.", "clearlogo = logo del titolo, mai del servizio")
+    # s4me visto da dentro e la mappa dei dialoghi (11/09/2026): i loro problemi
+    # entrano nello stesso elenco, con lo stesso numero SAG-nnn.
+    import dialoghi
+    import s4me_profondo
+    for modulo, dati in ((s4me_profondo, R.get("s4me")), (dialoghi, R.get("dialoghi"))):
+        try:
+            for p in modulo.problemi(dati or {}):
+                e.aggiungi(p["livello"], p["tipo"], p["area"], p["titolo"], p["dettaglio"], p["dove"], p["rimedio"])
+        except Exception as errore:
+            e.aggiungi("info", "manutenzione", "addon", "L'atlante non e' riuscito a leggere %s" % modulo.__name__,
+                       str(errore), [], "Guardare il modulo atlante/%s.py." % modulo.__name__)
     ordine = {l: i for i, l in enumerate(LIVELLI)}
     voci = sorted(e.voci, key=lambda v: (ordine[v["livello"]], v["area"], v["titolo"]))
     for i, v in enumerate(voci, 1):

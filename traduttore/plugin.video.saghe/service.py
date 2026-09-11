@@ -394,6 +394,9 @@ def _avvio_netflix():
         try:
             from resources.lib import loghi
             chiesti = loghi.riempi()
+            # Poi le schede complete e le immagini in piu' (dettagli.py, 11/09/2026).
+            from resources.lib import dettagli
+            dettagli.riempi()
             if chiesti:
                 xbmc.log("[Le Saghe] loghi del titolo chiesti a TMDb: %d"
                          % chiesti, xbmc.LOGINFO)
@@ -407,10 +410,23 @@ def _avvio_netflix():
         xbmc.log("[Le Saghe] filo Netflix non avviato: %s" % e, xbmc.LOGWARNING)
 
 
+def _avvio_controllore():
+    # IL CONTROLLORE DELLE LOCANDINE (11/09/2026, resources/lib/disponibilita.py):
+    # quando nessuno usa la TV prova i film uno alla volta, come se li si stesse
+    # per guardare, e scrive chi e' pronto e chi no. Filo a parte: parte fra
+    # dieci minuti e non disturba mai un video in corso.
+    try:
+        from resources.lib import disponibilita
+        disponibilita.avvia()
+    except Exception as e:
+        xbmc.log("[Le Saghe] controllore non avviato: %s" % e, xbmc.LOGWARNING)
+
+
 # All'avvio, uno dopo l'altro. Ogni passo ha il suo try: se uno fallisce gli altri
 # partono lo stesso. (Era una funzione sola da 188 righe: divisa l'11/09/2026.)
 PASSI_ALL_AVVIO = (_avvio_custode, _avvio_regolazioni_s4me, _avvio_novita, _avvio_cinema,
-                   _avvio_copertine, _avvio_sentinella, _avvio_consigli, _avvio_netflix)
+                   _avvio_copertine, _avvio_sentinella, _avvio_consigli, _avvio_netflix,
+                   _avvio_controllore)
 
 
 def principale():

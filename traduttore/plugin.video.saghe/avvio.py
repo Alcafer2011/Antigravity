@@ -282,7 +282,6 @@ def _apri_film(pid, titolo_hex):
     77d75a7: il film senza fonte finiva in NameError. La ricerca su s4me si
     apre con lo stesso indirizzo che usa gia' la Ricerca della Videoteca.
     """
-    from urllib.parse import quote
     from resources.lib import catalogo, fonti
     try:
         titolo = bytes.fromhex(titolo_hex).decode("utf-8") if titolo_hex not in ("", "00") else ""
@@ -302,15 +301,10 @@ def _apri_film(pid, titolo_hex):
         fonti.avvia_app(catalogo.FONTI[fonte["id"]]["pacchetto"])
         return
     if titolo and xbmc.getCondVisibility("System.HasAddon(plugin.video.s4me)"):
-        if xbmcgui.Dialog().yesno(
-                "Film",
-                "[B]%s[/B]\n\nPer questo film non c'e' una fonte fra i tuoi "
-                "abbonamenti.\n\n[B]Vuoi cercarlo su s4me?[/B]" % titolo,
-                nolabel="No, chiudi", yeslabel="Cerca '%s'" % titolo,
-                defaultbutton=getattr(xbmcgui, "DLG_YESNO_YES_BTN", 11)):
-            xbmc.executebuiltin(
-                'ActivateWindow(Videos,"plugin://plugin.video.s4me/?channel=search'
-                '&action=Search&search_text=%s",return)' % quote(titolo))
+        # Niente domanda "vuoi cercarlo su s4me?" (e l'indirizzo che apriva,
+        # action=Search, in s4me non esiste: registro del Raspberry, 11/09/2026).
+        # La ricerca parte da sola su tutti i siti e si apre la pagina.
+        _cerca_e_mostra(titolo)
         return
     xbmcgui.Dialog().ok("Le Saghe",
                         "Per questo film non c'e' ancora una fonte configurata. %s" % titolo)
@@ -405,15 +399,65 @@ def _cerca_nuova():
 
     La casella parte SEMPRE vuota (il difetto del 06/09/2026: con dentro la
     ricerca di prima, col telecomando Indietro chiude invece di cancellare e
-    non se ne esce). Scritto il testo si torna nella Videoteca coi risultati.
+    non se ne esce). Scritto il testo, la ricerca parte da sola su catalogo e
+    siti (11/09/2026): vedi _cerca_e_mostra.
     """
-    from urllib.parse import urlencode
-    testo = xbmcgui.Dialog().input("Cerca fra saghe, episodi, capitoli, film e canali",
+    testo = xbmcgui.Dialog().input("Cerca dappertutto: catalogo e tutti i siti",
                                    defaultt="", type=xbmcgui.INPUT_ALPHANUM)
     if not testo:
         return
-    xbmc.executebuiltin("Container.Update(plugin://plugin.video.saghe/?%s)"
-                        % urlencode({"azione": "cerca", "testo": testo}))
+    _cerca_e_mostra(testo)
+
+
+def _cerca_testo(esadecimale):
+    """Una ricerca gia' scritta (le ricerche recenti), col testo in esadecimale."""
+    try:
+        testo = bytes.fromhex(esadecimale).decode("utf-8") if esadecimale not in ("", "00") else ""
+    except ValueError:
+        testo = ""
+    if testo:
+        _cerca_e_mostra(testo)
+
+
+def _cerca_e_mostra(testo):
+    """Cerca su tutti i siti con la barra in un angolo, poi apre i risultati.
+
+    La ricerca sui siti dura qualche decina di secondi. Dentro la cartella
+    sarebbe una pagina bianca con la rotellina; qui invece si vede la barra
+    ("12 siti su 40 - 23 risultati") e la pagina si apre gia' piena, perche'
+    la risposta resta in memoria (ricerca_siti.py). Se c'e' gia' in memoria,
+    la pagina si apre subito."""
+    import threading
+    import time
+    from urllib.parse import urlencode
+    from resources.lib import ricerca_siti
+    if ricerca_siti.s4me_presente() and not ricerca_siti.dalla_cache(testo):
+        barra = xbmcgui.DialogProgressBG()
+        barra.create("Cerco '%s'" % testo, "Chiedo a tutti i siti insieme...")
+        filo = threading.Thread(target=ricerca_siti.cerca, args=(testo,))
+        filo.daemon = True
+        filo.start()
+        monitor = xbmc.Monitor()
+        inizio = time.time()
+        try:
+            while filo.is_alive():
+                st = ricerca_siti.stato()
+                if st.get("testo") == testo and st.get("totale"):
+                    barra.update(int(100 * st.get("fatti", 0) / max(1, st["totale"])), "Cerco '%s'" % testo,
+                                 "%d siti su %d  -  %d risultati" % (st.get("fatti", 0), st["totale"],
+                                                                      st.get("trovati", 0)))
+                else:
+                    barra.update(min(95, int((time.time() - inizio) * 3)), "Cerco '%s'" % testo,
+                                 "Chiedo a tutti i siti insieme...")
+                if monitor.waitForAbort(0.5):
+                    return
+        finally:
+            barra.close()
+    indirizzo = "plugin://plugin.video.saghe/?%s" % urlencode({"azione": "cerca", "testo": testo})
+    if xbmc.getCondVisibility("Window.IsActive(videos)"):
+        xbmc.executebuiltin("Container.Update(%s)" % indirizzo)
+    else:
+        xbmc.executebuiltin('ActivateWindow(Videos,"%s",return)' % indirizzo)
 
 
 def _misura_linea():
@@ -444,18 +488,215 @@ def _misura_linea():
     xbmcgui.Dialog().ok("La mia linea" if fatto else "Non ho potuto regolare", testo)
 
 
+# --------------------------------------------------------------------------
+# CERCA AGGIORNAMENTI (chiesto dall'utente l'11/09/2026)
+#
+# "aggiungerei un pulsante cerca aggiornamenti cosi' senza attendere un giorno
+# posso fargli cercare e se ci sono li scarica e li installa".
+# 1. Si legge l'indice del NOSTRO repository (privato: il token sta
+#    nell'indirizzo come utente:token@, che urllib non accetta - si toglie e
+#    si manda come intestazione) e si confrontano le versioni.
+# 2. UpdateAddonRepos: Kodi rilegge TUTTI i repository e, con gli
+#    aggiornamenti automatici accesi (lo sono su PC, box e Raspberry),
+#    installa da solo. Si aspetta, mostrando l'avanzamento.
+# 3. Se dopo due minuti non l'ha fatto, lo si fa qui: pacchetto scaricato,
+#    controllato (addon.xml e versione), la copia vecchia spostata FUORI da
+#    addons/ (un backup li' dentro Kodi lo esegue al posto del nuovo, 10/09).
+# --------------------------------------------------------------------------
+
+NOSTRI_ADDON = {"plugin.video.saghe": "Videoteca", "service.videoteca.guardiano": "Guardiano"}
+
+
+def _versione_tupla(v):
+    import re
+    return tuple(int(x) for x in re.findall(r"\d+", v or "0"))
+
+
+def _installata(aid):
+    import json
+    r = json.loads(xbmc.executeJSONRPC(json.dumps({
+        "jsonrpc": "2.0", "id": 1, "method": "Addons.GetAddonDetails",
+        "params": {"addonid": aid, "properties": ["version"]}})))
+    return ((r.get("result") or {}).get("addon") or {}).get("version", "")
+
+
+def _repository():
+    import base64
+    import io
+    import re
+    import xbmcvfs
+    p = xbmcvfs.translatePath("special://home/addons/repository.videoteca/addon.xml")
+    with io.open(p, encoding="utf-8") as f:
+        testo = f.read()
+    info = re.search(r"<info[^>]*>([^<]+)</info>", testo).group(1).strip()
+    datadir = re.search(r"<datadir[^>]*>([^<]+)</datadir>", testo).group(1).strip()
+    intestazioni = {"User-Agent": "Kodi-Videoteca"}
+    m = re.match(r"(https?://)([^:@/]+):([^@/]+)@(.+)", info)
+    if m:
+        segreto = base64.b64encode(("%s:%s" % (m.group(2), m.group(3))).encode("utf-8")).decode("ascii")
+        intestazioni["Authorization"] = "Basic " + segreto
+        info = m.group(1) + m.group(4)
+        datadir = re.sub(r"(https?://)[^@/]+@", r"\1", datadir)
+    return info, datadir.rstrip("/"), intestazioni
+
+
+def _scarica(indirizzo, intestazioni, tempo=30):
+    import urllib.request
+    with urllib.request.urlopen(urllib.request.Request(indirizzo, headers=intestazioni), timeout=tempo) as r:
+        return r.read()
+
+
+def _pubblicate():
+    import re
+    info, datadir, intestazioni = _repository()
+    indice = _scarica(info, intestazioni).decode("utf-8", "replace")
+    fuori = {}
+    for m in re.finditer(r"<addon\b[^>]*>", indice):
+        ident = re.search(r'\bid="([^"]+)"', m.group(0))
+        versione = re.search(r'\bversion="([^"]+)"', m.group(0))
+        if ident and versione:
+            fuori[ident.group(1)] = versione.group(1)
+    return fuori, datadir, intestazioni
+
+
+def _installa_a_mano(aid, versione, datadir, intestazioni):
+    import io
+    import os
+    import shutil
+    import time
+    import zipfile
+    import xbmcvfs
+    dati = _scarica("%s/%s/%s-%s.zip" % (datadir, aid, aid, versione), intestazioni, 180)
+    appoggio = xbmcvfs.translatePath("special://temp/videoteca-aggiorna/")
+    shutil.rmtree(appoggio, ignore_errors=True)
+    os.makedirs(appoggio)
+    pacchetto = os.path.join(appoggio, "pacchetto.zip")
+    with open(pacchetto, "wb") as f:
+        f.write(dati)
+    with zipfile.ZipFile(pacchetto) as z:
+        if "%s/addon.xml" % aid not in z.namelist():
+            raise ValueError("pacchetto senza %s/addon.xml" % aid)
+        z.extractall(appoggio)
+    nuovo = os.path.join(appoggio, aid)
+    with io.open(os.path.join(nuovo, "addon.xml"), encoding="utf-8") as f:
+        if 'version="%s"' % versione not in f.read():
+            raise ValueError("dentro il pacchetto non c'e' la versione %s" % versione)
+    vecchio = xbmcvfs.translatePath("special://home/addons/%s" % aid)
+    scorta = xbmcvfs.translatePath("special://home/backup-aggiornamenti/")
+    os.makedirs(scorta, exist_ok=True)
+    if os.path.isdir(vecchio):
+        shutil.move(vecchio, os.path.join(scorta, "%s-%s" % (aid, time.strftime("%Y%m%d-%H%M%S"))))
+    shutil.move(nuovo, vecchio)
+    for vecchia in sorted(d for d in os.listdir(scorta) if d.startswith(aid + "-"))[:-2]:
+        shutil.rmtree(os.path.join(scorta, vecchia), ignore_errors=True)
+    shutil.rmtree(appoggio, ignore_errors=True)
+    xbmc.executebuiltin("UpdateLocalAddons")
+
+
+def _aggiornamenti():
+    import time
+    barra = xbmcgui.DialogProgressBG()
+    barra.create("Cerca aggiornamenti", "Chiedo al repository cosa c'e' di nuovo...")
+    monitor = xbmc.Monitor()
+    try:
+        try:
+            pubblicate, datadir, intestazioni = _pubblicate()
+        except Exception as e:
+            xbmc.log("[Le Saghe] aggiornamenti, repository: %s" % e, xbmc.LOGWARNING)
+            xbmcgui.Dialog().notification("Aggiornamenti", "Il repository non risponde: riprova fra poco",
+                                          xbmcgui.NOTIFICATION_WARNING, 7000)
+            return
+        # Tutti i repository, non solo il nostro: s4me e gli altri si aggiornano insieme.
+        xbmc.executebuiltin("UpdateAddonRepos")
+        da_fare = {}
+        for aid in NOSTRI_ADDON:
+            adesso, nuova = _installata(aid), pubblicate.get(aid, "")
+            if adesso and nuova and _versione_tupla(nuova) > _versione_tupla(adesso):
+                da_fare[aid] = nuova
+        if not da_fare:
+            barra.update(100, "Cerca aggiornamenti", "Nessuna novita'")
+            xbmcgui.Dialog().notification(
+                "Tutto aggiornato", "Videoteca %s: e' l'ultima versione" % _installata("plugin.video.saghe"),
+                xbmcgui.NOTIFICATION_INFO, 6000)
+            return
+        elenco = ", ".join("%s %s" % (NOSTRI_ADDON[a], v) for a, v in da_fare.items())
+        inizio = time.time()
+        restano = dict(da_fare)
+        while restano and time.time() - inizio < 120:
+            barra.update(10 + int(70 * (time.time() - inizio) / 120), "Aggiornamento trovato", "Kodi installa %s..." % elenco)
+            if monitor.waitForAbort(2):
+                return
+            restano = {a: v for a, v in restano.items() if _versione_tupla(_installata(a)) < _versione_tupla(v)}
+        a_mano = []
+        for aid, versione in restano.items():
+            barra.update(85, "Aggiornamento", "Installo %s %s..." % (NOSTRI_ADDON[aid], versione))
+            _installa_a_mano(aid, versione, datadir, intestazioni)
+            a_mano.append(aid)
+        barra.update(100, "Aggiornamento", "Fatto")
+        testo = "Installato: %s" % elenco
+        if a_mano:
+            # installato a mano, un servizio gira ancora col codice di prima
+            testo += ". Riavvia Kodi per finire"
+        xbmcgui.Dialog().notification("Aggiornamenti", testo, xbmcgui.NOTIFICATION_INFO, 9000)
+    except Exception as e:
+        xbmc.log("[Le Saghe] aggiornamenti: %s" % e, xbmc.LOGERROR)
+        xbmcgui.Dialog().notification("Aggiornamenti", "Non riuscito: %s" % str(e)[:80],
+                                      xbmcgui.NOTIFICATION_ERROR, 8000)
+    finally:
+        barra.close()
+
+
+# --------------------------------------------------------------------------
+# QUALCOSA NON VA (11/09/2026)
+#
+# Dal menu della Videoteca o dal tasto MENU di una locandina. Si fotografa lo
+# schermo e si scrive una riga nella SCATOLA NERA del guardiano: il resto
+# (cosa si stava facendo, gli errori di quei secondi) c'e' gia' li'.
+# Sul PC: python registratore.py box|pi.
+# --------------------------------------------------------------------------
+
+def _segnala(esadecimale="00"):
+    import io
+    import json
+    import os
+    import time
+    import xbmcvfs
+    try:
+        titolo = bytes.fromhex(esadecimale).decode("utf-8", "replace") if esadecimale not in ("", "00") else ""
+    except ValueError:
+        titolo = ""
+    cartella = xbmcvfs.translatePath("special://profile/addon_data/service.videoteca.guardiano/scatola_nera/")
+    scatti = os.path.join(cartella, "scatti")
+    os.makedirs(scatti, exist_ok=True)
+    xbmc.Monitor().waitForAbort(0.5)          # si chiude il menu: la foto deve vedere lo schermo sotto
+    adesso = time.time()
+    nome = time.strftime("%Y%m%d-%H%M%S", time.localtime(adesso)) + "-segnalata.png"
+    xbmc.executebuiltin("TakeScreenshot(%s,sync)" % os.path.join(scatti, nome))
+    riga = {"t": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(adesso)), "ts": round(adesso, 2),
+            "tipo": "anomalia", "genere": "segnalata", "scatto": nome,
+            "testo": "Segnalato da te" + (": %s" % titolo if titolo else ""),
+            "cartella": xbmc.getInfoLabel("Container.FolderPath"), "voce": xbmc.getInfoLabel("ListItem.Label")}
+    with io.open(os.path.join(cartella, time.strftime("%Y-%m-%d", time.localtime(adesso)) + ".jsonl"),
+                 "a", encoding="utf-8") as f:
+        f.write(json.dumps(riga, ensure_ascii=False) + "\n")
+    xbmcgui.Dialog().notification("Segnato", "Ho fotografato lo schermo e segnato l'ora: lo guardo io",
+                                  xbmcgui.NOTIFICATION_INFO, 5000)
+
+
 def main():
     comando = sys.argv[1] if len(sys.argv) > 1 else "vetrina"
     # Le finestre che prima si aprivano dentro le cartelle (11/09/2026).
     senza_argomenti = {"stato_linea": _stato_linea, "anomalie": _anomalie,
-                       "russo_consiglio": _russo_consiglio, "cerca_nuova": _cerca_nuova}
-    con_la_saga = {"spiega": _spiega, "azzera": _azzera, "salta": _salta, "capitoli": _capitoli}
-    if comando in senza_argomenti or comando in con_la_saga:
+                       "russo_consiglio": _russo_consiglio, "cerca_nuova": _cerca_nuova,
+                       "aggiornamenti": _aggiornamenti}
+    con_un_argomento = {"spiega": _spiega, "azzera": _azzera, "salta": _salta, "capitoli": _capitoli,
+                        "segnala": _segnala, "cerca_testo": _cerca_testo}
+    if comando in senza_argomenti or comando in con_un_argomento:
         try:
             if comando in senza_argomenti:
                 senza_argomenti[comando]()
             else:
-                con_la_saga[comando](sys.argv[2] if len(sys.argv) > 2 else "")
+                con_un_argomento[comando](sys.argv[2] if len(sys.argv) > 2 else "")
         except Exception as e:
             xbmc.log("[Le Saghe] %s: %s" % (comando, e), xbmc.LOGERROR)
         return

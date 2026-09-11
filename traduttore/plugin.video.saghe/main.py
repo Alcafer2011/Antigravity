@@ -32,6 +32,12 @@ except Exception as _e:
 
 ADDON = xbmcaddon.Addon()
 MANIGLIA = int(sys.argv[1])
+
+# Le immagini trovate sul PC per le voci che ne erano senza (traduttore/locandine.py):
+# ogni voce passa da li' prima di entrare nell'elenco, e riceve solo quelle che le mancano.
+from resources.lib import arte_extra  # noqa: E402
+arte_extra.aggancia(xbmcplugin)
+from resources.lib import disponibilita, ricerca_siti, s4me_link  # noqa: E402
 BASE = sys.argv[0]
 
 PAGINA = 100  # tappe per pagina quando si sfoglia
@@ -299,6 +305,19 @@ def _voto_e_anno(tag, voto, anno):
         tag.setYear(int(anno))
 
 
+def _scheda_completa(li, tag, tipo, tmdb_id):
+    """Genere, regista, durata, studio, paese, trailer... e le immagini in piu'
+    (keyart, striscia, clearart, disco): dalla cache che riempie il servizio,
+    mai la rete. Senza, le tessere di Arctic Zephyr restavano mezze vuote
+    (atlante, 11/09/2026)."""
+    from resources.lib import dettagli
+    try:
+        dettagli.applica(tag, tipo, tmdb_id)
+        arte_extra.metti_se_mancano(li, dettagli.arte(tipo, tmdb_id))
+    except Exception as errore:
+        xbmc.log("[Le Saghe] scheda completa %s/%s: %s" % (tipo, tmdb_id, errore), xbmc.LOGDEBUG)
+
+
 def _voce_scheda(scheda):
     """La voce "Scheda completa" del menu di una tessera.
 
@@ -374,8 +393,24 @@ def _azioni(li, chiave, titolo, indirizzo="", arte=None, trama="",
     voce_scheda = _voce_scheda(scheda)
     if voce_scheda:
         voci.append(voce_scheda)
+    # "Qualcosa non va qui": fotografa lo schermo e lo segna nella scatola nera
+    # del guardiano col titolo della tessera. L'utente (11/09/2026): i guasti
+    # "io non saprei descrivertele" - e non deve doverlo fare.
+    voci.append(("Qualcosa non va qui",
+                 "RunScript(plugin.video.saghe,segnala,%s)" % ((titolo or "").encode("utf-8").hex() or "00")))
     li.addContextMenuItems(voci)
     return li
+
+
+def _indirizzo_film_tmdb(v):
+    """Un film di TMDb (Netflix, Consigliati...) aperto dal nostro canale in s4me.
+
+    UN FILM NON SI "AGGIUNGE" (11/09/2026): consigli.aggiungi sa solo di serie
+    e chiedeva a TMDb /tv/<id del film>, cioe' un'ALTRA serie con lo stesso
+    numero. Il film si guarda e basta: lo cerca il canale, col suo anno."""
+    return s4me_link.indirizzo({"channel": "lesaghe", "action": "cinema_fonti"},
+                               titolo_film=v.get("titolo", ""), titolo_originale=v.get("originale", ""),
+                               anno=v.get("anno", ""), chiave=disponibilita.chiave_cinema(v.get("id")))
 
 
 def _voce_netflix(v):
@@ -408,6 +443,7 @@ def _voce_netflix(v):
     if v.get("trama"):
         tag.setPlot(v["trama"])
     _voto_e_anno(tag, v.get("voto"), v.get("anno"))
+    _scheda_completa(li, tag, "movie" if v.get("tipo") == "film" else "tv", v.get("id"))
 
     # Chi c'e' gia' porta alla SUA CATENA. Il percorso di una serie aggiunta
     # si chiama "mia_<id serie>" (lo crea catalogo.applica_serie_nuove): si
@@ -415,7 +451,9 @@ def _voce_netflix(v):
     # che porta a un'azione inesistente non da' errore, riapre il menu e
     # basta - e' gia' successo con "riproduci" il 07/09.
     pid_mio = "mia_" + sid
-    if gia and pid_mio in catalogo.PERCORSI:
+    if v.get("tipo") == "film":
+        dove, cartella = _indirizzo_film_tmdb(v), True
+    elif gia and pid_mio in catalogo.PERCORSI:
         dove, cartella = url(azione="percorso", percorso=pid_mio), True
     elif gia:
         dove, cartella = url(azione="reparto", reparto="serietv"), True
@@ -516,6 +554,7 @@ def _voce_percorso(pid):
                descrizione="%s\n\nSei arrivato a: %s"
                % (p["sottotitolo"], catalogo.descrizione_segmento(pid, idx)))
     _copertina_percorso(li, pid)
+    _scheda_completa(li, li.getVideoInfoTag(), "tv", _tmdb_serie(pid))
     # Le azioni del menu contestuale (tasto menu del telecomando). La chiave
     # stabile di una saga e' il suo PERCORSO: non cambia se la serie cresce
     # o se le si cambia il titolo, quindi la voce in lista e il pollice non
@@ -589,9 +628,9 @@ def menu_principale():
                icona="DefaultAddonSkin.png")
     xbmcplugin.addDirectoryItem(MANIGLIA, url(azione="vetrina"), li, True)
 
-    li = _voce("Cerca...\n[COLOR grey]saghe, episodi, capitoli, film, canali[/COLOR]",
-               "Una casella sola per tutto il catalogo. Non guarda accenti "
-               "ne' maiuscole, e le parole possono stare in qualsiasi ordine.",
+    li = _voce("Cerca...\n[COLOR grey]nel catalogo e su tutti i siti, da sola[/COLOR]",
+               "Una casella sola: cerca nel catalogo e, insieme, su tutti i siti "
+               "di s4me. Non guarda accenti ne' maiuscole.",
                icona="DefaultAddonsSearch.png")
     xbmcplugin.addDirectoryItem(MANIGLIA, url(azione="cerca"), li, True)
 
@@ -717,6 +756,15 @@ def menu_principale():
                icona="DefaultAddonLanguage.png")
     xbmcplugin.addDirectoryItem(MANIGLIA, url(azione="russo"), li, True)
 
+    # AGGIORNAMENTI E SEGNALAZIONI (chiesti l'11/09/2026): una porta sola, la
+    # home ne aveva gia' 15 - il limite oltre il quale smette di essere una
+    # porta e torna a essere un elenco. Dentro: menu_assistenza.
+    li = _voce("Aggiornamenti e segnalazioni\n[COLOR grey]Videoteca %s[/COLOR]" % ADDON.getAddonInfo("version"),
+               "Cerca subito una versione nuova, oppure segnala un problema: "
+               "fotografo lo schermo e segno l'ora.",
+               icona="DefaultAddonRepository.png")
+    xbmcplugin.addDirectoryItem(MANIGLIA, url(azione="assistenza"), li, True)
+
     an = progresso.anomalie()
     if an:
         li = _voce("[COLOR red]Attenzione: %d episodi sbagliati[/COLOR]" % len(an),
@@ -724,6 +772,28 @@ def menu_principale():
                    icona="DefaultAddonNone.png")
         xbmcplugin.addDirectoryItem(MANIGLIA, url(azione="anomalie"), li, False)
 
+    xbmcplugin.endOfDirectory(MANIGLIA)
+
+
+def menu_assistenza():
+    """Le due voci chieste l'11/09/2026, dietro una porta sola della home."""
+    xbmcplugin.setPluginCategory(MANIGLIA, "Aggiornamenti e segnalazioni")
+
+    # CERCA AGGIORNAMENTI: subito, senza aspettare il giro di Kodi che passa
+    # una volta al giorno. Il lavoro (rete, avanzamento, installazione) sta in
+    # avvio.py.
+    li = _voce("Cerca aggiornamenti\n[COLOR grey]Videoteca %s[/COLOR]" % ADDON.getAddonInfo("version"),
+               "Chiede subito al repository se c'e' una versione nuova della "
+               "Videoteca e del guardiano: se c'e', la scarica e la installa.",
+               icona="DefaultAddonRepository.png")
+    xbmcplugin.addDirectoryItem(MANIGLIA, url(azione="aggiornamenti"), li, True)
+
+    li = _voce("Qualcosa non va?\n[COLOR grey]segnalalo: fotografo lo schermo e segno l'ora[/COLOR]",
+               "Non serve descrivere il guasto: la scatola nera sa gia' cosa "
+               "stavi facendo e cosa e' andato storto. Anche dal tasto MENU di "
+               "ogni locandina: 'Qualcosa non va qui'.",
+               icona="DefaultIconWarning.png")
+    xbmcplugin.addDirectoryItem(MANIGLIA, url(azione="segnala"), li, True)
     xbmcplugin.endOfDirectory(MANIGLIA)
 
 
@@ -851,8 +921,8 @@ def _voci_cinema():
     dentro s4me, che cerchera' la fonte all'apertura.
     """
     xbmcplugin.setContent(MANIGLIA, "movies")
-    from urllib.parse import quote
-    for f in _cinema.leggi():
+    # Prima i film che si possono guardare davvero (il controllore, 11/09/2026).
+    for f in disponibilita.ordina_cinema(_cinema.leggi()):
         li = xbmcgui.ListItem(label=f["titolo"],
                               label2=f.get("anno", ""))
         arte = {}
@@ -872,12 +942,18 @@ def _voci_cinema():
         tag.setTitle(f["titolo"])
         if f.get("trama"):
             tag.setPlot(f["trama"])
+        # La tessera dice la verita': se un sito ce l'ha o no (disponibilita.py).
+        verita = disponibilita.racconta(disponibilita.chiave_cinema(f.get("tmdb")))
+        if verita:
+            tag.setPlot("%s\n\n%s" % (verita, f.get("trama") or ""))
+            li.setProperty("Videoteca.Disponibile", disponibilita.stato(disponibilita.chiave_cinema(f.get("tmdb"))))
         _voto_e_anno(tag, f.get("voto"), f.get("anno"))
+        _scheda_completa(li, tag, "movie", f.get("tmdb"))
         xbmcplugin.addDirectoryItem(
             MANIGLIA,
-            "plugin://plugin.video.s4me/?channel=lesaghe"
-            "&action=cinema_fonti&titolo_film=%s&titolo_originale=%s"
-            % (quote(f["titolo"]), quote(f.get("originale", ""))),
+            s4me_link.indirizzo({"channel": "lesaghe", "action": "cinema_fonti"},
+                                titolo_film=f["titolo"], titolo_originale=f.get("originale", ""),
+                                anno=f.get("anno", ""), chiave=disponibilita.chiave_cinema(f.get("tmdb"))),
             li, True)
 
 
@@ -972,6 +1048,7 @@ def _home_consigli(quale):
         if v.get("trama"):
             tag.setPlot(v["trama"])
         _voto_e_anno(tag, v.get("voto"), v.get("anno"))
+        _scheda_completa(li, tag, "tv", v.get("id"))
         azione = "consiglio_togli" if sid in mie else "consiglio_aggiungi"
         # CARTELLA, non voce semplice. Su skin come Arctic Zephyr la
         # riga non ha un onclick per le voci che non sono cartelle: con
@@ -1184,6 +1261,11 @@ def menu_scaffale(quale):
         if intestazione:
             li = _voce("[COLOR grey]%s[/COLOR]" % intestazione, spiega,
                        icona=ICONA)
+            # La tessera-titolo prende l'immagine del primo titolo del gruppo che
+            # ne ha una: una tessera nera fra le locandine sembrava un buco (10/09).
+            primo = next((x[0] for x in voci if copertine_note.get(x[0])), voci[0][0] if voci else "")
+            if primo:
+                _arte_scoperta(li, copertine_note.get(primo), primo)
             xbmcplugin.addDirectoryItem(
                 MANIGLIA, url(azione="scaffale", scaffale=quale), li, False)
 
@@ -1204,24 +1286,27 @@ def menu_scaffale(quale):
 
 
 def menu_scaffale_cerca(cosa):
-    """La stessa ricerca su tutti i cataloghi: si sceglie chi ha risposto."""
-    xbmcplugin.setPluginCategory(MANIGLIA, "Cerca: %s" % cosa)
+    """Un genere di documentari o di cucina: i programmi trovati, SUBITO.
+
+    Fino all'11/09/2026 questa pagina elencava i sei cataloghi gratuiti
+    ("Cerca su RaiPlay", "Cerca su Discovery+"...) da provare uno per uno, e
+    ognuno riapriva la tastiera invece di usare la parola gia' scritta.
+    L'utente: "non devo scegliere io da dove fargli fare la ricerca".
+    Adesso la ricerca va su tutti e sei insieme (ricerca_siti) e qui arrivano
+    i programmi. Ai cataloghi si chiede il genere senza la parola
+    "documentario": cercano nei titoli, e quasi nessun titolo la contiene.
+    """
+    import re as _re
+    xbmcplugin.setPluginCategory(MANIGLIA, cosa[:1].upper() + cosa[1:])
     xbmcplugin.setContent(MANIGLIA, "videos")
-    li = _voce("[COLOR grey]Scegli dove cercare '%s'[/COLOR]" % cosa,
-               "Ogni catalogo risponde per conto suo: se il primo non ha "
-               "niente, prova il secondo. Non c'e' un posto solo che le "
-               "abbia tutte.", icona=ICONA)
-    xbmcplugin.addDirectoryItem(MANIGLIA, url(), li, False)
-    for nome, indirizzo in scoperte.dove_cercare(cosa):
-        li = _voce("Cerca su %s" % nome, "Apre %s con '%s' gia' scritto."
-                   % (nome, cosa), icona=ICONA)
-        xbmcplugin.addDirectoryItem(MANIGLIA, indirizzo, li, True)
-    # E su YouTube, che ce l'ha quasi sempre.
-    li = _voce("Cerca su YouTube",
-               "Quasi tutto quello che non sta nei cataloghi sta qui.",
-               icona=ICONA)
-    xbmcplugin.addDirectoryItem(
-        MANIGLIA, scoperte.YT_CERCA % cosa.replace(" ", "+"), li, True)
+    per_i_cataloghi = _re.sub(r"(?i)^documentari[oi]?\s+", "", cosa).strip() or cosa
+    trovati = _risultati_dei_siti(per_i_cataloghi, scoperte.CANALI_CATALOGHI, intestazione=False)
+    if not trovati:
+        li = _voce("[COLOR grey]Nessun catalogo ha '%s' in questo momento[/COLOR]" % per_i_cataloghi,
+                   "RaiPlay, Discovery+, La7, Pluto TV, Paramount e Mediaset non "
+                   "hanno risposto con niente. Qui sotto c'e' YouTube.", icona=ICONA)
+        xbmcplugin.addDirectoryItem(MANIGLIA, url(), li, False)
+    _youtube_anche(cosa)
     xbmcplugin.endOfDirectory(MANIGLIA)
 
 
@@ -1426,15 +1511,29 @@ _NF_SEZIONI = [
      "I film ora nel catalogo Netflix Italia, per genere."),
     ("anime",   "Anime su Netflix",
      "Serie animate giapponesi ora nel catalogo Netflix Italia."),
+    ("documentari", "Documentari su Netflix",
+     "Serie e film documentari ora nel catalogo Netflix Italia."),
 ]
 
 
-def menu_netflix(sez="", g=""):
-    """Tre livelli: sezioni -> generi -> titoli su Netflix IT adesso.
-    Un titolo scelto viene AGGIUNTO alla Videoteca nella sezione giusta
-    (anime -> Cartoni, serietv -> Serie TV), col percorso creato e visibile.
-    Poi ricerca e riproduzione sono quelle di sempre: prima i siti gratuiti,
-    e se ce l'ha solo Netflix il ripiego apre l'app col titolo gia' scritto.
+def menu_netflix(sez="", g="", pagina="1"):
+    """Sezioni -> generi -> TUTTI i titoli su Netflix Italia adesso, a pagine.
+
+    NESSUN LIMITE (11/09/2026, l'utente: "lascia che mostrino tutta la sezione
+    di Netflix dedicata, non dargli limiti ... cosi' ho tutto il palinsesto
+    Netflix senza dover uscire dalla mia applicazione"). Prima ogni genere
+    erano 40 titoli; adesso ogni sezione ha "Tutti" in cima ai generi e in
+    fondo a ogni pagina c'e' la successiva, fin dove arriva il catalogo.
+    E c'e' la sezione Documentari, serie e film.
+
+    COSA SUCCEDE COL TASTO OK
+      - una SERIE o un ANIME si aggiunge alla Videoteca (Serie TV o Cartoni),
+        col suo percorso, e poi si guarda come tutto il resto;
+      - un FILM si guarda subito: lo cerca il nostro canale dentro s4me, col
+        suo anno e provando i server (disponibilita.py dice se e' pronto).
+        Prima un film finiva AGGIUNTO COME SERIE, con l'id sbagliato.
+    E SE NETFLIX LO TOGLIE non cambia niente: da qui si prende solo l'ELENCO,
+    i video arrivano dai siti che trova s4me.
     """
     from resources.lib import netflix, consigli
     xbmcplugin.setContent(MANIGLIA, "tvshows")
@@ -1448,7 +1547,7 @@ def menu_netflix(sez="", g=""):
         xbmcplugin.endOfDirectory(MANIGLIA, cacheToDisc=False)
         return
 
-    # I generi li decide netflix.generi(): per i FILM sono i 22 del menu
+    # I generi li decide netflix.generi(): per i FILM sono quelli del menu
     # vero di Netflix, guardato sul sito. Se restassero qui, questa
     # lista e quella del modulo si scosterebbero col tempo.
     generi = netflix.generi(sez)
@@ -1457,21 +1556,26 @@ def menu_netflix(sez="", g=""):
     if not g:
         xbmcplugin.setPluginCategory(MANIGLIA, tit_sez)
         for nome, gid in generi:
-            li = _voce(nome, "%s - genere: %s.\n\nApre i titoli su Netflix "
-                       "Italia adesso, dal piu' visto." % (tit_sez, nome),
+            li = _voce(nome, "%s - %s.\n\nApre i titoli su Netflix Italia "
+                       "adesso, dal piu' visto, tutti: pagina dopo pagina." % (tit_sez, nome),
                        icona="DefaultGenre.png")
             xbmcplugin.addDirectoryItem(
                 MANIGLIA, url(azione="netflix", sez=sez, g=gid), li, True)
         xbmcplugin.endOfDirectory(MANIGLIA, cacheToDisc=False)
         return
 
-    xbmcplugin.setPluginCategory(MANIGLIA, tit_sez)
+    try:
+        numero = max(1, int(pagina or 1))
+    except (TypeError, ValueError):
+        numero = 1
+    nome_genere = dict((gid, nome) for nome, gid in generi).get(g, "")
+    xbmcplugin.setPluginCategory(MANIGLIA, ("%s - %s" % (tit_sez, nome_genere)) if nome_genere else tit_sez)
     mie = consigli.serie_mie()
     try:
-        elenco = netflix.per_genere(sez, g)
+        elenco, pagine = netflix.pagina_genere(sez, g, numero)
     except Exception as e:
         xbmc.log("[Le Saghe] netflix: %s" % e, xbmc.LOGWARNING)
-        elenco = []
+        elenco, pagine = [], 1
     if not elenco:
         li = _voce("Niente da mostrare",
                    "Netflix non ha risposto, o non c'e' nulla di questo "
@@ -1480,18 +1584,39 @@ def menu_netflix(sez="", g=""):
         xbmcplugin.endOfDirectory(MANIGLIA, cacheToDisc=False)
         return
 
+    if any(v.get("tipo") == "film" for v in elenco):
+        xbmcplugin.setContent(MANIGLIA, "movies")
+    verificati = disponibilita.leggi()
     for v in elenco:
-        sid = "tmdb_%s" % v["id"]
-        gia = sid in mie
-        stato = ("[COLOR 997FA8D8]gia' nella tua Videoteca[/COLOR]" if gia
-                 else "voto %s" % v["voto"])
-        li = _voce("%s\n[COLOR grey]%s - %s[/COLOR]"
-                   % (v["titolo"], v.get("anno") or "?", stato),
-                   "%s\n\n%s\n\nPremi OK per aggiungerla alla Videoteca: "
-                   "finira' in %s, con la ricerca su piu' fonti come tutto "
-                   "il resto."
-                   % (v["titolo"], v.get("trama") or "Nessuna trama.",
-                      "Cartoni animati" if sez == "anime" else "Serie TV"))
+        if v.get("tipo") == "film":
+            chiave = disponibilita.chiave_cinema(v["id"])
+            stato_film = {"pronto": "[COLOR 9966BB6A]pronto da guardare[/COLOR]",
+                          "assente": "[COLOR 99BBBBBB]non ancora sui siti[/COLOR]"}.get(
+                disponibilita.stato(chiave, verificati), "voto %s" % v["voto"])
+            li = _voce("%s\n[COLOR grey]%s - [/COLOR]%s" % (v["titolo"], v.get("anno") or "?", stato_film),
+                       "%s\n\n%s\n\nPremi OK per guardarlo: lo cerco sui siti, "
+                       "con il suo anno." % (disponibilita.racconta(chiave, verificati) or v["titolo"],
+                                             v.get("trama") or "Nessuna trama."))
+            azio = _indirizzo_film_tmdb(v)
+        else:
+            sid = "tmdb_%s" % v["id"]
+            gia = sid in mie
+            stato = ("[COLOR 997FA8D8]gia' nella tua Videoteca[/COLOR]" if gia
+                     else "voto %s" % v["voto"])
+            li = _voce("%s\n[COLOR grey]%s - %s[/COLOR]"
+                       % (v["titolo"], v.get("anno") or "?", stato),
+                       "%s\n\n%s\n\nPremi OK per aggiungerla alla Videoteca: "
+                       "finira' in %s, con la ricerca su piu' fonti come tutto "
+                       "il resto."
+                       % (v["titolo"], v.get("trama") or "Nessuna trama.",
+                          "Cartoni animati" if sez == "anime" else "Serie TV"))
+            if gia and ("mia_" + sid) in catalogo.PERCORSI:
+                azio = url(azione="percorso", percorso="mia_" + sid)
+            elif gia:
+                azio = url(azione="reparto", reparto="cartoni" if sez == "anime" else "serietv")
+            else:
+                azio = url(azione="netflix_aggiungi", tmdb=str(v["id"]),
+                           tipo=("anime" if sez == "anime" else "serietv"))
         arte = {}
         if v.get("poster"):
             arte["poster"] = arte["thumb"] = arte["icon"] = v["poster"]
@@ -1499,12 +1624,15 @@ def menu_netflix(sez="", g=""):
             arte["fanart"] = v["sfondo"]
         if arte:
             li.setArt(arte)
-        if gia:
-            azio = url(azione="netflix", sez=sez, g=g)
-        else:
-            azio = url(azione="netflix_aggiungi", tmdb=str(v["id"]),
-                       tipo=("anime" if sez == "anime" else "serietv"))
-        xbmcplugin.addDirectoryItem(MANIGLIA, azio, li, False)
+        _voto_e_anno(li.getVideoInfoTag(), v.get("voto"), v.get("anno"))
+        # CARTELLE, tutte: una voce "non cartella" Kodi prova a RIPRODURLA, ed e'
+        # l'errore di riproduzione del 10/09 (qui era rimasta False).
+        xbmcplugin.addDirectoryItem(MANIGLIA, azio, li, True)
+
+    if numero < pagine:
+        li = _voce("Pagina successiva\n[COLOR grey]%d di %d[/COLOR]" % (numero + 1, pagine),
+                   "Altri titoli di questo genere su Netflix Italia.", icona="DefaultFolder.png")
+        xbmcplugin.addDirectoryItem(MANIGLIA, url(azione="netflix", sez=sez, g=g, pagina=numero + 1), li, True)
     xbmcplugin.endOfDirectory(MANIGLIA, cacheToDisc=False)
 
 
@@ -1690,7 +1818,7 @@ def menu_cronologia_ricerche():
     for t in recenti:
         li = _voce(t, "Ripeti questa ricerca.", icona="DefaultAddonsSearch.png")
         xbmcplugin.addDirectoryItem(
-            MANIGLIA, url(azione="cerca", testo=t), li, True)
+            MANIGLIA, url(azione="cerca_di_nuovo", testo=t), li, True)
 
     if recenti:
         li = _voce("[COLOR grey]Svuota le ricerche[/COLOR]",
@@ -1701,71 +1829,39 @@ def menu_cronologia_ricerche():
     xbmcplugin.endOfDirectory(MANIGLIA)
 
 
-# I posti dove cercare fuori dal nostro catalogo, in ordine di utilita'.
-# Sono gli stessi che usa s4me: qui pero' si aprono UNO PER UNO invece che
-# tutti insieme.
-FUORI = [
-    ("Tutti i 55 siti di s4me", "search",
-     "La ricerca globale di s4me: li interroga tutti. E' la piu' completa e "
-     "la piu' lenta - su questa linea puo' volerci qualche minuto."),
-    ("AnimeWorld", "animeworld", "Cartoni, doppiati e sottotitolati."),
-    ("AnimeUnity", "animeunity", "Cartoni."),
-    ("VVVVID", "vvvvid", "Ufficiale, gratuito e legale."),
-    ("StreamingCommunity", "streamingcommunity", "Film e serie."),
-    ("Eurostreaming", "eurostreaming", "Serie TV."),
-    ("RaiPlay", "raiplay", "Ufficiale e gratuito."),
-    ("Mediaset Infinity", "mediasetplay", "Ufficiale e gratuito."),
-    ("Discovery+", "discoveryplus", "Documentari e programmi."),
-    ("YouTube", None, "Quasi tutto quello che gli altri non hanno."),
-]
+def _risultati_dei_siti(testo, canali=(), intestazione=True, titolo="DAI SITI"):
+    """Le voci trovate dai siti (ricerca_siti) messe in QUESTA pagina. Quante.
+
+    Restano le voci di s4me - indirizzo, locandina, trama - cosi' OK apre la
+    serie o il film dentro s4me, come se l'avessi cercato li'. L'intestazione
+    dice quanti siti hanno risposto e quali sono rimasti indietro."""
+    risposta = ricerca_siti.voci(testo, canali)
+    voci = risposta.get("voci") or []
+    if voci and intestazione:
+        nota = "%d risultati da %d siti in %s secondi." % (
+            len(voci), risposta.get("siti") or 0, risposta.get("secondi") or 0)
+        if risposta.get("lenti"):
+            nota += " Non hanno risposto in tempo: %s." % ", ".join(risposta["lenti"][:8])
+        li = _voce("[COLOR grey]%s - %d risultati[/COLOR]" % (titolo, len(voci)), nota, icona=ICONA)
+        xbmcplugin.addDirectoryItem(MANIGLIA, url(), li, False)
+    for v in voci:
+        li = _voce(v.get("etichetta", ""), v.get("trama", ""), icona=ICONA)
+        if v.get("arte"):
+            li.setArt(v["arte"])
+        xbmcplugin.addDirectoryItem(MANIGLIA, v["file"], li, bool(v.get("cartella")))
+    return len(voci)
 
 
-def _cerca_anche_fuori(testo):
-    """Le stesse ricerche che farebbe s4me, in coda ai nostri risultati.
-
-    PERCHE' NON SI FONDONO I RISULTATI (chiesto: "includi direttamente le
-    sue 55 cosi non si perde tempo")
-        Perche' si perderebbe MOLTO piu' tempo. La ricerca globale di s4me
-        interroga cinquantacinque siti uno per uno: provata il 07/09/2026,
-        dopo tre minuti non aveva ancora risposto. Se i suoi risultati
-        finissero dentro questa pagina, la pagina resterebbe bianca per tutto
-        quel tempo - anche quando quello che cerchi ce l'avevamo gia' noi.
-
-        Cosi' invece i nostri risultati compaiono subito, e sotto ci sono le
-        stesse porte che apre s4me, una per una: quella completa (tutti e 55)
-        e quelle singole per chi sa gia' dove guardare. Nessuna distinzione
-        da fare, nessun errore possibile: e' tutto nella stessa pagina.
-    """
-    try:
-        from urllib.parse import quote
-    except ImportError:
-        from urllib import quote
-    if not testo:
-        return
-
-    li = _voce("[COLOR grey]CERCA ANCHE FUORI DAL CATALOGO[/COLOR]",
-               "Qui sopra c'e' quello che abbiamo noi. Qui sotto le stesse "
-               "ricerche che farebbe s4me.", icona=ICONA)
-    xbmcplugin.addDirectoryItem(MANIGLIA, url(), li, False)
-
-    q = quote(testo)
-    for nome, canale, nota in FUORI:
-        if canale is None:
-            indirizzo = ("plugin://plugin.video.youtube/kodion/search/"
-                         "query/?q=%s" % testo.replace(" ", "+"))
-        elif canale == "search":
-            indirizzo = ("plugin://plugin.video.s4me/?channel=search"
-                         "&action=Search&search_text=%s" % q)
-        else:
-            indirizzo = ("plugin://plugin.video.s4me/?channel=%s"
-                         "&action=search&search_text=%s" % (canale, q))
-        li = _voce("Cerca '%s' su %s" % (testo, nome), nota, icona=ICONA)
-        li.setArt({"poster": ICONA, "thumb": ICONA, "icon": ICONA})
-        xbmcplugin.addDirectoryItem(MANIGLIA, indirizzo, li, True)
+def _youtube_anche(testo):
+    """In fondo alla pagina, YouTube: quello che i siti non hanno spesso c'e' li'."""
+    from urllib.parse import quote_plus
+    li = _voce("Anche su YouTube\n[COLOR grey]%s[/COLOR]" % testo,
+               "La stessa ricerca su YouTube, gia' scritta.", icona=ICONA)
+    xbmcplugin.addDirectoryItem(MANIGLIA, scoperte.YT_CERCA % quote_plus(testo), li, True)
 
 
 def menu_ricerca(testo="", nuova=False):
-    """Una casella sola per tutto il catalogo.
+    """Una casella sola: il catalogo E tutti i siti, nella stessa pagina.
 
     IL DIFETTO DEL 06/09/2026, raccontato dall'utente: aprendo "Cerca" la
     casella si presentava con dentro la ricerca di prima ("dragon ball gt
@@ -1779,14 +1875,22 @@ def menu_ricerca(testo="", nuova=False):
       - "Cerca" non apre piu' la tastiera di colpo: mostra prima le ultime
         ricerche, cosi' ripetere una ricerca non richiede di scrivere, e
         c'e' una voce per svuotare l'elenco.
+
+    L'11/09/2026 l'utente: "le ricerche devono essere tutte automatiche, non
+    devo scegliere io da dove". Sotto il catalogo c'era un elenco di dieci
+    siti da provare uno per uno, e nessuno funzionava (vedi ricerca_siti.py).
+    Adesso i siti li interroga il nostro canale dentro s4me, tutti insieme, e
+    i risultati arrivano QUI. E se il catalogo non ha niente si cerca lo
+    stesso sui siti: prima la pagina finiva con "Nessun risultato" senza
+    nemmeno provarci.
     """
     if not testo and not nuova:
         menu_cronologia_ricerche()
         return
     if not testo:
         # LA TASTIERA SI APRE IN avvio.py (11/09/2026): dentro una cartella Kodi
-        # ha gia' la sua rotellina davanti. Scritto il testo, avvio.py torna qui
-        # con azione=cerca&testo=...; la casella parte sempre vuota anche li'.
+        # ha gia' la sua rotellina davanti. Scritto il testo, avvio.py cerca sui
+        # siti con la barra in un angolo e torna qui coi risultati gia' pronti.
         _in_disparte("cerca_nuova")
         return
     ricerche_recenti_aggiungi(testo)
@@ -1794,15 +1898,6 @@ def menu_ricerca(testo="", nuova=False):
     risultati = ricerca.cerca(testo)
     xbmcplugin.setPluginCategory(MANIGLIA, "Cerca: %s" % testo)
     xbmcplugin.setContent(MANIGLIA, "tvshows")
-
-    if not risultati:
-        li = _voce("Nessun risultato per '%s'" % testo,
-                   "Prova con meno parole, o con una parte del titolo: la "
-                   "ricerca non guarda gli accenti ne' le maiuscole.",
-                   icona="DefaultAddonNone.png")
-        xbmcplugin.addDirectoryItem(MANIGLIA, url(azione="cerca"), li, False)
-        xbmcplugin.endOfDirectory(MANIGLIA)
-        return
 
     etichette = {"saga": "SAGA", "serie": "SERIE", "capitolo": "CAPITOLO",
                  "episodio": "EPISODIO", "film": "FILM", "canale": "CANALE"}
@@ -1834,7 +1929,15 @@ def menu_ricerca(testo="", nuova=False):
                 MANIGLIA, url(azione="sfoglia", percorso=r["percorso"], da=da),
                 li, True)
 
-    _cerca_anche_fuori(testo)
+    dai_siti = _risultati_dei_siti(testo, intestazione=bool(risultati))
+    if not risultati and not dai_siti:
+        li = _voce("Nessun risultato per '%s'" % testo,
+                   "Ne' il catalogo ne' i siti hanno questo titolo. Prova con "
+                   "meno parole, o con una parte del titolo: la ricerca non "
+                   "guarda gli accenti ne' le maiuscole.",
+                   icona="DefaultAddonNone.png")
+        xbmcplugin.addDirectoryItem(MANIGLIA, url(azione="cerca"), li, False)
+    _youtube_anche(testo)
     xbmcplugin.endOfDirectory(MANIGLIA)
 
 
@@ -2164,12 +2267,13 @@ def indirizzo_s4me(t, pid=""):
     servizio non sa quale saga sta partendo e non puo' fare il conto alla
     rovescia verso il prossimo episodio quando il video lo apre s4me.
     """
-    from urllib.parse import quote
+    # La testa (canale e azione) codificata come la vuole s4me, i dati in coda
+    # in chiaro: vedi resources/lib/s4me_link.py (11/09/2026).
     serie = catalogo.SERIE[t["serie"]]
-    extra = ("&percorso=%s&idx=%d" % (pid, t["idx"])) if pid else ""
-    return ("plugin://plugin.video.s4me/?channel=lesaghe&action=findvideos"
-            "&titolo_serie=%s&serie_id=%s&numero_ep=%d%s"
-            % (quote(serie["titolo"]), t["serie"], t["ep"], extra))
+    posto = {"percorso": pid, "idx": t["idx"]} if pid else {}
+    return s4me_link.indirizzo({"channel": "lesaghe", "action": "findvideos"},
+                               titolo_serie=serie["titolo"], serie_id=t["serie"],
+                               numero_ep=t["ep"], **posto)
 
 
 def riproduci(pid, idx):
@@ -2315,22 +2419,34 @@ def elenco_film(pid):
     fl = schede.film(pid)
     xbmcplugin.setPluginCategory(
         MANIGLIA, "%s - i film" % catalogo.PERCORSI[pid]["titolo"])
+    verificati = disponibilita.leggi()
     for m in fl:
         anno = m.get("d") or "?"
         trama = m.get("p") or "Nessuna trama in italiano su TMDb."
         elenco = [f for f in m.get("f", []) if fonti.possiede(f)]
+        # LA SCRITTA DICE LA VERITA' (11/09/2026). "non in streaming" la
+        # scrivevamo guardando solo la nostra lista degli abbonamenti, senza
+        # chiedere mai ai siti: era falsa per molti film. Adesso la decide il
+        # controllore, che il film lo prova davvero (disponibilita.py).
+        chiave = disponibilita.chiave_film(pid, m["t"])
+        stato = disponibilita.stato(chiave, verificati)
         if elenco:
             coda = "  [COLOR 997FA8D8]- %s[/COLOR]" % " / ".join(
                 fonti.sigla(f) or f for f in elenco)
+        elif stato == "pronto":
+            coda = "  [COLOR 9966BB6A]- pronto da guardare[/COLOR]"
+        elif stato == "assente":
+            coda = "  [COLOR 99BBBBBB]- non ancora trovato in streaming[/COLOR]"
         elif m.get("f"):
             coda = "  [COLOR 99BBBBBB]- solo %s[/COLOR]" % " / ".join(
                 fonti.sigla(f) or f for f in m["f"])
         else:
-            coda = "  [COLOR red]- non in streaming[/COLOR]"
-        # NON riproducibile, ed e' una cartella: apri_film apre un'app o il
-        # ponte s4me, non restituisce un video a Kodi.
+            coda = ""
+        # NON riproducibile, ed e' una cartella: con un abbonamento apri_film
+        # apre la sua app; altrimenti il film lo cerca il nostro canale dentro
+        # s4me, col suo ANNO (un rifacimento ha lo stesso titolo).
         li = _voce("%s  [COLOR grey](%s)[/COLOR]%s" % (m["t"], anno, coda),
-                   "%s\n\n%s" % (m["t"], trama))
+                   "%s\n\n%s" % (disponibilita.racconta(chiave, verificati) or m["t"], trama))
         # NIENTE logo del servizio in `clearlogo`: su skin come Arctic
         # Zephyr quello e' il titolo disegnato sopra la locandina, e ci
         # sarebbe comparso il marchio del servizio. Il servizio e' gia'
@@ -2349,9 +2465,12 @@ def elenco_film(pid):
             tag.setYear(int(anno))
         if m.get("p"):
             tag.setPlot(m["p"])
-        xbmcplugin.addDirectoryItem(
-            MANIGLIA, url(azione="apri_film", percorso=pid, titolo=m["t"]),
-            li, True)
+        if elenco:
+            indirizzo = url(azione="apri_film", percorso=pid, titolo=m["t"])
+        else:
+            indirizzo = s4me_link.indirizzo({"channel": "lesaghe", "action": "cinema_fonti"},
+                                            titolo_film=m["t"], anno=m.get("d", ""), chiave=chiave)
+        xbmcplugin.addDirectoryItem(MANIGLIA, indirizzo, li, True)
     xbmcplugin.setContent(MANIGLIA, "movies")
     xbmcplugin.endOfDirectory(MANIGLIA)
 
@@ -2514,7 +2633,7 @@ AZIONI = {
     "widget": lambda p, pid: widget(p.get("che", "saghe")),
     "consigli": lambda p, pid: menu_consigli(),
     "consiglio_aggiungi": lambda p, pid: aggiungi_consiglio(p.get("id", "")),
-    "netflix": lambda p, pid: menu_netflix(p.get("sez", ""), p.get("g", "")),
+    "netflix": lambda p, pid: menu_netflix(p.get("sez", ""), p.get("g", ""), p.get("pagina", "1")),
     "netflix_aggiungi": lambda p, pid: netflix_aggiungi(p.get("tmdb", ""), p.get("tipo", "anime")),
     "consiglio_togli": lambda p, pid: togli_consiglio(p.get("id", "")),
     "tv": lambda p, pid: menu_tv(),
@@ -2550,6 +2669,12 @@ AZIONI = {
     "lista_metti": _az_lista_metti,
     "lista_togli": _az_lista_togli,
     "pollice": _az_pollice,
+    "aggiornamenti": lambda p, pid: _in_disparte("aggiornamenti"),
+    "segnala": lambda p, pid: _in_disparte("segnala", "00"),
+    "assistenza": lambda p, pid: menu_assistenza(),
+    # Una ricerca recente: la rifa avvio.py, con la barra e fuori dalla cartella.
+    "cerca_di_nuovo": lambda p, pid: _in_disparte(
+        "cerca_testo", (p.get("testo", "") or "").encode("utf-8").hex() or "00"),
 }
 
 

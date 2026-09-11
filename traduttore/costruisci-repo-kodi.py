@@ -64,14 +64,30 @@ def _raw():
 
 RAW = RAW_NUDO
 
-# Da dove prendere gli addon gia' testati (il Kodi del PC).
+# DA DOVE: dalla SORGENTE, non piu' dal Kodi del PC (11/09/2026). Il 10/09 il
+# PC era rimasto indietro e si stava per pubblicare la versione vecchia senza
+# accorgersene. Ora servi.py prova il codice, lo installa e subito dopo lo
+# pubblica da qui: quello che arriva col pulsante "Cerca aggiornamenti" e'
+# esattamente quello installato. skin.saghe (vecchia, non piu' usata) resta
+# presa dal Kodi del PC finche' c'e'.
+SORGENTE = os.path.dirname(os.path.abspath(__file__))
 KODI_ADDONS = os.path.expandvars(r"%APPDATA%\Kodi\addons")
-DA_IMPACCHETTARE = ["plugin.video.saghe", "skin.saghe"]
+DA_IMPACCHETTARE = [
+    ("plugin.video.saghe", os.path.join(SORGENTE, "plugin.video.saghe")),
+    ("service.videoteca.guardiano", os.path.join(SORGENTE, "service.videoteca.guardiano")),
+    ("skin.saghe", os.path.join(KODI_ADDONS, "skin.saghe")),
+]
+TIENI_PACCHETTI = 3
 
 REPO_ADDON_ID = "repository.videoteca"
-REPO_ADDON_VER = "1.0.0"
+# 1.0.1 (11/09/2026): senza <checksum>. Sul Raspberry Kodi chiedeva
+# addons.xml.md5 SENZA la password del repository privato, riceveva 404 e
+# dava tutto il repository per illeggibile ("CRepository: failed read"): gli
+# aggiornamenti automatici non arrivavano. Il checksum e' facoltativo: senza,
+# Kodi rilegge addons.xml a ogni giro, che pesa 5 KB.
+REPO_ADDON_VER = "1.0.1"
 
-ESCLUDI = re.compile(r"\.zip$|(__pycache__|\.pyc$|\.pyo$|\.git|\.bak-|\.DS_Store)")
+ESCLUDI = re.compile(r"\.zip$|(__pycache__|\.pyc$|\.pyo$|\.git|\.bak|\.DS_Store|prima-|\.prima|\.tmp$)")
 
 
 def versione(cartella_addon):
@@ -138,7 +154,6 @@ def crea_repository_addon(dst):
   <extension point="xbmc.addon.repository" name="Videoteca (Alcafer)">
     <dir>
       <info compressed="false">{raw}/zips/addons.xml</info>
-      <checksum>{raw}/zips/addons.xml.md5</checksum>
       <datadir zip="true">{raw}/zips/</datadir>
     </dir>
   </extension>
@@ -169,14 +184,18 @@ def main():
     fatti = []
 
     # 1) gli addon veri, dal Kodi del PC
-    for aid in DA_IMPACCHETTARE:
-        src = os.path.join(KODI_ADDONS, aid)
+    for aid, src in DA_IMPACCHETTARE:
         if not os.path.isdir(src):
-            print("  SALTO %s: non c'e' in %s" % (aid, KODI_ADDONS))
+            print("  SALTO %s: non c'e' in %s" % (aid, src))
             continue
         ver = versione(src)
         dest = os.path.join(zips, aid, "%s-%s.zip" % (aid, ver))
         zippa(src, aid, dest)
+        # i pacchetti vecchi: se ne tengono pochi, il repository non deve crescere per sempre
+        vecchi = sorted((p for p in os.listdir(os.path.dirname(dest)) if p.endswith(".zip")),
+                        key=lambda p: os.path.getmtime(os.path.join(os.path.dirname(dest), p)))
+        for p in vecchi[:-TIENI_PACCHETTI]:
+            os.remove(os.path.join(os.path.dirname(dest), p))
         blocchi.append(blocco_addon_xml(src))
         fatti.append((aid, ver, dest))
         print("  %-22s v%s  ->  %s" % (aid, ver, os.path.relpath(dest, dst_repo)))

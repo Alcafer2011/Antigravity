@@ -82,3 +82,20 @@ src/.permessi-strumenti.json
 
 traduttore/plugin.video.saghe/**/__pycache__/
 traduttore/plugin.video.saghe/**/*.pyc
+.videoteca-repo-token
+
+# --- VIDEOTECA: cose degli apparecchi e rapporti, non codice (11/09/2026) ------
+# copie/ sono i file di Kodi di PC, box e Raspberry (impostazioni, database,
+# registri); uscita/ ha i rapporti con dentro TUTTE le chat dell'utente. Mai su
+# GitHub. Idem le skin scaricate, i backup del box, i crash e lo stato della
+# pubblicazione, che cambia a ogni installazione.
+traduttore/**/__pycache__/
+traduttore/**/*.pyc
+traduttore/atlante/copie/
+traduttore/atlante/uscita/
+traduttore/_skin_scaricate/
+traduttore/crash/
+traduttore/.pubblicato.json
+backup-box-8k/
+backup-registro/
+traduttore/plugin.video.saghe/_profilo_di_prova/

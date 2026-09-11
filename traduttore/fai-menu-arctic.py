@@ -59,6 +59,9 @@ VOCI = [
         ("Su Netflix ora - Film", "netflix:film"),
         ("Su Netflix ora - Anime", "netflix:anime"),
     ]),
+    # CERCA (11/09/2026): dal menu della skin, senza entrare nella Videoteca.
+    # Scrivi, e la ricerca va da sola sul catalogo e su tutti i siti.
+    ("Cerca", "cerca", "RunScript(plugin.video.saghe,cerca_nuova)", []),
     ("Le tue saghe", "letuesaghe", apri("reparto&reparto=cartoni"), [
         ("Le tue saghe", "saghe"),
         ("I film delle saghe", "film"),
@@ -113,6 +116,8 @@ VOCI = [
 USCITA_IN_CIMA = [
     ("s4me (il motore sotto)", 'ActivateWindow(Videos,"plugin://plugin.video.s4me/",return)'),
     ("Impostazioni Videoteca", "RunPlugin(plugin://plugin.video.saghe/?azione=impostazioni)"),
+    ("Cerca aggiornamenti", "RunScript(plugin.video.saghe,aggiornamenti)"),
+    ("Qualcosa non va? Segnalalo", "RunScript(plugin.video.saghe,segnala,00)"),
 ]
 
 

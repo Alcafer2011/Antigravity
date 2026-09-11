@@ -81,8 +81,13 @@ def catalogo():
         return _catalogo
     spazio = {}
     try:
-        with open(percorso, "r", encoding="utf-8") as f:
-            exec(compile(f.read(), percorso, "exec"), spazio)
+        # Caricato come modulo vero (era un exec del testo): stesso risultato, ma
+        # l'errore, se c'e', ha il nome del file e la riga giusta.
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("lesaghe_catalogo", percorso)
+        modulo = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(modulo)
+        spazio = vars(modulo)
         _catalogo = spazio
         # Le saghe cresciute: la sentinella scrive quanti episodi hanno
         # adesso le serie in corso, e senza questo pezzo gli episodi nuovi
@@ -282,11 +287,26 @@ CANALI_PER_TIPO = {
 CANALI_ROTTI = {"aniplay", "cb01anime"}
 
 
+def _acceso(nome):
+    """Vero se s4me tiene acceso il canale.
+
+    Quelli che spegne lui sono siti morti: l'11/09/2026 animesaturn, filmpertutti,
+    filmstreaming, ilgeniodellostreaming, lordchannel e piratestreaming erano spenti
+    in s4me, e i loro domini non rispondevano (503, certificato scaduto, nome
+    inesistente). Provarli faceva solo perdere secondi a ogni ricerca. Quando s4me
+    li riaccende col suo aggiornamento, tornano da soli."""
+    try:
+        from core import channeltools
+        return bool(channeltools.get_channel_parameters(nome).get("active", True))
+    except Exception:
+        return True
+
+
 def _canali_per(serie):
-    """Su quali siti ha senso cercare questa serie."""
+    """Su quali siti ha senso cercare questa serie (solo quelli che s4me tiene accesi)."""
     tipo = (serie or {}).get("tipo", "anime")
     lista = CANALI_PER_TIPO.get(tipo, CANALI)
-    return [c for c in lista if c not in CANALI_ROTTI] or lista
+    return [c for c in lista if c not in CANALI_ROTTI and _acceso(c)] or lista
 
 
 # Quando l'add-on parte in automatico prova il PRIMO server della lista: se
@@ -313,6 +333,107 @@ def _pota_server(server):
         return sorted(server or [], key=rango)
     except Exception:
         return server
+
+
+# PRIMA DI MOSTRARE UN SERVER, SI PROVA (11/09/2026)
+#
+# Il guasto: "Errore inaspettato sul server voe". I due video voe provati
+# dall'utente sul Raspberry (yif2oucgov9u, qzrpqqmb2l4y) erano stati CANCELLATI:
+# voe risponde 404. Ma voe.test_video_exists li dava per vivi, perche' cerca le
+# parole "File not found" nella pagina e non guarda il codice della risposta.
+# Trovato un solo server, s4me lo apriva diretto e sullo schermo arrivava il
+# riquadro d'errore - mai un altro sito.
+# Qui ogni server si risolve PRIMA, tutti insieme: chi non da' un video non
+# entra nell'elenco, e se non ne resta nessuno si passa al sito dopo. Il video
+# risolto resta attaccato alla voce (`video_urls`), cosi' s4me non lo chiede
+# una seconda volta. Se s4me non ce la fa si prova ResolveURL, che si aggiorna
+# da solo dal suo repository (Gujal00): la seconda opinione.
+PROVA_SERVER_SECONDI = 20
+SERVER_SEMPRE_BUONI = ("directo", "local", "torrent")
+
+
+def _con_resolveurl(indirizzo):
+    """Il video diretto secondo ResolveURL, oppure '' (anche se non e' installato)."""
+    try:
+        import sys as _sys
+        import xbmcvfs
+        base = xbmcvfs.translatePath("special://home/addons/")
+        if not os.path.isdir(os.path.join(base, "script.module.resolveurl", "lib")):
+            return ""
+        # Non e' una dipendenza dichiarata di s4me: Kodi non mette le sue
+        # cartelle nel percorso, lo si fa qui.
+        for cartella in ("script.module.resolveurl/lib", "script.module.six/lib",
+                         "script.module.kodi-six/libs", "script.module.kodi-six/lib",
+                         "script.module.pyqrcode/lib"):
+            p = os.path.join(base, *cartella.split("/"))
+            if os.path.isdir(p) and p not in _sys.path:
+                _sys.path.append(p)
+        import resolveurl
+        media = resolveurl.HostedMediaFile(url=indirizzo)
+        if not media.valid_url():
+            return ""
+        return media.resolve() or ""
+    except Exception as e:
+        logger.info("Le Saghe: ResolveURL non ce l'ha fatta su %s: %s" % (indirizzo, e))
+        return ""
+
+
+def _server_vivi(server, secondi=PROVA_SERVER_SECONDI, prova_resolveurl=True):
+    """I server che danno davvero un video, nell'ordine buono. [] se nessuno.
+
+    Quelli che non hanno finito entro `secondi` restano, in fondo: meglio un
+    server lento che nessuno. Le voci che non sono server restano in coda."""
+    import threading
+    import time as _time
+    from core import servertools
+    server = list(server or [])
+    esiti = {}
+    serrature = {}
+
+    def _prova(i, s):
+        sid = (getattr(s, "server", "") or "").lower()
+        try:
+            if getattr(s, "video_urls", None) or sid in SERVER_SEMPRE_BUONI:
+                esiti[i] = True
+                return
+            # Un server alla volta per tipo: voe.py tiene la pagina in una
+            # variabile globale, due voe insieme si scambierebbero i dati.
+            with serrature.setdefault(sid, threading.Lock()):
+                urls, puoi, motivo = servertools.resolve_video_urls_for_playing(
+                    sid, s.url, getattr(s, "password", "") or "", False)
+            if puoi and urls:
+                s.video_urls = urls
+                esiti[i] = True
+                return
+            # Dal controllore (nessuno davanti alla TV) ResolveURL no: certi
+            # server gli fanno aprire finestre (captcha, abbinamenti).
+            diretto = _con_resolveurl(s.url) if prova_resolveurl else ""
+            if diretto:
+                s.video_urls = [["[ResolveURL] %s" % sid, diretto]]
+                esiti[i] = True
+                return
+            esiti[i] = False
+            logger.info("Le Saghe: server %s scartato, non da' il video (%s): %s" % (sid, s.url, motivo))
+        except Exception as e:
+            esiti[i] = False
+            logger.info("Le Saghe: prova del server %s non riuscita: %s" % (sid, e))
+
+    veri = [i for i, s in enumerate(server) if getattr(s, "server", "")]
+    for i in veri:
+        serrature.setdefault((getattr(server[i], "server", "") or "").lower(), threading.Lock())
+    fili = [threading.Thread(target=_prova, args=(i, server[i])) for i in veri]
+    for f in fili:
+        f.daemon = True
+        f.start()
+    scadenza = _time.time() + secondi
+    while _time.time() < scadenza and any(f.is_alive() for f in fili):
+        _time.sleep(0.2)
+    vivi = [server[i] for i in veri if esiti.get(i) is True]
+    in_sospeso = [server[i] for i in veri if i not in esiti]
+    if not vivi and not in_sospeso:
+        return []
+    altre = [s for i, s in enumerate(server) if i not in veri]
+    return _pota_server(vivi) + _pota_server(in_sospeso) + altre
 
 
 def _apri_sessione_nostra(item):
@@ -611,8 +732,15 @@ def _findvideos_da_rubrica(item, titolo, numero, serie_id):
                     if server:
                         for s in server:
                             s.channel = nota["canale"]
-                        _apri_sessione_nostra(item)
-                        return _pota_server(server)
+                        vivi = _server_vivi(server)
+                        if vivi:
+                            _apri_sessione_nostra(item)
+                            return vivi
+                        # La serie e' quella giusta, sono i video a essere
+                        # spariti: la rubrica resta, ma questo sito si salta.
+                        logger.info("Le Saghe: %s ha l'episodio ma nessun video vivo" % nota["canale"])
+                        item.salta_canali = nota["canale"]
+                        return None
             except Exception as e:
                 logger.info("Le Saghe: la rubrica non ha funzionato: %s" % e)
         # L'indirizzo in rubrica non vale piu': si dimentica e si ricerca.
@@ -632,7 +760,11 @@ def _findvideos_sui_siti(item, titolo, numero, serie_id):
     # l'utente ha chiesto di sapere se una cosa a catalogo si puo' davvero
     # guardare, e "no, ed ecco perche'" e' una risposta, "no" non lo e'.
     motivi = []
+    saltati = set(str(getattr(item, "salta_canali", "") or "").split(","))
     for nome in _canali_per(serie_del_catalogo):
+        if nome in saltati:
+            motivi.append("%s: ha l'episodio ma i video non si aprono piu'" % nome)
+            continue
         canale = _modulo(nome)
         if not canale:
             continue
@@ -715,10 +847,14 @@ def _findvideos_sui_siti(item, titolo, numero, serie_id):
         if server:
             for s in server:
                 s.channel = nome          # senza, s4me non sa chi riproduce
-            if serie_id:
-                _rubrica_segna(serie_id, nome, buono)
-            _apri_sessione_nostra(item)
-            return _pota_server(server), motivi
+            vivi = _server_vivi(server)
+            if vivi:
+                if serie_id:
+                    _rubrica_segna(serie_id, nome, buono)
+                _apri_sessione_nostra(item)
+                return vivi, motivi
+            motivi.append("%s: ha l'episodio ma i video sono stati cancellati dai server" % nome)
+            continue
         motivi.append("%s: ha l'episodio ma nessun video che si apra" % nome)
     return None, motivi
 
@@ -1035,6 +1171,145 @@ def search(item, text):
 
 
 # --------------------------------------------------------------------------
+# LA RICERCA SU TUTTI I SITI (11/09/2026)
+# --------------------------------------------------------------------------
+#
+# La chiama la Videoteca (resources/lib/ricerca_siti.py) come una cartella:
+#     plugin://plugin.video.s4me/?<testa codificata>&testo=...&canali=...&tempo=25
+# e mette le voci nella SUA pagina, sotto il catalogo. Qui si interrogano i
+# siti TUTTI INSIEME, ognuno nel suo filo, e dopo `tempo` secondi si risponde
+# con quello che e' arrivato: un sito lento non tiene ferma la pagina.
+#
+# NIENTE FINESTRE QUI DENTRO: niente barre, niente riquadri. Questa funzione
+# gira dentro una cartella chiesta da un altro add-on; una finestra aperta da
+# qui e' la ricetta del crollo del 06/09 ("two concurrent busydialogs").
+# L'avanzamento si scrive in un file, e la barra la disegna avvio.py.
+
+RICERCA_STATO = "special://temp/videoteca-ricerca-siti.json"
+RICERCA_ESCLUSI = ("lesaghe", "abbonamenti")
+RICERCA_FILI = 12
+RICERCA_MASSIMO = 150
+
+
+def _canali_ricerca():
+    """I canali che s4me stesso usa per la sua ricerca globale."""
+    try:
+        from specials import search as _globale
+        canali, _titoli = _globale.get_channels(Item(mode="all"))
+        return list(canali)
+    except Exception as e:
+        logger.error("Le Saghe: elenco dei canali della ricerca non letto: %s" % e)
+        return list(dict.fromkeys(CANALI_PER_TIPO["anime"] + CANALI_PER_TIPO["serie_tv"] + CANALI_FILM))
+
+
+def _nome_canale(nome):
+    try:
+        from core import channeltools
+        return channeltools.get_channel_parameters(nome).get("title") or nome
+    except Exception:
+        return nome
+
+
+def cerca_siti(item):
+    """Cerca `item.testo` su tutti i siti (o su `item.canali`) in parallelo."""
+    import threading
+    import time as _time
+    testo = str(getattr(item, "testo", "") or getattr(item, "text", "") or "").strip()
+    if not testo:
+        return []
+    try:
+        tempo = max(5.0, min(90.0, float(getattr(item, "tempo", "") or 25)))
+    except (TypeError, ValueError):
+        tempo = 25.0
+    scelti = [c for c in str(getattr(item, "canali", "") or "").split(",") if c]
+    canali = [c for c in dict.fromkeys(scelti or _canali_ricerca()) if c not in RICERCA_ESCLUSI and _acceso(c)]
+    trovati = []
+    finiti = set()
+    stato = {"testo": testo, "totale": len(canali), "fatti": 0, "trovati": 0, "lenti": [], "fine": False}
+    serratura = threading.Lock()
+    posti = threading.Semaphore(RICERCA_FILI)
+
+    def _scrivi_stato():
+        try:
+            import xbmcvfs
+            _json_atomico(xbmcvfs.translatePath(RICERCA_STATO), stato)
+        except Exception as e:
+            logger.info("Le Saghe: stato della ricerca non scritto: %s" % e)
+
+    def _su(nome):
+        with posti:
+            try:
+                modulo = __import__("channels.%s" % nome, fromlist=["channels.%s" % nome])
+                azioni = [a for a in (modulo.mainlist(Item(channel=nome, global_search=True)) or [])
+                          if getattr(a, "action", "") == "search"]
+                if not azioni:
+                    azioni = [Item(channel=nome, action="search", contentType="undefined", search="", args="")]
+                for azione in azioni:
+                    risultati = [r for r in (modulo.search(azione, testo) or []) if getattr(r, "action", "")]
+                    with serratura:
+                        for r in risultati:
+                            if not getattr(r, "channel", ""):
+                                r.channel = nome
+                            trovati.append((nome, r))
+            except Exception as e:
+                logger.info("Le Saghe: ricerca su %s non riuscita: %s" % (nome, e))
+            finally:
+                with serratura:
+                    finiti.add(nome)
+                    stato["fatti"] = len(finiti)
+                    stato["trovati"] = len(trovati)
+                    _scrivi_stato()
+
+    # Durante la ricerca niente schede TMDb per ogni risultato: e' quello che
+    # fa anche la ricerca globale di s4me, e dimezza i tempi.
+    try:
+        from platformcode import config as _config
+        tmdb_prima = _config.get_setting("tmdb_active")
+        _config.set_setting("tmdb_active", False)
+    except Exception:
+        _config, tmdb_prima = None, None
+    _scrivi_stato()
+    fili = [threading.Thread(target=_su, args=(n,), name="ricerca-%s" % n) for n in canali]
+    for f in fili:
+        f.daemon = True
+        f.start()
+    scadenza = _time.time() + tempo
+    while _time.time() < scadenza and any(f.is_alive() for f in fili):
+        _time.sleep(0.25)
+    with serratura:
+        raccolti = list(trovati)
+        stato["lenti"] = [n for n in canali if n not in finiti]
+        stato["fine"] = True
+        _scrivi_stato()
+    if _config is not None and tmdb_prima is not None:
+        try:
+            _config.set_setting("tmdb_active", tmdb_prima)
+        except Exception as e:
+            logger.info("Le Saghe: tmdb_active non rimesso: %s" % e)
+
+    visti = set()
+    ordinati = []
+    for nome, r in raccolti:
+        chiave = (getattr(r, "url", ""), getattr(r, "action", ""), getattr(r, "channel", ""))
+        if chiave in visti:
+            continue
+        visti.add(chiave)
+        titolo_r = (getattr(r, "fulltitle", "") or getattr(r, "contentTitle", "")
+                    or getattr(r, "contentSerieName", "") or getattr(r, "title", ""))
+        # Prima quanto del testo cercato c'e' nel titolo, poi la lingua
+        # (doppiato prima di sottotitolato, la regola di casa), poi il titolo.
+        ordinati.append((-_copertura(titolo_r, testo), -_rango_lingua(r), str(titolo_r).lower(), nome, r))
+    ordinati.sort(key=lambda x: x[:3])
+    fuori = []
+    for _c, _l, _t, nome, r in ordinati[:RICERCA_MASSIMO]:
+        r.title = "%s%s" % (getattr(r, "title", ""), support.typo(_nome_canale(nome), "_ [] color kod"))
+        fuori.append(r)
+    logger.info("Le Saghe: ricerca di %r su %d siti: %d risultati, lenti: %s"
+                % (testo, len(canali), len(fuori), ", ".join(stato["lenti"]) or "nessuno"))
+    return fuori
+
+
+# --------------------------------------------------------------------------
 # AL CINEMA ORA
 # --------------------------------------------------------------------------
 #
@@ -1111,24 +1386,88 @@ def cinema(item):
     return fuori
 
 
-def cinema_fonti(item):
-    """Cerca UN film di sala sui siti dei film. Stessa logica delle serie."""
+def _anno_di(voce):
+    """L'anno di un risultato: dalla scheda, dal campo `year` o dal titolo "(2016)"."""
+    import re
+    anno = ""
+    try:
+        info = getattr(voce, "infoLabels", None) or {}
+        anno = str(info.get("year") or "") if hasattr(info, "get") else ""
+    except Exception:
+        anno = ""
+    if not re.match(r"^(19|20)\d{2}$", anno):
+        anno = str(getattr(voce, "year", "") or "")
+    if not re.match(r"^(19|20)\d{2}$", anno):
+        testo = " ".join(str(getattr(voce, k, "") or "") for k in ("title", "fulltitle", "contentTitle"))
+        m = re.search(r"[\(\[]((?:19|20)\d{2})[\)\]]", testo)
+        anno = m.group(1) if m else ""
+    return int(anno) if anno else None
+
+
+def _anno_compatibile(voce, anno_voluto):
+    """Vero se il risultato puo' essere il film di quell'anno.
+
+    IL GUASTO (l'utente, 11/09/2026): "ho la locandina di Oceania, quello
+    nuovo appena uscito: lo clicco e riproduce il cartone animato". Il film
+    del 2026 e il cartone del 2016 si chiamano uguale, e contava solo il
+    titolo. Adesso un anno diverso di piu' di uno (le uscite a cavallo
+    d'anno) esclude il risultato. Se il sito l'anno non lo dice: per un film
+    vecchio si accetta, per uno degli ultimi due anni no - e' proprio li' che
+    stanno i rifacimenti col titolo del vecchio.
+    """
+    import time as _time
+    try:
+        voluto = int(str(anno_voluto)[:4])
+    except (TypeError, ValueError):
+        return True
+    trovato = _anno_di(voce)
+    if trovato:
+        return abs(trovato - voluto) <= 1
+    return voluto < int(_time.strftime("%Y")) - 1
+
+
+def _trova_film(item, prova_resolveurl=True):
+    """(server vivi, motivi, (canale, titolo trovato) o None) per il film di `item`.
+
+    La usano sia chi guarda (cinema_fonti) sia il controllore delle locandine
+    (verifica_film): la stessa strada, cosi' "pronto" vuol dire davvero che al
+    clic parte QUEL film."""
     titolo = _titolo_pulito(getattr(item, "titolo_film", "") or item.fulltitle)
     originale = _titolo_pulito(getattr(item, "titolo_originale", ""))
-
+    anno = str(getattr(item, "anno", "") or "")[:4]
+    chiave = str(getattr(item, "chiave", "") or "")
     # Due tentativi: il titolo italiano e - se diverso - quello originale.
     # Molti siti archiviano col titolo inglese, ed e' l'unico modo di
     # trovarli senza indovinare.
     nomi = [titolo]
     if originale and originale.lower() != titolo.lower():
         nomi.append(originale)
-
     motivi = []
+
+    # La scorciatoia: questo film e' gia' stato trovato (anche dal controllore).
+    nota = _rubrica_prendi("film:" + chiave) if chiave else None
+    if nota:
+        canale = _modulo(nota["canale"])
+        if canale:
+            try:
+                voce = Item(channel=nota["canale"], action="findvideos", url=nota["url"], contentType="movie",
+                            fulltitle=nota.get("titolo", titolo), title=nota.get("titolo", titolo))
+                server = canale.findvideos(voce) or []
+                for s in server:
+                    s.channel = nota["canale"]
+                vivi = _server_vivi(server, prova_resolveurl=prova_resolveurl) if server else []
+                if vivi:
+                    return vivi, motivi, (nota["canale"], nota.get("titolo", titolo))
+            except Exception as e:
+                logger.info("Le Saghe: la rubrica del film %s non ha funzionato: %s" % (titolo, e))
+        _rubrica_scorda("film:" + chiave)
+
     for nome in CANALI_FILM:
+        if not _acceso(nome):
+            continue
         canale = _modulo(nome)
         if not canale:
             continue
-
         risultati = []
         for chiamala in nomi:
             try:
@@ -1142,6 +1481,9 @@ def cinema_fonti(item):
                 break
 
         risultati = [r for r in risultati if getattr(r, "action", "")]
+        # Passo per passo nel registro: e' da qui che l'atlante e il registratore
+        # capiscono PERCHE' un film e' "pronto" o "non ancora in streaming".
+        logger.info("Le Saghe: film %r (%s) su %s: %d risultati" % (titolo, anno or "?", nome, len(risultati)))
         if not risultati:
             continue
 
@@ -1151,24 +1493,81 @@ def cinema_fonti(item):
         def _quanto(r):
             return max(_copertura(_nome(r), t) for t in nomi)
 
-        migliore = max(risultati, key=lambda r: (_quanto(r), _rango_lingua(r)))
-        if _quanto(migliore) < COPERTURA_MINIMA:
-            motivi.append("%s: c'e' solo '%s', che non e' questo film"
-                          % (nome, _nome(migliore)[:40]))
+        buoni = [r for r in risultati if _quanto(r) >= COPERTURA_MINIMA]
+        if not buoni:
+            migliore = max(risultati, key=_quanto)
+            motivi.append("%s: c'e' solo '%s', che non e' questo film" % (nome, _nome(migliore)[:40]))
             continue
-
-        try:
-            server = canale.findvideos(migliore) or []
-        except Exception as e:
-            logger.error("Le Saghe: findvideos film su %s fallito: %s" % (nome, e))
-            motivi.append("%s: ha il film ma va in errore" % nome)
+        stesso_anno = [r for r in buoni if _anno_compatibile(r, anno)]
+        logger.info("Le Saghe: film %r su %s: %d col titolo giusto, %d dell'anno giusto (anni trovati: %s)"
+                    % (titolo, nome, len(buoni), len(stesso_anno), ", ".join(str(_anno_di(r) or "?") for r in buoni[:6])))
+        if not stesso_anno:
+            altro = buoni[0]
+            motivi.append("%s: c'e' '%s' ma e' di un altro anno (%s, cercavo il %s)"
+                          % (nome, _nome(altro)[:40], _anno_di(altro) or "anno non scritto", anno))
             continue
-
-        if server:
+        stesso_anno.sort(key=lambda r: (_quanto(r), _rango_lingua(r)), reverse=True)
+        for migliore in stesso_anno[:3]:
+            try:
+                server = canale.findvideos(migliore) or []
+            except Exception as e:
+                logger.error("Le Saghe: findvideos film su %s fallito: %s" % (nome, e))
+                motivi.append("%s: ha il film ma va in errore" % nome)
+                break
+            if not server:
+                motivi.append("%s: ha il film ma nessun video che si apra" % nome)
+                continue
             for s in server:
                 s.channel = nome
-            return _pota_server(server)
-        motivi.append("%s: ha il film ma nessun video che si apra" % nome)
+            vivi = _server_vivi(server, prova_resolveurl=prova_resolveurl)
+            if vivi:
+                if chiave:
+                    _rubrica_segna("film:" + chiave, nome, migliore)
+                return vivi, motivi, (nome, _nome(migliore))
+            motivi.append("%s: ha il film ma i video sono stati cancellati dai server" % nome)
+    return [], motivi, None
+
+
+VERIFICA_ESITO = "special://temp/videoteca-verifica.json"
+
+
+def verifica_film(item):
+    """IL CONTROLLORE DELLE LOCANDINE (resources/lib/disponibilita.py).
+
+    Prova il film come se lo si stesse per guardare - stesso titolo, stesso
+    anno, un server che da' davvero il video - ma NON riproduce e NON apre
+    niente: scrive l'esito in VERIFICA_ESITO e basta. Lo chiama il servizio
+    quando nessuno usa la TV."""
+    import time as _time
+    import xbmcvfs
+    chiave = str(getattr(item, "chiave", "") or "")
+    try:
+        vivi, motivi, trovato = _trova_film(item, prova_resolveurl=False)
+        stato = "pronto" if vivi else "assente"
+    except BaseException as e:
+        # Anche SystemExit: l'11/09/2026 il controllo di "Oceania" si chiudeva dopo
+        # il primo sito senza esito e senza una riga d'errore. Il controllore deve
+        # SEMPRE lasciare un esito, e il perche' deve finire nel registro.
+        import traceback
+        logger.error("Le Saghe: controllo del film non riuscito: %s" % traceback.format_exc())
+        vivi, motivi, trovato, stato = [], ["errore: %r" % e], None, "errore"
+    esito = {"chiave": chiave, "stato": stato, "quando": int(_time.time()),
+             "canale": trovato[0] if trovato else "", "trovato": trovato[1] if trovato else "",
+             "server": [getattr(s, "server", "") for s in vivi if getattr(s, "server", "")][:5],
+             "motivi": motivi[:10]}
+    try:
+        _json_atomico(xbmcvfs.translatePath(VERIFICA_ESITO), esito, ensure_ascii=False)
+    except Exception as e:
+        logger.error("Le Saghe: esito del controllo non scritto: %s" % e)
+    return []
+
+
+def cinema_fonti(item):
+    """Cerca UN film sui siti dei film: stesso titolo, STESSO ANNO, video vivi."""
+    titolo = _titolo_pulito(getattr(item, "titolo_film", "") or item.fulltitle)
+    vivi, motivi, _trovato = _trova_film(item)
+    if vivi:
+        return vivi
 
     # Non trovato sui siti. Per un film ANCORA IN SALA e' la normalita':
     # si offre di cercarlo sugli abbonamenti, che e' dove sara' per primo.

@@ -8,6 +8,13 @@
         <action>ActivateWindow(Videos,"plugin://plugin.video.saghe/?azione=",return)</action>
     </shortcut>
     <shortcut>
+        <label>Cerca</label>
+        <label2>Videoteca</label2>
+        <defaultID>cerca</defaultID>
+        <icon>DefaultFolder.png</icon>
+        <action>RunScript(plugin.video.saghe,cerca_nuova)</action>
+    </shortcut>
+    <shortcut>
         <label>Le tue saghe</label>
         <label2>Videoteca</label2>
         <defaultID>letuesaghe</defaultID>
