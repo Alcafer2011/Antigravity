@@ -22,6 +22,8 @@ import time
 import xbmcvfs
 import xbmcaddon
 
+from resources.lib import salva
+
 ADDON = xbmcaddon.Addon()
 _CARTELLA = xbmcvfs.translatePath(ADDON.getAddonInfo("profile"))
 _FILE = os.path.join(_CARTELLA, "progresso.json")
@@ -67,11 +69,9 @@ def _leggi():
 
 def _scrivi_locale(dati):
     _assicura_cartella()
-    tmp = _FILE + ".tmp"
     try:
-        with open(tmp, "w", encoding="utf-8") as f:
-            json.dump(dati, f, ensure_ascii=False, indent=1)
-        os.replace(tmp, _FILE)
+        # Era gia' atomico (tmp + os.replace): ora lo fa salva, in un posto solo.
+        salva.json_atomico(_FILE, dati, ensure_ascii=False, indent=1)
     except OSError:
         pass
 
@@ -225,8 +225,7 @@ def apri_sessione(percorso_id, idx, dentro_kodi, atteso="", file_atteso=""):
     """
     _assicura_cartella()
     try:
-        with open(_FILE_SESSIONE, "w", encoding="utf-8") as f:
-            json.dump({
+        salva.json_atomico(_FILE_SESSIONE, {
                 "percorso": percorso_id,
                 "idx": int(idx),
                 "dentro_kodi": bool(dentro_kodi),
@@ -234,7 +233,7 @@ def apri_sessione(percorso_id, idx, dentro_kodi, atteso="", file_atteso=""):
                 "file_atteso": file_atteso,
                 "controllata": False,
                 "avviata": int(time.time()),
-            }, f)
+            })
     except OSError:
         pass
 
@@ -246,8 +245,7 @@ def marca_controllata():
         return
     s["controllata"] = True
     try:
-        with open(_FILE_SESSIONE, "w", encoding="utf-8") as f:
-            json.dump(s, f)
+        salva.json_atomico(_FILE_SESSIONE, s)
     except OSError:
         pass
 
@@ -261,8 +259,7 @@ def marca_visto_play():
         return
     s["visto_play"] = True
     try:
-        with open(_FILE_SESSIONE, "w", encoding="utf-8") as f:
-            json.dump(s, f)
+        salva.json_atomico(_FILE_SESSIONE, s)
     except OSError:
         pass
 
@@ -281,8 +278,7 @@ def registra_anomalia(atteso, ottenuto):
             "atteso": atteso,
             "ottenuto": ottenuto,
         })
-        with open(percorso, "w", encoding="utf-8") as f:
-            json.dump(elenco[-200:], f, ensure_ascii=False, indent=1)
+        salva.json_atomico(percorso, elenco[-200:], ensure_ascii=False, indent=1)
     except (OSError, ValueError):
         pass
 

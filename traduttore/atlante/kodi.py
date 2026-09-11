@@ -280,6 +280,14 @@ def analizza(cartella_copia):
     yt = _impostazioni_addon(userdata, "plugin.video.youtube")
     saghe = os.path.join(cart_addons, "plugin.video.saghe")
     shortcuts = os.path.join(userdata, "addon_data", "script.skinshortcuts")
+    guardiano = None
+    pg = os.path.join(userdata, "addon_data", "service.videoteca.guardiano", "stato.json")
+    if os.path.exists(pg):
+        try:
+            with io.open(pg, encoding="utf-8") as h:
+                guardiano = json.load(h)
+        except ValueError:
+            guardiano = {"errore": "stato.json del guardiano illeggibile"}
     return {
         "manifesto": man,
         "database": nome_db,
@@ -297,6 +305,7 @@ def analizza(cartella_copia):
         "trailer_automatico": az.get("home.netflix.autoplay.trailer"),
         "youtube_configurato": bool(yt),
         "menu_skinshortcuts": sorted(os.listdir(shortcuts)) if os.path.isdir(shortcuts) else [],
+        "guardiano": guardiano,
         "saghe_md5": _md5_cartella(saghe) if os.path.isdir(saghe) else {},
         "impostazioni_saghe": _impostazioni_addon(userdata, "plugin.video.saghe"),
         "registro": _registro(os.path.join(cartella_copia, "log")),

@@ -2167,52 +2167,6 @@ def riproduci(pid, idx):
     xbmcplugin.setResolvedUrl(MANIGLIA, False, xbmcgui.ListItem())
 
 
-def _spiega_fonte_mancante(t, serie, perche=""):
-    elenco = fonti.fonti_disponibili(t["serie"], t["ep"])
-    if perche:
-        testo = "[B]%s - episodio %d[/B]\n\n%s" % (serie["titolo"], t["ep"], perche)
-    elif not elenco:
-        testo = ("Per questa serie non è ancora configurata nessuna fonte.")
-    else:
-        nomi = ", ".join(f["etichetta"] for f in elenco)
-        testo = ("[B]%s - episodio %d[/B]\n\n"
-                 "Questo episodio esiste su: %s\n\n"
-                 "Nessuna di queste è fra i tuoi abbonamenti. Puoi attivarne "
-                 "uno, oppure indicare nelle impostazioni la cartella con i "
-                 "tuoi file: la fonte locale ha sempre la precedenza e "
-                 "nessuno può togliertela." % (serie["titolo"], t["ep"], nomi))
-    # Invece di lasciare l'utente davanti a un muro: gli si offre di cercarlo
-    # su s4me senza uscire da qui. Il titolo viene passato gia' scritto, cosi'
-    # non deve ridigitarlo col telecomando.
-    titolo_ricerca = ponte_s4me.titolo_per_ricerca(serie, t)
-    if ponte_s4me.installato() and titolo_ricerca:
-        scelta = xbmcgui.Dialog().yesno(
-            "Fonte non disponibile",
-            testo + "\n\n[B]Vuoi cercarlo su s4me?[/B]",
-            nolabel="No, chiudi",
-            yeslabel="Cerca '%s'" % titolo_ricerca,
-            # Il pulsante gia' scelto deve essere quello che si vuole quasi
-            # sempre. Con "No" preselezionato bastava un invio distratto per
-            # chiudere tutto, e in salotto "Cerca" e' l'unica strada che c'e'.
-            defaultbutton=getattr(xbmcgui, "DLG_YESNO_YES_BTN", 11))
-        if scelta:
-            # Prima si PROVA a farlo partire da solo: e' quello che l'utente
-            # vuole davvero (non vedere la lista, vedere l'episodio).
-            # Se non si riesce a decidere, apri_automatico porta comunque al
-            # punto piu' profondo raggiunto, invece di lasciarlo alla ricerca.
-            esito = ponte_s4me.apri_automatico(titolo_ricerca, t["ep"])
-            if esito == "niente":
-                ponte_s4me.cerca(titolo_ricerca)
-            elif esito == "avvicinato":
-                xbmcgui.Dialog().notification(
-                    "Le Saghe",
-                    "Non ho individuato l'episodio %d: eccoti al punto piu' vicino"
-                    % t["ep"], xbmcgui.NOTIFICATION_INFO, 5000)
-            return
-    else:
-        xbmcgui.Dialog().textviewer("Fonte non disponibile", testo)
-
-
 # --------------------------------------------------------------------------
 # Azioni secondarie
 # --------------------------------------------------------------------------
@@ -2346,29 +2300,15 @@ def apri_film(pid, titolo):
 
     Anche qui prima si finiva su `setResolvedUrl(False)`, cioe' sull'errore
     di riproduzione di Kodi.
+
+    TUTTO IN avvio.py (11/09/2026). Aprire un'app o chiedere "vuoi cercarlo
+    su s4me?" apre finestre, e dentro una cartella non si fa. In piu' qui
+    si chiamava ponte_s4me, tolto nel commit 77d75a7: un film senza fonte
+    finiva in NameError (trovato dall'atlante). Il titolo viaggia in
+    esadecimale: dentro RunScript una virgola o una parentesi del titolo
+    cambierebbero il comando.
     """
-    prima = catalogo.PERCORSI[pid]["segmenti"][0][0]
-    fonte = fonti.fonte_migliore(prima, 1)
-    if fonte and fonte["tipo"] == "app":
-        xbmcgui.Dialog().notification(
-            "Le Saghe", "Cerca: %s" % titolo, xbmcgui.NOTIFICATION_INFO, 8000)
-        fonti.avvia_app(catalogo.FONTI[fonte["id"]]["pacchetto"])
-    elif ponte_s4me.installato() and titolo:
-        # Stessa cortesia degli episodi: invece di un muro, si offre di
-        # cercarlo su s4me col titolo gia' scritto.
-        if xbmcgui.Dialog().yesno(
-                "Film",
-                "[B]%s[/B]\n\nPer questo film non c'e' una fonte fra i tuoi "
-                "abbonamenti.\n\n[B]Vuoi cercarlo su s4me?[/B]" % titolo,
-                nolabel="No, chiudi", yeslabel="Cerca '%s'" % titolo,
-                defaultbutton=getattr(xbmcgui, "DLG_YESNO_YES_BTN", 11)):
-            ponte_s4me.cerca(titolo)
-    else:
-        xbmcgui.Dialog().ok(
-            "Le Saghe",
-            "Per questo film non c'è ancora una fonte configurata. %s"
-            % titolo)
-    xbmcplugin.endOfDirectory(MANIGLIA, succeeded=False)
+    _in_disparte("apri_film", pid, (titolo or "").encode("utf-8").hex() or "00")
 
 
 def tagli(pid):

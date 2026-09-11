@@ -275,8 +275,56 @@ def _togli_titolo(tmdb_id):
     _avviso("Tolta" if fatto else "Non tolta", _una_riga(messaggio))
 
 
+def _apri_film(pid, titolo_hex):
+    """Un film del catalogo: la sua app se c'e', altrimenti la ricerca su s4me.
+
+    Prima stava in main.py e usava ponte_s4me, che non esiste piu' dal commit
+    77d75a7: il film senza fonte finiva in NameError. La ricerca su s4me si
+    apre con lo stesso indirizzo che usa gia' la Ricerca della Videoteca.
+    """
+    from urllib.parse import quote
+    from resources.lib import catalogo, fonti
+    try:
+        titolo = bytes.fromhex(titolo_hex).decode("utf-8") if titolo_hex not in ("", "00") else ""
+    except ValueError:
+        titolo = ""
+    _via_dalla_pagina_vuota()
+    percorso = catalogo.PERCORSI.get(pid)
+    if not percorso:
+        xbmcgui.Dialog().notification("Le Saghe", "Film non trovato nel catalogo",
+                                      xbmcgui.NOTIFICATION_WARNING, 5000)
+        return
+    titolo = titolo or percorso.get("titolo", "")
+    fonte = fonti.fonte_migliore(percorso["segmenti"][0][0], 1)
+    if fonte and fonte["tipo"] == "app":
+        xbmcgui.Dialog().notification("Le Saghe", "Cerca: %s" % titolo,
+                                      xbmcgui.NOTIFICATION_INFO, 8000)
+        fonti.avvia_app(catalogo.FONTI[fonte["id"]]["pacchetto"])
+        return
+    if titolo and xbmc.getCondVisibility("System.HasAddon(plugin.video.s4me)"):
+        if xbmcgui.Dialog().yesno(
+                "Film",
+                "[B]%s[/B]\n\nPer questo film non c'e' una fonte fra i tuoi "
+                "abbonamenti.\n\n[B]Vuoi cercarlo su s4me?[/B]" % titolo,
+                nolabel="No, chiudi", yeslabel="Cerca '%s'" % titolo,
+                defaultbutton=getattr(xbmcgui, "DLG_YESNO_YES_BTN", 11)):
+            xbmc.executebuiltin(
+                'ActivateWindow(Videos,"plugin://plugin.video.s4me/?channel=search'
+                '&action=Search&search_text=%s",return)' % quote(titolo))
+        return
+    xbmcgui.Dialog().ok("Le Saghe",
+                        "Per questo film non c'e' ancora una fonte configurata. %s" % titolo)
+
+
 def main():
     comando = sys.argv[1] if len(sys.argv) > 1 else "vetrina"
+    if comando == "apri_film":
+        # RunScript(plugin.video.saghe, apri_film, <pid>, <titolo in esadecimale>)
+        try:
+            _apri_film(sys.argv[2], sys.argv[3] if len(sys.argv) > 3 else "00")
+        except Exception as e:
+            xbmc.log("[Le Saghe] apri_film: %s" % e, xbmc.LOGERROR)
+        return
     try:
         if comando == "vetrina":
             _vetrina()

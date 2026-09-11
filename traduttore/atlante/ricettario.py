@@ -18,6 +18,16 @@ def ricette(R):
     sorgente = os.path.join(ANTIGRAVITY, "traduttore", "plugin.video.saghe")
     appdata = os.path.expandvars(r"%APPDATA%\Kodi")
     return [
+        {"titolo": "0. Il modo giusto: servi.py",
+         "testo": "Installa la Videoteca INTERA e il guardiano, con prove prima, md5 dopo e registro letto dopo il riavvio. "
+                  "Le ricette sotto sono i passi a mano, per quando serve capire o riparare un pezzo solo.",
+         "comandi": [
+             ("Solo il banco", "cd %s\\traduttore && python servi.py pc" % ANTIGRAVITY, "bash"),
+             ("Box e Raspberry", "cd %s\\traduttore && python servi.py box pi" % ANTIGRAVITY, "bash"),
+             ("Tutti, senza riavviare Kodi", "cd %s\\traduttore && python servi.py tutti --senza-riavvio" % ANTIGRAVITY, "bash"),
+         ],
+         "trappole": ["Mai copiare 'solo i file cambiati': il box e' rimasto con main.py nuovo e moduli della 1.0.0 (11/09).",
+                      "Se le prove falliscono servi.py non installa niente: correggere prima."]},
         {"titolo": "1. Prima di servire: il codice regge?",
          "testo": "Sempre, prima di copiare qualunque cosa. Se uno di questi fallisce non si installa.",
          "comandi": [

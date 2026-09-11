@@ -28,6 +28,8 @@ import xbmc
 import xbmcaddon
 import xbmcvfs
 
+from resources.lib import salva
+
 ADDON = xbmcaddon.Addon()
 S4ME = "plugin.video.s4me"
 # I due canali che mettiamo dentro s4me:
@@ -209,8 +211,7 @@ def _accendi_canale(cartella, nome):
         return False
     dati["active"] = True
     try:
-        with open(percorso, "w", encoding="utf-8") as f:
-            json.dump(dati, f, indent=4, ensure_ascii=False)
+        salva.json_atomico(percorso, dati, indent=4, ensure_ascii=False)
     except Exception as e:
         xbmc.log("[Le Saghe] non ho potuto accendere %s: %s" % (nome, e),
                  xbmc.LOGWARNING)
@@ -239,8 +240,7 @@ def _metti_nella_ricerca(nome):
         if dati.setdefault("settings", {}).get("include_in_global_search"):
             return False
         dati["settings"]["include_in_global_search"] = True
-        with open(percorso, "w", encoding="utf-8") as f:
-            json.dump(dati, f, indent=4, ensure_ascii=False)
+        salva.json_atomico(percorso, dati, indent=4, ensure_ascii=False)
         return True
     except Exception as e:
         xbmc.log("[Le Saghe] ricerca globale di %s: %s" % (nome, e),

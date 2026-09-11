@@ -37,6 +37,19 @@ from core import support
 from core.item import Item
 from platformcode import config, logger
 
+
+def _json_atomico(percorso, dati, **opzioni):
+    """Scrive in un file provvisorio e lo sostituisce in un colpo: se il box si
+    spegne a meta' resta il file vecchio intero, non un JSON troncato
+    (vedi resources/lib/salva.py: qui dentro s4me quel modulo non si importa)."""
+    import io as _io
+    import json as _json
+    import os as _os
+    provvisorio = percorso + ".tmp"
+    with _io.open(provvisorio, "w", encoding="utf-8") as f:
+        f.write(_json.dumps(dati, **opzioni))
+    _os.replace(provvisorio, percorso)
+
 # --------------------------------------------------------------------------
 # Il catalogo, letto dall'add-on Le Saghe
 # --------------------------------------------------------------------------
@@ -523,13 +536,11 @@ def _rubrica_leggi():
 
 
 def _rubrica_scrivi(dati):
-    import json
     f = _rubrica_file()
     if not f:
         return
     try:
-        with open(f, "w", encoding="utf-8") as fp:
-            json.dump(dati, fp, ensure_ascii=False)
+        _json_atomico(f, dati, ensure_ascii=False)
     except Exception:
         pass
 

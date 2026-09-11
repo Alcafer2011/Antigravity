@@ -25,6 +25,10 @@
          testata 0-254   gruppo da 260   righe a 28/284/540 (alte 222)
          l'ultima finisce a 260+540+222 = 1022, sopra i 1024 del fondo
 
+  4. I CARATTERI: solo font13. E' l'unico nome che esiste in Arctic Zephyr,
+     Estuary e skin.saghe (11/09/2026): font12 e font45 su Arctic Zephyr non ci
+     sono e il testo spariva.
+
   NUMERI DEI CONTROLLI (li usa vetrina.py, non cambiarli a cuor leggero)
       100  riga "Continua a guardare"      200  lo sfondo grande
       101  riga "Le tue saghe"             201  il titolo
@@ -70,7 +74,7 @@
 
         <control type="label" id="201">
             <left>80</left><top>74</top><width>1020</width><height>60</height>
-            <font>font45</font>
+            <font>font13</font>
             <textcolor>FFF3EDE3</textcolor>
             <shadowcolor>FF000000</shadowcolor>
             <label></label>
@@ -84,7 +88,7 @@
         </control>
         <control type="textbox" id="203">
             <left>80</left><top>178</top><width>1000</width><height>76</height>
-            <font>font12</font>
+            <font>font13</font>
             <textcolor>FFC6BCAF</textcolor>
             <shadowcolor>FF000000</shadowcolor>
             <label></label>
@@ -126,7 +130,7 @@
                     </control>
                     <control type="label">
                         <left>0</left><top>192</top><width>136</width><height>28</height>
-                        <font>font12</font>
+                        <font>font13</font>
                         <align>center</align>
                         <textcolor>FFE8A24A</textcolor>
                         <shadowcolor>FF000000</shadowcolor>
@@ -165,7 +169,7 @@
                     </control>
                     <control type="label">
                         <left>0</left><top>192</top><width>136</width><height>28</height>
-                        <font>font12</font>
+                        <font>font13</font>
                         <align>center</align>
                         <textcolor>FFE8A24A</textcolor>
                         <shadowcolor>FF000000</shadowcolor>
@@ -209,7 +213,7 @@
                     </control>
                     <control type="label">
                         <left>0</left><top>192</top><width>136</width><height>28</height>
-                        <font>font12</font>
+                        <font>font13</font>
                         <align>center</align>
                         <textcolor>FFE8A24A</textcolor>
                         <shadowcolor>FF000000</shadowcolor>
@@ -222,7 +226,7 @@
 
         <control type="label">
             <left>80</left><top>1046</top><width>1700</width><height>28</height>
-            <font>font12</font>
+            <font>font13</font>
             <textcolor>FF8C8175</textcolor>
             <label>Frecce per spostarti  -  OK per aprire  -  Indietro per uscire</label>
         </control>

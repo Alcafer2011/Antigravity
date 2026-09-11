@@ -38,6 +38,8 @@ import xbmc
 import xbmcaddon
 import xbmcvfs
 
+from resources.lib import salva
+
 ADDON = xbmcaddon.Addon()
 _CARTELLA = xbmcvfs.translatePath(ADDON.getAddonInfo("profile"))
 _FILE = os.path.join(_CARTELLA, "taratura.json")
@@ -188,13 +190,12 @@ def _ricorda(mbps, s):
             xbmcvfs.mkdirs(_CARTELLA)
         storia = ultima().get("storia", [])
         storia.append({"quando": int(time.time()), "mbps": mbps})
-        with open(_FILE, "w", encoding="utf-8") as f:
-            json.dump({"quando": int(time.time()), "mbps": mbps,
+        salva.json_atomico(_FILE, {"quando": int(time.time()), "mbps": mbps,
                        "scaglione": s["nome"],
                        "assicurato": s["assicurato"], "massimo": s["massimo"],
                        "tetto_kbps": s.get("tetto_kbps", 0),
                        "risoluzione": s.get("risoluzione", "auto"),
-                       "storia": storia[-20:]}, f, ensure_ascii=False)
+                       "storia": storia[-20:]}, ensure_ascii=False)
     except OSError:
         pass
 

@@ -15,6 +15,7 @@ non si puo' fare dai file, lo dice ("da verificare a mano").
 """
 
 import collections
+import json
 import os
 
 LIVELLI = ["critico", "alto", "medio", "basso", "info"]
@@ -224,6 +225,17 @@ def _apparecchio(e, app, k):
                    ["userdata/addon_data/script.skinshortcuts/"],
                    "Copiare traduttore/menu-arctic/* e cancellare il .hash, poi riavviare Kodi.",
                    "stessa skin e stesso menu su tutti gli apparecchi")
+    if app in ("box", "pi") and "service.videoteca.guardiano" not in addons:
+        e.aggiungi("medio", "manutenzione", app, "Guardiano della Videoteca non installato",
+                   "Senza il guardiano un'installazione a meta', il menu sparito o un backup dentro addons/ si "
+                   "scoprono solo davanti alla TV.", [], "python traduttore/servi.py %s" % app)
+    g = k.get("guardiano") or {}
+    for esito in g.get("esiti", []):
+        if esito.get("livello") in ("problema", "riparato"):
+            e.aggiungi("alto" if esito["livello"] == "problema" else "medio", "malfunzionamento", app,
+                       "Il guardiano segnala (%s): %s" % (esito.get("controllo"), esito.get("testo", "")[:110]),
+                       "Controllo del %s.\n%s" % (g.get("quando", "?"), json.dumps(esito.get("dettagli"), ensure_ascii=False)[:1500]),
+                       [], "Vedi addon_data/service.videoteca.guardiano/stato.json sull'apparecchio.")
     imp = k.get("impostazioni") or {}
     if (imp.get("services.webserver") or {}).get("valore") == "true" and \
             (imp.get("services.webserverauthentication") or {}).get("valore") == "false":
