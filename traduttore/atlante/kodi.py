@@ -229,6 +229,11 @@ def analizza(cartella_copia):
         with io.open(p, encoding="utf-8") as h:
             man = json.load(h)
     app = man.get("apparecchio", "")
+    # Il registro scrive "Starting Kodi (21.3 (21.3.0) Git:...)": parentesi dentro
+    # parentesi. Nel rapporto serve solo il numero.
+    numero = re.match(r"\s*(\d+(?:\.\d+)+)", man.get("kodi") or "")
+    if numero:
+        man["kodi"] = numero.group(1)
     addons = _addon_in(os.path.join(cartella_copia, "sistema"), "sistema")
     for aid, a in _addon_in(os.path.join(cartella_copia, "addons"), "utente").items():
         addons[aid] = a
