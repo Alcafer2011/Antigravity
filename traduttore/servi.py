@@ -60,6 +60,29 @@ DA_ACCENDERE = ("plugin.video.saghe", "service.videoteca.guardiano", "skin.arcti
                 "script.skinshortcuts", "script.embuary.helper", "script.embuary.info",
                 "plugin.video.themoviedb.helper", "repository.videoteca")
 ORA = time.strftime("%Y%m%d-%H%M%S")
+EMBUARY_IT = ('<settings version="2">\n    <setting id="language_code">it</setting>\n'
+              '    <setting id="country_code">IT</setting>\n</settings>\n')
+
+
+def _embuary_italiano(attuale):
+    """settings.xml di Embuary Info con lingua e paese italiani.
+
+    Di fabbrica e' en/US: la "Scheda completa" delle tessere arrivava con la
+    trama in inglese (provato sul banco il 10/09/2026). Si tocca solo lingua e
+    paese, e senza default="true" (con quello Kodi puo' rimettere il valore di
+    fabbrica). Va scritto a Kodi SPENTO: uscendo Kodi riscrive le impostazioni.
+    """
+    if not attuale or "<settings" not in attuale:
+        return EMBUARY_IT
+    t = attuale
+    for k, v in (("language_code", "it"), ("country_code", "IT")):
+        nuovo = '<setting id="%s">%s</setting>' % (k, v)
+        if re.search(r'<setting id="%s"' % k, t):
+            t = re.sub(r'<setting id="%s"[^>]*/>' % k, nuovo, t)
+            t = re.sub(r'<setting id="%s"[^>]*>[^<]*</setting>' % k, nuovo, t)
+        else:
+            t = t.replace("</settings>", "    %s\n</settings>" % nuovo)
+    return t
 SCARTA = re.compile(r"(__pycache__|\.pyc$|\.pyo$|\.bak|prima-|\.prima|\.tmp$)")
 BACKUP_ESTRANEI = re.compile(r"(bak|prima|backup|\.old$|copia)", re.I)
 
@@ -229,6 +252,13 @@ def servi_pc(tar, impronte, riavvia=True):
     for f in os.listdir(menu):
         if f.endswith(".hash"):
             os.remove(os.path.join(menu, f))
+    emb = os.path.join(kodi, "userdata", "addon_data", "script.embuary.info")
+    os.makedirs(emb, exist_ok=True)
+    p_emb = os.path.join(emb, "settings.xml")
+    attuale = io.open(p_emb, encoding="utf-8").read() if os.path.exists(p_emb) else ""
+    with io.open(p_emb, "w", encoding="utf-8") as f:
+        f.write(_embuary_italiano(attuale))
+    print("  Embuary Info in italiano (Scheda completa)")
     dbdir = os.path.join(kodi, "userdata", "Database")
     db = sorted((f for f in os.listdir(dbdir) if re.match(r"Addons\d+\.db$", f)), key=lambda f: int(re.findall(r"\d+", f)[0]))[-1]
     print("  accesi nel database: %s" % ", ".join(_accendi_nel_db(os.path.join(dbdir, db), set(os.listdir(addons)))))
@@ -298,6 +328,15 @@ def servi_box(tar, impronte, riavvia=True):
     _su("mkdir -p %s && cp %s/addons/service.videoteca.guardiano/resources/menu/* %s/ && rm -f %s/*.hash && chown -R %s %s"
         % (menu, k, menu, menu, proprietario, menu))
     print("  menu della home copiato")
+    emb = "%s/userdata/addon_data/script.embuary.info" % k
+    attuale = _su("cat %s/settings.xml 2>/dev/null" % emb)
+    locale_emb = os.path.join(tempfile.gettempdir(), "servi-embuary.xml")
+    with io.open(locale_emb, "w", encoding="utf-8") as f:
+        f.write(_embuary_italiano(attuale if "<settings" in attuale else ""))
+    R._adb("push", locale_emb, "/sdcard/servi-embuary.xml")
+    _su("mkdir -p %s && cp /sdcard/servi-embuary.xml %s/settings.xml && rm /sdcard/servi-embuary.xml && chown -R %s %s"
+        % (emb, emb, proprietario, emb))
+    print("  Embuary Info in italiano (Scheda completa)")
     db = _su("ls %s/userdata/Database | grep -E '^Addons[0-9]+\\.db$' | sort | tail -n 1" % k).strip()
     locale = os.path.join(tempfile.gettempdir(), "servi-box-%s" % db)
     _su("cp %s/userdata/Database/%s /sdcard/servi.db" % (k, db))
@@ -363,6 +402,12 @@ def servi_pi(tar, impronte, riavvia=True):
     menu = "%s/userdata/addon_data/script.skinshortcuts" % k
     run("mkdir -p %s && cp %s/addons/service.videoteca.guardiano/resources/menu/* %s/ && rm -f %s/*.hash" % (menu, k, menu, menu))
     print("  menu della home copiato")
+    emb = "%s/userdata/addon_data/script.embuary.info" % k
+    attuale = run("cat %s/settings.xml 2>/dev/null" % emb)
+    run("mkdir -p %s" % emb)
+    with sftp.open("%s/settings.xml" % emb, "w") as fh:
+        fh.write(_embuary_italiano(attuale if "<settings" in attuale else ""))
+    print("  Embuary Info in italiano (Scheda completa)")
     db = run("ls %s/userdata/Database | grep -E '^Addons[0-9]+\\.db$' | sort | tail -n 1" % k).strip()
     locale = os.path.join(tempfile.gettempdir(), "servi-pi-%s" % db)
     sftp.get("%s/userdata/Database/%s" % (k, db), locale)

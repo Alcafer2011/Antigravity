@@ -284,8 +284,52 @@ def _arte_scoperta(li, copertina, etichetta):
 # fonti su tutti i siti, come qualunque altra saga. Una strada sola.
 # --------------------------------------------------------------------------
 
+_EMBUARY = None
+_TMDB_SERIE = None
+
+
+def _voce_scheda(scheda):
+    """La voce "Scheda completa" del menu di una tessera.
+
+    Apre la scheda di Embuary Info (trama, cast, voto, stagioni, simili): la
+    stessa idea della scheda che Netflix apre su un titolo. Chiesto
+    dall'utente ("la scheda dettaglio in stile Netflix"), fatto l'11/09/2026.
+    `scheda` = ("tv" | "movie", id TMDb). Embuary arriva con Arctic Zephyr: se
+    manca, la voce non compare. L'id passa per int(): dentro RunScript non
+    deve poter entrare altro che cifre.
+    """
+    global _EMBUARY
+    if not scheda or not scheda[1]:
+        return None
+    try:
+        numero = int(scheda[1])
+    except (TypeError, ValueError):
+        return None
+    if _EMBUARY is None:
+        try:
+            _EMBUARY = bool(xbmc.getCondVisibility("System.HasAddon(script.embuary.info)"))
+        except Exception:
+            _EMBUARY = False
+    if not _EMBUARY:
+        return None
+    return ("Scheda completa", "RunScript(script.embuary.info,call=%s,tmdb_id=%d)"
+            % ("movie" if scheda[0] == "movie" else "tv", numero))
+
+
+def _tmdb_serie(pid):
+    """Id TMDb della prima serie di una saga, da resources/tmdb.json."""
+    global _TMDB_SERIE
+    if _TMDB_SERIE is None:
+        _TMDB_SERIE = _leggi_risorsa("tmdb.json")
+    seg = (catalogo.PERCORSI.get(pid) or {}).get("segmenti") or []
+    if not seg:
+        return ""
+    conf = _TMDB_SERIE.get(seg[0][0])
+    return (conf.get("id") if isinstance(conf, dict) else conf) or ""
+
+
 def _azioni(li, chiave, titolo, indirizzo="", arte=None, trama="",
-            sotto="", tmdb=""):
+            sotto="", tmdb="", scheda=None):
     """Attacca il menu contestuale a una voce.
 
     `chiave` deve essere STABILE nel tempo: il percorso per una saga,
@@ -313,6 +357,9 @@ def _azioni(li, chiave, titolo, indirizzo="", arte=None, trama="",
         voci.append(("Aggiungi alla Videoteca (la cerca ovunque)",
                      "RunPlugin(%s)" % url(azione="netflix_aggiungi",
                                            tmdb=tmdb, tipo="serietv")))
+    voce_scheda = _voce_scheda(scheda)
+    if voce_scheda:
+        voci.append(voce_scheda)
     li.addContextMenuItems(voci)
     return li
 
@@ -363,7 +410,8 @@ def _voce_netflix(v):
         dove, cartella = url(azione="netflix_aggiungi", tmdb=str(v["id"]),
                              tipo=v.get("tipo") or "serietv"), True
     _azioni(li, sid, v["titolo"], arte=arte, trama=v.get("trama", ""),
-            tmdb="" if gia else str(v["id"]))
+            tmdb="" if gia else str(v["id"]),
+            scheda=("movie" if v.get("tipo") == "film" else "tv", v.get("id")))
     xbmcplugin.addDirectoryItem(MANIGLIA, dove, li, cartella)
 
 
@@ -458,7 +506,8 @@ def _voce_percorso(pid):
     # o se le si cambia il titolo, quindi la voce in lista e il pollice non
     # si perdono.
     _azioni(li, pid, p["titolo"],
-            indirizzo=url(azione="percorso", percorso=pid))
+            indirizzo=url(azione="percorso", percorso=pid),
+            scheda=("tv", _tmdb_serie(pid)))
     return li
 
 
@@ -801,6 +850,9 @@ def _voci_cinema():
             arte["clearlogo"] = loghi.logo("movie", f.get("tmdb"))
         if arte:
             li.setArt(arte)
+        voce_scheda = _voce_scheda(("movie", f.get("tmdb")))
+        if voce_scheda:
+            li.addContextMenuItems([voce_scheda])
         tag = li.getVideoInfoTag()
         tag.setTitle(f["titolo"])
         if f.get("trama"):
@@ -898,6 +950,9 @@ def widget(quale):
                 arte["clearlogo"] = loghi.logo("tv", v.get("id"))
             if arte:
                 li.setArt(arte)
+            voce_scheda = _voce_scheda(("tv", v.get("id")))
+            if voce_scheda:
+                li.addContextMenuItems([voce_scheda])
             tag = li.getVideoInfoTag()
             tag.setTitle(v["titolo"])
             if v.get("trama"):

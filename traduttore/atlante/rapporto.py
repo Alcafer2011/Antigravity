@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-"""RAPPORTO: REPORT.html (da leggere come un PDF), REPORT.md, REQUISITI.md.
+"""RAPPORTO: REPORT.html (da leggere come un PDF) e REQUISITI.html.
 
-Il contenuto si costruisce UNA volta come elenco di blocchi (titolo,
-paragrafo, tabella, grafico, codice, dettagli) e si scrive in due forme.
+Solo HTML: l'utente legge nel browser (11/09/2026). Il contenuto si
+costruisce UNA volta come elenco di blocchi (titolo, paragrafo, tabella,
+grafico, codice, dettagli); _md() resta solo per chi volesse un testo.
 I grafici sono SVG scritti a mano: niente librerie, niente internet.
 """
 
@@ -296,8 +297,9 @@ def _costruisci(R, voci, regole, salute, ricette):
             blocchi.append(grafico(_barre([(m[:34], n) for m, n in reg["errori"][:12]], "Errori", "#c62828", larghezza=760), _barre_md([(m, n) for m, n in reg["errori"][:12]])))
             blocchi.append(tabella(["Volte", "Errore"], [[str(n), m] for m, n in reg["errori"][:40]]))
         if reg.get("errori_python"):
-            blocchi.append(tabella(["Add-on", "Errore", "Dove", "Volte", "Ultima"],
-                                   [[t["addon"], "%s: %s" % (t["tipo"], t["contenuto"][:140]), t["dove"] or "-", str(t["volte"]), t["ultima"]]
+            blocchi.append(tabella(["Add-on", "Errore", "Dove", "Volte", "Adesso?", "Ultima"],
+                                   [[t["addon"], "%s: %s" % (t["tipo"], t["contenuto"][:140]), t["dove"] or "-", str(t["volte"]),
+                                     "sì (%d)" % t.get("volte_adesso", 0) if t.get("volte_adesso") else "no, storico", t["ultima"]]
                                     for t in reg["errori_python"]]))
         for t in reg.get("errori_python", [])[:20]:
             blocchi.append(dettagli("%s in %s (x%d): %s" % (t["tipo"], t["addon"], t["volte"], t["contenuto"][:90]), [codice(t["esempio"])]))
@@ -307,7 +309,7 @@ def _costruisci(R, voci, regole, salute, ricette):
     ch = R["chat"]
     msg = [m for m in ch["messaggi"] if m["videoteca"]]
     B.append(titolo("9. Cosa vuole Alessandro", ancora="richieste"))
-    B.append(para("Estratto da **%d chat** e **%d memorie**: %d messaggi sulla Videoteca (tutti in REQUISITI.md, in ordine di tempo)."
+    B.append(para("Estratto da **%d chat** e **%d memorie**: %d messaggi sulla Videoteca (tutti in REQUISITI.html, per argomento e sessione per sessione)."
                   % (len(ch["sessioni"]), len(ch["memorie"]), len(msg))))
     per_arg = collections.Counter(a for m in msg for a in m["argomenti"])
     B.append(grafico(_barre(per_arg.most_common(), "Messaggi per argomento", "#1565c0"), _barre_md(per_arg.most_common())))
@@ -495,15 +497,52 @@ def _requisiti_md(ch):
     return "\n".join(out)
 
 
+def _requisiti_blocchi(ch):
+    """Tutte le parole dell'utente sulla Videoteca, da leggere nel browser."""
+    msg = [m for m in ch["messaggi"] if m["videoteca"]]
+    B = [titolo("Le richieste di Alessandro", 1, "inizio"),
+         para("Tutti i messaggi sulla Videoteca da **%d chat** e **%d memorie**: %d messaggi. "
+              "✍️ = scritto mentre Claude lavorava." % (len(ch["sessioni"]), len(ch["memorie"]), len(msg)))]
+    per_arg = collections.Counter(a for m in msg for a in m["argomenti"])
+    B.append(grafico(_barre(per_arg.most_common(), "Messaggi per argomento", "#1565c0"), ""))
+    per_tipo = collections.Counter(m["tipo"] for m in msg)
+    B.append(grafico(_barre(per_tipo.most_common(), "Messaggi per tipo", "#4527a0"), ""))
+    B.append(titolo("Per argomento (dal piu' recente)", 2, "argomenti"))
+    for arg, n in per_arg.most_common():
+        lista = [m for m in msg if arg in m["argomenti"]]
+        B.append(dettagli("%s — %d messaggi" % (arg, n), [tabella(
+            ["Quando", "Tipo", "Messaggio"],
+            [[m["quando"][:16].replace("T", " "), m["tipo"] + (" ✍️" if m["fonte"] != "chat" else ""), m["testo"]]
+             for m in reversed(lista)])]))
+    B.append(titolo("Sessione per sessione", 2, "sessioni"))
+    per_sessione = collections.OrderedDict()
+    for m in msg:
+        per_sessione.setdefault(m["sessione"], []).append(m)
+    for sid, lista in per_sessione.items():
+        s = ch["sessioni"].get(sid, {})
+        B.append(dettagli("%s — %s (%d messaggi)" % ((s.get("inizio") or "")[:16].replace("T", " "),
+                                                    s.get("titolo") or sid[:8], len(lista)), [tabella(
+            ["Ora", "Tipo", "Argomenti", "Messaggio"],
+            [[m["quando"][11:16], m["tipo"] + (" ✍️" if m["fonte"] != "chat" else ""), ", ".join(m["argomenti"]), m["testo"]]
+             for m in lista])]))
+    return B
+
+
 def scrivi(R, voci, regole, salute, ricette, cartella):
     os.makedirs(cartella, exist_ok=True)
     B = _costruisci(R, voci, regole, salute, ricette)
-    with io.open(os.path.join(cartella, "REPORT.md"), "w", encoding="utf-8") as f:
-        f.write(_md(B))
+    # SOLO HTML (11/09/2026, l'utente: "non voglio vedere il file di testo, e' meglio
+    # l'html da vedere e capire"). I vecchi .md si tolgono per non confondere.
+    for vecchio in ("REPORT.md", "REQUISITI.md"):
+        try:
+            os.remove(os.path.join(cartella, vecchio))
+        except OSError:
+            pass
     with io.open(os.path.join(cartella, "REPORT.html"), "w", encoding="utf-8") as f:
         f.write(_html(B))
-    with io.open(os.path.join(cartella, "REQUISITI.md"), "w", encoding="utf-8") as f:
-        f.write(_requisiti_md(R["chat"]))
+    with io.open(os.path.join(cartella, "REQUISITI.html"), "w", encoding="utf-8") as f:
+        f.write(_html(_requisiti_blocchi(R["chat"])).replace(
+            "<title>Atlante della Videoteca</title>", "<title>Le richieste di Alessandro</title>"))
     leggero = dict(R)
     leggero["chat"] = {"messaggi": R["chat"]["messaggi"], "sessioni": R["chat"]["sessioni"],
                        "memorie": [{k: v for k, v in m.items() if k != "testo"} for m in R["chat"]["memorie"]]}

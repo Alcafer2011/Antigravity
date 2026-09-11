@@ -85,8 +85,11 @@ def _addon(e, a):
         pesanti = {x["chiamata"] for x in lista} & {"DialogProgress", "xbmcgui.DialogProgress", "WindowXML",
                                                      "WindowXMLDialog", "WindowDialog", "Dialog.doModal",
                                                      "DialogProgress.doModal", "xbmcgui.WindowXML", "xbmcgui.WindowXMLDialog"}
-        if liv == "alto" and not pesanti:
-            liv = "medio"
+        if not pesanti:
+            # Tastiera, scelta da elenco, testo, si'/no: comuni e reggono. Il crollo del 06/09
+            # veniva da barre di avanzamento e finestre intere, gia' spostate in avvio.py.
+            # Restano da sapere, non da temere (deciso l'11/09/2026).
+            liv = "basso"
         azioni = sorted({x for f in lista for x in f.get("azioni", [])})
         ctx = sorted({x for f in lista for x in f.get("contesti", [])})
         e.aggiungi(liv, "instabilita", "addon", "Finestra aperta dentro una cartella: %s()" % fn,
@@ -225,7 +228,7 @@ def _apparecchio(e, app, k):
                    "Spegnere home.netflix.autoplay.trailer o completare la procedura di YouTube.",
                    "trailer automatico spento finche' YouTube non e' configurato")
     elif "plugin.video.youtube" in addons and not k.get("youtube_configurato"):
-        e.aggiungi("medio", "instabilita", app, "YouTube installato ma mai configurato",
+        e.aggiungi("basso" if app == "pc" else "medio", "instabilita", app, "YouTube installato ma mai configurato",
                    "Al primo video parte la procedura guidata a finestre: se il video parte da una riga o da un "
                    "trailer puo' bloccare Kodi.", [], "Aprire YouTube una volta dalla TV e completarla.")
     if "skin.arctic.zephyr.mod" in addons and "mainmenu.DATA.xml" not in (k.get("menu_skinshortcuts") or []):
@@ -331,7 +334,9 @@ def _incroci(e, app, x, k):
                    "le finestre dell'add-on usano caratteri esistenti")
     mancano_art = [a for a in x["art_che_non_diamo"] if a in ART_IMPORTANTI]
     if mancano_art:
-        e.aggiungi("medio", "aspetto", app, "Immagini che la skin cerca e le nostre voci non danno: %s" % ", ".join(mancano_art),
+        # banner/clearart/discart/keyart le fonti (TMDb, s4me) non li hanno: da sapere, non da riparare
+        e.aggiungi("medio" if set(mancano_art) & {"poster", "fanart", "thumb", "landscape", "clearlogo"} else "basso",
+                   "aspetto", app, "Immagini che la skin cerca e le nostre voci non danno: %s" % ", ".join(mancano_art),
                    "Letti: %s" % ", ".join("%s x%d" % (a, x["art_lette_dalla_skin"].get(a, 0)) for a in mancano_art),
                    [], "Valutare setArt anche con queste chiavi dove la skin le usa (tessere, testata).")
     et = sorted(x["etichette_che_non_riempiamo"], key=lambda z: -z["volte"])[:14]

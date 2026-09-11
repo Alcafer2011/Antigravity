@@ -6,9 +6,9 @@ PERCHE'
     Ogni sessione di lavoro ripartiva scansionando a mano migliaia di file
     sugli apparecchi, e i guasti venivano scoperti uno per volta davanti
     alla TV. L'atlante raccoglie UNA volta, analizza tutto, e lascia:
-        uscita/REPORT.html   da leggere (grafici, livelli, rimedi)
-        uscita/REPORT.md     lo stesso in Markdown
-        uscita/REQUISITI.md  tutte le parole dell'utente, in ordine di tempo
+        uscita/REPORT.html     da leggere (grafici, livelli, rimedi)
+        uscita/REQUISITI.html  tutte le parole dell'utente, per argomento e per sessione
+        (niente .md: l'utente legge l'HTML, 11/09/2026)
         uscita/atlante.json  l'indice completo, da interrogare con `cerca`
 
 USO
