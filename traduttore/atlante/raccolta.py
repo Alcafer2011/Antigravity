@@ -225,8 +225,13 @@ def raccogli_box():
     # Chi possiede i file di Kodi: quello che si copia con su resta di root e
     # Kodi non lo legge (11/09/2026). Serve al ricettario per il chown.
     proprietario = _adb("shell", "su -c 'stat -c %%U:%%G %s/addons'" % BOX_KODI).strip()
+    # File che Kodi non possiede: se i permessi non lo lasciano leggere, per Kodi
+    # quell'add-on NON ESISTE e nessun registro lo dice (repository.videoteca, 11/09).
+    utente = proprietario.split(":")[0] or "u0_a106"
+    non_di_kodi = _adb("shell", "su -c \"cd %s && find addons userdata/addon_data ! -user %s 2>/dev/null | head -n 300\""
+                       % (BOX_KODI, utente)).split()
     return _manifesto("box", dest, "Box 8K Android: gli add-on di sistema stanno nell'APK e non sono copiati",
-                      {"proprietario_file_kodi": proprietario})
+                      {"proprietario_file_kodi": proprietario, "non_di_kodi": non_di_kodi})
 
 
 # --------------------------------------------------------------------------

@@ -238,6 +238,15 @@ def _apparecchio(e, app, k):
                    ["userdata/addon_data/script.skinshortcuts/"],
                    "Copiare traduttore/menu-arctic/* e cancellare il .hash, poi riavviare Kodi.",
                    "stessa skin e stesso menu su tutti gli apparecchi")
+    estranei = (k.get("manifesto") or {}).get("non_di_kodi") or []
+    if estranei:
+        cartelle = sorted({"/".join(x.split("/")[:2]) for x in estranei})
+        e.aggiungi("critico", "malfunzionamento", app, "File che Kodi non possiede (%d): %s" % (len(estranei), ", ".join(cartelle[:6])),
+                   "Copiati con su restano di root: se i permessi non lasciano leggere, per Kodi quell'add-on NON ESISTE "
+                   "e nessun registro lo dice. L'11/09 repository.videoteca (root:root 770) era invisibile da giorni: "
+                   "niente aggiornamenti automatici sul box.\n" + "\n".join(estranei[:60]), cartelle[:15],
+                   "chown -R %s addons userdata/addon_data (servi.py lo fa a ogni installazione)." %
+                   ((k.get("manifesto") or {}).get("proprietario_file_kodi") or "u0_a106:u0_a106"))
     if app in ("box", "pi") and "service.videoteca.guardiano" not in addons:
         e.aggiungi("medio", "manutenzione", app, "Guardiano della Videoteca non installato",
                    "Senza il guardiano un'installazione a meta', il menu sparito o un backup dentro addons/ si "

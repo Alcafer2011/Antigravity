@@ -182,6 +182,34 @@ def skin_e_menu():
     return _esito("menu", "riparato", "Menu della home ripristinato: si vede al prossimo avvio di Kodi", mancano)
 
 
+def leggibili():
+    """Add-on che Kodi non riesce a LEGGERE: per lui non esistono, e nessuno lo dice.
+
+    Sul box, un add-on copiato con su resta di root: repository.videoteca
+    (root:root 770) e' stato invisibile per giorni, e con lui gli aggiornamenti
+    automatici (11/09/2026). Il guardiano gira come Kodi, quindi vede
+    esattamente quello che vede Kodi.
+    """
+    cartella = _t("special://home/addons/")
+    chiusi = []
+    for d in sorted(os.listdir(cartella)):
+        p = os.path.join(cartella, d)
+        if not os.path.isdir(p) or d in ("packages", "temp"):
+            continue
+        axml = os.path.join(p, "addon.xml")
+        if not os.access(p, os.R_OK | os.X_OK) or (os.path.exists(axml) and not os.access(axml, os.R_OK)):
+            chiusi.append(d)
+        elif not os.path.exists(axml):
+            try:
+                os.listdir(p)
+            except OSError:
+                chiusi.append(d)
+    if chiusi:
+        return _esito("leggibili", "problema", "Add-on che Kodi non riesce a leggere (per lui non esistono): %s"
+                      % ", ".join(chiusi[:5]), chiusi)
+    return _esito("leggibili", "ok", "Tutti gli add-on sono leggibili da Kodi")
+
+
 def addon_chiave():
     spenti, assenti = [], []
     for aid in ADDON_CHIAVE:
@@ -247,7 +275,7 @@ def macchina():
 def giro():
     stato = _leggi_json("stato.json", {})
     esiti = []
-    for controllo in (integrita, backup_in_addons, skin_e_menu, addon_chiave, trailer, macchina):
+    for controllo in (integrita, backup_in_addons, leggibili, skin_e_menu, addon_chiave, trailer, macchina):
         try:
             esiti.append(controllo())
         except Exception as e:

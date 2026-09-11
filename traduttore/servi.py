@@ -288,6 +288,12 @@ def servi_box(tar, impronte, riavvia=True):
     esito = _su("cd %s/addons && tar -xf /sdcard/servi.tar && rm /sdcard/servi.tar && chown -R %s %s && echo estratto"
                 % (k, proprietario, " ".join(DA_INSTALLARE)))
     print("  %s (proprietario %s)" % ("add-on estratti" if "estratto" in esito else "ESTRAZIONE NON RIUSCITA: " + esito[-200:], proprietario))
+    # TUTTO a Kodi, non solo quello appena copiato: l'11/09 repository.videoteca (root:root 770)
+    # era invisibile a Kodi da giorni, e con lui gli aggiornamenti automatici; anche il canale
+    # lesaghe.py dentro s4me non era di Kodi. Un chown qui costa due secondi.
+    estranei = _su("cd %s/addons && find . ! -user %s 2>/dev/null | wc -l" % (k, proprietario.split(":")[0])).strip()
+    _su("chown -R %s %s/addons %s/userdata/addon_data" % (proprietario, k, k), tempo=900)
+    print("  ridati a Kodi addons/ e addon_data/ (file non suoi prima: %s)" % estranei)
     menu = "%s/userdata/addon_data/script.skinshortcuts" % k
     _su("mkdir -p %s && cp %s/addons/service.videoteca.guardiano/resources/menu/* %s/ && rm -f %s/*.hash && chown -R %s %s"
         % (menu, k, menu, menu, proprietario, menu))
@@ -451,6 +457,7 @@ def dipendenze(app):
         time.sleep(4)
         print("  " + _su("cd %s/addons && tar -xf /sdcard/servi-dip.tar && rm /sdcard/servi-dip.tar && chown -R %s %s && echo installati"
                          % (k, proprietario, " ".join(nuovi))))
+        _su("chown -R %s %s/addons %s/userdata/addon_data" % (proprietario, k, k), tempo=900)   # tutto a Kodi (11/09)
         db = _su("ls %s/userdata/Database | grep -E '^Addons[0-9]+\\.db$' | sort | tail -n 1" % k).strip()
         locale = os.path.join(tempfile.gettempdir(), "servi-dip-box-%s" % db)
         _su("cp %s/userdata/Database/%s /sdcard/servi.db" % (k, db))
