@@ -54,9 +54,11 @@ ADDON = os.path.join(QUI, "plugin.video.saghe")
 GUARDIANO = os.path.join(QUI, "service.videoteca.guardiano")
 MENU = os.path.join(QUI, "menu-arctic")
 DA_INSTALLARE = ("plugin.video.saghe", "service.videoteca.guardiano")
+# repository.videoteca: senza, gli aggiornamenti automatici non arrivano. L'11/09
+# era SPENTO sul Raspberry e mai registrato sul box.
 DA_ACCENDERE = ("plugin.video.saghe", "service.videoteca.guardiano", "skin.arctic.zephyr.mod",
                 "script.skinshortcuts", "script.embuary.helper", "script.embuary.info",
-                "plugin.video.themoviedb.helper")
+                "plugin.video.themoviedb.helper", "repository.videoteca")
 ORA = time.strftime("%Y%m%d-%H%M%S")
 SCARTA = re.compile(r"(__pycache__|\.pyc$|\.pyo$|\.bak|prima-|\.prima|\.tmp$)")
 BACKUP_ESTRANEI = re.compile(r"(bak|prima|backup|\.old$|copia)", re.I)
@@ -383,9 +385,116 @@ def servi_pi(tar, impronte, riavvia=True):
     return ok
 
 
+# --------------------------------------------------------------------------
+# DIPENDENZE MANCANTI (dal repository ufficiale)
+# --------------------------------------------------------------------------
+
+def _codice_kodi(versione):
+    return {"19": "matrix", "20": "nexus", "21": "omega", "22": "piers"}.get((versione or "").split(".")[0], "omega")
+
+
+def _accendi_ids(percorso_db, ids):
+    c = sqlite3.connect(percorso_db)
+    for aid in ids:
+        c.execute("UPDATE installed SET enabled=1, disabledReason=0 WHERE addonID=?", (aid,))
+        c.execute("INSERT INTO installed (addonID, enabled, installDate, origin, disabledReason) "
+                  "SELECT ?, 1, datetime('now'), 'repository.xbmc.org', 0 WHERE NOT EXISTS "
+                  "(SELECT 1 FROM installed WHERE addonID=?)", (aid, aid))
+    c.commit()
+    c.close()
+
+
+def dipendenze(app):
+    """Installa le dipendenze che l'atlante trova ROTTE su un apparecchio.
+
+    Solo quelle vere: le "forse di sistema" (binari e moduli che viaggiano con
+    Kodi) non si toccano. Si scaricano dal repository UFFICIALE nella versione
+    di Kodi dell'apparecchio, e si installano solo le cartelle che mancano: un
+    modulo gia' presente non si sovrascrive (lo usano altri add-on).
+    """
+    import importlib.util
+    titolo("DIPENDENZE %s" % app.upper())
+    p = os.path.join(QUI, "atlante", "uscita", "atlante.json")
+    if not os.path.exists(p):
+        raise SystemExit("prima: python atlante/atlante.py raccogli %s && python atlante/atlante.py analizza" % app)
+    with io.open(p, encoding="utf-8") as f:
+        dati = json.load(f)["dati"]["apparecchi"][app]
+    ids = sorted({d["dipendenza"] for d in dati.get("dipendenze_rotte", []) if "forse" not in d["problema"]})
+    if not ids:
+        print("  nessuna dipendenza rotta")
+        return True
+    versione = _codice_kodi((dati.get("manifesto") or {}).get("kodi"))
+    spec = importlib.util.spec_from_file_location("installa_skin", os.path.join(QUI, "installa-skin.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    appoggio = tempfile.mkdtemp(prefix="servi-dip-")
+    for aid in ids:
+        mod.installa(aid, versione, appoggio)
+    presenti = set(dati.get("addons") or {})
+    nuovi = sorted(d for d in os.listdir(appoggio) if os.path.isdir(os.path.join(appoggio, d)) and d not in presenti)
+    print("  %s (Kodi %s): rotte %s -> da installare %s" % (app, versione, ", ".join(ids), ", ".join(nuovi) or "niente"))
+    if not nuovi:
+        return True
+    tar = os.path.join(tempfile.gettempdir(), "servi-dip-%s-%s.tar" % (app, ORA))
+    with tarfile.open(tar, "w") as t:
+        for d in nuovi:
+            t.add(os.path.join(appoggio, d), arcname=d)
+    shutil.rmtree(appoggio, ignore_errors=True)
+    if app == "box":
+        k = R.BOX_KODI
+        proprietario = _su("stat -c %%U:%%G %s/addons" % k).strip() or "u0_a106:u0_a106"
+        R._adb("push", tar, "/sdcard/servi-dip.tar", tempo=900)
+        R._adb("shell", "input keyevent KEYCODE_WAKEUP")
+        time.sleep(10)
+        R._adb_pronto()
+        R._adb("shell", "am force-stop org.xbmc.kodi")
+        time.sleep(4)
+        print("  " + _su("cd %s/addons && tar -xf /sdcard/servi-dip.tar && rm /sdcard/servi-dip.tar && chown -R %s %s && echo installati"
+                         % (k, proprietario, " ".join(nuovi))))
+        db = _su("ls %s/userdata/Database | grep -E '^Addons[0-9]+\\.db$' | sort | tail -n 1" % k).strip()
+        locale = os.path.join(tempfile.gettempdir(), "servi-dip-box-%s" % db)
+        _su("cp %s/userdata/Database/%s /sdcard/servi.db" % (k, db))
+        R._adb("pull", "/sdcard/servi.db", locale)
+        _accendi_ids(locale, nuovi)
+        R._adb("push", locale, "/sdcard/servi.db")
+        _su("cp /sdcard/servi.db %s/userdata/Database/%s && chown %s %s/userdata/Database/%s && rm /sdcard/servi.db"
+            % (k, db, proprietario, k, db))
+        R._adb("shell", "monkey -p org.xbmc.kodi -c android.intent.category.LAUNCHER 1")
+        time.sleep(60)
+        R._adb("shell", "input keyevent KEYCODE_SLEEP")
+        print("  accesi nel database, Kodi riavviato, box in standby")
+    elif app == "pi":
+        import paramiko
+        c = paramiko.SSHClient()
+        c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        c.connect(R.PI, username="root", password=R._password_pi(), timeout=15)
+
+        def run(cmd):
+            _i, o, e = c.exec_command(cmd, timeout=300)
+            return (o.read().decode() + e.read().decode()).strip()
+        sftp = c.open_sftp()
+        sftp.put(tar, "/tmp/servi-dip.tar")
+        run("systemctl stop kodi; sleep 3")
+        print("  " + run("cd %s/addons && tar -xf /tmp/servi-dip.tar && rm /tmp/servi-dip.tar && echo installati" % R.PI_KODI))
+        db = run("ls %s/userdata/Database | grep -E '^Addons[0-9]+\\.db$' | sort | tail -n 1" % R.PI_KODI).strip()
+        locale = os.path.join(tempfile.gettempdir(), "servi-dip-pi-%s" % db)
+        sftp.get("%s/userdata/Database/%s" % (R.PI_KODI, db), locale)
+        _accendi_ids(locale, nuovi)
+        sftp.put(locale, "%s/userdata/Database/%s" % (R.PI_KODI, db))
+        run("systemctl start kodi")
+        sftp.close()
+        c.close()
+        print("  accesi nel database, Kodi riavviato")
+    os.remove(tar)
+    return True
+
+
 def main(argv):
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    if len(argv) > 1 and argv[1] == "dipendenze":
+        # python servi.py dipendenze box pi
+        return 0 if all([dipendenze(a) for a in (argv[2:] or ["box", "pi"])]) else 1
     riavvia = "--senza-riavvio" not in argv
     dove = [a for a in argv[1:] if not a.startswith("--")] or ["tutti"]
     if "tutti" in dove:

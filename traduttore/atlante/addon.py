@@ -193,6 +193,12 @@ def analizza(cartella_addon, cartella_menu=None):
                             comandi_avvio.setdefault(v, dove)
                 elif _e_split(n.left) and nome == "main":
                     widget_gestiti.update(_valori(n.comparators))
+            if isinstance(n, ast.Assign):
+                # arte["clearlogo"] = ...   (la forma piu' usata nel nostro codice)
+                for bersaglio in n.targets:
+                    if isinstance(bersaglio, ast.Subscript) and isinstance(bersaglio.value, ast.Name) and \
+                            bersaglio.value.id in ("arte", "art", "immagini") and _costante(bersaglio.slice):
+                        _aggiungi(art, _costante(bersaglio.slice), dove)
             if isinstance(n, ast.Call):
                 base, fn = _nome_chiamata(n)
                 if fn == "url":

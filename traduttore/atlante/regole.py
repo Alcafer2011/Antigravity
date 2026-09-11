@@ -139,8 +139,21 @@ def _addon(e, a):
 def _codice(e, c, cartella_addon):
     minori = collections.defaultdict(list)
     non_definiti = collections.defaultdict(list)
+    voce_chiave = None
     for r in c["reperti"]:
         dove = "%s:%s" % (r["file"], r["riga"])
+        if r["controllo"] == "sicurezza" and "chiave" in (r["dettaglio"] or ""):
+            # Sempre la stessa chiave gratuita di TMDb, in piu' moduli: UNA voce, non sette.
+            if voce_chiave is None:
+                e.aggiungi("basso", "vulnerabilita", "codice", "Chiave TMDb scritta nel codice",
+                           "E' la chiave gratuita di TMDb, ripetuta modulo per modulo. Chi legge il repository "
+                           "(privato) puo' usarla; il rischio vero e' che TMDb la blocchi per troppe richieste: "
+                           "si fermerebbero insieme locandine, consigli, Netflix, cinema e loghi.", [],
+                           "Tenerla in UN modulo (es. resources/lib/tmdb.py) cosi' si cambia in un punto solo.")
+                voce_chiave = e.voci[-1]
+            voce_chiave["dove"].append(dove)
+            voce_chiave["titolo"] = "Chiave TMDb scritta nel codice (%d moduli)" % len(voce_chiave["dove"])
+            continue
         if r["controllo"] == "pyflakes" and "undefined name" in r["testo"]:
             non_definiti[(r["file"], r["testo"])].append(dove)
             continue
@@ -239,7 +252,7 @@ def _apparecchio(e, app, k):
     imp = k.get("impostazioni") or {}
     if (imp.get("services.webserver") or {}).get("valore") == "true" and \
             (imp.get("services.webserverauthentication") or {}).get("valore") == "false":
-        e.aggiungi("medio", "vulnerabilita", app, "API di Kodi aperta senza password",
+        e.aggiungi("info" if app == "pc" else "medio", "vulnerabilita", app, "API di Kodi aperta senza password",
                    "Chiunque sulla rete puo' comandare Kodi (JSON-RPC sulla porta %s)." %
                    (imp.get("services.webserverport") or {}).get("valore", "8080"), ["userdata/guisettings.xml"],
                    "Accettabile solo sul banco PC; sugli apparecchi di casa mettere la password.", "API di Kodi protetta")
@@ -248,15 +261,25 @@ def _apparecchio(e, app, k):
                    "Si possono installare add-on da zip di chiunque.", [], "Tenerle spente quando non servono.")
     reg = k.get("registro") or {}
     for t in reg.get("errori_python", []):
-        nostro = t["addon"] == "plugin.video.saghe"
+        nostro = t["addon"] in ("plugin.video.saghe", "service.videoteca.guardiano")
         rompe = t["tipo"].split(".")[-1] in ERRORI_CHE_ROMPONO
-        liv = ("critico" if rompe else "alto") if nostro else ("medio" if rompe else "basso")
-        e.aggiungi(liv, "malfunzionamento", app, "%s in %s: %s" % (t["tipo"] or "Errore", t["addon"], t["contenuto"][:110]),
-                   "Visto %d volte (prima %s, ultima %s). Funzione: %s.\n\n%s" % (
-                       t["volte"], t["prima"], t["ultima"], t["funzione"] or "?", t["esempio"][:2200]),
+        attuale = t.get("volte_adesso", 0) > 0
+        if attuale:
+            liv = ("critico" if rompe else "alto") if nostro else ("medio" if rompe else "basso")
+        else:
+            liv = "basso" if nostro else "info"
+        if t.get("gestito"):
+            # L'add-on ha scritto lui il traceback e ha continuato: non e' caduto niente.
+            liv = ("medio" if attuale else "basso") if nostro else "info"
+        e.aggiungi(liv, "malfunzionamento", app, "%s%s in %s: %s" % ("" if attuale else "Storico: ", t["tipo"] or "Errore",
+                                                                  t["addon"], t["contenuto"][:100]),
+                   "Visto %d volte, %d nella sessione di Kodi in corso (prima %s, ultima %s). Funzione: %s.%s\n\n%s" % (
+                       t["volte"], t.get("volte_adesso", 0), t["prima"], t["ultima"], t["funzione"] or "?",
+                       "" if attuale else " NON si e' ripetuto dopo l'ultimo avvio di Kodi: e' storia, utile solo per capire.",
+                       t["esempio"][:2200]),
                    [t["dove"]] if t["dove"] else [],
                    "Guardare la riga indicata: e' l'ultima dell'add-on prima dell'errore.",
-                   "nessun errore Python dell'add-on nei registri" if nostro else "")
+                   "nessun errore Python dell'add-on nei registri" if (nostro and attuale) else "")
     inc = reg.get("include_invalidi") or []
     if inc:
         e.aggiungi("basso", "malfunzionamento", app, "Include della skin non trovati (%d)" % len(inc),

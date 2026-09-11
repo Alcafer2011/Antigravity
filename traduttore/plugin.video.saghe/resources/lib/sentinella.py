@@ -127,7 +127,10 @@ def _chiedi(url):
             with urllib.request.urlopen(r, timeout=20) as f:
                 return json.loads(f.read().decode("utf-8"))
         except Exception:
-            time.sleep(2)
+            # Gira dentro il servizio: con time.sleep Kodi non poteva chiuderlo
+            # finche' non finiva di dormire (segnalato dall'atlante l'11/09/2026).
+            if xbmc.Monitor().waitForAbort(2):
+                break
     return {}
 
 

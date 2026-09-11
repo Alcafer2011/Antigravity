@@ -1516,34 +1516,13 @@ def menu_linea():
 
 def misura_linea():
     """Misura davvero. Mostra l'avanzamento: mezzo minuto in silenzio
-    sembrerebbe un blocco."""
-    d = xbmcgui.DialogProgress()
-    d.create("Le Saghe", "Misuro la linea...")
-    valori = []
-    for n in range(3):
-        if d.iscanceled():
-            d.close()
-            xbmcplugin.endOfDirectory(MANIGLIA, succeeded=False)
-            return
-        d.update(int(n * 100 / 3),
-                 "Misuro la linea...  prova %d di 3\n\n"
-                 "Sto scaricando qualche megabyte per vedere quanto va." % (n + 1))
-        v = taratura._misura_una()
-        if v > 0:
-            valori.append(v)
-    d.close()
+    sembrerebbe un blocco.
 
-    if not valori:
-        xbmcgui.Dialog().ok(
-            "Le Saghe",
-            "Non sono riuscito a misurare: la linea non risponde.\n\n"
-            "Non ho cambiato niente. Riprova piu' tardi.")
-        xbmcplugin.endOfDirectory(MANIGLIA, succeeded=False)
-        return
-
-    fatto, testo = taratura.applica(round(max(valori), 2))
-    xbmcgui.Dialog().ok("La mia linea" if fatto else "Non ho potuto regolare", testo)
-    xbmcplugin.endOfDirectory(MANIGLIA, succeeded=False)
+    IN avvio.py (11/09/2026): una barra di avanzamento aperta dentro una
+    cartella e' proprio la forma dei due busydialog che chiudevano Kodi il
+    06/09 (l'atlante la segnalava come problema alto).
+    """
+    _in_disparte("misura_linea")
 
 
 RICERCHE_MAX = 12

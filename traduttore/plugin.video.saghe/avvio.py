@@ -316,8 +316,43 @@ def _apri_film(pid, titolo_hex):
                         "Per questo film non c'e' ancora una fonte configurata. %s" % titolo)
 
 
+def _misura_linea():
+    """La misura della linea con la sua barra. Qui, fuori dalla cartella, la
+    barra non si scontra con la rotellina di Kodi."""
+    from resources.lib import taratura
+    _via_dalla_pagina_vuota()
+    d = xbmcgui.DialogProgress()
+    d.create("Le Saghe", "Misuro la linea...")
+    valori = []
+    for n in range(3):
+        if d.iscanceled():
+            d.close()
+            return
+        d.update(int(n * 100 / 3),
+                 "Misuro la linea...  prova %d di 3\n\n"
+                 "Sto scaricando qualche megabyte per vedere quanto va." % (n + 1))
+        v = taratura._misura_una()
+        if v > 0:
+            valori.append(v)
+    d.close()
+    if not valori:
+        xbmcgui.Dialog().ok("Le Saghe",
+                            "Non sono riuscito a misurare: la linea non risponde.\n\n"
+                            "Non ho cambiato niente. Riprova piu' tardi.")
+        return
+    fatto, testo = taratura.applica(round(max(valori), 2))
+    xbmcgui.Dialog().ok("La mia linea" if fatto else "Non ho potuto regolare", testo)
+
+
 def main():
     comando = sys.argv[1] if len(sys.argv) > 1 else "vetrina"
+    if comando == "misura_linea":
+        # RunScript(plugin.video.saghe, misura_linea)
+        try:
+            _misura_linea()
+        except Exception as e:
+            xbmc.log("[Le Saghe] misura_linea: %s" % e, xbmc.LOGERROR)
+        return
     if comando == "apri_film":
         # RunScript(plugin.video.saghe, apri_film, <pid>, <titolo in esadecimale>)
         try:

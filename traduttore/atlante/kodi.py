@@ -174,9 +174,19 @@ def _registro(cartella_log):
         with io.open(p, encoding="utf-8", errors="replace") as h:
             righe = h.read().splitlines()
         righe_tot += len(righe)
+        # SOLO la sessione in corso conta come "adesso": kodi.old.log e tutto
+        # quello che sta prima dell'ultimo "Starting Kodi" e' storia. Al primo
+        # giro dopo la reinstallazione (11/09/2026) gli errori del 10/09 del box
+        # comparivano come critici attuali.
+        avvio = 0
+        if nome == "kodi.log":
+            for j, rr in enumerate(righe):
+                if "Starting Kodi" in rr:
+                    avvio = j
         i = 0
         while i < len(righe):
             r = righe[i]
+            attuale = nome == "kodi.log" and i >= avvio
             m = re.match(r"^\S+ \S+ T:\d+\s+(error|warning|fatal|critical)\s+<([^>]+)>:\s*(.*)$", r)
             if m:
                 livello, gruppo, msg = m.group(1), m.group(2), m.group(3)
@@ -189,9 +199,14 @@ def _registro(cartella_log):
                     if tipo or contenuto:
                         k = (addon, tipo, _normalizza(contenuto))
                         g = python.setdefault(k, {"addon": addon, "tipo": tipo, "contenuto": contenuto,
-                                                  "dove": dove, "funzione": funzione, "volte": 0,
+                                                  "dove": dove, "funzione": funzione, "volte": 0, "volte_adesso": 0,
+                                                  # registrato dall'add-on stesso (es. s4me[service...]) e non
+                                                  # "EXCEPTION Thrown" di Kodi: l'add-on lo ha preso ed e' andato avanti
+                                                  "gestito": "EXCEPTION Thrown" not in blocco and "Error Type:" not in blocco,
                                                   "prima": r[:23], "ultima": r[:23], "esempio": blocco[:2500]})
                         g["volte"] += 1
+                        if attuale:
+                            g["volte_adesso"] += 1
                         g["ultima"] = r[:23]
                     i = j
                     continue

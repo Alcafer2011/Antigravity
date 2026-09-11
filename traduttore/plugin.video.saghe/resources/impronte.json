@@ -1,8 +1,8 @@
 {
 "file": {
 "addon.xml": "e08632ae5dbfc8af963a41692207bece",
-"avvio.py": "1755fa68db89e13a78776b22a83de3f5",
-"main.py": "e56c8d93d330d87acc6d3ae0238ab6bf",
+"avvio.py": "741d037bd49ac7164128bc26eaaf41cc",
+"main.py": "fc1a02bb23c95106ed098a510032b308",
 "resources/__init__.py": "d41d8cd98f00b204e9800998ecf8427e",
 "resources/bandiere/italia.png": "ff7ec64db06ca37368d41f69594f4187",
 "resources/bandiere/russia.png": "c9d6ed2db36bcfcbdaa1aab71a9ab9c4",
@@ -80,7 +80,7 @@
 "resources/lib/salva.py": "9b68f4b59ec55fca963236e5f2699afa",
 "resources/lib/schede.py": "4ed5f754126d054d9676362215908e46",
 "resources/lib/scoperte.py": "3411cbb54fc20ffe6f45d7d5d3aef498",
-"resources/lib/sentinella.py": "1fa2bc575db01a33abecc6254bf3272e",
+"resources/lib/sentinella.py": "ca611f3ecd411fbb1f41926e45006007",
 "resources/lib/sincro.py": "b6494882913b71443c6ef472e6a3800b",
 "resources/lib/taratura.py": "13820b977427e411fea822d51bdc03d4",
 "resources/lib/vetrina.py": "75641b6cb5a06c3a4c4d4f4e949371c6",
