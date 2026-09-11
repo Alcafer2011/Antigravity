@@ -109,8 +109,8 @@ def assicura(forza=False):
                 if n.startswith(("lesaghe.", "abbonamenti.")):
                     try:
                         os.remove(os.path.join(p, n))
-                    except OSError:
-                        pass
+                    except OSError as _errore:
+                        xbmc.log("[Le Saghe] assicura: errore ignorato: %s" % _errore, xbmc.LOGDEBUG)
 
     xbmc.log("[Le Saghe] canale installato dentro s4me: %s"
              % ", ".join(copiati), xbmc.LOGINFO)
@@ -129,8 +129,8 @@ def togli():
             try:
                 os.remove(p)
                 tolti.append(f)
-            except OSError:
-                pass
+            except OSError as _errore:
+                xbmc.log("[Le Saghe] togli: errore ignorato: %s" % _errore, xbmc.LOGDEBUG)
     return bool(tolti), ("tolto: %s" % ", ".join(tolti)) if tolti else "non c'era"
 
 

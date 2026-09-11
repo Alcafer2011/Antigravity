@@ -43,7 +43,7 @@ import unicodedata
 
 import xbmcvfs
 
-CHIAVE_TMDB = "a1ab8b8669da03637a4b98fa39c39228"
+from resources.lib.tmdb import CHIAVE as CHIAVE_TMDB  # la chiave sta in un posto solo
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
 
 DURATA = 30 * 24 * 60 * 60          # un mese: questi elenchi cambiano piano

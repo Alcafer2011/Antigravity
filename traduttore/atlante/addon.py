@@ -47,6 +47,20 @@ def _costante(nodo):
     return nodo.value if isinstance(nodo, ast.Constant) and isinstance(nodo.value, str) else None
 
 
+def _letture_indirette(moduli, dichiarate):
+    """Impostazioni lette senza scriverne il nome nella getSetting: il nome sta in una
+    tabella ("chiave_abbonamento": "ha_netflix"), passa da un aiutante
+    (_impostazione("prossimo_attesa")) o si compone ("scadenza_" + fonte_id)."""
+    testi, prefissi = set(), set()
+    for m in moduli.values():
+        for n in ast.walk(m.albero):
+            if _costante(n):
+                testi.add(n.value)
+            if isinstance(n, ast.BinOp) and isinstance(n.op, ast.Add) and _costante(n.left):
+                prefissi.add(n.left.value)
+    return {k for k in dichiarate if k in testi or any(p and k.startswith(p) for p in prefissi)}
+
+
 def _nome_chiamata(nodo):
     f = nodo.func
     if isinstance(f, ast.Name):
@@ -238,7 +252,7 @@ def analizza(cartella_addon, cartella_menu=None):
                     _aggiungi(impost_usate, _costante(n.args[0]), dove)
                 if fn == "_leggi_risorsa" and n.args and _costante(n.args[0]):
                     _aggiungi(risorse, "resources/" + _costante(n.args[0]), dove)
-                if nome == "main" and (fn in FINESTRE and base in ("xbmcgui", None) or
+                if nome == "main" and (fn in FINESTRE - {"Dialog"} and base in ("xbmcgui", None) or
                                        (base in ("Dialog", "DialogProgress") and fn in METODI_FINESTRA)):
                     finestre.append({"dove": dove, "riga": riga, "funzione": m.funzione_di(riga),
                                      "chiamata": "%s.%s" % (base, fn) if base else fn})
@@ -251,6 +265,34 @@ def analizza(cartella_addon, cartella_menu=None):
                 for a in re.findall(r"plugin://plugin\.video\.saghe/\?[^\"'\s]*?azione=([A-Za-z0-9_]+)", s):
                     _aggiungi(link, a, dove)
                     contesti[a].add("indirizzo")
+
+    # ---- ROUTER, RIGHE E COMANDI A TABELLA (11/09/2026: instrada, widget e il main di
+    #      avvio.py sono dizionari; senza leggerli sembrerebbe sparito ogni collegamento)
+    for nome_mod, m in moduli.items():
+        rel_m = os.path.relpath(m.percorso, cartella_addon).replace("\\", "/")
+        for n in m.albero.body:
+            if not (isinstance(n, ast.Assign) and len(n.targets) == 1 and isinstance(n.targets[0], ast.Name)
+                    and isinstance(n.value, ast.Dict)):
+                continue
+            var = n.targets[0].id
+            if nome_mod == "main" and var == "AZIONI":
+                for k, v in zip(n.value.keys, n.value.values):
+                    if not _costante(k):
+                        continue
+                    azioni_gestite.setdefault(_costante(k), "%s:%d" % (rel_m, k.lineno))
+                    chiamate = {_nome_chiamata(c)[1] for c in ast.walk(v) if isinstance(c, ast.Call)}
+                    if isinstance(v, ast.Name):
+                        chiamate.add(v.id)
+                    rami_router[_costante(k)] = {"da": v.lineno, "a": getattr(v, "end_lineno", v.lineno),
+                                                 "funzioni": sorted(x for x in chiamate if x and x in m.funzioni)}
+            elif nome_mod == "main" and var == "RIGHE_HOME":
+                widget_gestiti.update(_costante(k) for k in n.value.keys if _costante(k))
+        if nome_mod == "avvio":
+            for n in ast.walk(m.albero):
+                if isinstance(n, ast.Dict) and n.keys and all(_costante(k) for k in n.keys) \
+                        and all(isinstance(v, ast.Name) for v in n.values):
+                    for k in n.keys:
+                        comandi_avvio.setdefault(_costante(k), "%s:%d" % (rel_m, k.lineno))
 
     # ---- chi raggiunge una funzione di main.py: azioni del router e funzioni intermedie
     main = moduli.get("main")
@@ -288,6 +330,10 @@ def analizza(cartella_addon, cartella_menu=None):
         if not az:
             voce["rischio"] = "sconosciuto"
         elif ctx and ctx <= {"runplugin"}:
+            voce["rischio"] = "nessuno"
+        elif ctx and voce in refresh and ctx <= {"runplugin", "voce"}:
+            # Un Refresh da una voce che non e' cartella: Kodi la esegue come RunPlugin,
+            # non rilegge la cartella che l'ha lanciata. Nessun ciclo.
             voce["rischio"] = "nessuno"
         elif ctx & {"cartella", "cartella?", "menu", "indirizzo"}:
             voce["rischio"] = "cartella"
@@ -399,7 +445,8 @@ def analizza(cartella_addon, cartella_menu=None):
         "impostazioni": {
             "dichiarate": dichiarate, "usate": dict(impost_usate),
             "usate_non_dichiarate": sorted(k for k in impost_usate if k not in dichiarate),
-            "dichiarate_mai_usate": sorted(k for k in dichiarate if k not in impost_usate),
+            "dichiarate_mai_usate": sorted(k for k in dichiarate if k not in impost_usate
+                                           and k not in _letture_indirette(moduli, dichiarate)),
             "senza_default": sorted(k for k, v in dichiarate.items() if not v["default"]),
         },
         "finestre_in_cartella": finestre,

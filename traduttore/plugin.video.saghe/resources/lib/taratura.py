@@ -196,8 +196,8 @@ def _ricorda(mbps, s):
                        "tetto_kbps": s.get("tetto_kbps", 0),
                        "risoluzione": s.get("risoluzione", "auto"),
                        "storia": storia[-20:]}, ensure_ascii=False)
-    except OSError:
-        pass
+    except OSError as _errore:
+        xbmc.log("[Le Saghe] _ricorda: errore ignorato: %s" % _errore, xbmc.LOGDEBUG)
 
 
 def ultima():

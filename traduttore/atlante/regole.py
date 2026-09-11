@@ -145,6 +145,11 @@ def _codice(e, c, cartella_addon):
     voce_chiave = None
     for r in c["reperti"]:
         dove = "%s:%s" % (r["file"], r["riga"])
+        if r["controllo"] == "sicurezza" and "chiave" in (r["dettaglio"] or "") and r["file"].endswith("tmdb.py"):
+            e.aggiungi("info", "vulnerabilita", "codice", "Chiave TMDb tenuta in un solo modulo",
+                       "E' la chiave gratuita di TMDb, in resources/lib/tmdb.py: se TMDb la blocca si cambia li'.",
+                       [dove], "")
+            continue
         if r["controllo"] == "sicurezza" and "chiave" in (r["dettaglio"] or ""):
             # Sempre la stessa chiave gratuita di TMDb, in piu' moduli: UNA voce, non sette.
             if voce_chiave is None:
@@ -211,7 +216,7 @@ def _apparecchio(e, app, k):
                    "Kodi li registra al prossimo avvio, spesso SPENTI: controllare dopo il riavvio.")
     for d in k["dipendenze_rotte"]:
         forse = "forse" in d["problema"]
-        e.aggiungi("basso" if forse else "alto", "malfunzionamento", app,
+        e.aggiungi("info" if forse else "alto", "malfunzionamento", app,
                    "Dipendenza %s: %s -> %s" % ("da verificare" if forse else "rotta", d["addon"], d["dipendenza"]),
                    "%s (richiesta %s). Se manca davvero, Kodi spegne l'add-on che ne ha bisogno." % (d["problema"], d["richiesta"] or "-"),
                    [], "Installare/aggiornare %s dal repository ufficiale." % d["dipendenza"],
@@ -298,7 +303,14 @@ def _apparecchio(e, app, k):
                    "; ".join("%s x%d" % x for x in inc[:12]) +
                    "\nAl primo avvio dopo aver tolto il .hash di skinshortcuts e' normale (si rigenera un secondo "
                    "dopo); se si ripete a ogni avvio la home resta vuota.", [], "")
-    gravi = [x for x in reg.get("errori", []) if x[1] >= 20]
+    ripetuti = [x for x in reg.get("errori", []) if x[1] >= 20]
+    di_terzi = [x for x in ripetuti if "old schema definition" in x[0]]
+    if di_terzi:
+        e.aggiungi("info", "manutenzione", app, "Avvisi ripetuti di repository di terzi (%d)" % len(di_terzi),
+                   "\n".join("%5dx  %s" % (n, msg) for msg, n in di_terzi[:10]) +
+                   "\nUn repository di terzi elenca add-on scritti col formato vecchio: non sono installati "
+                   "qui e non toccano la Videoteca.", [], "")
+    gravi = [x for x in ripetuti if x not in di_terzi]
     if gravi:
         e.aggiungi("basso", "instabilita", app, "Errori ripetuti nel registro (%d tipi con 20+ volte)" % len(gravi),
                    "\n".join("%5dx  %s" % (n, msg) for msg, n in gravi[:25]), [], "")
@@ -335,15 +347,23 @@ def _incroci(e, app, x, k):
     mancano_art = [a for a in x["art_che_non_diamo"] if a in ART_IMPORTANTI]
     if mancano_art:
         # banner/clearart/discart/keyart le fonti (TMDb, s4me) non li hanno: da sapere, non da riparare
-        e.aggiungi("medio" if set(mancano_art) & {"poster", "fanart", "thumb", "landscape", "clearlogo"} else "basso",
+        e.aggiungi("medio" if set(mancano_art) & {"poster", "fanart", "thumb", "landscape", "clearlogo"} else "info",
                    "aspetto", app, "Immagini che la skin cerca e le nostre voci non danno: %s" % ", ".join(mancano_art),
                    "Letti: %s" % ", ".join("%s x%d" % (a, x["art_lette_dalla_skin"].get(a, 0)) for a in mancano_art),
                    [], "Valutare setArt anche con queste chiavi dove la skin le usa (tessere, testata).")
-    et = sorted(x["etichette_che_non_riempiamo"], key=lambda z: -z["volte"])[:14]
-    if et:
-        e.aggiungi("basso", "aspetto", app, "Dati delle voci che la skin mostra e non riempiamo (%d)" % len(x["etichette_che_non_riempiamo"]),
-                   "\n".join("%s (serve %s) letto %d volte, es. %s" % (z["etichetta"], z["serve"], z["volte"], ", ".join(z["dove"]))
-                             for z in et), [], "Riempire con l'InfoTag dove il dato esiste (anno, generi, durata...).")
+    # Solo i dati che le nostre cache HANNO contano come da fare; gli altri le fonti non li danno.
+    nostri_dati = {"Rating", "UserRating", "Year", "Plot", "Title", "TVShowTitle", "Episode", "DBType"}
+    tutte = sorted(x["etichette_che_non_riempiamo"], key=lambda z: -z["volte"])
+    da_fare = [z for z in tutte if z["etichetta"] in nostri_dati]
+    senza_fonte = [z for z in tutte if z["etichetta"] not in nostri_dati]
+    if da_fare:
+        e.aggiungi("basso", "aspetto", app, "Dati che abbiamo ma non passiamo alla skin (%d)" % len(da_fare),
+                   "\n".join("%s (serve %s) letto %d volte" % (z["etichetta"], z["serve"], z["volte"]) for z in da_fare),
+                   [], "Riempire con l'InfoTag: il dato c'e' gia' nelle nostre cache.")
+    if senza_fonte:
+        e.aggiungi("info", "aspetto", app, "Dati che la skin sa mostrare ma le nostre fonti non hanno (%d)" % len(senza_fonte),
+                   ", ".join(z["etichetta"] for z in senza_fonte) + ". Le liste di TMDb non danno regista, studio, "
+                   "durata o generi per nome; il trailer resta spento di proposito (YouTube puo' bloccare Kodi).", [], "")
 
 
 REGOLE_DI_CASA = [

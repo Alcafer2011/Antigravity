@@ -43,8 +43,8 @@ class Lettore(xbmc.Player):
         try:
             if not ADDON.getSettingBool("audio_scelta_automatica"):
                 return
-        except Exception:
-            pass
+        except Exception as _errore:
+            xbmc.log("[Le Saghe] onAVStarted: errore ignorato: %s" % _errore, xbmc.LOGDEBUG)
         try:
             cambiata, perche = audio.scegli_traccia_migliore()
             if cambiata:
@@ -245,7 +245,7 @@ def _chiudi_riproduzione_esterna(sess):
     # "Chiedimelo dopo" e annullamento lasciano la sessione aperta.
 
 
-def principale():
+def _avvio_custode():
     # Il custode: rimette i nostri canali dentro s4me se un aggiornamento
     # se li e' portati via. Non tocca nessun file di s4me, ne aggiunge dei
     # suoi. Se fallisce non deve impedire niente, quindi sta in un try.
@@ -261,6 +261,8 @@ def principale():
     except Exception as e:
         xbmc.log("[Le Saghe] custode non riuscito: %s" % e, xbmc.LOGWARNING)
 
+
+def _avvio_regolazioni_s4me():
     # Le regolazioni di s4me, in silenzio, a ogni avvio.
     #
     # PERCHE' QUI: il 06/09/2026 il salotto era regolato e la camera no, e la
@@ -276,6 +278,8 @@ def principale():
         xbmc.log("[Le Saghe] regolazioni s4me non riuscite: %s" % e,
                  xbmc.LOGWARNING)
 
+
+def _avvio_novita():
     # Le novita' di s4me per la Vetrina.
     #
     # SI FANNO QUI, NON NELLA VETRINA. Interrogare s4me gli fa aprire una
@@ -290,6 +294,8 @@ def principale():
     except Exception as e:
         xbmc.log("[Le Saghe] novita' non aggiornate: %s" % e, xbmc.LOGWARNING)
 
+
+def _avvio_cinema():
     # IL CARTELLONE DEL CINEMA.
     #
     # Chiede a TMDB quali film sono nelle sale ITALIANE, una volta al
@@ -309,6 +315,8 @@ def principale():
         xbmc.log("[Le Saghe] cartellone non aggiornato: %s" % e,
                  xbmc.LOGWARNING)
 
+
+def _avvio_copertine():
     # LE LOCANDINE DI DOCUMENTARI, CUCINA E YOUTUBE.
     #
     # Prima quelle righe mettevano l'icona della videoteca su ogni voce:
@@ -328,6 +336,8 @@ def principale():
         xbmc.log("[Le Saghe] copertine non aggiornate: %s" % e,
                  xbmc.LOGWARNING)
 
+
+def _avvio_sentinella():
     # LA SENTINELLA DEGLI EPISODI NUOVI.
     #
     # ATTENZIONE AL NOME: in questo file c'e' gia' una funzione `_sentinella`,
@@ -349,6 +359,8 @@ def principale():
     except Exception as e:
         xbmc.log("[Le Saghe] sentinella non avviata: %s" % e, xbmc.LOGWARNING)
 
+
+def _avvio_consigli():
     # I CONSIGLI: si rifanno ogni tre giorni, guardando cosa hai guardato.
     # Anche questi in un filo a parte, e anche questi qui e non a schermo:
     # interrogare TMDb trenta volte mentre l'utente aspetta e' inaccettabile.
@@ -360,6 +372,8 @@ def principale():
     except Exception as e:
         xbmc.log("[Le Saghe] consigli non calcolati: %s" % e, xbmc.LOGWARNING)
 
+
+def _avvio_netflix():
     # LA RIGA "SU NETFLIX ORA": la cache la riempie QUI, in un filo a parte.
     # La riga della home legge solo il file (netflix.riga()) e non aspetta
     # mai la rete: sono 29 righe che partono insieme all'apertura della
@@ -391,6 +405,17 @@ def principale():
         threading.Thread(target=_scalda_netflix, daemon=True).start()
     except Exception as e:
         xbmc.log("[Le Saghe] filo Netflix non avviato: %s" % e, xbmc.LOGWARNING)
+
+
+# All'avvio, uno dopo l'altro. Ogni passo ha il suo try: se uno fallisce gli altri
+# partono lo stesso. (Era una funzione sola da 188 righe: divisa l'11/09/2026.)
+PASSI_ALL_AVVIO = (_avvio_custode, _avvio_regolazioni_s4me, _avvio_novita, _avvio_cinema,
+                   _avvio_copertine, _avvio_sentinella, _avvio_consigli, _avvio_netflix)
+
+
+def principale():
+    for passo in PASSI_ALL_AVVIO:
+        passo()
 
     monitor = Monitor()
     kodi_era_in_primo_piano = True

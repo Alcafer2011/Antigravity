@@ -1279,10 +1279,13 @@ def _():
 
 @prova("la tastiera della ricerca parte SEMPRE vuota")
 def _():
+    # Dall'11/09/2026 la tastiera si apre in avvio.py, fuori dalla cartella:
+    # la prova la guarda li'.
+    import avvio
     main.ricerche_recenti_aggiungi("qualcosa di vecchio")
     finto_kodi.azzera()
     finto_kodi.RISPOSTA_INPUT = ""      # l'utente annulla
-    main.menu_ricerca(nuova=True)
+    avvio._cerca_nuova()
     assert finto_kodi.ULTIMO_INPUT is not None, "non ha aperto la tastiera"
     assert finto_kodi.ULTIMO_INPUT.get("defaultt", "") == "", \
         "la casella parte con dentro %r" % finto_kodi.ULTIMO_INPUT.get("defaultt")

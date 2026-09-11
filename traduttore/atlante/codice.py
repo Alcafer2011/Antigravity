@@ -127,6 +127,10 @@ def _schemi(cartella, schemi, controllo, tipo):
                 continue
             for schema, livello, spiega in schemi:
                 if re.search(schema, riga):
+                    if controllo == "sicurezza" and "http://" in riga and (
+                            ".m3u8" in riga or '"http://" +' in riga or "'http://' +" in riga):
+                        livello, spiega = "info", ("flusso video di terzi, o indirizzo del quaderno comune in casa: "
+                                                   "esiste solo in http e non porta dati personali")
                     if controllo == "sicurezza" and "exec(compile(" in riga:
                         # exec del NOSTRO catalogo.py (canale dentro s4me): non entra
                         # testo da fuori, quindi non e' una vulnerabilita'. Il rischio

@@ -13,6 +13,7 @@ colpo solo (os.replace): o c'e' il file vecchio intero, o quello nuovo intero.
 import io
 import json
 import os
+import xbmc
 
 
 def json_atomico(percorso, dati, **opzioni):
@@ -23,6 +24,6 @@ def json_atomico(percorso, dati, **opzioni):
         f.flush()
         try:
             os.fsync(f.fileno())
-        except OSError:
-            pass
+        except OSError as _errore:
+            xbmc.log("[Le Saghe] json_atomico: errore ignorato: %s" % _errore, xbmc.LOGDEBUG)
     os.replace(provvisorio, percorso)

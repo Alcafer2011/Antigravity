@@ -162,7 +162,7 @@ def aggiorna_se_serve():
             xbmc.log("[Le Saghe] novita' aggiornate: %d voci" % len(voci),
                      xbmc.LOGINFO)
 
-    t = threading.Thread(target=_lavora)
+    t = threading.Thread(target=_lavora, daemon=True)
     t.daemon = True
     t.start()
     return True

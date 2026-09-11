@@ -32,7 +32,7 @@ import time
 import xbmc
 import xbmcvfs
 
-CHIAVE_TMDB = "a1ab8b8669da03637a4b98fa39c39228"
+from resources.lib.tmdb import CHIAVE as CHIAVE_TMDB  # la chiave sta in un posto solo
 IMG = "https://image.tmdb.org/t/p/w500%s"
 PREFERENZA = {"it": 0, None: 1, "": 1, "en": 2}
 

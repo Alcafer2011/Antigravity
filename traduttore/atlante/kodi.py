@@ -275,9 +275,11 @@ def analizza(cartella_copia):
                 continue
             d = addons.get(dip)
             if not d:
-                if dip in binari:
+                if dip in binari or (db and (db.get(dip) or {}).get("acceso")):
+                    # binario di sistema o registrato e acceso nel database: c'e' (nell'APK o
+                    # in /usr/lib/kodi), solo non nella copia (11/09/2026)
                     continue
-                forse = app in ("box", "pi") and dip.startswith(PROBABILI_DI_SISTEMA)
+                forse = app in ("box", "pi") and (dip.startswith(PROBABILI_DI_SISTEMA) or a.get("acceso") is True)
                 rotte.append({"addon": aid, "dipendenza": dip, "richiesta": ver,
                               "problema": "non nella copia (forse di sistema: su %s non si copia)" % app if forse else "manca"})
             elif ver and _versione_tupla(d["versione"]) < _versione_tupla(ver):

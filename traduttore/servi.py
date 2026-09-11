@@ -64,6 +64,38 @@ EMBUARY_IT = ('<settings version="2">\n    <setting id="language_code">it</setti
               '    <setting id="country_code">IT</setting>\n</settings>\n')
 
 
+def _guisettings_sicure(testo):
+    """Origini sconosciute SPENTE: servono solo per installare uno zip a mano; gli
+    aggiornamenti dai repository gia' installati funzionano lo stesso (11/09/2026)."""
+    import re as _re
+    return _re.sub(r'<setting id="addons.unknownsources"[^>]*>[^<]*</setting>',
+                   '<setting id="addons.unknownsources">false</setting>', testo)
+
+
+YOUTUBE_PRONTO = {
+    "kodion.setup_wizard": "false",
+    # YouTube rilancia la procedura se questo numero e' sotto la data della sua
+    # uscita (1767970800, vedi setup_wizard_enabled in abstract_settings.py)
+    "kodion.setup_wizard.forced_runs": "1767970800",
+    "youtube.language": "it-IT",
+    "youtube.region": "IT",
+}
+
+
+def _youtube_pronto(attuale):
+    """Le impostazioni di YouTube con lingua, regione e procedura gia' fatta."""
+    import re as _re
+    testo = attuale if "<settings" in attuale else '<settings version="2">\n</settings>\n'
+    for chiave, valore in YOUTUBE_PRONTO.items():
+        riga = '<setting id="%s">%s</setting>' % (chiave, valore)
+        modello = r'<setting id="%s"[^>]*?(?:/>|>[^<]*</setting>)' % _re.escape(chiave)
+        if _re.search(modello, testo):
+            testo = _re.sub(modello, lambda _m: riga, testo)
+        else:
+            testo = testo.replace("</settings>", "    %s\n</settings>" % riga)
+    return testo
+
+
 def _embuary_italiano(attuale):
     """settings.xml di Embuary Info con lingua e paese italiani.
 
@@ -259,6 +291,20 @@ def servi_pc(tar, impronte, riavvia=True):
     with io.open(p_emb, "w", encoding="utf-8") as f:
         f.write(_embuary_italiano(attuale))
     print("  Embuary Info in italiano (Scheda completa)")
+    gs = os.path.join(kodi, "userdata", "guisettings.xml")
+    if os.path.exists(gs):
+        vecchio = io.open(gs, encoding="utf-8").read()
+        with io.open(gs, "w", encoding="utf-8") as f:
+            f.write(_guisettings_sicure(vecchio))
+        print("  origini sconosciute spente")
+    # YouTube del banco: mai aperto, alla prima riga chiedeva la procedura guidata.
+    # Box e Pi sono gia' configurati: si tocca solo il PC.
+    p_yt = os.path.join(kodi, "userdata", "addon_data", "plugin.video.youtube", "settings.xml")
+    os.makedirs(os.path.dirname(p_yt), exist_ok=True)
+    attuale_yt = io.open(p_yt, encoding="utf-8").read() if os.path.exists(p_yt) else ""
+    with io.open(p_yt, "w", encoding="utf-8") as f:
+        f.write(_youtube_pronto(attuale_yt))
+    print("  YouTube in italiano, senza procedura guidata")
     dbdir = os.path.join(kodi, "userdata", "Database")
     db = sorted((f for f in os.listdir(dbdir) if re.match(r"Addons\d+\.db$", f)), key=lambda f: int(re.findall(r"\d+", f)[0]))[-1]
     print("  accesi nel database: %s" % ", ".join(_accendi_nel_db(os.path.join(dbdir, db), set(os.listdir(addons)))))
@@ -337,6 +383,15 @@ def servi_box(tar, impronte, riavvia=True):
     _su("mkdir -p %s && cp /sdcard/servi-embuary.xml %s/settings.xml && rm /sdcard/servi-embuary.xml && chown -R %s %s"
         % (emb, emb, proprietario, emb))
     print("  Embuary Info in italiano (Scheda completa)")
+    gs_testo = _su("cat %s/userdata/guisettings.xml" % k, tempo=120)
+    if "<settings" in gs_testo:
+        locale_gs = os.path.join(tempfile.gettempdir(), "servi-guisettings.xml")
+        with io.open(locale_gs, "w", encoding="utf-8") as f:
+            f.write(_guisettings_sicure(gs_testo))
+        R._adb("push", locale_gs, "/sdcard/servi-guisettings.xml")
+        _su("cp /sdcard/servi-guisettings.xml %s/userdata/guisettings.xml && chown %s %s/userdata/guisettings.xml && rm /sdcard/servi-guisettings.xml"
+            % (k, proprietario, k))
+        print("  origini sconosciute spente")
     db = _su("ls %s/userdata/Database | grep -E '^Addons[0-9]+\\.db$' | sort | tail -n 1" % k).strip()
     locale = os.path.join(tempfile.gettempdir(), "servi-box-%s" % db)
     _su("cp %s/userdata/Database/%s /sdcard/servi.db" % (k, db))
@@ -408,6 +463,12 @@ def servi_pi(tar, impronte, riavvia=True):
     with sftp.open("%s/settings.xml" % emb, "w") as fh:
         fh.write(_embuary_italiano(attuale if "<settings" in attuale else ""))
     print("  Embuary Info in italiano (Scheda completa)")
+    with sftp.open("%s/userdata/guisettings.xml" % k, "r") as fh:
+        gs_testo = fh.read().decode("utf-8", "replace")
+    if "<settings" in gs_testo:
+        with sftp.open("%s/userdata/guisettings.xml" % k, "w") as fh:
+            fh.write(_guisettings_sicure(gs_testo))
+        print("  origini sconosciute spente")
     db = run("ls %s/userdata/Database | grep -E '^Addons[0-9]+\\.db$' | sort | tail -n 1" % k).strip()
     locale = os.path.join(tempfile.gettempdir(), "servi-pi-%s" % db)
     sftp.get("%s/userdata/Database/%s" % (k, db), locale)

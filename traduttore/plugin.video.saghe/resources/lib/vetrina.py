@@ -239,8 +239,8 @@ class _Finestra(xbmcgui.WindowXML):
             self.getControl(TITOLO).setLabel(li.getLabel())
             self.getControl(SOTTO).setLabel(sotto)
             self.getControl(TRAMA).setText(li.getProperty("trama"))
-        except Exception:
-            pass
+        except Exception as _errore:
+            xbmc.log("[Le Saghe] _aggiorna_testa: errore ignorato: %s" % _errore, xbmc.LOGDEBUG)
 
     def onAction(self, action):
         # 9 = indietro, 10 = menu/esci: sono i due modi in cui una persona

@@ -316,6 +316,106 @@ def _apri_film(pid, titolo_hex):
                         "Per questo film non c'e' ancora una fonte configurata. %s" % titolo)
 
 
+def _stato_linea():
+    from resources.lib import taratura
+    xbmcgui.Dialog().textviewer("La mia linea", taratura.racconta())
+
+
+def _anomalie():
+    from resources.lib import progresso
+    righe = ["%s\n   chiesto:  %s\n   partito:  %s\n" % (a["quando"], a["atteso"], a["ottenuto"])
+             for a in progresso.anomalie()[::-1]]
+    xbmcgui.Dialog().textviewer("Episodi sbagliati", "\n".join(righe) or "Nessuna anomalia.")
+
+
+def _russo_consiglio():
+    from resources.lib import russo
+    xbmcgui.Dialog().textviewer("Russo con i cartoni", russo.CONSIGLIO)
+
+
+def _spiega(pid):
+    from resources.lib import catalogo
+    p = catalogo.PERCORSI.get(pid)
+    if not p:
+        return
+    righe = [p["spiegazione"], "", "[B]Come e' composta la catena:[/B]"]
+    n = 0
+    for serie_id, primo, ultimo in p["segmenti"]:
+        serie = catalogo.SERIE[serie_id]
+        quanti = ultimo - primo + 1
+        righe.append("- %s, episodi %d-%d  (tappe %d-%d)%s" % (
+            serie["titolo"], primo, ultimo, n + 1, n + quanti,
+            "" if serie["verificato"] else "  <- conteggio da confermare"))
+        n += quanti
+    righe.append("")
+    righe.append("Totale: %d episodi." % n)
+    xbmcgui.Dialog().textviewer(p["titolo"], "\n".join(righe))
+
+
+def _azzera(pid):
+    from resources.lib import catalogo, progresso
+    if pid not in catalogo.PERCORSI:
+        return
+    if xbmcgui.Dialog().yesno(
+            "Le Saghe",
+            "Azzerare il progresso di [B]%s[/B]?\n"
+            "Tornerai al primo episodio." % catalogo.PERCORSI[pid]["titolo"]):
+        progresso.azzera(pid)
+        xbmc.executebuiltin("Container.Refresh")
+
+
+def _salta(pid):
+    from resources.lib import catalogo, progresso
+    if pid not in catalogo.PERCORSI:
+        return
+    totale = catalogo.lunghezza(pid)
+    corrente = progresso.posizione(pid)
+    scelta = xbmcgui.Dialog().numeric(0, "Tappa da cui ripartire (1-%d)" % totale, str(corrente))
+    if not scelta or not str(scelta).isdigit():
+        return
+    n = max(1, min(int(scelta), totale))
+    progresso.vai_a(pid, n)
+    xbmcgui.Dialog().notification("Le Saghe", catalogo.descrizione_segmento(pid, n),
+                                  xbmcgui.NOTIFICATION_INFO, 5000)
+    xbmc.executebuiltin("Container.Refresh")
+
+
+def _capitoli(pid):
+    from resources.lib import catalogo, progresso
+    archi = catalogo.archi_di(pid)
+    if not archi:
+        return
+    corrente = progresso.posizione(pid)
+    righe = []
+    for nome, da, a in archi:
+        segno = "[COLOR yellow]  <- sei qui[/COLOR]" if da <= corrente <= a else ""
+        righe.append("%s   [COLOR grey](tappe %d-%d)[/COLOR]%s" % (nome, da, a, segno))
+    scelta = xbmcgui.Dialog().select("Vai a un capitolo", righe)
+    if scelta < 0:
+        return
+    nome, da, _a = archi[scelta]
+    progresso.vai_a(pid, da)
+    xbmcgui.Dialog().notification("Le Saghe", "Sei all'inizio di: %s" % nome,
+                                  xbmcgui.NOTIFICATION_INFO, 5000)
+    xbmc.executebuiltin("Container.Refresh")
+
+
+def _cerca_nuova():
+    """La tastiera della ricerca, fuori dalla cartella.
+
+    La casella parte SEMPRE vuota (il difetto del 06/09/2026: con dentro la
+    ricerca di prima, col telecomando Indietro chiude invece di cancellare e
+    non se ne esce). Scritto il testo si torna nella Videoteca coi risultati.
+    """
+    from urllib.parse import urlencode
+    testo = xbmcgui.Dialog().input("Cerca fra saghe, episodi, capitoli, film e canali",
+                                   defaultt="", type=xbmcgui.INPUT_ALPHANUM)
+    if not testo:
+        return
+    xbmc.executebuiltin("Container.Update(plugin://plugin.video.saghe/?%s)"
+                        % urlencode({"azione": "cerca", "testo": testo}))
+
+
 def _misura_linea():
     """La misura della linea con la sua barra. Qui, fuori dalla cartella, la
     barra non si scontra con la rotellina di Kodi."""
@@ -346,6 +446,19 @@ def _misura_linea():
 
 def main():
     comando = sys.argv[1] if len(sys.argv) > 1 else "vetrina"
+    # Le finestre che prima si aprivano dentro le cartelle (11/09/2026).
+    senza_argomenti = {"stato_linea": _stato_linea, "anomalie": _anomalie,
+                       "russo_consiglio": _russo_consiglio, "cerca_nuova": _cerca_nuova}
+    con_la_saga = {"spiega": _spiega, "azzera": _azzera, "salta": _salta, "capitoli": _capitoli}
+    if comando in senza_argomenti or comando in con_la_saga:
+        try:
+            if comando in senza_argomenti:
+                senza_argomenti[comando]()
+            else:
+                con_la_saga[comando](sys.argv[2] if len(sys.argv) > 2 else "")
+        except Exception as e:
+            xbmc.log("[Le Saghe] %s: %s" % (comando, e), xbmc.LOGERROR)
+        return
     if comando == "misura_linea":
         # RunScript(plugin.video.saghe, misura_linea)
         try:

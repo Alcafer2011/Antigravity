@@ -7,7 +7,6 @@ import os
 import html
 import re
 import sys
-import time
 from urllib.parse import parse_qsl, urlencode
 
 import xbmc
@@ -17,7 +16,7 @@ import xbmcplugin
 
 from resources.lib import (abbonamenti, catalogo, cinema as _cinema, fonti,
                           progresso, scoperte, ricerca, russo as russo_lib,
-                          schede, taratura, vetrina)
+                          schede, taratura)
 
 # LE SAGHE CHE SONO CRESCIUTE
 # La sentinella scrive quanti episodi hanno adesso le serie ancora in corso;
@@ -119,8 +118,8 @@ def _riga_continua():
         if r["durata"] > 0 and r["secondi"] > 0:
             try:
                 tag.setResumePoint(float(r["secondi"]), float(r["durata"]))
-            except Exception:
-                pass
+            except Exception as _errore:
+                xbmc.log("[Le Saghe] _riga_continua: errore ignorato: %s" % _errore, xbmc.LOGDEBUG)
 
         arte = {}
         immagine = sch["immagine"] or schede.poster(t["serie"])
@@ -288,6 +287,18 @@ _EMBUARY = None
 _TMDB_SERIE = None
 
 
+def _voto_e_anno(tag, voto, anno):
+    """Voto e anno sulla voce: la skin li mostra (stelle, anno sotto il titolo)
+    e li avevamo gia' nelle cache senza passarli (atlante, 11/09/2026)."""
+    try:
+        if voto:
+            tag.setRating(float(voto))
+    except (TypeError, ValueError) as errore:
+        xbmc.log("[Le Saghe] voto non valido %r: %s" % (voto, errore), xbmc.LOGDEBUG)
+    if str(anno or "").isdigit():
+        tag.setYear(int(anno))
+
+
 def _voce_scheda(scheda):
     """La voce "Scheda completa" del menu di una tessera.
 
@@ -349,6 +360,9 @@ def _azioni(li, chiave, titolo, indirizzo="", arte=None, trama="",
                      "RunPlugin(%s)" % url(azione="lista_metti", chiave=chiave,
                                            titolo=titolo, dove=indirizzo)))
     p = miolista.pollice(chiave)
+    if p in ("su", "giu"):
+        # il "mi piace" diventa il voto personale che la skin mostra (UserRating)
+        li.getVideoInfoTag().setUserRating(10 if p == "su" else 1)
     voci.append((("Togli il mi piace" if p == "su" else "Mi piace"),
                  "RunPlugin(%s)" % url(azione="pollice", chiave=chiave, verso="su")))
     voci.append((("Togli il non mi piace" if p == "giu" else "Non mi piace"),
@@ -393,6 +407,7 @@ def _voce_netflix(v):
     tag.setTitle(v["titolo"])
     if v.get("trama"):
         tag.setPlot(v["trama"])
+    _voto_e_anno(tag, v.get("voto"), v.get("anno"))
 
     # Chi c'e' gia' porta alla SUA CATENA. Il percorso di una serie aggiunta
     # si chiama "mia_<id serie>" (lo crea catalogo.applica_serie_nuove): si
@@ -817,8 +832,8 @@ def _logo_gruppo_tv(idgruppo):
         for c in ((r.get("result") or {}).get("channels") or []):
             if c.get("thumbnail"):
                 return c["thumbnail"]
-    except Exception:
-        pass
+    except Exception as _errore:
+        xbmc.log("[Le Saghe] _logo_gruppo_tv: errore ignorato: %s" % _errore, xbmc.LOGDEBUG)
     return ""
 
 
@@ -857,11 +872,7 @@ def _voci_cinema():
         tag.setTitle(f["titolo"])
         if f.get("trama"):
             tag.setPlot(f["trama"])
-        if f.get("anno"):
-            try:
-                tag.setYear(int(f["anno"]))
-            except Exception:
-                pass
+        _voto_e_anno(tag, f.get("voto"), f.get("anno"))
         xbmcplugin.addDirectoryItem(
             MANIGLIA,
             "plugin://plugin.video.s4me/?channel=lesaghe"
@@ -897,211 +908,247 @@ def _pulisci_s4me(etichetta):
     return s, " - ".join(x for x in (episodio, sito) if x)
 
 
-def widget(quale):
-    xbmcplugin.setContent(MANIGLIA, "tvshows")
+def _home_continua(quale):
+    # Le stesse voci di "Continua a guardare", senza altro attorno.
+    _riga_continua()
 
-    if quale == "continua":
-        # Le stesse voci di "Continua a guardare", senza altro attorno.
-        _riga_continua()
 
-    elif quale == "saghe":
-        for pid in catalogo.ORDINE_PERCORSI:
+def _home_saghe(quale):
+    for pid in catalogo.ORDINE_PERCORSI:
+        xbmcplugin.addDirectoryItem(
+            MANIGLIA, url(azione="percorso", percorso=pid),
+            _voce_percorso(pid), True)
+    for gid in _gruppi_del_reparto("cartoni"):
+        for pid in catalogo.GRUPPI[gid]["percorsi"]:
             xbmcplugin.addDirectoryItem(
                 MANIGLIA, url(azione="percorso", percorso=pid),
                 _voce_percorso(pid), True)
-        for gid in _gruppi_del_reparto("cartoni"):
-            for pid in catalogo.GRUPPI[gid]["percorsi"]:
-                xbmcplugin.addDirectoryItem(
-                    MANIGLIA, url(azione="percorso", percorso=pid),
-                    _voce_percorso(pid), True)
 
-    elif quale == "film":
-        xbmcplugin.setContent(MANIGLIA, "movies")
-        for pid, quanti in _saghe_con_film():
-            p = catalogo.PERCORSI[pid]
-            li = _voce("%s" % p["titolo"], "%d film" % quanti, icona=ICONA)
-            _copertina_percorso(li, pid)
+
+def _home_film(quale):
+    xbmcplugin.setContent(MANIGLIA, "movies")
+    for pid, quanti in _saghe_con_film():
+        p = catalogo.PERCORSI[pid]
+        li = _voce("%s" % p["titolo"], "%d film" % quanti, icona=ICONA)
+        _copertina_percorso(li, pid)
+        xbmcplugin.addDirectoryItem(
+            MANIGLIA, url(azione="film", percorso=pid), li, True)
+
+
+def _home_serietv(quale):
+    for gid in _gruppi_del_reparto("serietv"):
+        for pid in catalogo.GRUPPI[gid]["percorsi"]:
             xbmcplugin.addDirectoryItem(
-                MANIGLIA, url(azione="film", percorso=pid), li, True)
+                MANIGLIA, url(azione="percorso", percorso=pid),
+                _voce_percorso(pid), True)
 
-    elif quale == "serietv":
-        for gid in _gruppi_del_reparto("serietv"):
-            for pid in catalogo.GRUPPI[gid]["percorsi"]:
-                xbmcplugin.addDirectoryItem(
-                    MANIGLIA, url(azione="percorso", percorso=pid),
-                    _voce_percorso(pid), True)
 
-    elif quale == "cinema":
-        _voci_cinema()
-    elif quale == "consigli":
-        from resources.lib import consigli as _c
-        mie = _c.serie_mie()
-        for v in _c.leggi():
-            sid = "tmdb_%s" % v["id"]
-            li = xbmcgui.ListItem(label=v["titolo"],
-                                  label2=v.get("motivo", ""))
-            arte = {}
-            if v.get("immagine"):
-                arte["poster"] = arte["thumb"] = arte["icon"] = v["immagine"]
-            if v.get("sfondo"):
-                arte["fanart"] = v["sfondo"]
-            from resources.lib import loghi
-            if loghi.logo("tv", v.get("id")):
-                arte["clearlogo"] = loghi.logo("tv", v.get("id"))
-            if arte:
-                li.setArt(arte)
-            voce_scheda = _voce_scheda(("tv", v.get("id")))
-            if voce_scheda:
-                li.addContextMenuItems([voce_scheda])
-            tag = li.getVideoInfoTag()
-            tag.setTitle(v["titolo"])
-            if v.get("trama"):
-                tag.setPlot(v["trama"])
-            azione = "consiglio_togli" if sid in mie else "consiglio_aggiungi"
-            # CARTELLA, non voce semplice. Su skin come Arctic Zephyr la
-            # riga non ha un onclick per le voci che non sono cartelle: con
-            # OK la voce andava al riproduttore e dava "errore di
-            # riproduzione" (trovato dalla sessione di prova il 10/09/2026).
-            # aggiungi_consiglio/togli_consiglio chiudono gia' con
-            # endOfDirectory(succeeded=False): fanno il lavoro e si resta li'.
-            xbmcplugin.addDirectoryItem(
-                MANIGLIA, url(azione=azione, id=str(v["id"])), li, True)
+def _home_cinema(quale):
+    _voci_cinema()
 
-    elif quale == "tv":
-        xbmcplugin.setContent(MANIGLIA, "videos")
-        if not _gruppi_tv():
-            # Stessa cura della lista vuota: niente schermata nera muta.
-            li = _voce("Nessun canale TV",
-                       "La lista dei canali non e' caricata su questo "
-                       "apparecchio. Controlla che l'add-on IPTV Simple sia "
-                       "acceso e abbia la lista.", icona=SEGNAPOSTO)
-            li.setArt({"poster": SEGNAPOSTO, "thumb": SEGNAPOSTO,
-                       "landscape": SEGNAPOSTO, "icon": SEGNAPOSTO})
-            xbmcplugin.addDirectoryItem(MANIGLIA, url(azione="tv"), li, True)
-        for g in _gruppi_tv():
-            nome = (g.get("label") or "").lower()
-            if "tutti" in nome:
-                continue          # il gruppo "tutti" e' la somma degli altri
-            # La BANDIERA del paese. Il logo del primo canale col logo dava
-            # "7 Gold" per l'Italia e niente per la Russia: dipendeva da
-            # quale canale capitava per primo. La bandiera dice cosa c'e'
-            # dentro e non cambia mai.
-            img = (_bandiera_gruppo(g.get("label"))
-                   or _logo_gruppo_tv(g["channelgroupid"]) or SEGNAPOSTO)
-            li = _voce(g["label"], "I canali del gruppo %s." % g["label"],
-                       icona=img)
-            # `landscape`: la bandiera e' 16:9 come la tessera. Messa su
-            # `poster` la skin la trattava da locandina verticale e la
-            # centrava fra due bande.
-            li.setArt({"landscape": img, "thumb": img, "icon": img})
-            xbmcplugin.addDirectoryItem(
-                MANIGLIA,
-                url(azione="tv_gruppo", gruppo=str(g["channelgroupid"])),
-                li, True)
 
-    elif quale.split(":")[0] in ("documentari", "cucina", "youtube"):
-        # UNA RIGA PER GRUPPO (scelta dell'utente, 10/09/2026 sera).
-        # Prima era UNA striscia sola: 143 tessere per i documentari, con
-        # dentro delle tessere-titolo scure a fare da separatore. Due difetti
-        # veri, tutti e due detti dall'utente:
-        #   - "la voce quella con fast and loud non esiste" - esisteva, ma
-        #     stava verso la centesima tessera: irraggiungibile.
-        #   - "appare un'icona nera chiamata a catalogo" - le tessere-titolo,
-        #     in una riga di locandine, sembrano buchi.
-        # Adesso `che` puo' portare l'indice del gruppo ("documentari:6") e
-        # il titolo del gruppo diventa il TITOLO DELLA RIGA, che e' il posto
-        # dove un titolo si legge davvero. Senza indice si comporta come
-        # prima (tutto insieme): serve al menu dentro l'add-on.
-        xbmcplugin.setContent(MANIGLIA, "videos")
-        from resources.lib import copertine
-        copertine_note = copertine.leggi()
-        pezzi = quale.split(":")
-        gruppi = scoperte.scaffale(pezzi[0])
-        if len(pezzi) > 1:
-            try:
-                i = int(pezzi[1])
-                gruppi = [gruppi[i]] if 0 <= i < len(gruppi) else []
-            except ValueError:
-                gruppi = []
-        for intestazione, voci in gruppi:
-            for etichetta, indirizzo, nota, tipo in voci:
-                if tipo.startswith("cerca:"):
-                    indirizzo = url(azione="scaffale_cerca",
-                                    cosa=tipo.split(":", 1)[1])
-                elif tipo.startswith("diretta:"):
-                    indirizzo = url(azione="diretta",
-                                    canale=tipo.split(":", 1)[1])
-                # Locandina vera se c'e'; altrimenti il SEGNAPOSTO (un file
-                # locale, sempre uguale): non l'icona dell'addon come poster
-                # (la skin la riusava -> "Goku ultraistinto su mezzo
-                # elenco") e non vuoto (tessera NERA).
-                li = _voce(etichetta, nota, icona=ICONA)
-                _arte_scoperta(li, copertine_note.get(etichetta), etichetta)
-                xbmcplugin.addDirectoryItem(MANIGLIA, indirizzo, li, True)
-
-    elif quale.split(":")[0] == "netflix":
-        # SU NETFLIX ORA, in TRE righe: Serie TV, Film, Anime.
-        # Sono le stesse tre di Netflix, guardate sul loro sito: nel menu in
-        # alto "Serie" e "Film" sono voci di primo livello, e fra i generi
-        # dei film "Anime" c'e' come voce propria. L'utente, vedendo la riga
-        # unica: "sono due categorie diverse". Aveva ragione.
-        # Legge la SOLA cache: la riempie il servizio. Una riga della home
-        # non va mai in rete.
-        from resources.lib import netflix as _nf
-        pezzi = quale.split(":")
-        sezione = pezzi[1] if len(pezzi) > 1 else "serietv"
-        for v in _nf.riga(sezione):
-            _voce_netflix(v)
-
-    elif quale == "lista":
-        # LA MIA LISTA. Netflix ce l'ha nel menu in alto; qui e' una riga,
-        # perche' la home e' fatta di righe. Le voci ci finiscono dal menu
-        # contestuale di qualunque tessera.
-        from resources.lib import miolista
-        if not miolista.elenco():
-            # Una riga vuota apriva una schermata tutta NERA senza una parola
-            # (visto sul banco il 10/09/2026). Meglio una tessera che dice
-            # come si riempie. Cartella, per lo stesso motivo dei Consigliati.
-            li = _voce("La tua lista e' vuota",
-                       "Su qualunque locandina premi il tasto MENU del "
-                       "telecomando e scegli 'Aggiungi a La mia lista'.",
-                       icona=SEGNAPOSTO)
-            li.setArt({"poster": SEGNAPOSTO, "thumb": SEGNAPOSTO,
-                       "landscape": SEGNAPOSTO, "icon": SEGNAPOSTO})
-            xbmcplugin.addDirectoryItem(MANIGLIA, url(), li, True)
-        for v in miolista.elenco():
-            li = xbmcgui.ListItem(label=v.get("titolo", ""),
-                                  label2=v.get("sotto", ""))
-            if v.get("arte"):
-                li.setArt(v["arte"])
-            tag = li.getVideoInfoTag()
-            tag.setTitle(v.get("titolo", ""))
-            if v.get("trama"):
-                tag.setPlot(v["trama"])
-            _azioni(li, v.get("chiave", ""), v.get("titolo", ""))
-            xbmcplugin.addDirectoryItem(
-                MANIGLIA, v.get("indirizzo") or url(), li, True)
-
-    elif quale == "novita":
-        # Le novita' di s4me, dalla cache: mai la rete, mai una rotellina.
-        from resources.lib import novita as _n
-        for v in _n.leggi():
-            titolo, sotto = _pulisci_s4me(v.get("titolo", ""))
-            li = xbmcgui.ListItem(label=titolo,
-                                  label2=" - ".join(x for x in (sotto, v.get("sotto", "")) if x))
-            arte = {"poster": v.get("immagine", ""),
-                    "thumb": v.get("immagine", ""),
-                    "icon": v.get("immagine", "")}
-            if v.get("sfondo"):
-                arte["fanart"] = v["sfondo"]
+def _home_consigli(quale):
+    from resources.lib import consigli as _c
+    mie = _c.serie_mie()
+    for v in _c.leggi():
+        sid = "tmdb_%s" % v["id"]
+        li = xbmcgui.ListItem(label=v["titolo"],
+                              label2=v.get("motivo", ""))
+        arte = {}
+        if v.get("immagine"):
+            arte["poster"] = arte["thumb"] = arte["icon"] = v["immagine"]
+        if v.get("sfondo"):
+            arte["fanart"] = v["sfondo"]
+        from resources.lib import loghi
+        if loghi.logo("tv", v.get("id")):
+            arte["clearlogo"] = loghi.logo("tv", v.get("id"))
+        if arte:
             li.setArt(arte)
-            tag = li.getVideoInfoTag()
-            tag.setTitle(titolo)
-            if v.get("trama"):
-                tag.setPlot(html.unescape(v["trama"]))
-            xbmcplugin.addDirectoryItem(MANIGLIA, v.get("indirizzo", ""),
-                                        li, True)
+        voce_scheda = _voce_scheda(("tv", v.get("id")))
+        if voce_scheda:
+            li.addContextMenuItems([voce_scheda])
+        tag = li.getVideoInfoTag()
+        tag.setTitle(v["titolo"])
+        if v.get("trama"):
+            tag.setPlot(v["trama"])
+        _voto_e_anno(tag, v.get("voto"), v.get("anno"))
+        azione = "consiglio_togli" if sid in mie else "consiglio_aggiungi"
+        # CARTELLA, non voce semplice. Su skin come Arctic Zephyr la
+        # riga non ha un onclick per le voci che non sono cartelle: con
+        # OK la voce andava al riproduttore e dava "errore di
+        # riproduzione" (trovato dalla sessione di prova il 10/09/2026).
+        # aggiungi_consiglio/togli_consiglio chiudono gia' con
+        # endOfDirectory(succeeded=False): fanno il lavoro e si resta li'.
+        xbmcplugin.addDirectoryItem(
+            MANIGLIA, url(azione=azione, id=str(v["id"])), li, True)
 
+
+def _home_tv(quale):
+    xbmcplugin.setContent(MANIGLIA, "videos")
+    if not _gruppi_tv():
+        # Stessa cura della lista vuota: niente schermata nera muta.
+        li = _voce("Nessun canale TV",
+                   "La lista dei canali non e' caricata su questo "
+                   "apparecchio. Controlla che l'add-on IPTV Simple sia "
+                   "acceso e abbia la lista.", icona=SEGNAPOSTO)
+        li.setArt({"poster": SEGNAPOSTO, "thumb": SEGNAPOSTO,
+                   "landscape": SEGNAPOSTO, "icon": SEGNAPOSTO})
+        xbmcplugin.addDirectoryItem(MANIGLIA, url(azione="tv"), li, True)
+    for g in _gruppi_tv():
+        nome = (g.get("label") or "").lower()
+        if "tutti" in nome:
+            continue          # il gruppo "tutti" e' la somma degli altri
+        # La BANDIERA del paese. Il logo del primo canale col logo dava
+        # "7 Gold" per l'Italia e niente per la Russia: dipendeva da
+        # quale canale capitava per primo. La bandiera dice cosa c'e'
+        # dentro e non cambia mai.
+        img = (_bandiera_gruppo(g.get("label"))
+               or _logo_gruppo_tv(g["channelgroupid"]) or SEGNAPOSTO)
+        li = _voce(g["label"], "I canali del gruppo %s." % g["label"],
+                   icona=img)
+        # `landscape`: la bandiera e' 16:9 come la tessera. Messa su
+        # `poster` la skin la trattava da locandina verticale e la
+        # centrava fra due bande.
+        li.setArt({"landscape": img, "thumb": img, "icon": img})
+        xbmcplugin.addDirectoryItem(
+            MANIGLIA,
+            url(azione="tv_gruppo", gruppo=str(g["channelgroupid"])),
+            li, True)
+
+
+def _home_scaffali(quale):
+    # UNA RIGA PER GRUPPO (scelta dell'utente, 10/09/2026 sera).
+    # Prima era UNA striscia sola: 143 tessere per i documentari, con
+    # dentro delle tessere-titolo scure a fare da separatore. Due difetti
+    # veri, tutti e due detti dall'utente:
+    #   - "la voce quella con fast and loud non esiste" - esisteva, ma
+    #     stava verso la centesima tessera: irraggiungibile.
+    #   - "appare un'icona nera chiamata a catalogo" - le tessere-titolo,
+    #     in una riga di locandine, sembrano buchi.
+    # Adesso `che` puo' portare l'indice del gruppo ("documentari:6") e
+    # il titolo del gruppo diventa il TITOLO DELLA RIGA, che e' il posto
+    # dove un titolo si legge davvero. Senza indice si comporta come
+    # prima (tutto insieme): serve al menu dentro l'add-on.
+    xbmcplugin.setContent(MANIGLIA, "videos")
+    from resources.lib import copertine
+    copertine_note = copertine.leggi()
+    pezzi = quale.split(":")
+    gruppi = scoperte.scaffale(pezzi[0])
+    if len(pezzi) > 1:
+        try:
+            i = int(pezzi[1])
+            gruppi = [gruppi[i]] if 0 <= i < len(gruppi) else []
+        except ValueError:
+            gruppi = []
+    for intestazione, voci in gruppi:
+        for etichetta, indirizzo, nota, tipo in voci:
+            if tipo.startswith("cerca:"):
+                indirizzo = url(azione="scaffale_cerca",
+                                cosa=tipo.split(":", 1)[1])
+            elif tipo.startswith("diretta:"):
+                indirizzo = url(azione="diretta",
+                                canale=tipo.split(":", 1)[1])
+            # Locandina vera se c'e'; altrimenti il SEGNAPOSTO (un file
+            # locale, sempre uguale): non l'icona dell'addon come poster
+            # (la skin la riusava -> "Goku ultraistinto su mezzo
+            # elenco") e non vuoto (tessera NERA).
+            li = _voce(etichetta, nota, icona=ICONA)
+            _arte_scoperta(li, copertine_note.get(etichetta), etichetta)
+            xbmcplugin.addDirectoryItem(MANIGLIA, indirizzo, li, True)
+
+
+def _home_netflix(quale):
+    # SU NETFLIX ORA, in TRE righe: Serie TV, Film, Anime.
+    # Sono le stesse tre di Netflix, guardate sul loro sito: nel menu in
+    # alto "Serie" e "Film" sono voci di primo livello, e fra i generi
+    # dei film "Anime" c'e' come voce propria. L'utente, vedendo la riga
+    # unica: "sono due categorie diverse". Aveva ragione.
+    # Legge la SOLA cache: la riempie il servizio. Una riga della home
+    # non va mai in rete.
+    from resources.lib import netflix as _nf
+    pezzi = quale.split(":")
+    sezione = pezzi[1] if len(pezzi) > 1 else "serietv"
+    for v in _nf.riga(sezione):
+        _voce_netflix(v)
+
+
+def _home_lista(quale):
+    # LA MIA LISTA. Netflix ce l'ha nel menu in alto; qui e' una riga,
+    # perche' la home e' fatta di righe. Le voci ci finiscono dal menu
+    # contestuale di qualunque tessera.
+    from resources.lib import miolista
+    if not miolista.elenco():
+        # Una riga vuota apriva una schermata tutta NERA senza una parola
+        # (visto sul banco il 10/09/2026). Meglio una tessera che dice
+        # come si riempie. Cartella, per lo stesso motivo dei Consigliati.
+        li = _voce("La tua lista e' vuota",
+                   "Su qualunque locandina premi il tasto MENU del "
+                   "telecomando e scegli 'Aggiungi a La mia lista'.",
+                   icona=SEGNAPOSTO)
+        li.setArt({"poster": SEGNAPOSTO, "thumb": SEGNAPOSTO,
+                   "landscape": SEGNAPOSTO, "icon": SEGNAPOSTO})
+        xbmcplugin.addDirectoryItem(MANIGLIA, url(), li, True)
+    for v in miolista.elenco():
+        li = xbmcgui.ListItem(label=v.get("titolo", ""),
+                              label2=v.get("sotto", ""))
+        if v.get("arte"):
+            li.setArt(v["arte"])
+        tag = li.getVideoInfoTag()
+        tag.setTitle(v.get("titolo", ""))
+        if v.get("trama"):
+            tag.setPlot(v["trama"])
+        _azioni(li, v.get("chiave", ""), v.get("titolo", ""))
+        xbmcplugin.addDirectoryItem(
+            MANIGLIA, v.get("indirizzo") or url(), li, True)
+
+
+def _home_novita(quale):
+    # Le novita' di s4me, dalla cache: mai la rete, mai una rotellina.
+    from resources.lib import novita as _n
+    for v in _n.leggi():
+        titolo, sotto = _pulisci_s4me(v.get("titolo", ""))
+        li = xbmcgui.ListItem(label=titolo,
+                              label2=" - ".join(x for x in (sotto, v.get("sotto", "")) if x))
+        arte = {"poster": v.get("immagine", ""),
+                "thumb": v.get("immagine", ""),
+                "icon": v.get("immagine", "")}
+        if v.get("sfondo"):
+            arte["fanart"] = v["sfondo"]
+        li.setArt(arte)
+        tag = li.getVideoInfoTag()
+        tag.setTitle(titolo)
+        if v.get("trama"):
+            tag.setPlot(html.unescape(v["trama"]))
+        xbmcplugin.addDirectoryItem(MANIGLIA, v.get("indirizzo", ""),
+                                    li, True)
+
+
+# LE RIGHE DELLA HOME: `che` -> la funzione che la riempie. Per le righe con un
+# indice ("documentari:6", "netflix:film") conta la parte prima dei due punti.
+# Era una catena di 11 elif in 207 righe (11/09/2026): ogni riga ora ha la sua
+# funzione, con i suoi commenti.
+RIGHE_HOME = {
+    "continua": _home_continua,
+    "saghe": _home_saghe,
+    "film": _home_film,
+    "serietv": _home_serietv,
+    "cinema": _home_cinema,
+    "consigli": _home_consigli,
+    "tv": _home_tv,
+    "documentari": _home_scaffali,
+    "cucina": _home_scaffali,
+    "youtube": _home_scaffali,
+    "netflix": _home_netflix,
+    "lista": _home_lista,
+    "novita": _home_novita,
+}
+
+
+def widget(quale):
+    xbmcplugin.setContent(MANIGLIA, "tvshows")
+    riempi = RIGHE_HOME.get(quale) or RIGHE_HOME.get(quale.split(":")[0])
+    if riempi:
+        riempi(quale)
     # Niente cache: un riquadro che mostra ieri e' peggio di uno vuoto.
     xbmcplugin.endOfDirectory(MANIGLIA, cacheToDisc=False)
 
@@ -1194,11 +1241,10 @@ def apri_diretta(nome_canale):
             xbmc.Player().play("pvr://channels/tv/%s" % c["channelid"])
             xbmcplugin.endOfDirectory(MANIGLIA, succeeded=False)
             return
-    xbmcgui.Dialog().ok(
-        "Non l'ho trovato",
-        "Nella tua lista TV non c'e' un canale che si chiami "
-        "'%s'.\n\nLe liste cambiano spesso: guarda in TV > Canali."
-        % nome_canale)
+    # Un avviso, non un riquadro da chiudere: siamo dentro una cartella (11/09/2026).
+    xbmcgui.Dialog().notification(
+        "Non l'ho trovato", "Nessun canale '%s' nella lista TV: le liste cambiano spesso"
+        % nome_canale, xbmcgui.NOTIFICATION_WARNING, 7000)
     xbmcplugin.endOfDirectory(MANIGLIA, succeeded=False)
 
 
@@ -1291,8 +1337,8 @@ def menu_tv_gruppo(gruppo):
     xbmcplugin.setContent(MANIGLIA, "videos")
     try:
         gruppo = int(gruppo)
-    except (TypeError, ValueError):
-        pass
+    except (TypeError, ValueError) as _errore:
+        xbmc.log("[Le Saghe] menu_tv_gruppo: errore ignorato: %s" % _errore, xbmc.LOGDEBUG)
     for c in _canali_tv(gruppo):
         immagine = c.get("thumbnail") or ICONA
         li = _voce(c.get("label", ""), "Canale %s." % c.get("channelnumber", ""),
@@ -1619,8 +1665,8 @@ def ricerche_recenti_aggiungi(testo):
 def ricerche_recenti_svuota():
     try:
         os.remove(_file_ricerche())
-    except Exception:
-        pass
+    except Exception as _errore:
+        xbmc.log("[Le Saghe] ricerche_recenti_svuota: errore ignorato: %s" % _errore, xbmc.LOGDEBUG)
 
 
 def menu_cronologia_ricerche():
@@ -1738,11 +1784,10 @@ def menu_ricerca(testo="", nuova=False):
         menu_cronologia_ricerche()
         return
     if not testo:
-        testo = xbmcgui.Dialog().input(
-            "Cerca fra saghe, episodi, capitoli, film e canali",
-            defaultt="", type=xbmcgui.INPUT_ALPHANUM)
-    if not testo:
-        xbmcplugin.endOfDirectory(MANIGLIA, succeeded=False)
+        # LA TASTIERA SI APRE IN avvio.py (11/09/2026): dentro una cartella Kodi
+        # ha gia' la sua rotellina davanti. Scritto il testo, avvio.py torna qui
+        # con azione=cerca&testo=...; la casella parte sempre vuota anche li'.
+        _in_disparte("cerca_nuova")
         return
     ricerche_recenti_aggiungi(testo)
 
@@ -2194,10 +2239,10 @@ def riproduci(pid, idx):
         return
 
     # --- Altro addon di Kodi ---
-    xbmcgui.Dialog().ok(
-        "Le Saghe",
-        "Questa fonte ([B]%s[/B]) passa da un altro addon che non è ancora "
-        "collegato.\n\nÈ il prossimo pezzo da costruire." % fonte["etichetta"])
+    # Un avviso, non un riquadro: Kodi sta aspettando il video (11/09/2026).
+    xbmcgui.Dialog().notification(
+        "Le Saghe", "La fonte %s non e' ancora collegata" % fonte["etichetta"],
+        xbmcgui.NOTIFICATION_WARNING, 7000)
     xbmcplugin.setResolvedUrl(MANIGLIA, False, xbmcgui.ListItem())
 
 
@@ -2226,7 +2271,12 @@ def russo():
 
 
 def russo_consiglio():
-    xbmcgui.Dialog().textviewer("Russo con i cartoni", russo_lib.CONSIGLIO)
+    """Il consiglio per imparare il russo coi cartoni.
+
+    IN avvio.py (11/09/2026): apre una finestra (tastierino, elenco, testo o
+    si'/no), e dentro una cartella Kodi ha gia' la sua rotellina davanti.
+    """
+    _in_disparte("russo_consiglio")
 
 
 def russo_guarda(cid):
@@ -2244,50 +2294,27 @@ def russo_guarda(cid):
 
 
 def capitoli(pid):
-    """Elenco dei capitoli della saga: si sceglie e ci si sposta li'."""
-    archi = catalogo.archi_di(pid)
-    if not archi:
-        return
-    corrente = progresso.posizione(pid)
-    righe = []
-    for nome, da, a in archi:
-        segno = "[COLOR yellow]  <- sei qui[/COLOR]" if da <= corrente <= a else ""
-        righe.append("%s   [COLOR grey](tappe %d-%d)[/COLOR]%s" % (nome, da, a, segno))
-    scelta = xbmcgui.Dialog().select("Vai a un capitolo", righe)
-    if scelta < 0:
-        return
-    nome, da, _a = archi[scelta]
-    progresso.vai_a(pid, da)
-    xbmcgui.Dialog().notification(
-        "Le Saghe", "Sei all'inizio di: %s" % nome,
-        xbmcgui.NOTIFICATION_INFO, 5000)
-    xbmc.executebuiltin("Container.Refresh")
+    """Elenco dei capitoli della saga: si sceglie e ci si sposta li'.
+
+    IN avvio.py (11/09/2026): apre una finestra (tastierino, elenco, testo o
+    si'/no), e dentro una cartella Kodi ha gia' la sua rotellina davanti.
+    """
+    _in_disparte("capitoli", pid)
 
 
 def salta(pid):
-    totale = catalogo.lunghezza(pid)
-    corrente = progresso.posizione(pid)
-    scelta = xbmcgui.Dialog().numeric(
-        0, "Tappa da cui ripartire (1-%d)" % totale, str(corrente))
-    if not scelta:
-        return
-    try:
-        n = max(1, min(int(scelta), totale))
-    except ValueError:
-        return
-    progresso.vai_a(pid, n)
-    xbmcgui.Dialog().notification(
-        "Le Saghe", catalogo.descrizione_segmento(pid, n),
-        xbmcgui.NOTIFICATION_INFO, 5000)
-    xbmc.executebuiltin("Container.Refresh")
+    """Salta a una tappa scelta col tastierino.
+
+    IN avvio.py (11/09/2026): apre una finestra (tastierino, elenco, testo o
+    si'/no), e dentro una cartella Kodi ha gia' la sua rotellina davanti.
+    """
+    _in_disparte("salta", pid)
 
 
 def elenco_film(pid):
     fl = schede.film(pid)
     xbmcplugin.setPluginCategory(
         MANIGLIA, "%s - i film" % catalogo.PERCORSI[pid]["titolo"])
-    prima = catalogo.PERCORSI[pid]["segmenti"][0][0]
-    fonte = fonti.fonte_migliore(prima, 1)
     for m in fl:
         anno = m.get("d") or "?"
         trama = m.get("p") or "Nessuna trama in italiano su TMDb."
@@ -2380,184 +2407,169 @@ def tagli(pid):
 
 
 def spiega(pid):
-    p = catalogo.PERCORSI[pid]
-    righe = [p["spiegazione"], "", "[B]Come è composta la catena:[/B]"]
-    n = 0
-    for serie_id, primo, ultimo in p["segmenti"]:
-        serie = catalogo.SERIE[serie_id]
-        quanti = ultimo - primo + 1
-        righe.append("- %s, episodi %d-%d  (tappe %d-%d)%s" % (
-            serie["titolo"], primo, ultimo, n + 1, n + quanti,
-            "" if serie["verificato"] else "  <- conteggio da confermare"))
-        n += quanti
-    righe.append("")
-    righe.append("Totale: %d episodi." % n)
-    xbmcgui.Dialog().textviewer(p["titolo"], "\n".join(righe))
+    """Come e' composta la catena della saga.
+
+    IN avvio.py (11/09/2026): apre una finestra (tastierino, elenco, testo o
+    si'/no), e dentro una cartella Kodi ha gia' la sua rotellina davanti.
+    """
+    _in_disparte("spiega", pid)
 
 
 def azzera(pid):
-    if xbmcgui.Dialog().yesno(
-            "Le Saghe",
-            "Azzerare il progresso di [B]%s[/B]?\n"
-            "Tornerai al primo episodio." % catalogo.PERCORSI[pid]["titolo"]):
-        progresso.azzera(pid)
-        xbmc.executebuiltin("Container.Refresh")
+    """Azzera il progresso di una saga, dopo averlo chiesto.
+
+    IN avvio.py (11/09/2026): apre una finestra (tastierino, elenco, testo o
+    si'/no), e dentro una cartella Kodi ha gia' la sua rotellina davanti.
+    """
+    _in_disparte("azzera", pid)
 
 
 # --------------------------------------------------------------------------
 # Instradamento
 # --------------------------------------------------------------------------
 
+def _az_stato_linea(p, pid):
+    _in_disparte("stato_linea")
+
+
+def _az_ricerche_svuota(p, pid):
+    ricerche_recenti_svuota()
+    xbmcplugin.endOfDirectory(MANIGLIA, succeeded=False)
+    xbmc.executebuiltin("Container.Refresh")
+
+
+def _az_regola_s4me(p, pid):
+    xbmcplugin.endOfDirectory(MANIGLIA, succeeded=False)
+    xbmc.executebuiltin("RunScript(plugin.video.saghe,regola_s4me)")
+
+
+def _az_regola_s4me_muto(p, pid):
+    # Regola s4me SENZA aprire niente: nessuna finestra, nessun riepilogo, e si
+    # saltano le leve che si tirerebbero dietro una procedura guidata. Serve per
+    # sistemare un apparecchio mentre lo si sta usando - e per farlo da fuori,
+    # visto che RunScript non si puo' lanciare dalle chiamate remote ma una
+    # cartella si'. Non apre finestre, quindi qui dentro e' sicuro: vedi avvio.py.
+    import avvio
+    avvio._regola_s4me(muto=True)
+    xbmcplugin.endOfDirectory(MANIGLIA, succeeded=False)
+
+
+def _az_vai(p, pid):
+    progresso.vai_a(pid, int(p["idx"]))
+    xbmc.executebuiltin("Container.Refresh")
+
+
+def _az_visto(p, pid):
+    progresso.segna_visto(pid, int(p["idx"]), avanza=False)
+    xbmc.executebuiltin("Container.Refresh")
+
+
+def _az_nonvisto(p, pid):
+    progresso.togli_visto(pid, int(p["idx"]))
+    xbmc.executebuiltin("Container.Refresh")
+
+
+def _az_anomalie(p, pid):
+    _in_disparte("anomalie")
+
+
+# --- LA MIA LISTA E I POLLICI (menu contestuale della tessera) ---
+def _az_lista_metti(p, pid):
+    from resources.lib import miolista
+    miolista.aggiungi(p.get("chiave", ""), p.get("titolo", ""), p.get("dove", ""))
+    xbmcgui.Dialog().notification("La mia lista", "Aggiunto: %s" % p.get("titolo", ""), ICONA, 2500)
+    xbmc.executebuiltin("Container.Refresh")
+
+
+def _az_lista_togli(p, pid):
+    from resources.lib import miolista
+    miolista.togli(p.get("chiave", ""))
+    xbmcgui.Dialog().notification("La mia lista", "Tolto.", ICONA, 2000)
+    xbmc.executebuiltin("Container.Refresh")
+
+
+def _az_pollice(p, pid):
+    from resources.lib import miolista
+    v = miolista.metti_pollice(p.get("chiave", ""), p.get("verso", ""))
+    xbmcgui.Dialog().notification(
+        "Grazie",
+        {"su": "Te ne proporro' di simili.",
+         "giu": "Non te lo ripropongo piu'."}.get(v, "Giudizio tolto."),
+        ICONA, 2500)
+    xbmc.executebuiltin("Container.Refresh")
+
+
+# IL ROUTER: azione -> cosa fare. Era una catena di 51 elif in 150 righe
+# (11/09/2026): una tabella si legge in un colpo e un'azione nuova e' una riga.
+# Ogni voce riceve (parametri, percorso).
+AZIONI = {
+    "percorso": lambda p, pid: menu_percorso(pid),
+    "sfoglia": lambda p, pid: sfoglia(pid, p.get("da", 1)),
+    "riproduci": lambda p, pid: riproduci(pid, p.get("idx", 1)),
+    "salta": lambda p, pid: salta(pid),
+    "capitoli": lambda p, pid: capitoli(pid),
+    "russo": lambda p, pid: russo(),
+    "russo_consiglio": lambda p, pid: russo_consiglio(),
+    "russo_guarda": lambda p, pid: russo_guarda(p.get("canale", "")),
+    "widget": lambda p, pid: widget(p.get("che", "saghe")),
+    "consigli": lambda p, pid: menu_consigli(),
+    "consiglio_aggiungi": lambda p, pid: aggiungi_consiglio(p.get("id", "")),
+    "netflix": lambda p, pid: menu_netflix(p.get("sez", ""), p.get("g", "")),
+    "netflix_aggiungi": lambda p, pid: netflix_aggiungi(p.get("tmdb", ""), p.get("tipo", "anime")),
+    "consiglio_togli": lambda p, pid: togli_consiglio(p.get("id", "")),
+    "tv": lambda p, pid: menu_tv(),
+    "tv_gruppo": lambda p, pid: menu_tv_gruppo(p.get("gruppo", "")),
+    "tv_apri": lambda p, pid: apri_canale_tv(p.get("id", "")),
+    "scaffale": lambda p, pid: menu_scaffale(p.get("scaffale", "documentari")),
+    "scaffale_cerca": lambda p, pid: menu_scaffale_cerca(p.get("cosa", "")),
+    "diretta": lambda p, pid: apri_diretta(p.get("canale", "")),
+    "reparto": lambda p, pid: menu_reparto(p.get("reparto", "cartoni")),
+    "film_tutti": lambda p, pid: menu_film_tutti(),
+    "cinema": lambda p, pid: menu_cinema(),
+    "gruppo": lambda p, pid: menu_gruppo(p.get("gruppo", "")),
+    "vetrina": lambda p, pid: apri_vetrina(),
+    "linea": lambda p, pid: menu_linea(),
+    "misura": lambda p, pid: misura_linea(),
+    "stato_linea": _az_stato_linea,
+    "cerca": lambda p, pid: menu_ricerca(p.get("testo", ""), nuova=(p.get("nuova") == "1")),
+    "ricerche_svuota": _az_ricerche_svuota,
+    "regola_s4me": _az_regola_s4me,
+    "regola_s4me_muto": _az_regola_s4me_muto,
+    "abbonamenti": lambda p, pid: pannello_abbonamenti(),
+    "altro": lambda p, pid: menu_altro(pid),
+    "film": lambda p, pid: elenco_film(pid),
+    "apri_film": lambda p, pid: apri_film(pid, p.get("titolo", "")),
+    "tagli": lambda p, pid: tagli(pid),
+    "spiega": lambda p, pid: spiega(pid),
+    "azzera": lambda p, pid: azzera(pid),
+    "vai": _az_vai,
+    "visto": _az_visto,
+    "nonvisto": _az_nonvisto,
+    "anomalie": _az_anomalie,
+    "impostazioni": lambda p, pid: ADDON.openSettings(),
+    "lista_metti": _az_lista_metti,
+    "lista_togli": _az_lista_togli,
+    "pollice": _az_pollice,
+}
+
+
 def instrada(qs):
     p = dict(parse_qsl(qs[1:]))
     azione = p.get("azione")
     pid = p.get("percorso")
-
     if not azione:
         menu_principale()
-    elif azione == "percorso":
-        menu_percorso(pid)
-    elif azione == "sfoglia":
-        sfoglia(pid, p.get("da", 1))
-    elif azione == "riproduci":
-        riproduci(pid, p.get("idx", 1))
-    elif azione == "salta":
-        salta(pid)
-    elif azione == "capitoli":
-        capitoli(pid)
-    elif azione == "russo":
-        russo()
-    elif azione == "russo_consiglio":
-        russo_consiglio()
-    elif azione == "russo_guarda":
-        russo_guarda(p.get("canale", ""))
-    elif azione == "widget":
-        widget(p.get("che", "saghe"))
-    elif azione == "consigli":
-        menu_consigli()
-    elif azione == "consiglio_aggiungi":
-        aggiungi_consiglio(p.get("id", ""))
-    elif azione == "netflix":
-        menu_netflix(p.get("sez", ""), p.get("g", ""))
-    elif azione == "netflix_aggiungi":
-        netflix_aggiungi(p.get("tmdb", ""), p.get("tipo", "anime"))
-    elif azione == "consiglio_togli":
-        togli_consiglio(p.get("id", ""))
-    elif azione == "tv":
-        menu_tv()
-    elif azione == "tv_gruppo":
-        menu_tv_gruppo(p.get("gruppo", ""))
-    elif azione == "tv_apri":
-        apri_canale_tv(p.get("id", ""))
-    elif azione == "scaffale":
-        menu_scaffale(p.get("scaffale", "documentari"))
-    elif azione == "scaffale_cerca":
-        menu_scaffale_cerca(p.get("cosa", ""))
-    elif azione == "diretta":
-        apri_diretta(p.get("canale", ""))
-    elif azione == "reparto":
-        menu_reparto(p.get("reparto", "cartoni"))
-    elif azione == "film_tutti":
-        menu_film_tutti()
-    elif azione == "cinema":
-        menu_cinema()
-    elif azione == "gruppo":
-        menu_gruppo(p.get("gruppo", ""))
-    elif azione == "vetrina":
-        apri_vetrina()
-    elif azione == "linea":
-        menu_linea()
-    elif azione == "misura":
-        misura_linea()
-    elif azione == "stato_linea":
-        xbmcgui.Dialog().textviewer("La mia linea", taratura.racconta())
-        xbmcplugin.endOfDirectory(MANIGLIA, succeeded=False)
-    elif azione == "cerca":
-        menu_ricerca(p.get("testo", ""), nuova=(p.get("nuova") == "1"))
-    elif azione == "ricerche_svuota":
-        ricerche_recenti_svuota()
-        xbmcplugin.endOfDirectory(MANIGLIA, succeeded=False)
-        xbmc.executebuiltin("Container.Refresh")
-    elif azione == "regola_s4me":
-        xbmcplugin.endOfDirectory(MANIGLIA, succeeded=False)
-        xbmc.executebuiltin("RunScript(plugin.video.saghe,regola_s4me)")
-    elif azione == "regola_s4me_muto":
-        # Regola s4me SENZA aprire niente: nessuna finestra, nessun
-        # riepilogo, e si saltano le leve che si tirerebbero dietro una
-        # procedura guidata. Serve per sistemare un apparecchio mentre lo si
-        # sta usando - e per farlo da fuori, visto che RunScript non si puo'
-        # lanciare dalle chiamate remote ma una cartella si'.
-        # Non apre finestre, quindi qui dentro e' sicuro: vedi avvio.py.
-        import avvio
-        avvio._regola_s4me(muto=True)
-        xbmcplugin.endOfDirectory(MANIGLIA, succeeded=False)
-    elif azione == "abbonamenti":
-        pannello_abbonamenti()
-    elif azione == "altro":
-        menu_altro(pid)
-    elif azione == "film":
-        elenco_film(pid)
-    elif azione == "apri_film":
-        apri_film(pid, p.get("titolo", ""))
-    elif azione == "tagli":
-        tagli(pid)
-    elif azione == "spiega":
-        spiega(pid)
-    elif azione == "azzera":
-        azzera(pid)
-    elif azione == "vai":
-        progresso.vai_a(pid, int(p["idx"]))
-        xbmc.executebuiltin("Container.Refresh")
-    elif azione == "visto":
-        progresso.segna_visto(pid, int(p["idx"]), avanza=False)
-        xbmc.executebuiltin("Container.Refresh")
-    elif azione == "nonvisto":
-        progresso.togli_visto(pid, int(p["idx"]))
-        xbmc.executebuiltin("Container.Refresh")
-    elif azione == "anomalie":
-        an = progresso.anomalie()
-        righe = []
-        for a in an[::-1]:
-            righe.append("%s\n   chiesto:  %s\n   partito:  %s\n"
-                         % (a["quando"], a["atteso"], a["ottenuto"]))
-        xbmcgui.Dialog().textviewer(
-            "Episodi sbagliati", "\n".join(righe) or "Nessuna anomalia.")
-    elif azione == "impostazioni":
-        ADDON.openSettings()
-
-    # --- LA MIA LISTA E I POLLICI (menu contestuale della tessera) ---
-    elif azione == "lista_metti":
-        from resources.lib import miolista
-        miolista.aggiungi(p.get("chiave", ""), p.get("titolo", ""),
-                          p.get("dove", ""))
-        xbmcgui.Dialog().notification("La mia lista",
-                                      "Aggiunto: %s" % p.get("titolo", ""),
-                                      ICONA, 2500)
-        xbmc.executebuiltin("Container.Refresh")
-    elif azione == "lista_togli":
-        from resources.lib import miolista
-        miolista.togli(p.get("chiave", ""))
-        xbmcgui.Dialog().notification("La mia lista", "Tolto.", ICONA, 2000)
-        xbmc.executebuiltin("Container.Refresh")
-    elif azione == "pollice":
-        from resources.lib import miolista
-        v = miolista.metti_pollice(p.get("chiave", ""), p.get("verso", ""))
-        xbmcgui.Dialog().notification(
-            "Grazie",
-            {"su": "Te ne proporro' di simili.",
-             "giu": "Non te lo ripropongo piu'."}.get(v, "Giudizio tolto."),
-            ICONA, 2500)
-        xbmc.executebuiltin("Container.Refresh")
-
-    else:
-        # UN'AZIONE CHE NON ESISTE NON DEVE SPARIRE IN SILENZIO.
-        # Il 07/09 "riproduci" mandava a un'azione mai scritta: si tornava al
-        # menu principale, senza errore e senza una riga nel registro. Un
-        # errore di battitura poteva restare li' per settimane.
-        if azione:
-            xbmc.log("[Le Saghe] azione sconosciuta: %r (indirizzo: %s)"
-                     % (azione, sys.argv[2]), xbmc.LOGWARNING)
-        menu_principale()
+        return
+    esegui = AZIONI.get(azione)
+    if esegui:
+        esegui(p, pid)
+        return
+    # UN'AZIONE CHE NON ESISTE NON DEVE SPARIRE IN SILENZIO.
+    # Il 07/09 "riproduci" mandava a un'azione mai scritta: si tornava al menu
+    # principale, senza errore e senza una riga nel registro. Un errore di
+    # battitura poteva restare li' per settimane.
+    xbmc.log("[Le Saghe] azione sconosciuta: %r (indirizzo: %s)" % (azione, sys.argv[2]), xbmc.LOGWARNING)
+    menu_principale()
 
 
 if __name__ == "__main__":

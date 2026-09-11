@@ -44,7 +44,7 @@ ADDON = xbmcaddon.Addon()
 # Ogni quanto si controlla. Una settimana: gli episodi escono una volta a
 # settimana, controllare piu' spesso e' solo traffico sprecato su 4 Mbps.
 INTERVALLO = 7 * 24 * 60 * 60
-CHIAVE_TMDB = "a1ab8b8669da03637a4b98fa39c39228"
+from resources.lib.tmdb import CHIAVE as CHIAVE_TMDB  # la chiave sta in un posto solo
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
 
 
@@ -101,8 +101,8 @@ def _scrivi_stato(s):
     try:
         with io.open(_file_stato(), "w", encoding="utf-8") as f:
             f.write(json.dumps(s, ensure_ascii=False, indent=1))
-    except Exception:
-        pass
+    except Exception as _errore:
+        xbmc.log("[Le Saghe] _scrivi_stato: errore ignorato: %s" % _errore, xbmc.LOGDEBUG)
 
 
 def scaduta():
@@ -248,7 +248,7 @@ def controlla_se_serve(catalogo):
         except Exception as e:
             xbmc.log("[Le Saghe] sentinella caduta: %s" % e, xbmc.LOGWARNING)
 
-    t = threading.Thread(target=_lavora)
+    t = threading.Thread(target=_lavora, daemon=True)
     t.daemon = True
     t.start()
     return True

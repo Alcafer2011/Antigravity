@@ -43,7 +43,7 @@ import xbmcvfs
 
 ADDON = xbmcaddon.Addon()
 
-CHIAVE_TMDB = "a1ab8b8669da03637a4b98fa39c39228"
+from resources.lib.tmdb import CHIAVE as CHIAVE_TMDB  # la chiave sta in un posto solo
 IMG = "https://image.tmdb.org/t/p/w500"
 SFONDO = "https://image.tmdb.org/t/p/w1280"
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
@@ -75,8 +75,8 @@ def _cartella_schede_mie():
     if not os.path.isdir(c):
         try:
             os.makedirs(c)
-        except Exception:
-            pass
+        except Exception as _errore:
+            xbmc.log("[Le Saghe] _cartella_schede_mie: errore ignorato: %s" % _errore, xbmc.LOGDEBUG)
     return c
 
 
@@ -311,7 +311,7 @@ def calcola_se_serve(catalogo, progresso):
         except Exception as e:
             xbmc.log("[Le Saghe] consigli caduti: %s" % e, xbmc.LOGWARNING)
 
-    t = threading.Thread(target=_lavora)
+    t = threading.Thread(target=_lavora, daemon=True)
     t.daemon = True
     t.start()
     return True
@@ -449,6 +449,6 @@ def togli(sid):
         return False, "Non sono riuscito a toglierla: %s" % e
     try:
         os.remove(os.path.join(_cartella_schede_mie(), sid + ".json"))
-    except Exception:
-        pass
+    except Exception as _errore:
+        xbmc.log("[Le Saghe] togli: errore ignorato: %s" % _errore, xbmc.LOGDEBUG)
     return True, "%s tolta. Sparisce al prossimo avvio." % titolo

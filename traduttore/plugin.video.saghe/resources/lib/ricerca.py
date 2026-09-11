@@ -29,6 +29,7 @@ import re
 import unicodedata
 
 from . import catalogo, schede
+import xbmc
 
 # Oltre questo numero di episodi trovati si smette di cercare: una ricerca
 # che restituisce ottocento righe non ha aiutato nessuno, e su un apparecchio
@@ -164,8 +165,8 @@ def cerca(testo, limite_episodi=MAX_EPISODI):
                     "dettaglio": "canale russo - %s" % c["eta"],
                     "percorso": "", "idx": 0, "serie": "",
                 })
-    except Exception:
-        pass
+    except Exception as _errore:
+        xbmc.log("[Le Saghe] cerca: errore ignorato: %s" % _errore, xbmc.LOGDEBUG)
 
     ordine = {"saga": 0, "serie": 1, "capitolo": 2, "film": 3,
               "canale": 4, "episodio": 5}

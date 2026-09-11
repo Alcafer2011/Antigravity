@@ -23,6 +23,7 @@ import xbmcvfs
 import xbmcaddon
 
 from resources.lib import salva
+import xbmc
 
 ADDON = xbmcaddon.Addon()
 _CARTELLA = xbmcvfs.translatePath(ADDON.getAddonInfo("profile"))
@@ -72,8 +73,8 @@ def _scrivi_locale(dati):
     try:
         # Era gia' atomico (tmp + os.replace): ora lo fa salva, in un posto solo.
         salva.json_atomico(_FILE, dati, ensure_ascii=False, indent=1)
-    except OSError:
-        pass
+    except OSError as _errore:
+        xbmc.log("[Le Saghe] _scrivi_locale: errore ignorato: %s" % _errore, xbmc.LOGDEBUG)
 
 
 def _scrivi(dati):
@@ -84,8 +85,8 @@ def _scrivi(dati):
         unito = sincro.manda(dati)
         if unito and unito != dati:
             _scrivi_locale(unito)
-    except Exception:
-        pass
+    except Exception as _errore:
+        xbmc.log("[Le Saghe] _scrivi: errore ignorato: %s" % _errore, xbmc.LOGDEBUG)
 
 
 def _stato_percorso(dati, percorso_id):
@@ -234,8 +235,8 @@ def apri_sessione(percorso_id, idx, dentro_kodi, atteso="", file_atteso=""):
                 "controllata": False,
                 "avviata": int(time.time()),
             })
-    except OSError:
-        pass
+    except OSError as _errore:
+        xbmc.log("[Le Saghe] apri_sessione: errore ignorato: %s" % _errore, xbmc.LOGDEBUG)
 
 
 def marca_controllata():
@@ -246,8 +247,8 @@ def marca_controllata():
     s["controllata"] = True
     try:
         salva.json_atomico(_FILE_SESSIONE, s)
-    except OSError:
-        pass
+    except OSError as _errore:
+        xbmc.log("[Le Saghe] marca_controllata: errore ignorato: %s" % _errore, xbmc.LOGDEBUG)
 
 
 def marca_visto_play():
@@ -260,8 +261,8 @@ def marca_visto_play():
     s["visto_play"] = True
     try:
         salva.json_atomico(_FILE_SESSIONE, s)
-    except OSError:
-        pass
+    except OSError as _errore:
+        xbmc.log("[Le Saghe] marca_visto_play: errore ignorato: %s" % _errore, xbmc.LOGDEBUG)
 
 
 def registra_anomalia(atteso, ottenuto):
@@ -279,8 +280,8 @@ def registra_anomalia(atteso, ottenuto):
             "ottenuto": ottenuto,
         })
         salva.json_atomico(percorso, elenco[-200:], ensure_ascii=False, indent=1)
-    except (OSError, ValueError):
-        pass
+    except (OSError, ValueError) as _errore:
+        xbmc.log("[Le Saghe] registra_anomalia: errore ignorato: %s" % _errore, xbmc.LOGDEBUG)
 
 
 def anomalie():
@@ -306,8 +307,8 @@ def chiudi_sessione():
     try:
         if os.path.exists(_FILE_SESSIONE):
             os.remove(_FILE_SESSIONE)
-    except OSError:
-        pass
+    except OSError as _errore:
+        xbmc.log("[Le Saghe] chiudi_sessione: errore ignorato: %s" % _errore, xbmc.LOGDEBUG)
 
 
 # --------------------------------------------------------------------------

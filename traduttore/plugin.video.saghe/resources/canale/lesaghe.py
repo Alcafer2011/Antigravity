@@ -31,11 +31,10 @@
 # ---------------------------------------------------------------------------
 
 import os
-import sys
 
 from core import support
 from core.item import Item
-from platformcode import config, logger
+from platformcode import logger
 
 
 def _json_atomico(percorso, dati, **opzioni):
@@ -541,8 +540,8 @@ def _rubrica_scrivi(dati):
         return
     try:
         _json_atomico(f, dati, ensure_ascii=False)
-    except Exception:
-        pass
+    except Exception as _errore:
+        logger.debug("Le Saghe _rubrica_scrivi: errore ignorato: %s" % _errore)
 
 
 def _rubrica_prendi(serie_id):
@@ -580,7 +579,19 @@ def findvideos(item):
         return []
 
     serie_id = getattr(item, "serie_id", "")
+    # Tre passi, ognuno nella sua funzione (erano 195 righe in una, 11/09/2026):
+    # la rubrica, la ricerca sui siti, i ripieghi. La logica e' la stessa.
+    # None = "questo passo non ha deciso"; anche una lista vuota e' una risposta.
+    server = _findvideos_da_rubrica(item, titolo, numero, serie_id)
+    if server is not None:
+        return server
+    server, motivi = _findvideos_sui_siti(item, titolo, numero, serie_id)
+    if server is not None:
+        return server
+    return _findvideos_ripieghi(item, titolo, numero, serie_id, motivi)
 
+
+def _findvideos_da_rubrica(item, titolo, numero, serie_id):
     # 1) La scorciatoia: se questa serie l'abbiamo gia' trovata, si va dritti
     #    all'elenco degli episodi senza rifare la ricerca.
     nota = _rubrica_prendi(serie_id) if serie_id else None
@@ -606,7 +617,10 @@ def findvideos(item):
                 logger.info("Le Saghe: la rubrica non ha funzionato: %s" % e)
         # L'indirizzo in rubrica non vale piu': si dimentica e si ricerca.
         _rubrica_scorda(serie_id)
+    return None
 
+
+def _findvideos_sui_siti(item, titolo, numero, serie_id):
     # 2) La ricerca vera, che e' lenta: si fa una volta per serie.
     #    E si fa sui siti GIUSTI per il tipo di serie: cercare una serie
     #    turca sui siti di anime non da' zero risultati per sfortuna, li da'
@@ -704,9 +718,12 @@ def findvideos(item):
             if serie_id:
                 _rubrica_segna(serie_id, nome, buono)
             _apri_sessione_nostra(item)
-            return _pota_server(server)
+            return _pota_server(server), motivi
         motivi.append("%s: ha l'episodio ma nessun video che si apra" % nome)
+    return None, motivi
 
+
+def _findvideos_ripieghi(item, titolo, numero, serie_id, motivi):
     # ULTIMA SPIAGGIA: gli abbonamenti.
     #
     # Se nessuno dei canali ha l'episodio, puo' esserci su Netflix o su
@@ -958,8 +975,8 @@ def _episodio_giusto(episodi, numero):
         try:
             if n is not None and int(n) == numero:
                 return e
-        except (TypeError, ValueError):
-            pass
+        except (TypeError, ValueError) as _errore:
+            logger.debug("Le Saghe _episodio_giusto: errore ignorato: %s" % _errore)
 
     # 2) Un numero scritto nel titolo in una forma che vuol dire "episodio":
     #    "1x05", "Episodio 5", "Ep. 5". NON un numero qualunque.

@@ -154,9 +154,11 @@ def raccogli_pc():
 # --------------------------------------------------------------------------
 
 def _adb(*argomenti, tempo=300):
+    # utf-8 esplicito: con la codifica di Windows (cp1252) un byte come 0x90 dentro
+    # guisettings.xml faceva sparire tutto l'output (11/09/2026, servi.py box a meta').
     r = subprocess.run([ADB, "-s", BOX] + list(argomenti), capture_output=True,
-                       text=True, timeout=tempo)
-    return (r.stdout + r.stderr).strip()
+                       text=True, encoding="utf-8", errors="replace", timeout=tempo)
+    return ((r.stdout or "") + (r.stderr or "")).strip()
 
 
 def _adb_pronto(secondi=90):

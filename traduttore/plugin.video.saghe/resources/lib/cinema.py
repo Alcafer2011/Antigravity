@@ -35,7 +35,7 @@ import time
 
 import xbmcvfs
 
-CHIAVE_TMDB = "a1ab8b8669da03637a4b98fa39c39228"
+from resources.lib.tmdb import CHIAVE as CHIAVE_TMDB  # la chiave sta in un posto solo
 UA = {"User-Agent": "Mozilla/5.0"}
 
 # Ogni quanto si richiede l'elenco a TMDB. I film di sala cambiano il

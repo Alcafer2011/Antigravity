@@ -29,7 +29,8 @@ import time
 import urllib.parse
 import urllib.request
 
-CHIAVE_TMDB = "a1ab8b8669da03637a4b98fa39c39228"
+from resources.lib.tmdb import CHIAVE as CHIAVE_TMDB  # la chiave sta in un posto solo
+import xbmc
 NETFLIX_ID = 8
 REGIONE = "IT"
 BASE = "https://api.themoviedb.org/3"
@@ -96,8 +97,8 @@ def _cache_scrivi(d):
     try:
         with io.open(_file(), "w", encoding="utf-8") as f:
             f.write(json.dumps(d, ensure_ascii=False))
-    except Exception:
-        pass
+    except Exception as _errore:
+        xbmc.log("[Le Saghe] _cache_scrivi: errore ignorato: %s" % _errore, xbmc.LOGDEBUG)
 
 
 def _discover_tv(genere_id, solo_anime=False, pagine=2):
