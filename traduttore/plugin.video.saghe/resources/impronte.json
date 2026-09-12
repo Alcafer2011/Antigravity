@@ -1,10 +1,10 @@
 {
 "file": {
-"addon.xml": "a7941a4818ce4bd7f22b56fd95466b93",
+"addon.xml": "f30f040ea88d76f0d0eac944293d6b1c",
 "avvio.py": "8e2b4553fc49f3c6a60fe6e580b86dd3",
-"main.py": "23829fc655ddfbeeb52df4645deac778",
+"main.py": "176d77521c32d65bdb430219ff0ec9cd",
 "resources/__init__.py": "d41d8cd98f00b204e9800998ecf8427e",
-"resources/arte_extra.json": "b99c1d731d343cf3b7bfd391329d786a",
+"resources/arte_extra.json": "219c04cb7b2d5e041ddb6b6d5756e88d",
 "resources/bandiere/italia.png": "ff7ec64db06ca37368d41f69594f4187",
 "resources/bandiere/russia.png": "c9d6ed2db36bcfcbdaa1aab71a9ab9c4",
 "resources/canale/abbonamenti.json": "775d5422adc4b5d2b22d7a6e81959576",
@@ -467,5 +467,5 @@
 "resources/tmdb.json": "627d132d1795e2b945ff47acd3090b77",
 "service.py": "dff8e4a9427a13ec9ac8970edfddc3e9"
 },
-"versione": "1.1.6"
+"versione": "1.1.7"
 }

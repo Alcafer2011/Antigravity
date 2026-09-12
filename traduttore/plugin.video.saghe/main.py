@@ -1313,11 +1313,21 @@ def menu_scaffale_cerca(cosa):
             trovati = _risultati_dei_siti(parole[0], scoperte.CANALI_CATALOGHI,
                                           intestazione=True, titolo="CERCANDO SOLO '%s'" % parole[0].upper())
     if not trovati:
+        # YOUTUBE PER PRIMO, NON IN FONDO (12/09/2026). Certi programmi sui
+        # cataloghi gratuiti non ci sono e non ci saranno: Fast N' Loud e i
+        # Discovery sono a pagamento, "Cortesie per gli ospiti" sta su Real
+        # Time. Su YouTube invece c'e' quasi sempre qualcosa, e da oggi
+        # funziona (chiavi personali). Quindi quando i cataloghi sono a mani
+        # vuote la prima voce e' quella che porta da qualche parte.
+        _youtube_anche(cosa)
         li = _voce("[COLOR grey]Nessun catalogo ha '%s' in questo momento[/COLOR]" % per_i_cataloghi,
-                   "RaiPlay, Discovery+, La7, Pluto TV, Paramount e Mediaset non "
-                   "hanno risposto con niente. Qui sotto c'e' YouTube.", icona=ICONA)
+                   "RaiPlay, Discovery+, La7, Pluto TV, Paramount e Mediaset non hanno "
+                   "risposto con niente: certi programmi (i Discovery, Real Time, Sky) "
+                   "sui cataloghi gratuiti non ci sono proprio. La ricerca su YouTube e' "
+                   "qui sopra.", icona=ICONA)
         xbmcplugin.addDirectoryItem(MANIGLIA, url(), li, False)
-    _youtube_anche(cosa)
+    else:
+        _youtube_anche(cosa)
     xbmcplugin.endOfDirectory(MANIGLIA)
 
 

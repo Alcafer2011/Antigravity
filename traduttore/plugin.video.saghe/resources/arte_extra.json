@@ -159,16 +159,21 @@
 "keyart": "https://image.tmdb.org/t/p/w780/eUlvh00JgqNucpoOwkx4fXgSCwY.jpg"
 },
 "saghe:azione=apri_film&percorso=lupin&titolo=Lupin III - All'inseguimento del tesoro di Harimao": {
-"fanart": "https://image.tmdb.org/t/p/w1280/dUiwONHmQyQtkgsOrxHo8HblUV4.jpg"
+"clearlogo": "https://assets.fanart.tv/fanart/lupin-the-third-the-pursuit-of-harimaos-treasure-61801ba5e199d.png",
+"fanart": "https://image.tmdb.org/t/p/w1280/dUiwONHmQyQtkgsOrxHo8HblUV4.jpg",
+"landscape": "https://assets.fanart.tv/fanart/lupin-the-third-the-pursuit-of-harimaos-treasure-624b5e1954d00.jpg"
 },
 "saghe:azione=apri_film&percorso=lupin&titolo=Lupin III - Episodio: 0 (C'era una volta... Lupin)": {
 "clearlogo": "https://image.tmdb.org/t/p/w500/va9TB4olW02gVzHjdMJDy8EGoIy.png",
+"discart": "https://assets.fanart.tv/fanart/lupin-the-third-episode-0-first-contact-5a1e27b25dbea.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/g5mrArmZrEgZP8X3OLdOWxJBx0n.jpg"
 },
 "saghe:azione=apri_film&percorso=lupin&titolo=Lupin III - La pagina segreta di Marco Polo": {
+"clearlogo": "https://assets.fanart.tv/fanart/lupin-the-third-record-of-observations-of-the-east---another-69f457934ff42.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/dNsOgX2XDfO2BdjJHZqMj1Wi24z.jpg"
 },
 "saghe:azione=apri_film&percorso=lupin&titolo=Lupin III - La principessa della brezza: La città nascosta nel cielo": {
+"clearlogo": "https://assets.fanart.tv/fanart/lupin-the-third-princess-of-the-breeze---hidden-city-in-the--64435b33beff4.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/jd2ePJ2rJRoW4wHUdpqOE6MrHAN.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/ptRSYo5vluZ8mlyiPQo0EkqkRgo.jpg"
 },
@@ -177,46 +182,63 @@
 "fanart": "https://image.tmdb.org/t/p/w1280/AqaxgvUoVtHcpbFaB7JA8CTD8BU.jpg"
 },
 "saghe:azione=apri_film&percorso=lupin&titolo=Lupin III - Spada Zantetsu, infuocati!": {
+"clearlogo": "https://assets.fanart.tv/fanart/lupin-the-third-dragon-of-doom-5a21a624182cf.png",
+"discart": "https://assets.fanart.tv/fanart/lupin-the-third-dragon-of-doom-5a1b778a5a281.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/gSTzDY77M2J8lfffS37Wj3GDcVg.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/7jwBHEaUiqLlGytQrymN1YNQPvS.jpg"
 },
 "saghe:azione=apri_film&percorso=lupin&titolo=Lupin III: Bye Bye Liberty - Scoppia la crisi!": {
 "clearlogo": "https://image.tmdb.org/t/p/w500/43j5UgoVKlX9AcOvEV936X4gdjY.png",
+"discart": "https://assets.fanart.tv/fanart/lupin-the-third-bye-bye-liberty-crisis-5f098af6ef52d.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/641LJbPjKFwM7cOXidzxQCCG43z.jpg",
 "keyart": "https://image.tmdb.org/t/p/w780/r8xivQvXHd9IA9bfLfu6R8vgRmK.jpg"
 },
 "saghe:azione=apri_film&percorso=lupin&titolo=Lupin III: Walther P38 - Nome in codice Tarantola": {
+"clearlogo": "https://assets.fanart.tv/fanart/lupin-the-third-walther-p38-5dc39449365d8.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/3OoSoGDK1DI26MRSoJhv5chmV5X.jpg",
-"keyart": "https://image.tmdb.org/t/p/w780/7yrSzLYg7bfDhAyiQ7WP6ObE0RS.jpg"
+"keyart": "https://image.tmdb.org/t/p/w780/7yrSzLYg7bfDhAyiQ7WP6ObE0RS.jpg",
+"landscape": "https://assets.fanart.tv/fanart/lupin-the-third-walther-p38-624b5fc373c54.jpg"
 },
 "saghe:azione=apri_film&percorso=m_blackclover&titolo=Black Clover: La spada dell'Imperatore magico": {
+"banner": "https://assets.fanart.tv/fanart/black-clover-sword-of-the-wizard-king-64c371636bfa7.jpg",
+"clearart": "https://assets.fanart.tv/fanart/black-clover-sword-of-the-wizard-king-64c82be587614.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/iQisbiSgHjEqZK3eFMp3nlGQleH.png",
+"discart": "https://assets.fanart.tv/fanart/black-clover-sword-of-the-wizard-king-6493509ac1602.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/rogeBJK44LtWynOqzMFmEF30T80.jpg",
 "keyart": "https://image.tmdb.org/t/p/w780/2pYi5qNjEMQ22gE3lgMrhzJDSk5.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/1ZRqBG9eitwtNcaALyCmH3Tsp4U.jpg"
 },
 "saghe:azione=apri_film&percorso=m_doraemon&titolo=Doraemon: Il film - Nobita e il nuovo dinosauro": {
+"banner": "https://assets.fanart.tv/fanart/doraemon-nobitas-new-dinosaur-649410942299f.jpg",
+"clearart": "https://assets.fanart.tv/fanart/doraemon-nobitas-new-dinosaur-649410a315471.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/zGDGyBljWj6ulWIM51ufmX1QWRX.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/9aWXBrBe9ZnejsgGvDuN70prKEG.jpg",
+"keyart": "https://assets.fanart.tv/fanart/doraemon-nobitas-new-dinosaur-62d6cb262f239.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/8Yr9aDO4XcFZDBT5YvqqpKX6ggk.jpg"
 },
 "saghe:azione=apri_film&percorso=m_doraemon&titolo=Doraemon: Il film - Nobita e l'isola del tesoro": {
+"clearart": "https://assets.fanart.tv/fanart/doraemon-the-movie-nobitas-treasure-island-64955aae4a7fb.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/x1LIsRRBHhNFQ78I1vZuiorGrcq.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/anb6GDkC5dOnBDkGehxZdPdUrfr.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/lmNvRdjUZBLemJhKb3u71Ef8qem.jpg"
 },
 "saghe:azione=apri_film&percorso=m_doraemon1979&titolo=Doraemon: Il film - Nobita e il nuovo dinosauro": {
+"banner": "https://assets.fanart.tv/fanart/doraemon-nobitas-new-dinosaur-649410942299f.jpg",
+"clearart": "https://assets.fanart.tv/fanart/doraemon-nobitas-new-dinosaur-649410a315471.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/zGDGyBljWj6ulWIM51ufmX1QWRX.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/9aWXBrBe9ZnejsgGvDuN70prKEG.jpg",
+"keyart": "https://assets.fanart.tv/fanart/doraemon-nobitas-new-dinosaur-62d6cb262f239.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/8Yr9aDO4XcFZDBT5YvqqpKX6ggk.jpg"
 },
 "saghe:azione=apri_film&percorso=m_doraemon1979&titolo=Doraemon: Il film - Nobita e l'isola del tesoro": {
+"clearart": "https://assets.fanart.tv/fanart/doraemon-the-movie-nobitas-treasure-island-64955aae4a7fb.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/x1LIsRRBHhNFQ78I1vZuiorGrcq.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/anb6GDkC5dOnBDkGehxZdPdUrfr.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/lmNvRdjUZBLemJhKb3u71Ef8qem.jpg"
 },
 "saghe:azione=apri_film&percorso=m_evangelion&titolo=Neon Genesis Evangelion: The End of Evangelion": {
 "banner": "https://media.kitsu.app/anime/cover_images/23/original.jpg",
+"clearart": "https://assets.fanart.tv/fanart/neon-genesis-evangelion-the-end-of-evangelion-54c80d33018ef.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/AbCwf7YnBPielNGBvTXNPTMTgFA.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/AfyuI3glMCBDFmNPj9PY6DwbgGp.jpg",
 "keyart": "https://image.tmdb.org/t/p/w780/7obT8ASm2MCJ92fWFpgSxCuE9GJ.jpg",
@@ -224,22 +246,26 @@
 },
 "saghe:azione=apri_film&percorso=m_pokemon&titolo=Pokémon: Mewtwo colpisce ancora - L'evoluzione": {
 "clearlogo": "https://image.tmdb.org/t/p/w500/pdZJeSGKiMBBwYDzXCtNDY2OyS8.png",
+"discart": "https://assets.fanart.tv/fanart/pokemon-mewtwo-strikes-back-evolution-6140b0ff54ea7.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/xHyX5zQIdu13w708J4lYhmwEqNp.jpg",
 "keyart": "https://image.tmdb.org/t/p/w780/2H2l4p1tFy48A3wFPMEslLRiAY7.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/iMDd3KZzvr768qgNlvAWcrrVSPm.jpg"
 },
 "saghe:azione=apri_film&percorso=zodiaco&titolo=I Cavalieri dello zodiaco - L'ardente scontro degli dei": {
 "clearlogo": "https://image.tmdb.org/t/p/w500/7wbm9esOU5sSo3oyD2ZFC0o6soY.png",
+"discart": "https://assets.fanart.tv/fanart/saint-seiya-the-heated-battle-of-the-gods-535c55320a020.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/o1G9i9BzY598fE5RNmSWXCz24d4.jpg",
 "keyart": "https://image.tmdb.org/t/p/w780/1x9cjHxBT07z0M7WFBCRejQcHDZ.jpg"
 },
 "saghe:azione=apri_film&percorso=zodiaco&titolo=I Cavalieri dello zodiaco - L'ultima battaglia": {
 "clearlogo": "https://image.tmdb.org/t/p/w500/q4KzdNiCzxOCYWMHGrXBip0LaVq.png",
+"discart": "https://assets.fanart.tv/fanart/saint-seiya-warriors-of-the-final-holy-battle-535c558ece91f.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/1FdYcvnpyk8vxBbw583ZzwVQ5Ev.jpg",
 "keyart": "https://image.tmdb.org/t/p/w780/fLpFbWEOsrMgYbPPDHOvCNLgGEj.jpg"
 },
 "saghe:azione=apri_film&percorso=zodiaco&titolo=I Cavalieri dello zodiaco - La dea della discordia": {
 "clearlogo": "https://image.tmdb.org/t/p/w500/twE1kQBZODJDFkH6hwNBA9YB47R.png",
+"discart": "https://assets.fanart.tv/fanart/saint-seiya-evil-goddess-eris-535c54f8ad9e4.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/q4k9UDHE5foTcs48zpqJbpLUDNU.jpg"
 },
 "saghe:azione=apri_film&percorso=zodiaco&titolo=I Cavalieri dello zodiaco - La leggenda dei guerrieri scarlatti": {
@@ -253,77 +279,180 @@
 "keyart": "https://image.tmdb.org/t/p/w780/jOEenQUr8QAh9RbkVrX8ZkQzqem.jpg"
 },
 "saghe:azione=consiglio_aggiungi&id=131365": {
-"banner": "https://media.kitsu.app/anime/44981/cover_image/a1dfc2719dd74756fb4dd970c467f74d.png"
+"banner": "https://media.kitsu.app/anime/44981/cover_image/a1dfc2719dd74756fb4dd970c467f74d.png",
+"clearart": "https://assets.fanart.tv/fanart/the-wrong-way-to-use-healing-magic-655d8e0e0c9cf.png"
+},
+"saghe:azione=consiglio_aggiungi&id=1433": {
+"clearart": "https://assets.fanart.tv/fanart/american-dad-58483df28225c.png"
+},
+"saghe:azione=consiglio_aggiungi&id=1437": {
+"clearart": "https://assets.fanart.tv/fanart/firefly-514555447ca03.png"
+},
+"saghe:azione=consiglio_aggiungi&id=1449": {
+"clearart": "https://assets.fanart.tv/fanart/mutant-x-517cf8e181f5c.png"
+},
+"saghe:azione=consiglio_aggiungi&id=326": {
+"clearart": "https://assets.fanart.tv/fanart/red-dwarf-50954aadbbc23.png"
+},
+"saghe:azione=consiglio_aggiungi&id=33880": {
+"banner": "https://assets.fanart.tv/fanart/the-legend-of-korra-55d2648d2faec.jpg",
+"clearart": "https://assets.fanart.tv/fanart/the-legend-of-korra-54307d3ee6db3.png"
+},
+"saghe:azione=consiglio_aggiungi&id=346": {
+"clearart": "https://assets.fanart.tv/fanart/american-dragon-jake-long-53ed3e53b6879.png"
+},
+"saghe:azione=consiglio_aggiungi&id=416": {
+"clearart": "https://assets.fanart.tv/fanart/harvey-birdman-attorney-at-law-50d4687d94823.png"
+},
+"saghe:azione=consiglio_aggiungi&id=424": {
+"clearart": "https://assets.fanart.tv/fanart/torchwood-504f533fc7ec0.png"
+},
+"saghe:azione=consiglio_aggiungi&id=42942": {
+"banner": "https://assets.fanart.tv/fanart/angel-beats-5f44176dcf789.jpg",
+"clearart": "https://assets.fanart.tv/fanart/angel-beats-517855f85123b.png",
+"landscape": "https://assets.fanart.tv/fanart/angel-beats-6522acad52ec4.jpg"
+},
+"saghe:azione=consiglio_aggiungi&id=43167": {
+"banner": "https://assets.fanart.tv/fanart/accel-world-63f73e3a8b2c4.jpg",
+"clearart": "https://assets.fanart.tv/fanart/accel-world-5055d96b5cb1d.png",
+"clearlogo": "https://assets.fanart.tv/fanart/accel-world-4fbf82879d10d.png",
+"landscape": "https://assets.fanart.tv/fanart/accel-world-63f73d6e28281.jpg"
+},
+"saghe:azione=consiglio_aggiungi&id=478": {
+"clearart": "https://assets.fanart.tv/fanart/captain-planet-and-the-planeteers-5aa8170060c4a.png"
+},
+"saghe:azione=consiglio_aggiungi&id=513": {
+"clearart": "https://assets.fanart.tv/fanart/batman-beyond-52155881b3ad1.png"
+},
+"saghe:azione=consiglio_aggiungi&id=604": {
+"banner": "https://assets.fanart.tv/fanart/teen-titans-587e7245a50da.jpg",
+"clearart": "https://assets.fanart.tv/fanart/teen-titans-51534b6ab2dca.png"
+},
+"saghe:azione=consiglio_aggiungi&id=61415": {
+"banner": "https://assets.fanart.tv/fanart/fatestay-night-unlimited-blade-works-547203bc4f98e.jpg",
+"clearart": "https://assets.fanart.tv/fanart/fatestay-night-unlimited-blade-works-545f4f79210e8.png",
+"clearlogo": "https://assets.fanart.tv/fanart/fatestay-night-unlimited-blade-works-586c42e865476.png",
+"landscape": "https://assets.fanart.tv/fanart/fatestay-night-unlimited-blade-works-586c46403b1f9.jpg"
+},
+"saghe:azione=consiglio_aggiungi&id=61445": {
+"banner": "https://assets.fanart.tv/fanart/rage-of-bahamut-64eef8883951c.jpg",
+"clearart": "https://assets.fanart.tv/fanart/rage-of-bahamut-64eef84c4c9e7.png"
+},
+"saghe:azione=consiglio_aggiungi&id=90677": {
+"banner": "https://assets.fanart.tv/fanart/fategrand-order-60120fd63e755.jpg",
+"clearart": "https://assets.fanart.tv/fanart/fategrand-order-60120f7ea8517.png"
+},
+"saghe:azione=consiglio_aggiungi&id=92592": {
+"clearart": "https://assets.fanart.tv/fanart/bnabrand-new-animal-61620a04631fc.png"
+},
+"saghe:azione=consiglio_aggiungi&id=93256": {
+"banner": "https://assets.fanart.tv/fanart/this-hero-is-invincible-but-too-cautious-5f4c1a5879d06.jpg",
+"clearart": "https://assets.fanart.tv/fanart/this-hero-is-invincible-but-too-cautious-5f4c1a1880430.png"
+},
+"saghe:azione=consiglio_aggiungi&id=96884": {
+"clearart": "https://assets.fanart.tv/fanart/dragon-quest-the-adventure-of-dai-6a2957b90066e.png"
 },
 "saghe:azione=consiglio_aggiungi&id=98034": {
 "banner": "https://media.kitsu.app/anime/cover_images/509/original.jpg"
 },
 "saghe:azione=film&percorso=dragonball": {
+"banner": "https://assets.fanart.tv/fanart/dragon-ball-5ba628cf0a12a.jpg",
+"clearart": "https://assets.fanart.tv/fanart/dragon-ball-61ad15a13b2ca.png",
 "keyart": "https://image.tmdb.org/t/p/w780/8YGwTzeAi3mb5zVsWRHu94NKTTK.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/z3dYp9Xe3zWrgVcjMGFlPv6rfCh.jpg"
 },
 "saghe:azione=film&percorso=dragonball_veloce": {
+"banner": "https://assets.fanart.tv/fanart/dragon-ball-5ba628cf0a12a.jpg",
+"clearart": "https://assets.fanart.tv/fanart/dragon-ball-61ad15a13b2ca.png",
 "keyart": "https://image.tmdb.org/t/p/w780/8YGwTzeAi3mb5zVsWRHu94NKTTK.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/z3dYp9Xe3zWrgVcjMGFlPv6rfCh.jpg"
 },
+"saghe:azione=film&percorso=gonagai": {
+"banner": "https://assets.fanart.tv/fanart/mazinger-z-5b9c241631094.jpg"
+},
 "saghe:azione=film&percorso=gundam": {
-"keyart": "https://image.tmdb.org/t/p/w780/v8mt9qCyS5xodcbcbEGBehd3Yyg.jpg"
+"banner": "https://assets.fanart.tv/fanart/mobile-suit-gundam-6666b597501a2.jpg",
+"clearart": "https://assets.fanart.tv/fanart/mobile-suit-gundam-6666b56e03e1b.png",
+"keyart": "https://image.tmdb.org/t/p/w780/v8mt9qCyS5xodcbcbEGBehd3Yyg.jpg",
+"landscape": "https://assets.fanart.tv/fanart/mobile-suit-gundam-6666b583f1234.jpg"
 },
 "saghe:azione=film&percorso=holly": {
+"clearart": "https://assets.fanart.tv/fanart/captain-tsubasa-4f98bc610b18c.png",
 "keyart": "https://image.tmdb.org/t/p/w780/jdFiTpd7j0GpCdMy3Vdv7WF61w0.jpg"
 },
 "saghe:azione=film&percorso=ken": {
+"clearart": "https://assets.fanart.tv/fanart/fist-of-the-north-star-551efa52d7d1b.png",
 "keyart": "https://image.tmdb.org/t/p/w780/8NA8IHMrCZRoFevwIiqkr2kOx41.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/y7nVhWFamrvzogIDxDdsERxturL.jpg"
 },
 "saghe:azione=film&percorso=lamu": {
+"banner": "https://assets.fanart.tv/fanart/urusei-yatsura-59d82cca3baf4.jpg",
+"clearart": "https://assets.fanart.tv/fanart/UruseiYatsura-75113.png",
 "keyart": "https://image.tmdb.org/t/p/w780/4vvzNVJ0PaD9fQC41OUMCs5EbdF.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/pMlkgIGVxX0cWclzeFS2Zxtmasj.jpg"
 },
 "saghe:azione=film&percorso=lupin": {
+"clearart": "https://assets.fanart.tv/fanart/lupin-iii---the-woman-called-fujiko-mine-4f89485edb17a.png",
 "keyart": "https://image.tmdb.org/t/p/w780/iYGmGLNaAnGV9r2goSDXpSRlLy6.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/y8Lpqn8Nzk5cNyZoSHoJbQKJS1N.jpg"
 },
 "saghe:azione=film&percorso=m_aot": {
+"banner": "https://assets.fanart.tv/fanart/attack-on-titan-51abe6905365e.jpg",
+"clearart": "https://assets.fanart.tv/fanart/attack-on-titan-51a64c64991b3.png",
 "keyart": "https://image.tmdb.org/t/p/w780/ciNxflunj2ujlVmdJZfpEamERFn.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/kAPsxKEAaCYKPOVmrBzhGpLMQLh.jpg"
 },
 "saghe:azione=film&percorso=m_berserk": {
 "banner": "https://media.kitsu.app/anime/24/cover_image/7e8f13e950295d64746899ca93c39eb3.jpg",
+"clearart": "https://assets.fanart.tv/fanart/berserk-5f6fd7208d54a.png",
 "keyart": "https://image.tmdb.org/t/p/w780/ly0RUL3RcdIe1wFUqVl9ByfgdjQ.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/qPEiGMT4Iyj9mJ2CbkDz5YZaZ30.jpg"
 },
 "saghe:azione=film&percorso=m_blackclover": {
+"banner": "https://assets.fanart.tv/fanart/black-clover-60a3899e06cff.jpg",
+"clearart": "https://assets.fanart.tv/fanart/black-clover-5c30dd62b59ae.png",
 "keyart": "https://image.tmdb.org/t/p/w780/o24W3huCBpDA3mKxgNhvTpXJ8Ie.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/9Y6EYzooPULbJ0zve65e62fFAYU.jpg"
 },
 "saghe:azione=film&percorso=m_bleach": {
+"banner": "https://assets.fanart.tv/fanart/bleach-5f7b921886038.jpg",
+"clearart": "https://assets.fanart.tv/fanart/bleach-517d6118950f6.png",
 "keyart": "https://image.tmdb.org/t/p/w780/o8J1HvqO6QF1hMTY0eQq7itnUn4.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/mFKys64gbDQrFqwUheGwXQwo2JK.jpg"
 },
 "saghe:azione=film&percorso=m_chainsaw": {
+"banner": "https://assets.fanart.tv/fanart/chainsaw-man-63502475586bc.jpg",
+"clearart": "https://assets.fanart.tv/fanart/chainsaw-man-653f372b2680b.png",
 "keyart": "https://image.tmdb.org/t/p/w780/1sJ3FvrSCP3MsToPaXWxhbUfkWa.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/sbvHiKrb86zi2RSeos8MkoURTDi.jpg"
 },
 "saghe:azione=film&percorso=m_codegeass": {
+"banner": "https://assets.fanart.tv/fanart/code-geass-lelouch-of-the-rebellion-5fc3952603ce8.jpg",
+"clearart": "https://assets.fanart.tv/fanart/code-geass-lelouch-of-the-rebellion-51ae1b24c767a.png",
 "keyart": "https://image.tmdb.org/t/p/w780/gVZgJQwwgH6pSdkx7zDLGBSnxg8.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/9zLOYWXZwc30cz9XqOkOQybHClh.jpg"
 },
 "saghe:azione=film&percorso=m_cowboy": {
+"banner": "https://assets.fanart.tv/fanart/cowboy-bebop-5134cffe2154b.jpg",
+"clearart": "https://assets.fanart.tv/fanart/cowboy-bebop-51b0a05e2491a.png",
 "keyart": "https://image.tmdb.org/t/p/w780/kGGDTXPqndpaNvHHtpemM3WkgsL.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/2PVe7AqpkzBfvnrjdDb71nd81Ru.jpg"
 },
 "saghe:azione=film&percorso=m_deathnote": {
+"banner": "https://assets.fanart.tv/fanart/death-note-5febd953bbe87.jpg",
+"clearart": "https://assets.fanart.tv/fanart/death-note-51b7631be4cdb.png",
 "keyart": "https://image.tmdb.org/t/p/w780/AoP3OjWCwDVkSp4jYDsntnbVVXz.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/AsIv5z7IQtK3XpBqYxsdguv1ji.jpg"
 },
 "saghe:azione=film&percorso=m_demonslayer": {
 "banner": "https://media.kitsu.app/anime/41370/cover_image/7958f9c01b57c980636386d124553791.jpg",
+"clearart": "https://assets.fanart.tv/fanart/demon-slayer-kimetsu-no-yaiba-5fee3cff12054.png",
 "keyart": "https://image.tmdb.org/t/p/w780/4RuJf3ufe8DgQVycdyMZrJHGK1s.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/unhUWXYl8DFaIsaz6U59cDGSBgj.jpg"
 },
 "saghe:azione=film&percorso=m_digimon": {
 "banner": "https://media.kitsu.app/anime/cover_images/509/original.jpg",
+"clearart": "https://assets.fanart.tv/fanart/digimon-digital-monsters-520e2f764256b.png",
 "keyart": "https://image.tmdb.org/t/p/w780/fdk6ZL7RP1TawuFu0tdGNrg0qZO.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/rjkMqxsjbNJ3467IWXml04tyBTW.jpg"
 },
@@ -338,90 +467,133 @@
 },
 "saghe:azione=film&percorso=m_evangelion": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/446/1116705.jpg",
+"clearart": "https://assets.fanart.tv/fanart/neon-genesis-evangelion-51c988296d799.png",
 "keyart": "https://image.tmdb.org/t/p/w780/nWGgLQpNtRqh6HuuMxQGEYTY4Nz.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/7JIcAdO0mKxYTVbngJ2ejQLRcir.jpg"
 },
 "saghe:azione=film&percorso=m_fairytail": {
+"banner": "https://assets.fanart.tv/fanart/fairy-tail-600ed928b9f1b.jpg",
+"clearart": "https://assets.fanart.tv/fanart/fairy-tail-51cc1a36cdc45.png",
 "keyart": "https://image.tmdb.org/t/p/w780/g8SnnriKudl70k8uqD3bMxyHppg.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/u9z75uklnfwAv3rEIMSpqNqiC4n.jpg"
 },
 "saghe:azione=film&percorso=m_fma": {
+"banner": "https://assets.fanart.tv/fanart/fullmetal-alchemist-brotherhood-602ef17c40da6.jpg",
+"clearart": "https://assets.fanart.tv/fanart/fullmetal-alchemist-brotherhood-51e2ad16efd77.png",
 "keyart": "https://image.tmdb.org/t/p/w780/iAld03IP69UEpqQbVWoRBvjqkqX.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/4tLQuH7h34hxptPdiAkGVY0YXq5.jpg"
 },
 "saghe:azione=film&percorso=m_fma03": {
+"banner": "https://assets.fanart.tv/fanart/fullmetal-alchemist-602a7f365ba82.jpg",
+"clearart": "https://assets.fanart.tv/fanart/fullmetal-alchemist-51e2add850829.png",
 "keyart": "https://image.tmdb.org/t/p/w780/imC1g5dnOQ22jS4OOFZUstGlzTp.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/dHMY95SKOvlBYXGFrCtUdcMiDgZ.jpg"
 },
 "saghe:azione=film&percorso=m_hxh": {
+"banner": "https://assets.fanart.tv/fanart/hunter-x-hunter-2011-610c6783b4e3e.jpg",
+"clearart": "https://assets.fanart.tv/fanart/hunter-x-hunter-2011-56c9b30f4c494.png",
 "keyart": "https://image.tmdb.org/t/p/w780/84E1FFhsfF32p8UHJdphv6GgF6t.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/fv4IfnMTVLZSGnL8zKCTnmtl8L7.jpg"
 },
 "saghe:azione=film&percorso=m_hxh99": {
+"banner": "https://assets.fanart.tv/fanart/hunter-x-hunter-610c65e03d8d4.jpg",
+"clearart": "https://assets.fanart.tv/fanart/hunter-x-hunter-610c65a516a87.png",
 "keyart": "https://image.tmdb.org/t/p/w780/pAmBHolwskLDOsQlPSAevsToQpw.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/2F0fyYGMjq267M9H7rIymssaGs.jpg"
 },
 "saghe:azione=film&percorso=m_inuyasha": {
+"banner": "https://assets.fanart.tv/fanart/inuyasha-613e78ca612aa.jpg",
+"clearart": "https://assets.fanart.tv/fanart/inuyasha-529505c38f3cf.png",
 "keyart": "https://image.tmdb.org/t/p/w780/47kGzUp9MyU4JuZzrHJPpX6ZHQ1.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/33OtP1HNLNQz37g9aWu1J9zczzy.jpg"
 },
 "saghe:azione=film&percorso=m_jjk": {
 "banner": "https://media.kitsu.app/anime/cover_images/42765/original.jpeg",
+"clearart": "https://assets.fanart.tv/fanart/jujutsu-kaisen-659526b22dd02.png",
 "keyart": "https://image.tmdb.org/t/p/w780/qsFgxc9whGpGfLYzQjgq3xkNEbB.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/zAfK8cVjJiYUsVLDkHoIgxJh319.jpg"
 },
 "saghe:azione=film&percorso=m_jojo": {
+"banner": "https://assets.fanart.tv/fanart/jojos-bizarre-adventure-2012-5c9625731d1b5.jpg",
+"clearart": "https://assets.fanart.tv/fanart/jojos-bizarre-adventure-2012-62e40f90cad06.png",
 "keyart": "https://image.tmdb.org/t/p/w780/dLS0fKWWc0pGwf68DPxu7hY7tMR.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/ciDRS9Q8ErVxYzOpmYG40Wqbpc2.jpg"
 },
 "saghe:azione=film&percorso=m_kenshin": {
+"banner": "https://assets.fanart.tv/fanart/rurouni-kenshin-6247461404fc5.jpg",
+"clearart": "https://assets.fanart.tv/fanart/rurouni-kenshin-4dc0a42305973.png",
 "keyart": "https://image.tmdb.org/t/p/w780/uXHubj0h2esbAFpZFrwdsofWWxt.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/dBkLGVps7niXxA1mzTwvLsk1AkL.jpg"
 },
 "saghe:azione=film&percorso=m_mha": {
+"banner": "https://assets.fanart.tv/fanart/my-hero-academia-5748232a43a5b.jpg",
+"clearart": "https://assets.fanart.tv/fanart/my-hero-academia-58e50b78d6ad2.png",
 "keyart": "https://image.tmdb.org/t/p/w780/sSELYoag7grJVTnEFWfTvWXCjGT.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/prFONzxES6YtVcn5WGJsS04A4kB.jpg"
 },
 "saghe:azione=film&percorso=m_pokemon": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/50/125792.jpg",
+"clearart": "https://assets.fanart.tv/fanart/pokmon-537f0772c9c35.png",
 "keyart": "https://image.tmdb.org/t/p/w780/tnwC1vWPhNgAboxu85gr7fSaJsm.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/iguaZsbPbKZxKmbyHgiXWP4zuJu.jpg"
 },
 "saghe:azione=film&percorso=m_slamdunk": {
+"banner": "https://assets.fanart.tv/fanart/slam-dunk-60a0cbfe0c279.jpg",
+"clearart": "https://assets.fanart.tv/fanart/slam-dunk-58c583815b560.png",
 "keyart": "https://image.tmdb.org/t/p/w780/tWojzxaFUpzU3kPvnxxCkAKPUZz.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/62aVFu1I0nJfA9tYaB4Ynk1aReG.jpg"
 },
 "saghe:azione=film&percorso=m_steinsgate": {
+"banner": "https://assets.fanart.tv/fanart/steinsgate-57b27c98df969.jpg",
+"clearart": "https://assets.fanart.tv/fanart/steinsgate-4eb3f1877af50.png",
 "keyart": "https://image.tmdb.org/t/p/w780/pXzX4syjo8wfBeSB5Bq13p3DOoA.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/h5WKUP30Fk82hPSEJ3yItQc3HTv.jpg"
 },
 "saghe:azione=film&percorso=m_trigun": {
+"banner": "https://assets.fanart.tv/fanart/trigun-5b9e12e586f3e.jpg",
+"clearart": "https://assets.fanart.tv/fanart/trigun-52fe9c2a42a48.png",
 "keyart": "https://image.tmdb.org/t/p/w780/uP1hOOQHfp3slqQLLuzaSpArW1d.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/bhahPlplqTGp4GaUl2Y5L8lJswD.jpg"
 },
 "saghe:azione=film&percorso=m_yugioh": {
+"banner": "https://assets.fanart.tv/fanart/yu-gi-oh-667e499be22e3.jpg",
+"clearart": "https://assets.fanart.tv/fanart/yu-gi-oh-5694a5bce2067.png",
 "keyart": "https://image.tmdb.org/t/p/w780/oF8eKfJyPZojTTcbbZpXQ1cPyrM.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/oeKucLmgHe06UjGL6BE0zVSjZmu.jpg"
 },
 "saghe:azione=film&percorso=m_yuyu": {
 "banner": "https://media.kitsu.app/anime/cover_images/359/original.jpg",
+"clearart": "https://assets.fanart.tv/fanart/yu-yu-hakusho-61ad15b760b9e.png",
 "keyart": "https://image.tmdb.org/t/p/w780/sAJ8LO4dMxQr0aQLUY78HkLbBTC.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/5nKTIA3oe6sIgLWnhjkTirxHn8H.jpg"
 },
+"saghe:azione=film&percorso=matsumoto": {
+"clearart": "https://assets.fanart.tv/fanart/albator-78-603e9aaf797c6.png"
+},
+"saghe:azione=film&percorso=mazinga": {
+"banner": "https://assets.fanart.tv/fanart/mazinger-z-5b9c241631094.jpg"
+},
 "saghe:azione=film&percorso=naruto": {
+"banner": "https://assets.fanart.tv/fanart/naruto-68510307b9c30.jpg",
+"clearart": "https://assets.fanart.tv/fanart/naruto-503e225a49516.png",
 "keyart": "https://image.tmdb.org/t/p/w780/cHrpI0GcFWti4y39Sfjs61pv3Kk.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/dW9FQRgTDBdH36FtDbC2qCEKjtQ.jpg"
 },
 "saghe:azione=film&percorso=naruto_veloce": {
+"banner": "https://assets.fanart.tv/fanart/naruto-68510307b9c30.jpg",
+"clearart": "https://assets.fanart.tv/fanart/naruto-503e225a49516.png",
 "keyart": "https://image.tmdb.org/t/p/w780/cHrpI0GcFWti4y39Sfjs61pv3Kk.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/dW9FQRgTDBdH36FtDbC2qCEKjtQ.jpg"
 },
 "saghe:azione=film&percorso=one_piece": {
 "banner": "https://media.kitsu.app/anime/12/cover_image/21ecb556255bd46b95aea4779d19789f.jpg",
+"clearart": "https://assets.fanart.tv/fanart/one-piece-50634996dd128.png",
 "keyart": "https://image.tmdb.org/t/p/w780/b8cFEdlarCrpOLOjwd7aSw4uRQA.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/eYELHQbSfY3z1hq1RkYptCq2Bzz.jpg"
 },
 "saghe:azione=film&percorso=zodiaco": {
+"banner": "https://assets.fanart.tv/fanart/saint-seiya-53b470965c5bf.jpg",
+"clearart": "https://assets.fanart.tv/fanart/saint-seiya-53f280f63a48e.png",
 "keyart": "https://image.tmdb.org/t/p/w780/lLIoZJx0jaS6ApDenOop8MV5eet.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/5TCBe5Q5YDvZyVB9pHVDkGS50X3.jpg"
 },
@@ -432,11 +604,14 @@
 "landscape": "https://image.tmdb.org/t/p/w1280/b5M9IIf9zBha7gNcCw7J6LB8oNS.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=102085": {
+"banner": "https://assets.fanart.tv/fanart/too-hot-to-handle-5e9216d015305.jpg",
 "clearlogo": "https://image.tmdb.org/t/p/w500/7mbtNHfuTY9SiiMLV8yS37gg1of.png",
 "keyart": "https://image.tmdb.org/t/p/w780/urVCH3egAhR5lFFzJpchZETyNCb.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/scQJBO31r5M35kD2VMyxESyQ0jE.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=104711": {
+"banner": "https://assets.fanart.tv/fanart/edens-zero-64c8dc6a56bee.jpg",
+"clearart": "https://assets.fanart.tv/fanart/edens-zero-64c8dbcc7f019.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/tWcHryFQpFL1JMuyFZzEKklnzTv.png",
 "keyart": "https://image.tmdb.org/t/p/w780/9x4S7QTajAq1C8IsKIMsmftorLh.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/fPEozMHi64rDQUMJFtojBcCvbrm.jpg"
@@ -452,24 +627,38 @@
 "landscape": "https://image.tmdb.org/t/p/w1280/ucu2wxPQZHp9InXKpYhW8MBBRG7.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=110316": {
+"banner": "https://assets.fanart.tv/fanart/alice-in-borderland-2020-605f78b48dc15.jpg",
+"clearart": "https://assets.fanart.tv/fanart/alice-in-borderland-2020-605f69918792e.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/4lTzMSdcFkvCyJXOF9bQ74xRJdT.png",
 "keyart": "https://image.tmdb.org/t/p/w780/4fTXs19rxtnISAfPpZbFEZl6f5.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/i6vV0LDMnyFFT3yBysMHvpWEZor.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=111177": {
+"banner": "https://assets.fanart.tv/fanart/godzilla-singular-point-61637f04aa495.jpg",
+"clearart": "https://assets.fanart.tv/fanart/godzilla-singular-point-6165848b8106b.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/m12ufPdkHZMCx8WLmRJkYxed1Fd.png",
-"keyart": "https://image.tmdb.org/t/p/w780/4TVWEv119Lb6WFFc0QsULfJVOOM.jpg"
+"keyart": "https://image.tmdb.org/t/p/w780/4TVWEv119Lb6WFFc0QsULfJVOOM.jpg",
+"landscape": "https://assets.fanart.tv/fanart/godzilla-singular-point-61637f1a77d28.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=111474": {
+"banner": "https://assets.fanart.tv/fanart/gabbys-dollhouse-6706ee8978758.jpg",
+"clearart": "https://assets.fanart.tv/fanart/gabbys-dollhouse-63bdd11e79299.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/aJ5Qw6xGZZY8YXk8iEY3OFOvCaA.png",
 "landscape": "https://image.tmdb.org/t/p/w1280/5MAJGEDqLL4uZXLdjdiRzWFaoyx.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=112163": {
+"banner": "https://assets.fanart.tv/fanart/high-rise-invasion-60b8af571fc02.jpg",
 "clearlogo": "https://image.tmdb.org/t/p/w500/xvJXkdG2AtoAKwhE58jY3v3vmCb.png",
 "keyart": "https://image.tmdb.org/t/p/w780/kvMGtizwgT37jBSytGX8gmc2wA6.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/taRr3Sc4jl9Oup2ZArziIi151RZ.jpg"
 },
+"saghe:azione=netflix_aggiungi&tmdb=113962": {
+"banner": "https://assets.fanart.tv/fanart/special-ops-lioness-64ee89936e415.jpg",
+"clearart": "https://assets.fanart.tv/fanart/special-ops-lioness-64fc5c7bd4836.png"
+},
 "saghe:azione=netflix_aggiungi&tmdb=116135": {
+"banner": "https://assets.fanart.tv/fanart/vikings-valhalla-621b1b22d8937.jpg",
+"clearart": "https://assets.fanart.tv/fanart/vikings-valhalla-62222a86da99d.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/phSx6FIYixVPQGZIk1KKRVDRwQs.png",
 "keyart": "https://image.tmdb.org/t/p/w780/wPgcqNxMGfN8LUtnI0rE2ahAJv2.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/pNCZdsO9tnQdA2muiXl0jwQM2UU.jpg"
@@ -479,66 +668,91 @@
 "landscape": "https://image.tmdb.org/t/p/w1280/vRvIINmFA8iOOoq8xn1lttqLFIK.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=119051": {
+"banner": "https://assets.fanart.tv/fanart/wednesday-6386bf157f1a3.jpg",
+"clearart": "https://assets.fanart.tv/fanart/wednesday-63bea7a53b9da.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/fxYxkrbFP6QPgZurQgv1DxhQFwI.png",
 "keyart": "https://image.tmdb.org/t/p/w780/1l57jDVD0Z8hhpZTDK89gdqbUnu.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/hnOWMUTpKUU69uljz5vBS2v0fvJ.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=119495": {
 "banner": "https://media.kitsu.app/anime/44107/cover_image/5cf3c261bc51eb0b2c3376aa4893ad49.png",
+"clearart": "https://assets.fanart.tv/fanart/the-eminence-in-shadow-634d37444c8a6.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/oXeKKA0gkbk7qFf7NRyjCER20zN.png",
 "keyart": "https://image.tmdb.org/t/p/w780/9SsGD48hctpya3yPM02WmQTQEE0.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/3ehMpKNXSK8atX3sVtWXqZSWGrf.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=120089": {
+"banner": "https://assets.fanart.tv/fanart/spyfamily-6182a17bd04de.jpg",
+"clearart": "https://assets.fanart.tv/fanart/spyfamily-6182a0f0575e2.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/hbZ7fVgxEg50plxtQHpVyXAppCq.png",
 "keyart": "https://image.tmdb.org/t/p/w780/bQoQ6GT5G0NU252gdEMYhVwWMfv.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/y9jHurBTNwA3hohbYPIvGPFXd73.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=120241": {
+"clearart": "https://assets.fanart.tv/fanart/akuma-kun-64e2f10f8f5ca.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/iMntGyaU0dq9SEgeBKXk1lDU8.png",
 "keyart": "https://image.tmdb.org/t/p/w780/BuyejhqiyD8Y98EjK5gwCVQspk.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=12225": {
+"banner": "https://assets.fanart.tv/fanart/peppa-pig-51b3b0ed03eb7.jpg",
+"clearart": "https://assets.fanart.tv/fanart/peppa-pig-51b3b8ce2ee37.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/4ROhs4WEFyLn68mjrF9TkFrGzyH.png",
 "keyart": "https://image.tmdb.org/t/p/w780/6uod2gwSZRfxqfrKXsndHoibJkk.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/bosCVIUEG4S5v0SDcuNBnwcMB1J.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=123249": {
+"banner": "https://assets.fanart.tv/fanart/my-dress-up-darling-6353bcd39f550.jpg",
+"clearart": "https://assets.fanart.tv/fanart/my-dress-up-darling-6353bd6bac319.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/u33mrARoD4XgjVOzj61iMgCGClI.png",
 "keyart": "https://image.tmdb.org/t/p/w780/keC8NAKutZP1o0BvGcy5AcTh7Ob.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/q7UdZU8DPp4NOup52yKQ13Bfr00.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=124484": {
+"banner": "https://assets.fanart.tv/fanart/-5cd0dace1db59.jpg",
+"clearart": "https://assets.fanart.tv/fanart/-5cd0dfee78b98.png",
+"clearlogo": "https://assets.fanart.tv/fanart/-5cd0d9a1ceb96.png",
 "landscape": "https://image.tmdb.org/t/p/w1280/nI6n8Q5dILuYUT3ImVpWHcbKaPA.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=126027": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/368/922136.jpg",
+"clearart": "https://assets.fanart.tv/fanart/ghosts-us-625e89c85cc87.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/uAqvh2GMfoEtb7OJ0l3LHvmfDNW.svg",
 "keyart": "https://image.tmdb.org/t/p/w780/6CF94ni9eQNYolZ0Uf0lAda3woe.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/5WTx4TxwQaS7VxRFnI2O2wJg8Q3.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=129552": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/453/1133466.jpg",
+"clearart": "https://assets.fanart.tv/fanart/the-night-agent-63f0ea1839da3.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/u83OiUSbweslejrl3jxYhDUgcXD.png",
 "keyart": "https://image.tmdb.org/t/p/w780/u5eQvA72oiW6AMATjwFXgab6hB2.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/7e3HWC8qQwmTBE92RijNQUZDOsi.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=131041": {
+"banner": "https://assets.fanart.tv/fanart/blue-lock-616910a6865c3.jpg",
+"clearart": "https://assets.fanart.tv/fanart/bluelock-654722cb03367.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/frZHsrVO7BjhfoHeWRBebKTU5u7.png",
 "keyart": "https://image.tmdb.org/t/p/w780/yKgxfrJeijJPx4wPdWYhWNxfg5x.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/x6OSrIgRRueeTQ63PoZfUgwpceK.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=131721": {
+"clearart": "https://assets.fanart.tv/fanart/oggy-oggy-643d6221b8364.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/f9utSGIf7Ewj1a9IepuDfyT29TX.png",
+"keyart": "https://assets.fanart.tv/fanart/oggy-oggy-643d621333abc.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/cad6ESygalT08yzTE7ID9Y4gfEx.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=133784": {
 "clearlogo": "https://image.tmdb.org/t/p/w500/14pDONrStRcIOE3BzhjN94GctsQ.png"
 },
 "saghe:azione=netflix_aggiungi&tmdb=13916": {
+"banner": "https://assets.fanart.tv/fanart/death-note-5febd953bbe87.jpg",
+"clearart": "https://assets.fanart.tv/fanart/death-note-51b7631be4cdb.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/1NWy6mi2O5gZanKigYBWGIEQqSh.png",
 "keyart": "https://image.tmdb.org/t/p/w780/AoP3OjWCwDVkSp4jYDsntnbVVXz.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/AsIv5z7IQtK3XpBqYxsdguv1ji.jpg"
+},
+"saghe:azione=netflix_aggiungi&tmdb=1396": {
+"banner": "https://assets.fanart.tv/fanart/breaking-bad-503bef388b233.jpg",
+"clearart": "https://assets.fanart.tv/fanart/breaking-bad-504b8e9218ddb.png"
 },
 "saghe:azione=netflix_aggiungi&tmdb=139798": {
 "clearlogo": "https://image.tmdb.org/t/p/w500/7PirAZMGCb53CXuk2cfSHGtWqbk.png",
@@ -546,47 +760,65 @@
 "landscape": "https://image.tmdb.org/t/p/w1280/xPquEORoNRpL1KZtLNVHn4zZ7Cp.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=1400": {
+"banner": "https://assets.fanart.tv/fanart/seinfeld-538883b240dd1.jpg",
+"clearart": "https://assets.fanart.tv/fanart/seinfeld-51e82fc3a169b.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/5vkwGaERx7T3osv9yuzllFODMZM.png",
 "keyart": "https://image.tmdb.org/t/p/w780/1DOUNQgJHTqHROUXdyinAVeUSeB.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/w64zs5JFKHOw5eVcP0NAZiFUb2M.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=1407": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/248/621149.jpg",
+"clearart": "https://assets.fanart.tv/fanart/homeland-54668134e8cb0.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/eo2kXDKDt2veBAQqBYOcamjsUgD.svg",
 "keyart": "https://image.tmdb.org/t/p/w780/zCXAfMjtoxmkVOoAk05RSqA2Jmo.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/72n9YumBVjjs1SESbmmgs534LSe.jpg"
 },
+"saghe:azione=netflix_aggiungi&tmdb=1408": {
+"banner": "https://assets.fanart.tv/fanart/house-532f487a41d8e.jpg",
+"clearart": "https://assets.fanart.tv/fanart/house-50b099b629802.png"
+},
 "saghe:azione=netflix_aggiungi&tmdb=1411": {
+"banner": "https://assets.fanart.tv/fanart/person-of-interest-535cbd3876ddd.jpg",
+"clearart": "https://assets.fanart.tv/fanart/person-of-interest-51839aaa09029.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/fMnD6iTWfrVWyQnKqPqTcPpy2iX.png",
 "keyart": "https://image.tmdb.org/t/p/w780/f8XOc7HaahbkW37OJQpMWbMtid6.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/p569sazLOY38dngeGi3w73G8AFR.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=1422": {
+"banner": "https://assets.fanart.tv/fanart/the-middle-54b957048b41a.jpg",
+"clearart": "https://assets.fanart.tv/fanart/the-middle-61ad15b38264c.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/dOHWlQRryEK8vG6EoxW7ykNyw5I.png",
 "keyart": "https://image.tmdb.org/t/p/w780/FH3wtNMX3nXII7UMJedzxMc0j9.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/p2sl4FGjzwO8NQTBUZH96lhI1VV.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=1424": {
+"banner": "https://assets.fanart.tv/fanart/orange-is-the-new-black-51e06e33eac19.jpg",
+"clearart": "https://assets.fanart.tv/fanart/orange-is-the-new-black-52e7a57275fd3.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/ho41qmKw6gGyiWCJPE7syKfwQCr.png",
 "keyart": "https://image.tmdb.org/t/p/w780/7Dve3LHrnC3mi9asGzn2kCQ7uRo.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/g17igfc19jAjeE56D51DpaXsdMo.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=1429": {
+"banner": "https://assets.fanart.tv/fanart/attack-on-titan-51abe6905365e.jpg",
+"clearart": "https://assets.fanart.tv/fanart/attack-on-titan-51a64c64991b3.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/tww84TpaP60un0QH1SfbYef3hWf.png",
 "keyart": "https://image.tmdb.org/t/p/w780/ciNxflunj2ujlVmdJZfpEamERFn.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/kAPsxKEAaCYKPOVmrBzhGpLMQLh.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=153217": {
+"banner": "https://assets.fanart.tv/fanart/sparks-of-tomorrow-698eaeaadfa09.jpg",
 "clearlogo": "https://image.tmdb.org/t/p/w500/KHWtztbgwrmFfw9nChveLfIIIH.png",
 "keyart": "https://image.tmdb.org/t/p/w780/4gzAbdglUnedyHCvqrnxe3UEHSb.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/uI8e54LXFazUjOQ8n4K2FapSIdo.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=1549": {
+"banner": "https://assets.fanart.tv/fanart/wwe-smackdown-55e9c27a25dff.jpg",
 "clearlogo": "https://image.tmdb.org/t/p/w500/zsBHJnbT8g71a5QleFFGgX243DF.png",
 "keyart": "https://image.tmdb.org/t/p/w780/2ViPF51tgHYDv5d6QKbrY2W0T0D.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/5Dw2JRrw2vDjSVp49rpUqgTS8o0.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=155780": {
+"clearart": "https://assets.fanart.tv/fanart/batwheels-687e984da7a19.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/aBZ5mKd2q76V2jK30epONCFvE16.png",
 "keyart": "https://image.tmdb.org/t/p/w780/av2tsnfTCEg4pGsq8KKIG63jOU0.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/d0NoaBcR9ErALrGDpeb5kFOZvbx.jpg"
@@ -601,27 +833,39 @@
 "landscape": "https://image.tmdb.org/t/p/w1280/11CP0Do4gIJCHpyiaI4oOTEzcsB.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=16660": {
+"clearart": "https://assets.fanart.tv/fanart/mononoke-56b37e6451ae4.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/shz6MQxRM2G22iihTM2wxmXDOVf.png",
 "keyart": "https://image.tmdb.org/t/p/w780/eBrAd3SHoHiwrX4ClkPvUCt6Wnj.jpg"
 },
+"saghe:azione=netflix_aggiungi&tmdb=1668": {
+"banner": "https://assets.fanart.tv/fanart/friends-510fbc9229b9e.jpg",
+"clearart": "https://assets.fanart.tv/fanart/friends-51eb365241484.png"
+},
 "saghe:azione=netflix_aggiungi&tmdb=18165": {
+"banner": "https://assets.fanart.tv/fanart/the-vampire-diaries-527074e6c96bb.jpg",
+"clearart": "https://assets.fanart.tv/fanart/TheVampireDiaries-95491-4.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/xhv9MgwuLwRkRZUokS1bEdXFt6E.png",
 "keyart": "https://image.tmdb.org/t/p/w780/dmozLNzErPEPQazHKMpTg270Pg2.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/eD6eeVSMqGKStXqPMQR6oDPfAJP.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=18352": {
+"clearart": "https://assets.fanart.tv/fanart/the-garfield-show-4e55380dda073.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/1Th45yF6T7HUF1OhWNTzRyew3XO.png",
 "keyart": "https://image.tmdb.org/t/p/w780/iNE6rVIKCy8PkyPt9fhQNG4YtEq.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/dumvxAtGOO4BX02cgxQo4qHO7Ts.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=1911": {
+"banner": "https://assets.fanart.tv/fanart/bones-536a839d084a7.jpg",
+"clearart": "https://assets.fanart.tv/fanart/bones-507d948b42ae1.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/rlRfI2dVtxitG8zekaoazhLTtC9.png",
 "keyart": "https://image.tmdb.org/t/p/w780/nfeD3KngfTIEolO9UzIwrnL9cu7.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/2qZCr4aePuDnbA4pBbCMDwbJDsP.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=195923": {
+"banner": "https://assets.fanart.tv/fanart/detective-conan-the-culprit-hanzawa-640c135646659.jpg",
 "clearlogo": "https://image.tmdb.org/t/p/w500/3TOsQ32vUKRG3yBNNs2ops3yUiU.png",
-"keyart": "https://image.tmdb.org/t/p/w780/3kSsRGFAAFzHMQNpSVtu1UjJ82f.jpg"
+"keyart": "https://image.tmdb.org/t/p/w780/3kSsRGFAAFzHMQNpSVtu1UjJ82f.jpg",
+"landscape": "https://assets.fanart.tv/fanart/detective-conan-the-culprit-hanzawa-64289e6a691e5.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=203704": {
 "clearlogo": "https://image.tmdb.org/t/p/w500/4X1SivJWPZugpjEsRoabRqTgVcV.png",
@@ -629,11 +873,15 @@
 "landscape": "https://image.tmdb.org/t/p/w1280/z2KEfqj0KArGxh4UfaUoQ46s2S2.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=203737": {
+"banner": "https://assets.fanart.tv/fanart/oshi-no-ko-674d313842dbc.jpg",
+"clearart": "https://assets.fanart.tv/fanart/oshi-no-ko-665edf0a002d3.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/lxzrNYYgM51CtUAeXWzF5OMxiCF.png",
 "keyart": "https://image.tmdb.org/t/p/w780/ywPIn3Hr4XPsjVo79pe5HINKLk1.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/9WagHM3tyoWYP5YyCZOjIeCME4f.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=203857": {
+"banner": "https://assets.fanart.tv/fanart/the-diplomat-65e0590313b79.jpg",
+"clearart": "https://assets.fanart.tv/fanart/the-diplomat-64808e05a9e44.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/mZTsqoUSWVnkm6rWRxmeifMzdkb.png",
 "keyart": "https://image.tmdb.org/t/p/w780/qcwHkdn0XN0ZyjidrJX47097WDa.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/s5KaidPKwFkCM7BvZALVQ7yjbI4.jpg"
@@ -644,11 +892,14 @@
 "landscape": "https://image.tmdb.org/t/p/w1280/bNl30WyNpqKwy2zS1bafYAYEKEq.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=205050": {
+"banner": "https://assets.fanart.tv/fanart/shangri-la-frontier-64e2f22d97db5.jpg",
+"clearart": "https://assets.fanart.tv/fanart/shangri-la-frontier-64e2f20560a5d.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/tb6GwZGs0Qn1kGA5kd12hAUF1QN.png",
 "keyart": "https://image.tmdb.org/t/p/w780/htpWZ5Yzf90VT8MkLCVajOaAmD5.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/lLdbnYZu5hfl4vlY4HOjurKDq7a.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=207250": {
+"banner": "https://assets.fanart.tv/fanart/the-dangers-in-my-heart-643a51e3ed37e.jpg",
 "clearlogo": "https://image.tmdb.org/t/p/w500/lR4zzsSyM2Tj3r4UTL8rsXQI7jW.png",
 "keyart": "https://image.tmdb.org/t/p/w780/ywZ8wyW6MyM3RtOrWzTDNw8VpI8.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/1myBLGGerM2HjAMHuBeV1MiUPe5.jpg"
@@ -659,11 +910,15 @@
 "landscape": "https://image.tmdb.org/t/p/w1280/yLZXf9fghX00SyIfhaoh0x8lUpJ.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=207784": {
+"banner": "https://assets.fanart.tv/fanart/delicious-in-dungeon-6611476572c29.jpg",
+"clearart": "https://assets.fanart.tv/fanart/delicious-in-dungeon-65b5e8d764597.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/fMULZS0jaww964NW6GNcPufYdJQ.png",
 "keyart": "https://image.tmdb.org/t/p/w780/8QE6T2vb8HgsHUNV1shubQmKhOP.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/7aTlXATGdz6PnWpo2K7S23UAsMU.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=209867": {
+"banner": "https://assets.fanart.tv/fanart/frieren-beyond-journeys-end-6513be9b86c4e.jpg",
+"clearart": "https://assets.fanart.tv/fanart/frieren-beyond-journeys-end-6513bdd4872d4.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/skfm8Rli62KhZXBVJIIcd2mdvwu.png",
 "keyart": "https://image.tmdb.org/t/p/w780/2IGeAnIbToKIalm624kd0OVD7Iv.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/4o9dRFpbXygcDZsqnsZkXT6huYq.jpg"
@@ -674,6 +929,8 @@
 "landscape": "https://image.tmdb.org/t/p/w1280/xNNrUQFzvjy5hNm0r2nVApWoZB7.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=216082": {
+"banner": "https://assets.fanart.tv/fanart/zero-day-67b8eda681e2b.jpg",
+"clearart": "https://assets.fanart.tv/fanart/zero-day-69cbf95269603.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/rhWVIatJWIcxFKj97qXuNd8TzwE.png",
 "keyart": "https://image.tmdb.org/t/p/w780/4zYxERm0EdnAc4qByQ4X71iCena.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/hWdzn6NStv44NCHmAZb3Wb8uz8h.jpg"
@@ -688,6 +945,8 @@
 "landscape": "https://image.tmdb.org/t/p/w1280/wwPqgm0Ee018qzzSfvkif6kuVVB.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=220542": {
+"banner": "https://assets.fanart.tv/fanart/the-apothecary-diaries-652a480510842.jpg",
+"clearart": "https://assets.fanart.tv/fanart/the-apothecary-diaries-652a40551412f.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/esQy72uSbxgJH0Zp1tIAXcziUvY.png",
 "keyart": "https://image.tmdb.org/t/p/w780/tKZeL5kDZbOo8ao1szJZuZT0kqO.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/lgI2UIRCFTq99dpSl8VhWGHqrWV.jpg"
@@ -714,17 +973,27 @@
 "keyart": "https://image.tmdb.org/t/p/w780/yzge90RbPRRKu7lvwuWPj37aTu1.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=2316": {
+"banner": "https://assets.fanart.tv/fanart/the-office-us-52d697cada039.jpg",
+"clearart": "https://assets.fanart.tv/fanart/the-office-us-51157360da75a.png",
 "keyart": "https://image.tmdb.org/t/p/w780/pXCphifRdzRh48uXEOBT7BJygTA.jpg"
 },
+"saghe:azione=netflix_aggiungi&tmdb=236235": {
+"clearart": "https://assets.fanart.tv/fanart/the-gentlemen-69e788e6dc649.png"
+},
 "saghe:azione=netflix_aggiungi&tmdb=236994": {
+"clearart": "https://assets.fanart.tv/fanart/dragon-ball-daima-66d7eedf5ee0b.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/HFAyXFb8VpdJCXZPylKo3jtNT8.png",
 "keyart": "https://image.tmdb.org/t/p/w780/73rGI735Tzf5ohSBh4rE06uyVyD.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/bn4Wirr7kPmDsL60Y0TapvHFpy8.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=237316": {
-"clearlogo": "https://image.tmdb.org/t/p/w500/hdpMBQa6SfDPjGgUAyCun5KDwLq.png"
+"banner": "https://assets.fanart.tv/fanart/love-is-blind-uk-66bf3e3bc9a81.jpg",
+"clearlogo": "https://image.tmdb.org/t/p/w500/hdpMBQa6SfDPjGgUAyCun5KDwLq.png",
+"landscape": "https://assets.fanart.tv/fanart/love-is-blind-uk-66cf38f317c36.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=240411": {
+"banner": "https://assets.fanart.tv/fanart/dandadan-65696ef40774b.jpg",
+"clearart": "https://assets.fanart.tv/fanart/dan-da-dan-66bb030eca292.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/8z2Ta3PcpDv2MSNmMJfA9oGmqbd.png",
 "keyart": "https://image.tmdb.org/t/p/w780/4h2m9BO7milJaCsbKBgKvCX0dOZ.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/ndkmPUErYaQIhd2wfOW3SMYfwFE.jpg"
@@ -747,6 +1016,8 @@
 "landscape": "https://image.tmdb.org/t/p/w1280/fYkAmhusjc0cIcbsAeCoYnllKSH.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=253811": {
+"banner": "https://assets.fanart.tv/fanart/tougen-anki-693e46d4d20de.jpg",
+"clearart": "https://assets.fanart.tv/fanart/tougen-anki-legend-of-the-cursed-blood-6785ecb65776b.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/5KJjTVvl4ZDFJNHT5NV6etyBHCy.png",
 "keyart": "https://image.tmdb.org/t/p/w780/gQLCBMQvBtFGOkXWbWgDuj0q7jD.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/vAuzNUNlp3LkbkUNHxPbKaSiwb8.jpg"
@@ -762,9 +1033,17 @@
 "landscape": "https://image.tmdb.org/t/p/w1280/z0sftiGQfOALJVCg62n3MaWU72l.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=263330": {
+"banner": "https://assets.fanart.tv/fanart/playing-death-games-to-put-food-on-the-table-6964df8db0245.jpg",
+"clearart": "https://assets.fanart.tv/fanart/playing-death-games-to-put-food-on-the-table-6964dfbd1812a.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/2ZpF3FPuOZAxmc7urjovEZENzcH.png",
 "keyart": "https://image.tmdb.org/t/p/w780/rbPua7Q2RHIrGeQqisOF8aYUEfw.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/rFrkJTGYpSW2vLXw6ioqqERNwGi.jpg"
+},
+"saghe:azione=netflix_aggiungi&tmdb=271607": {
+"banner": "https://assets.fanart.tv/fanart/the-fragrant-flower-blooms-with-dignity-69423efb34948.jpg"
+},
+"saghe:azione=netflix_aggiungi&tmdb=2734": {
+"clearart": "https://assets.fanart.tv/fanart/law--order-special-victims-unit-53e379b177c2e.png"
 },
 "saghe:azione=netflix_aggiungi&tmdb=278178": {
 "clearlogo": "https://image.tmdb.org/t/p/w500/3fUl7xGryAOJ6I1Sy5Ly64sARhq.png",
@@ -772,11 +1051,13 @@
 "landscape": "https://image.tmdb.org/t/p/w1280/m2NEydy6ECus2soANNIY9LAipwl.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=278196": {
+"clearart": "https://assets.fanart.tv/fanart/the-summer-hikaru-died-6768f6b590dfe.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/wZXlG8ZlHB09Vsv5EyCcoANHUog.png",
 "keyart": "https://image.tmdb.org/t/p/w780/3nRF56ONFI7NELBHDxaBIoB9ixA.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/q2Pks0Sd5JxZTanZKhUNUH47fTX.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=281512": {
+"clearlogo": "https://assets.fanart.tv/fanart/my-melody--kuromi-678d19a224aac.png",
 "keyart": "https://image.tmdb.org/t/p/w780/c3yezHn0G0SgzchZbORVVCkvctb.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=283367": {
@@ -788,6 +1069,7 @@
 "keyart": "https://image.tmdb.org/t/p/w780/acvJvs1Zok2DyMdDmlKcXoDBNlj.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=283428": {
+"clearart": "https://assets.fanart.tv/fanart/the-ramparts-of-ice-6930583c2558f.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/a5okATkpmXxAClSnAjGP4ums77c.png",
 "keyart": "https://image.tmdb.org/t/p/w780/lqUDZSU2DzorVDVS6dGgpiIh2ZK.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/8Oh5v6xltWdVgt9Vt465qbLXatM.jpg"
@@ -808,16 +1090,20 @@
 },
 "saghe:azione=netflix_aggiungi&tmdb=30981": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/520/1301153.jpg",
+"clearart": "https://assets.fanart.tv/fanart/monster-56af500a39a94.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/3e2Af5ODKJBacITfnu1mHA6nz1U.png",
 "keyart": "https://image.tmdb.org/t/p/w780/3weRTHgTjw6UagOv03YtpYglRr4.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/biIgHdk39UcIdMvtNEMiotFl86s.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=30984": {
+"banner": "https://assets.fanart.tv/fanart/bleach-5f7b921886038.jpg",
+"clearart": "https://assets.fanart.tv/fanart/bleach-517d6118950f6.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/jEImh4O7mcYuwuAeryGZo3G6hg6.png",
 "keyart": "https://image.tmdb.org/t/p/w780/o8J1HvqO6QF1hMTY0eQq7itnUn4.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/mFKys64gbDQrFqwUheGwXQwo2JK.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=31251": {
+"banner": "https://assets.fanart.tv/fanart/victorious-64224e133de82.jpg",
 "clearlogo": "https://image.tmdb.org/t/p/w500/4UuD4Von8SKkYXDYOiTmBJM7zBJ.png",
 "keyart": "https://image.tmdb.org/t/p/w780/9BNSQyT4hOtMAVxnNC7RA8w0fA.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/4Xsw1Sd4fojcdXTO8IuYxiWFoaL.jpg"
@@ -836,6 +1122,10 @@
 "clearlogo": "https://image.tmdb.org/t/p/w500/7XQFldFRVpmmPToh7YlsydID6as.png",
 "keyart": "https://image.tmdb.org/t/p/w780/7hXOjKoCHZrVhV6GQK1AzGon9XW.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/nRJQiCfCkv9xkSnQ3zG3wrL8eJw.jpg"
+},
+"saghe:azione=netflix_aggiungi&tmdb=31911": {
+"banner": "https://assets.fanart.tv/fanart/fullmetal-alchemist-brotherhood-602ef17c40da6.jpg",
+"clearart": "https://assets.fanart.tv/fanart/fullmetal-alchemist-brotherhood-51e2ad16efd77.png"
 },
 "saghe:azione=netflix_aggiungi&tmdb=31991": {
 "clearlogo": "https://image.tmdb.org/t/p/w500/k0lJrDhoyuW6GWEWmHR7E2dZ1ic.png",
@@ -856,271 +1146,384 @@
 "landscape": "https://image.tmdb.org/t/p/w1280/uEkh9RWU62mz9PblKM6U1HxeftP.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=33765": {
+"clearart": "https://assets.fanart.tv/fanart/my-little-pony-friendship-is-magic-4f2734b2bba8d.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/v4jUdvsxmRUqiJ5vVGde3ApNvx8.png",
 "keyart": "https://image.tmdb.org/t/p/w780/2qDnXMy0acgr2yibR2S6WXUS1MD.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/wx2ouQeOspfvNfC3sRFeXZFCbys.jpg"
 },
+"saghe:azione=netflix_aggiungi&tmdb=34186": {
+"clearart": "https://assets.fanart.tv/fanart/chis-sweet-home-4e2c20443ab4f.png",
+"clearlogo": "https://assets.fanart.tv/fanart/chis-sweet-home-5c5b305456075.png"
+},
+"saghe:azione=netflix_aggiungi&tmdb=34307": {
+"clearart": "https://assets.fanart.tv/fanart/shameless-us-61ad15aeb92a4.png"
+},
 "saghe:azione=netflix_aggiungi&tmdb=36046": {
-"clearlogo": "https://image.tmdb.org/t/p/w500/awg8b8SLcQyJzMzCABKkqscheru.png"
+"banner": "https://assets.fanart.tv/fanart/city-hunter-5fe745d300dc0.jpg",
+"clearlogo": "https://image.tmdb.org/t/p/w500/awg8b8SLcQyJzMzCABKkqscheru.png",
+"landscape": "https://assets.fanart.tv/fanart/C_72877.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=37680": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/158/396194.jpg",
+"clearart": "https://assets.fanart.tv/fanart/suits-50aff58fb5b3d.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/vORphSBxXbhBrLUR3tJhtpvYLnW.png",
 "keyart": "https://image.tmdb.org/t/p/w780/94f6zJyjWqKPqgTE0C3aRo0TveN.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/trAOGwksvgHYNpbK4GewbjYQ1pi.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=37854": {
-"banner": "https://media.kitsu.app/anime/12/cover_image/21ecb556255bd46b95aea4779d19789f.jpg"
+"banner": "https://media.kitsu.app/anime/12/cover_image/21ecb556255bd46b95aea4779d19789f.jpg",
+"clearart": "https://assets.fanart.tv/fanart/one-piece-50634996dd128.png"
 },
 "saghe:azione=netflix_aggiungi&tmdb=38693": {
+"banner": "https://assets.fanart.tv/fanart/lego-ninjago-masters-of-spinjitzu-55a9dbe3324ff.jpg",
 "clearlogo": "https://image.tmdb.org/t/p/w500/7MSskBZ9qhIthuhqCBiBLpIyo7h.png",
 "keyart": "https://image.tmdb.org/t/p/w780/gu9iZsSUlzwFIt8zo9fcO1UqVYQ.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/vDcXsAxnCl4BRm9FFNgZoiq7keH.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=3902": {
+"banner": "https://assets.fanart.tv/fanart/shaun-the-sheep-52b6ce8238e2d.jpg",
+"clearart": "https://assets.fanart.tv/fanart/shaun-the-sheep-52b6b666a4123.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/mkd18fKB8dlLOZpzH5OMz9VIoqI.png",
 "keyart": "https://image.tmdb.org/t/p/w780/hbDTzj8f6M1wXZ1ZrmBMKP0Ef9G.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/mNf431L8qmT7v7DPrPeKUDLJSFO.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=42009": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/294/737315.jpg",
+"clearart": "https://assets.fanart.tv/fanart/black-mirror-58ff8defa95cb.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/nDbdbw0KntwVV10C5hNDzy0VPXC.png",
 "keyart": "https://image.tmdb.org/t/p/w780/uniOjn467gTnvL5WO2FrUQ7iQfs.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/qyGN3ANhwiEfYcu5k2ZZP0K1qdV.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=42509": {
+"banner": "https://assets.fanart.tv/fanart/steinsgate-57b27c98df969.jpg",
+"clearart": "https://assets.fanart.tv/fanart/steinsgate-4eb3f1877af50.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/7GEZnpbAgtPr7MeZ04i7HtiLvl3.png",
 "keyart": "https://image.tmdb.org/t/p/w780/pXzX4syjo8wfBeSB5Bq13p3DOoA.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/h5WKUP30Fk82hPSEJ3yItQc3HTv.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=42705": {
+"clearart": "https://assets.fanart.tv/fanart/hajime-no-ippo-55a65f654c015.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/qlJ4cCqnHNs8cPEZDlM67RwZIFQ.png",
 "keyart": "https://image.tmdb.org/t/p/w780/wpVqxXyvPT6Y5TehhBkXIRwDTCr.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/zCaMqZGx6FL0eaacFbBOQOKi5Pb.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=44217": {
+"clearart": "https://assets.fanart.tv/fanart/vikings-5993a0619718c.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/g4t8s34ONUnxLm7AfgOI82t4ozu.png",
 "keyart": "https://image.tmdb.org/t/p/w780/A9TB7pahOtHthgHokKiWt7JgnSS.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/gNIwh41v7Pe8hwF8XEu5JdH4s6B.jpg"
 },
+"saghe:azione=netflix_aggiungi&tmdb=45140": {
+"clearart": "https://assets.fanart.tv/fanart/teen-titans-go-57a75de771a55.png"
+},
 "saghe:azione=netflix_aggiungi&tmdb=45782": {
+"banner": "https://assets.fanart.tv/fanart/sword-art-online-5efd92cc68133.jpg",
+"clearart": "https://assets.fanart.tv/fanart/sword-art-online-5445838662abd.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/jzc9ZYRVMkzhHQaLsaNujKgEnWk.png",
 "keyart": "https://image.tmdb.org/t/p/w780/1mYx3OKyqCDGjLB8USDKkfMIk6b.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/fOCMhf5F5vTS7LzRIu2el68jjJ8.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=45783": {
+"banner": "https://assets.fanart.tv/fanart/kuroko-no-basuke-60a7a7c052ca9.jpg",
+"clearart": "https://assets.fanart.tv/fanart/kurokos-basketball-60b4c7fec6171.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/sYNSMbMDfwdc74a0BLrLllrZFEz.png",
 "keyart": "https://image.tmdb.org/t/p/w780/4NU233aXFv40qhbhi2wPI3ict70.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/tUpnzVuOt71hfNVl8MqtZuSWXHp.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=45790": {
+"banner": "https://assets.fanart.tv/fanart/jojos-bizarre-adventure-2012-5c9625731d1b5.jpg",
+"clearart": "https://assets.fanart.tv/fanart/jojos-bizarre-adventure-2012-62e40f90cad06.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/whXEu35d6bg3q4mTKNhfKBLIGBC.png",
 "keyart": "https://image.tmdb.org/t/p/w780/dLS0fKWWc0pGwf68DPxu7hY7tMR.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/ciDRS9Q8ErVxYzOpmYG40Wqbpc2.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=4586": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/306/766190.jpg",
+"clearart": "https://assets.fanart.tv/fanart/gilmore-girls-5b3263f046a02.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/fs73ceyz7UmL0yVz1zv0591lbRw.png",
 "keyart": "https://image.tmdb.org/t/p/w780/wnRKwy0E0uM84bimaYI9HHXnOB.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/oSheCphc34FY0avRY5M6jqBfJla.jpg"
 },
+"saghe:azione=netflix_aggiungi&tmdb=4604": {
+"banner": "https://assets.fanart.tv/fanart/smallville-5423597f2cafe.jpg",
+"clearart": "https://assets.fanart.tv/fanart/smallville-5181303d5d427.png"
+},
 "saghe:azione=netflix_aggiungi&tmdb=46080": {
+"banner": "https://assets.fanart.tv/fanart/masha-i-medved-56aa5eff70414.jpg",
+"clearart": "https://assets.fanart.tv/fanart/masha-i-medved-56aa5eddc62d2.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/AlJNEnRk3abO0eEBvrniuuWqVGU.png",
 "landscape": "https://image.tmdb.org/t/p/w1280/n7fjfniRbCsK8L5mrhyjuCgF6yr.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=4629": {
+"banner": "https://assets.fanart.tv/fanart/stargate-sg-1-511d621d87757.jpg",
+"clearart": "https://assets.fanart.tv/fanart/stargate-sg-1-5119846040515.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/AllIGHcRvZX6tEobLIngEl1QaN9.png",
 "keyart": "https://image.tmdb.org/t/p/w780/8KgH0b5JNXbC5jW80e5w2zuqa1e.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/4drB6vv1lpwcnclwIeJc8MCGn1R.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=46296": {
+"banner": "https://assets.fanart.tv/fanart/spartacus-5269e43f9ab00.jpg",
+"clearart": "https://assets.fanart.tv/fanart/spartacus-51e2f6f8a96f1.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/uw5XFr8iR7ejcb4zWqrA7bUwxqq.svg",
 "keyart": "https://image.tmdb.org/t/p/w780/2Zi0T8ubs0OAFIVZr3SI2mq34i5.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/kVTQYTlTh6G3xjwZlQ1qPW3wUGo.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=46298": {
+"banner": "https://assets.fanart.tv/fanart/hunter-x-hunter-2011-610c6783b4e3e.jpg",
+"clearart": "https://assets.fanart.tv/fanart/hunter-x-hunter-2011-56c9b30f4c494.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/jTzF5T8Ob6oZRinUCnhbLqrxFsM.png",
 "keyart": "https://image.tmdb.org/t/p/w780/84E1FFhsfF32p8UHJdphv6GgF6t.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/fv4IfnMTVLZSGnL8zKCTnmtl8L7.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=46504": {
+"clearlogo": "https://assets.fanart.tv/fanart/meateater-5252b32f6fca5.png",
 "landscape": "https://image.tmdb.org/t/p/w1280/4uHmXOsCMdgeGarHSMPlpj2w9EC.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=48891": {
+"banner": "https://assets.fanart.tv/fanart/brooklyn-nine-nine-53ff732f1b662.jpg",
+"clearart": "https://assets.fanart.tv/fanart/brooklyn-nine-nine-523ec58bef596.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/c4B02LhSKL6xLrI8vJ5IbLHL0Ue.png",
 "keyart": "https://image.tmdb.org/t/p/w780/dUN9ftl9VjS9svEn6dPOJxZzinZ.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/aNsrgElf0fiKBSR8cWWEL6XUTte.jpg"
 },
+"saghe:azione=netflix_aggiungi&tmdb=502": {
+"clearart": "https://assets.fanart.tv/fanart/sesame-street-57bc54444448f.png"
+},
 "saghe:azione=netflix_aggiungi&tmdb=5200": {
-"clearlogo": "https://image.tmdb.org/t/p/w500/mOYG0Ae5XHetTnPkNmUOf2hFz7L.png"
+"banner": "https://assets.fanart.tv/fanart/fireman-sam-6705ebb07b22b.jpg",
+"clearart": "https://assets.fanart.tv/fanart/fireman-sam-64a81c2e5ea9e.png",
+"clearlogo": "https://image.tmdb.org/t/p/w500/mOYG0Ae5XHetTnPkNmUOf2hFz7L.png",
+"landscape": "https://assets.fanart.tv/fanart/fireman-sam-6746ad51419a8.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=56568": {
+"banner": "https://assets.fanart.tv/fanart/nana-6498154b628aa.jpg",
+"clearart": "https://assets.fanart.tv/fanart/nana-57de29542e589.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/tAxaq8MCv4VBbIUzul91E4xdRQY.png",
 "keyart": "https://image.tmdb.org/t/p/w780/uFMwYcTFfOdjnrTWIzuTkkAIF5E.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/kqHyJAoN7xV3g1gxgNsLX2aP1Zr.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=57532": {
+"banner": "https://assets.fanart.tv/fanart/paw-patrol-5f06e14cbd28e.jpg",
+"clearart": "https://assets.fanart.tv/fanart/paw-patrol-5d9e010360694.png",
+"clearlogo": "https://assets.fanart.tv/fanart/paw-patrol-57c304b845d94.png",
 "keyart": "https://image.tmdb.org/t/p/w780/93ygogs6lZ0gBRyec4Riie5o56r.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/fYwHlOmwZDP6zJdVtOGkuOqSYOc.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=58841": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/281/702802.jpg",
+"clearart": "https://assets.fanart.tv/fanart/chicago-pd-596240844e214.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/mcwj8Di0nBdaraQrMji6VauMBeZ.png",
 "keyart": "https://image.tmdb.org/t/p/w780/1ZrcnQoReXlWs00uZiNMLoRkzL0.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/h65AXcet9bt9qkIT18HM5CmnXp5.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=5920": {
+"banner": "https://assets.fanart.tv/fanart/the-mentalist-533426268396b.jpg",
+"clearart": "https://assets.fanart.tv/fanart/the-mentalist-50f67c3422e93.png",
 "keyart": "https://image.tmdb.org/t/p/w780/eTYWcYIFyyuG5nqM1IcCv5TpW5I.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=60059": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/294/737305.jpg",
+"clearart": "https://assets.fanart.tv/fanart/better-call-saul-5925104da42ca.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/hwxBWyoeTefjafeqkIONxl0mXUV.png",
 "keyart": "https://image.tmdb.org/t/p/w780/dGcKhTi2xHOPU3yQ4lp7iMlw57k.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/9AOAezJ3uioh1939iQwtqKxC57I.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=60572": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/50/125792.jpg",
+"clearart": "https://assets.fanart.tv/fanart/pokmon-537f0772c9c35.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/yFcAmZeWwYm2hIEwC6veRekvrz4.png",
 "keyart": "https://image.tmdb.org/t/p/w780/tnwC1vWPhNgAboxu85gr7fSaJsm.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/iguaZsbPbKZxKmbyHgiXWP4zuJu.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=60574": {
+"banner": "https://assets.fanart.tv/fanart/peaky-blinders-52790b363b98d.jpg",
+"clearart": "https://assets.fanart.tv/fanart/peaky-blinders-527902e3a6db8.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/dfZBYZZYdFeNSeUqLKTiFpvtdJS.png",
 "keyart": "https://image.tmdb.org/t/p/w780/8qPdsHxxJU493XbjeYAXStRo7z.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/bewg9Io7Af9If7xpMqlxtjomn7j.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=60622": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/25/63120.jpg",
+"clearart": "https://assets.fanart.tv/fanart/fargo-5354aee1b6091.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/gdFFKKCDfubJVbj88JnaCHRJDGZ.png",
 "keyart": "https://image.tmdb.org/t/p/w780/b6kxQkEvr1IlJ639rwV2z8Pulvi.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/2h535cxMHIWPkLKPcX2D669BlLo.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=60625": {
+"banner": "https://assets.fanart.tv/fanart/rick-and-morty-55bace765eaed.jpg",
+"clearart": "https://assets.fanart.tv/fanart/rick-and-morty-5897038e2d2f3.png",
 "keyart": "https://image.tmdb.org/t/p/w780/fEYmNMw0MbRvxuOb4MdCvg12xKF.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=61222": {
+"banner": "https://assets.fanart.tv/fanart/bojack-horseman-583f40a82f04e.jpg",
+"clearart": "https://assets.fanart.tv/fanart/bojack-horseman-580b48c246691.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/8JBb1q4A0nyc2hVs9bNzQ5sD8HR.png",
 "keyart": "https://image.tmdb.org/t/p/w780/522H6sY6PhglcvvBYCrs4WGzzaP.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/2vyRUFoCya3iwpnvWEqJ14ObwBp.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=61374": {
+"banner": "https://assets.fanart.tv/fanart/tokyo-ghoul-5ba54a9c9b4b5.jpg",
+"clearart": "https://assets.fanart.tv/fanart/tokyo-ghoul-541cb63f0d53c.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/9u3baMv9AZ9znK9ecPjQQVoyEl8.png",
 "keyart": "https://image.tmdb.org/t/p/w780/4MMOJZfdE9ZpCanuYdLje6v99Aj.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/b9JLwU8KPshCD5OhY2stwWl8c7c.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=61852": {
+"clearart": "https://assets.fanart.tv/fanart/henry-danger-699188cac638a.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/xkC1jloJRr9crbGm9puKKk0zQRy.png",
 "keyart": "https://image.tmdb.org/t/p/w780/iu1G0EIK4JExhOH3c2PTWWKTQDB.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/or9vQ5o4b0Fbd2uCiPTq4EqSC7D.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=63174": {
+"banner": "https://assets.fanart.tv/fanart/lucifer-5641df2c2b257.jpg",
+"clearart": "https://assets.fanart.tv/fanart/lucifer-583029b23741d.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/vI2mH4P2qiaRD9cxPSBWyU7PawL.png",
 "keyart": "https://image.tmdb.org/t/p/w780/2TDeCTz9haZyg3ORRoVqExmYBba.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/uwymBm7rszO0n82y8uVLZLDBGqp.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=63333": {
+"banner": "https://assets.fanart.tv/fanart/the-last-kingdom-55b96fd496430.jpg",
+"clearart": "https://assets.fanart.tv/fanart/the-last-kingdom-58c2807a06938.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/rE7f5t0naWuCP404p2D9o01CzqX.png",
 "keyart": "https://image.tmdb.org/t/p/w780/fkr6wkRBDZb2tbUF0EUKvaVGsTv.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/ohswlE0cVVvVRSIpSDoDkUeFNCm.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=63926": {
+"banner": "https://assets.fanart.tv/fanart/one-punch-man-568cb4114cbf7.jpg",
+"clearart": "https://assets.fanart.tv/fanart/one-punch-man-568a46c89cf9c.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/s4c20xXgSDjbYAcpKchuWRU3zuR.png",
 "keyart": "https://image.tmdb.org/t/p/w780/wCk0ipZn18slcurxrW8uVldP6V1.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/t9futsXE3RhY9ielKHjA6oDAhrL.jpg"
 },
+"saghe:azione=netflix_aggiungi&tmdb=64196": {
+"banner": "https://assets.fanart.tv/fanart/overlord-61b1746e7f83e.jpg",
+"clearart": "https://assets.fanart.tv/fanart/overlord-55e3b90523bb4.png"
+},
 "saghe:azione=netflix_aggiungi&tmdb=64572": {
+"banner": "https://assets.fanart.tv/fanart/alvinnn-and-the-chipmunks-5ab92b7671a94.jpg",
+"clearart": "https://assets.fanart.tv/fanart/alvinnn-and-the-chipmunks-5ab9273d4ea84.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/mnBZnAjVLuOADAZdi2GEr2yJAyY.png",
 "keyart": "https://image.tmdb.org/t/p/w780/9pdszjW7D9SofPHH00dVKXcBi7D.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/8gvXiX4vrA6A4NgAaPWPkD7g2zQ.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=65292": {
+"banner": "https://assets.fanart.tv/fanart/ajin-584fea7abdd2a.jpg",
+"clearart": "https://assets.fanart.tv/fanart/ajin-655b19b155174.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/gPPFUCU11kX5A2kd772gtGqSSEE.png",
-"keyart": "https://image.tmdb.org/t/p/w780/cQXYRMuCqUGDGJxJ0BydCfYSuoq.jpg"
+"keyart": "https://image.tmdb.org/t/p/w780/cQXYRMuCqUGDGJxJ0BydCfYSuoq.jpg",
+"landscape": "https://assets.fanart.tv/fanart/ajin-5854c37f8f592.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=65334": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/444/1111907.jpg",
+"clearart": "https://assets.fanart.tv/fanart/miraculous-ladybug-583b087749fa1.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/qAQjnEASgUx6D7oHcEjzPTFuMYu.png",
 "keyart": "https://image.tmdb.org/t/p/w780/rKglUlUCd0b21QKR4lTvnFoOUD6.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/hcA3JzfVO67OZdo3hcL4uTr8RlM.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=65417": {
+"clearart": "https://assets.fanart.tv/fanart/pj-masks-5a9547da07d86.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/hpmb40mbAURc4gccgeQbQwknIaf.png",
 "keyart": "https://image.tmdb.org/t/p/w780/1uinDHv00ZfEQOHztGSV7rePUI3.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/wtpB3VaJNdVPl2eE5kjPbyRAUQm.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=66732": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/232/581241.jpg",
+"clearart": "https://assets.fanart.tv/fanart/stranger-things-57bafc0c3c60f.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/a712l7FYPIE5BtSc5Xnfya35Ug.png",
 "keyart": "https://image.tmdb.org/t/p/w780/hPBktUUy10Wquz3HYx71BuJ741M.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/89T83vE1ol8wcI879LutCqv7hMa.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=67026": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/274/685990.jpg",
+"clearart": "https://assets.fanart.tv/fanart/designated-survivor-580dc21abad04.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/mQ4d5Wi6qoDBEk7vxZtzTgjOaer.png",
 "keyart": "https://image.tmdb.org/t/p/w780/xMWEJHXjUjwttHMr1RtKYtdcHxr.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/t1BSwHx2Ss1kNkvCug0yj6U03gf.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=67075": {
+"banner": "https://assets.fanart.tv/fanart/mob-psycho-100-663739d2bc43c.jpg",
+"clearart": "https://assets.fanart.tv/fanart/mob-psycho-100-6549c988507f3.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/nH2KsyLFAj9hB0VZYVhpPkFeKPD.png",
 "keyart": "https://image.tmdb.org/t/p/w780/66AXW4B9t5gdKzVq9hgSiO7qmot.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/zSjERIOum3Ntwgu5a0kLmRCs70g.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=68708": {
+"banner": "https://assets.fanart.tv/fanart/roman-empire-reign-of-blood-5cadb9c6e1168.jpg",
+"clearart": "https://assets.fanart.tv/fanart/roman-empire-reign-of-blood-5cadb928deb1a.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/peferuuPRGPpB64RRrc2DtvCCV2.png",
 "keyart": "https://image.tmdb.org/t/p/w780/7HvTp2ktVkxQin1jyzvPMRvCsgS.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/kBXwpJP5ZuobpehvSE6A8BpmxrM.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=68854": {
+"banner": "https://assets.fanart.tv/fanart/kimi-ni-todoke-61944f91252c8.jpg",
+"clearart": "https://assets.fanart.tv/fanart/kimi-ni-todoke-50e4cb359d48f.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/nb3xVLKQZs0l0CaBMAwZ9sOL19G.png",
 "keyart": "https://image.tmdb.org/t/p/w780/3CfaYCQjfzns22wIlNQwjK7hCsp.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/lyX9fO9ZUuzw0P53kkHdHwSyOxL.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=69050": {
+"banner": "https://assets.fanart.tv/fanart/riverdale-5b0d691f87697.jpg",
+"clearart": "https://assets.fanart.tv/fanart/riverdale-5963e0b368fc5.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/gn3jfu3KfOPH2dZ9J2ER52ZaBtL.png",
 "keyart": "https://image.tmdb.org/t/p/w780/pbewg7GXGDt0oq0bIWdMD1IeFWd.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/wkPsKQOGHaykXslm4x55X14RZWL.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=69293": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/79/198001.jpg",
+"clearart": "https://assets.fanart.tv/fanart/little-witch-academia-585693e13fb2f.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/aRFsPTh6bK2t0hJYQoTBcdhylMs.png",
 "keyart": "https://image.tmdb.org/t/p/w780/dzV0IXchqnkVTybZLc5kQxm8qJD.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/cHYLXFMPeg7O6IoaSNJMRujHjxk.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=69557": {
+"banner": "https://assets.fanart.tv/fanart/fauda-5accf7a987192.jpg",
+"clearart": "https://assets.fanart.tv/fanart/fauda-5accf759cbae2.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/8tsp3Rme4fwlTTS9sdJXYPPZDNm.png",
 "keyart": "https://image.tmdb.org/t/p/w780/avujiTydAD6fqHNinkm1Is0b81T.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/b3S01b9R5djFXUlun5CMj4rw7dP.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=70523": {
+"banner": "https://assets.fanart.tv/fanart/dark-5bf0279932e57.jpg",
+"clearart": "https://assets.fanart.tv/fanart/dark-5a2f9d6d77a34.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/bV2DiPOCGj3VYtxTK3qS2N6PePI.png",
 "keyart": "https://image.tmdb.org/t/p/w780/eDKtPI0GAq1atAF6GQM15BALTWy.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/xWp8VB2Bt6mvVTTSXt0kFRy0A9b.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=71181": {
+"banner": "https://assets.fanart.tv/fanart/troyfall-of-a-city-5bdda974e15a3.jpg",
+"clearart": "https://assets.fanart.tv/fanart/troyfall-of-a-city-5bdda7821f345.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/CezjaZlqcfYbOG5NTAuebI71GG.png",
 "landscape": "https://image.tmdb.org/t/p/w1280/5TCoFdUkzh21N9oPKS5CqIc3wDE.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=71712": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/435/1087512.jpg",
+"clearart": "https://assets.fanart.tv/fanart/the-good-doctor-5ea18be2cdf76.png",
 "keyart": "https://image.tmdb.org/t/p/w780/ues9PKx8WJe2veIb4Liu0bJIC8H.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=71728": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/294/737301.jpg",
+"clearart": "https://assets.fanart.tv/fanart/young-sheldon-59cb18106be12.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/phbaDwOu5BKrWpN3FiKgFRxhkn4.png",
 "keyart": "https://image.tmdb.org/t/p/w780/htrnNXLPRlUQDtxxwF3Fs4rfGEq.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/4z7KWMWFcLWbYRteOLLKTwsT2vz.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=71789": {
+"banner": "https://assets.fanart.tv/fanart/seal-team-5a6c8a7754312.jpg",
+"clearart": "https://assets.fanart.tv/fanart/seal-team-5bd450fb7479e.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/rC1RHd5Qv03LYq9corF9KG2zNvb.png",
 "keyart": "https://image.tmdb.org/t/p/w780/ovdik2NhGiUwF2hZZu33aOxQYV1.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/oRhJD5IYpewoZnFUzOMvuJmPiLG.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=71790": {
+"banner": "https://assets.fanart.tv/fanart/swat-2017-5c62110f9dc6f.jpg",
+"clearart": "https://assets.fanart.tv/fanart/swat-2017-59cd644942a2c.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/uBxIeTKeYhtdI8TtWYqIrAgFvSt.png",
 "keyart": "https://image.tmdb.org/t/p/w780/py8mpFdEeTBnJoHkCcL2Wf75Tc2.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/3NC2Tfjr4N38qNYQApVtiggU47E.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=72305": {
+"banner": "https://assets.fanart.tv/fanart/kakegurui-61461a66af21f.jpg",
+"clearart": "https://assets.fanart.tv/fanart/kakegurui-61f686b9e2d71.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/apuiUZ4rkFWHK0YqlrGyoTJtGER.png",
 "keyart": "https://image.tmdb.org/t/p/w780/fD0lNv57fMWvJS6GKVbQMgVjYB9.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/3y9ZOjHNBt0fp1lf31lMlF6nngd.jpg"
@@ -1130,17 +1533,21 @@
 "landscape": "https://image.tmdb.org/t/p/w1280/pSKukrDMpTORMxa5i5iLFGjJTpk.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=75214": {
+"banner": "https://assets.fanart.tv/fanart/violet-evergarden-616d8cc604a5a.jpg",
+"clearart": "https://assets.fanart.tv/fanart/violet-evergarden-616d8fb6c0425.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/1uXmDOhOTX95Z8LY3EWUcGWri0O.png",
 "keyart": "https://image.tmdb.org/t/p/w780/edWsluO6IBhWp0f7B136hZKIHTr.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/yxcEyG50WaNHq6tcoBpfXno5vLT.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=76669": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/400/1002421.jpg",
+"clearart": "https://assets.fanart.tv/fanart/elite-5bcc73ec604a5.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/do6W20pUPPuKHTeZ5Qw2YGdTF2Q.png",
 "keyart": "https://image.tmdb.org/t/p/w780/xcBOCCJX1NDJkYIsjMpBET6NVFF.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/l4oUWKqwLQZEIx3JhtYgMzik4Sb.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=76922": {
+"banner": "https://assets.fanart.tv/fanart/queer-eye-5edb79b2a21ae.jpg",
 "clearlogo": "https://image.tmdb.org/t/p/w500/gEwSdbEG4LfPlkRTqn7wp4SMrKR.png",
 "keyart": "https://image.tmdb.org/t/p/w780/qoOEUh1Fi0c3FYcNY53TDAUKDon.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/41HKccYRSgOOfW9WhS2lbmetkFp.jpg"
@@ -1152,38 +1559,53 @@
 "landscape": "https://image.tmdb.org/t/p/w1280/wXxxse888VZhJJ9bmjqK7ABJBg4.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=78191": {
+"banner": "https://assets.fanart.tv/fanart/you-5c2c581aa6357.jpg",
+"clearart": "https://assets.fanart.tv/fanart/you-5ba400f7da053.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/VeNCc4i7LbRQpwC1mYl5jtBzFM.png",
 "keyart": "https://image.tmdb.org/t/p/w780/vA0KIHdXV1qS3MAL0wDE5h3RiVa.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/ijXRctzwrcLZZmKPskToK9jiUsf.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=79525": {
+"banner": "https://assets.fanart.tv/fanart/the-last-dance-5e921a2b69a7b.jpg",
+"clearart": "https://assets.fanart.tv/fanart/the-last-dance-5ea9e2fe8ec3c.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/42f3BjmZaY9ToUyJ6JdyPXfl4mz.png",
 "keyart": "https://image.tmdb.org/t/p/w780/2H1oK60bD57T97WNek2kwHdyH45.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/kV377hDEgDq9QrKEsxGeGFfkLso.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=79696": {
+"banner": "https://assets.fanart.tv/fanart/manifest-5bcb4c93e945f.jpg",
+"clearart": "https://assets.fanart.tv/fanart/manifest-5bad5a13382b9.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/qwXlCiJZk9d09fFJg2Up9CfIp1b.png",
 "keyart": "https://image.tmdb.org/t/p/w780/105rwwXk1AYofbMvlnwEET0R94l.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/ccKk6ts2Aqxu1rZinQpLWr15VlK.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=79744": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/607/1517997.jpg",
+"clearart": "https://assets.fanart.tv/fanart/the-rookie-5bcc79fce5cd1.png",
 "keyart": "https://image.tmdb.org/t/p/w780/3OQ9LDfaUI4FNQCauKIOnwm6p27.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=79746": {
+"banner": "https://assets.fanart.tv/fanart/explained-5b483d517f613.jpg",
+"clearart": "https://assets.fanart.tv/fanart/explained-5bdb2564c5532.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/rcFxtAxsUDkNdJGkfwzE4OAUVfk.png",
 "landscape": "https://image.tmdb.org/t/p/w1280/1gLzC7yhoEBWQs8Hq9gbuc0Nbdy.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=80307": {
+"banner": "https://assets.fanart.tv/fanart/bodyguard-2018-5bd2e87de9865.jpg",
+"clearart": "https://assets.fanart.tv/fanart/bodyguard-2018-5bd36026d7fd1.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/oSRXqSLTwQtXCVlbifATXwtO7qU.png",
 "keyart": "https://image.tmdb.org/t/p/w780/n86ihI1ffSKOmMLN646qGTURc1R.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/q28c8VReEgEHC6WiuiCLe3cJ4PR.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=80795": {
+"banner": "https://assets.fanart.tv/fanart/ultraman-2019-61690bd570213.jpg",
+"clearart": "https://assets.fanart.tv/fanart/ultraman-2019-6559c4f5dfe93.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/moR8zmEZ0BBVomEMUXJQVFLjDPW.png",
 "landscape": "https://image.tmdb.org/t/p/w1280/36aSy11pexHYbp8cGxgsVZxsOci.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=83097": {
+"banner": "https://assets.fanart.tv/fanart/the-promised-neverland--62f8ca071ce8f.jpg",
+"clearart": "https://assets.fanart.tv/fanart/the-promised-neverland--654c6eb2b5972.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/o4dhM6xk4Ux7Z3FqtSiZdyeRsyC.png",
 "keyart": "https://image.tmdb.org/t/p/w780/g4eZcpty4s28ngMc8g3AxnxQbsh.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/obekvfG6QYD8FtaQCdoyPTUksy8.jpg"
@@ -1200,11 +1622,14 @@
 "landscape": "https://image.tmdb.org/t/p/w1280/hh9jYH0kvbHFV3Z5GH9Sp4HMIhL.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=86031": {
+"banner": "https://assets.fanart.tv/fanart/dr-stone-5d290028cef1a.jpg",
 "clearlogo": "https://image.tmdb.org/t/p/w500/hnCHjH1xvqDDGLrt7vL7Ur0oy5c.png",
 "keyart": "https://image.tmdb.org/t/p/w780/rC9HEHNvENumwDKoghW59vkDnTG.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/px8w8DstjI8AOaWYqLc6BQngUvL.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=87083": {
+"banner": "https://assets.fanart.tv/fanart/formula-1-drive-to-survive-63fbc358ea6fd.jpg",
+"clearart": "https://assets.fanart.tv/fanart/formula-1-drive-to-survive-63fbc1e4b66a8.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/frWdXFHVRF4cUD5AWRWRg5C6ODX.png",
 "keyart": "https://image.tmdb.org/t/p/w780/clx5AbE7rJr0aTuAjvyIpv45jCJ.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/bnhA7fpbresrFP1MAId7RkZtFeW.jpg"
@@ -1215,37 +1640,48 @@
 "landscape": "https://image.tmdb.org/t/p/w1280/rT6S2th25OoTCnRIpr5TGJwtnIc.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=88803": {
+"banner": "https://assets.fanart.tv/fanart/vinland-saga-61658161434b8.jpg",
+"clearart": "https://assets.fanart.tv/fanart/vinland-saga-6074320637921.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/3gRatXdgLfzYU9q9WRwuQaIvpGQ.png",
 "keyart": "https://image.tmdb.org/t/p/w780/yGn9GrWazbkxgwnzQ4iKAioSCIO.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/iyOg1PSacGAIa1aeilAl8pVrCnC.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=890": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/446/1116705.jpg",
+"clearart": "https://assets.fanart.tv/fanart/neon-genesis-evangelion-51c988296d799.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/jNIXy1QNfYKzHCarH043bjOjBOD.png",
 "keyart": "https://image.tmdb.org/t/p/w780/nWGgLQpNtRqh6HuuMxQGEYTY4Nz.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/7JIcAdO0mKxYTVbngJ2ejQLRcir.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=90802": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/370/926860.jpg",
+"clearart": "https://assets.fanart.tv/fanart/the-sandman-63c181889b4a4.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/gzps6OMJAL9Hz1tVlLs4oi4Q4Qt.png",
 "keyart": "https://image.tmdb.org/t/p/w780/osJXdxrivWkqaS1XznuOw5vSlYS.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/sBGzERSMg0GTBbpjKHULxQCkIWz.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=90937": {
+"banner": "https://assets.fanart.tv/fanart/beastars-6161bb9a9a238.jpg",
+"clearart": "https://assets.fanart.tv/fanart/beastars-61620a09d6df0.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/1Xxvgsn6hraLNZPD4GviUkz34Pg.png",
 "keyart": "https://image.tmdb.org/t/p/w780/inYw1W3LQcw4OVwZPjwnhTIiIy0.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/pGFDrDRSwHRtnyreSPaa9nHYbbK.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=91997": {
+"banner": "https://assets.fanart.tv/fanart/pluto-656e48ab3c3b5.jpg",
 "clearlogo": "https://image.tmdb.org/t/p/w500/cXlvvza8zQANyuDL66TUnNhLq9M.png",
 "keyart": "https://image.tmdb.org/t/p/w780/j0NxRdixNLwhTptqGjTy9miQxzk.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/tOO9tTOEL1l3ZIEZZJn89aE9PMO.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=92591": {
+"banner": "https://assets.fanart.tv/fanart/drifting-dragons-6096c316f062c.jpg",
 "clearlogo": "https://commons.wikimedia.org/wiki/Special:FilePath/K%C5%ABtei_Dragons_logo.png?width=800",
-"keyart": "https://image.tmdb.org/t/p/w780/uRa7Gb5gNcwtuzay6ztPlDkicVL.jpg"
+"keyart": "https://image.tmdb.org/t/p/w780/uRa7Gb5gNcwtuzay6ztPlDkicVL.jpg",
+"landscape": "https://assets.fanart.tv/fanart/drifting-dragons-694d1bd8cd23f.jpg"
 },
 "saghe:azione=netflix_aggiungi&tmdb=92892": {
+"banner": "https://assets.fanart.tv/fanart/ahiru-no-sora-60953631646bd.jpg",
+"clearart": "https://assets.fanart.tv/fanart/ahiru-no-sora-613db14857749.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/jdMHAlFrCirfk2AGUqsbJM3xO2G.png",
 "keyart": "https://image.tmdb.org/t/p/w780/n0M1aeqSP8NJ7YQ76sWQw3EURq8.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/x9xiVMp0UaIt4TCD38G1jZNF8Yr.jpg"
@@ -1256,12 +1692,18 @@
 },
 "saghe:azione=netflix_aggiungi&tmdb=93405": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/362/906898.jpg",
+"clearart": "https://assets.fanart.tv/fanart/squid-game-6185b7304762c.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/6YFWTX7fiGjWpsnJWLLV4RSbJWd.png",
 "keyart": "https://image.tmdb.org/t/p/w780/A20e67rz2aWcrvXYUsB8Q63D1aK.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/nNpEhlJEhVHAXLKaCxU0r8ZGDj6.jpg"
 },
+"saghe:azione=netflix_aggiungi&tmdb=94664": {
+"banner": "https://assets.fanart.tv/fanart/mushoku-tensei-jobless-reincarnation-6075aff645053.jpg",
+"clearart": "https://assets.fanart.tv/fanart/mushoku-tensei-jobless-reincarnation-60751b173fb37.png"
+},
 "saghe:azione=netflix_aggiungi&tmdb=95479": {
 "banner": "https://media.kitsu.app/anime/cover_images/42765/original.jpeg",
+"clearart": "https://assets.fanart.tv/fanart/jujutsu-kaisen-659526b22dd02.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/tEmqJ1k4MdjuaKaetn8wGyZGcyC.png",
 "keyart": "https://image.tmdb.org/t/p/w780/qsFgxc9whGpGfLYzQjgq3xkNEbB.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/zAfK8cVjJiYUsVLDkHoIgxJh319.jpg"
@@ -1276,26 +1718,171 @@
 "keyart": "https://image.tmdb.org/t/p/w780/3XDABYwJ1LFccXcaYFgy4jmgwZH.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/4czYerynWps0OBpKJPk4bYjgmk5.jpg"
 },
+"saghe:azione=percorso&percorso=dragonball": {
+"clearart": "https://assets.fanart.tv/fanart/dragon-ball-61ad15a13b2ca.png"
+},
+"saghe:azione=percorso&percorso=dragonball_veloce": {
+"clearart": "https://assets.fanart.tv/fanart/dragon-ball-61ad15a13b2ca.png"
+},
+"saghe:azione=percorso&percorso=gonagai": {
+"banner": "https://assets.fanart.tv/fanart/mazinger-z-5b9c241631094.jpg"
+},
+"saghe:azione=percorso&percorso=gundam": {
+"banner": "https://assets.fanart.tv/fanart/mobile-suit-gundam-6666b597501a2.jpg",
+"clearart": "https://assets.fanart.tv/fanart/mobile-suit-gundam-6666b56e03e1b.png",
+"landscape": "https://assets.fanart.tv/fanart/mobile-suit-gundam-6666b583f1234.jpg"
+},
+"saghe:azione=percorso&percorso=heroes": {
+"clearart": "https://assets.fanart.tv/fanart/dragon-ball-heroes-5b01c0fb97dc3.png"
+},
+"saghe:azione=percorso&percorso=holly": {
+"clearart": "https://assets.fanart.tv/fanart/captain-tsubasa-4f98bc610b18c.png"
+},
+"saghe:azione=percorso&percorso=ken": {
+"clearart": "https://assets.fanart.tv/fanart/fist-of-the-north-star-551efa52d7d1b.png"
+},
+"saghe:azione=percorso&percorso=lamu": {
+"banner": "https://assets.fanart.tv/fanart/urusei-yatsura-59d82cca3baf4.jpg",
+"clearart": "https://assets.fanart.tv/fanart/UruseiYatsura-75113.png"
+},
+"saghe:azione=percorso&percorso=lupin": {
+"clearart": "https://assets.fanart.tv/fanart/lupin-iii---the-woman-called-fujiko-mine-4f89485edb17a.png"
+},
+"saghe:azione=percorso&percorso=m_aot": {
+"banner": "https://assets.fanart.tv/fanart/attack-on-titan-51abe6905365e.jpg",
+"clearart": "https://assets.fanart.tv/fanart/attack-on-titan-51a64c64991b3.png"
+},
 "saghe:azione=percorso&percorso=m_berserk": {
-"banner": "https://media.kitsu.app/anime/24/cover_image/7e8f13e950295d64746899ca93c39eb3.jpg"
+"banner": "https://media.kitsu.app/anime/24/cover_image/7e8f13e950295d64746899ca93c39eb3.jpg",
+"clearart": "https://assets.fanart.tv/fanart/berserk-5f6fd7208d54a.png"
 },
 "saghe:azione=percorso&percorso=m_blackclover": {
+"banner": "https://assets.fanart.tv/fanart/black-clover-60a3899e06cff.jpg",
+"clearart": "https://assets.fanart.tv/fanart/black-clover-5c30dd62b59ae.png",
 "keyart": "https://image.tmdb.org/t/p/w780/o24W3huCBpDA3mKxgNhvTpXJ8Ie.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/9Y6EYzooPULbJ0zve65e62fFAYU.jpg"
 },
+"saghe:azione=percorso&percorso=m_bleach": {
+"banner": "https://assets.fanart.tv/fanart/bleach-5f7b921886038.jpg",
+"clearart": "https://assets.fanart.tv/fanart/bleach-517d6118950f6.png"
+},
+"saghe:azione=percorso&percorso=m_chainsaw": {
+"banner": "https://assets.fanart.tv/fanart/chainsaw-man-63502475586bc.jpg",
+"clearart": "https://assets.fanart.tv/fanart/chainsaw-man-653f372b2680b.png"
+},
+"saghe:azione=percorso&percorso=m_codegeass": {
+"banner": "https://assets.fanart.tv/fanart/code-geass-lelouch-of-the-rebellion-5fc3952603ce8.jpg",
+"clearart": "https://assets.fanart.tv/fanart/code-geass-lelouch-of-the-rebellion-51ae1b24c767a.png"
+},
+"saghe:azione=percorso&percorso=m_cowboy": {
+"banner": "https://assets.fanart.tv/fanart/cowboy-bebop-5134cffe2154b.jpg",
+"clearart": "https://assets.fanart.tv/fanart/cowboy-bebop-51b0a05e2491a.png"
+},
+"saghe:azione=percorso&percorso=m_deathnote": {
+"banner": "https://assets.fanart.tv/fanart/death-note-5febd953bbe87.jpg",
+"clearart": "https://assets.fanart.tv/fanart/death-note-51b7631be4cdb.png"
+},
 "saghe:azione=percorso&percorso=m_demonslayer": {
-"banner": "https://media.kitsu.app/anime/41370/cover_image/7958f9c01b57c980636386d124553791.jpg"
+"banner": "https://media.kitsu.app/anime/41370/cover_image/7958f9c01b57c980636386d124553791.jpg",
+"clearart": "https://assets.fanart.tv/fanart/demon-slayer-kimetsu-no-yaiba-5fee3cff12054.png"
 },
 "saghe:azione=percorso&percorso=m_digimon": {
-"banner": "https://media.kitsu.app/anime/cover_images/509/original.jpg"
+"banner": "https://media.kitsu.app/anime/cover_images/509/original.jpg",
+"clearart": "https://assets.fanart.tv/fanart/digimon-digital-monsters-520e2f764256b.png"
+},
+"saghe:azione=percorso&percorso=m_evangelion": {
+"clearart": "https://assets.fanart.tv/fanart/neon-genesis-evangelion-51c988296d799.png"
+},
+"saghe:azione=percorso&percorso=m_fairytail": {
+"banner": "https://assets.fanart.tv/fanart/fairy-tail-600ed928b9f1b.jpg",
+"clearart": "https://assets.fanart.tv/fanart/fairy-tail-51cc1a36cdc45.png"
+},
+"saghe:azione=percorso&percorso=m_fma": {
+"banner": "https://assets.fanart.tv/fanart/fullmetal-alchemist-brotherhood-602ef17c40da6.jpg",
+"clearart": "https://assets.fanart.tv/fanart/fullmetal-alchemist-brotherhood-51e2ad16efd77.png"
+},
+"saghe:azione=percorso&percorso=m_fma03": {
+"banner": "https://assets.fanart.tv/fanart/fullmetal-alchemist-602a7f365ba82.jpg",
+"clearart": "https://assets.fanart.tv/fanart/fullmetal-alchemist-51e2add850829.png"
+},
+"saghe:azione=percorso&percorso=m_gto": {
+"banner": "https://assets.fanart.tv/fanart/great-teacher-onizuka-1999-607d6dda60283.jpg",
+"clearart": "https://assets.fanart.tv/fanart/great-teacher-onizuka-1999-607d6d90dc9f7.png"
+},
+"saghe:azione=percorso&percorso=m_hxh": {
+"banner": "https://assets.fanart.tv/fanart/hunter-x-hunter-2011-610c6783b4e3e.jpg",
+"clearart": "https://assets.fanart.tv/fanart/hunter-x-hunter-2011-56c9b30f4c494.png"
+},
+"saghe:azione=percorso&percorso=m_hxh99": {
+"banner": "https://assets.fanart.tv/fanart/hunter-x-hunter-610c65e03d8d4.jpg",
+"clearart": "https://assets.fanart.tv/fanart/hunter-x-hunter-610c65a516a87.png"
+},
+"saghe:azione=percorso&percorso=m_inuyasha": {
+"banner": "https://assets.fanart.tv/fanart/inuyasha-613e78ca612aa.jpg",
+"clearart": "https://assets.fanart.tv/fanart/inuyasha-529505c38f3cf.png"
 },
 "saghe:azione=percorso&percorso=m_jjk": {
-"banner": "https://media.kitsu.app/anime/cover_images/42765/original.jpeg"
+"banner": "https://media.kitsu.app/anime/cover_images/42765/original.jpeg",
+"clearart": "https://assets.fanart.tv/fanart/jujutsu-kaisen-659526b22dd02.png"
+},
+"saghe:azione=percorso&percorso=m_jojo": {
+"banner": "https://assets.fanart.tv/fanart/jojos-bizarre-adventure-2012-5c9625731d1b5.jpg",
+"clearart": "https://assets.fanart.tv/fanart/jojos-bizarre-adventure-2012-62e40f90cad06.png"
+},
+"saghe:azione=percorso&percorso=m_kenshin": {
+"banner": "https://assets.fanart.tv/fanart/rurouni-kenshin-6247461404fc5.jpg",
+"clearart": "https://assets.fanart.tv/fanart/rurouni-kenshin-4dc0a42305973.png"
+},
+"saghe:azione=percorso&percorso=m_mha": {
+"banner": "https://assets.fanart.tv/fanart/my-hero-academia-5748232a43a5b.jpg",
+"clearart": "https://assets.fanart.tv/fanart/my-hero-academia-58e50b78d6ad2.png"
+},
+"saghe:azione=percorso&percorso=m_opm": {
+"banner": "https://assets.fanart.tv/fanart/one-punch-man-568cb4114cbf7.jpg",
+"clearart": "https://assets.fanart.tv/fanart/one-punch-man-568a46c89cf9c.png"
+},
+"saghe:azione=percorso&percorso=m_pokemon": {
+"clearart": "https://assets.fanart.tv/fanart/pokmon-537f0772c9c35.png"
+},
+"saghe:azione=percorso&percorso=m_shamanking": {
+"banner": "https://assets.fanart.tv/fanart/shaman-king-67610a3468297.jpg"
+},
+"saghe:azione=percorso&percorso=m_slamdunk": {
+"banner": "https://assets.fanart.tv/fanart/slam-dunk-60a0cbfe0c279.jpg",
+"clearart": "https://assets.fanart.tv/fanart/slam-dunk-58c583815b560.png"
+},
+"saghe:azione=percorso&percorso=m_souleater": {
+"clearart": "https://assets.fanart.tv/fanart/soul-eater-677611971a2bc.png"
+},
+"saghe:azione=percorso&percorso=m_steinsgate": {
+"banner": "https://assets.fanart.tv/fanart/steinsgate-57b27c98df969.jpg",
+"clearart": "https://assets.fanart.tv/fanart/steinsgate-4eb3f1877af50.png"
+},
+"saghe:azione=percorso&percorso=m_trigun": {
+"banner": "https://assets.fanart.tv/fanart/trigun-5b9e12e586f3e.jpg",
+"clearart": "https://assets.fanart.tv/fanart/trigun-52fe9c2a42a48.png"
+},
+"saghe:azione=percorso&percorso=m_vinland": {
+"banner": "https://assets.fanart.tv/fanart/vinland-saga-61658161434b8.jpg",
+"clearart": "https://assets.fanart.tv/fanart/vinland-saga-6074320637921.png"
+},
+"saghe:azione=percorso&percorso=m_yugioh": {
+"banner": "https://assets.fanart.tv/fanart/yu-gi-oh-667e499be22e3.jpg",
+"clearart": "https://assets.fanart.tv/fanart/yu-gi-oh-5694a5bce2067.png"
 },
 "saghe:azione=percorso&percorso=m_yuyu": {
-"banner": "https://media.kitsu.app/anime/cover_images/359/original.jpg"
+"banner": "https://media.kitsu.app/anime/cover_images/359/original.jpg",
+"clearart": "https://assets.fanart.tv/fanart/yu-yu-hakusho-61ad15b760b9e.png"
+},
+"saghe:azione=percorso&percorso=matsumoto": {
+"clearart": "https://assets.fanart.tv/fanart/albator-78-603e9aaf797c6.png"
+},
+"saghe:azione=percorso&percorso=mazinga": {
+"banner": "https://assets.fanart.tv/fanart/mazinger-z-5b9c241631094.jpg"
 },
 "saghe:azione=percorso&percorso=mia_tmdb_57706": {
+"banner": "https://assets.fanart.tv/fanart/ranma--5bb0dafc019a6.jpg",
+"clearart": "https://assets.fanart.tv/fanart/ranma--51cf557fe7960.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/jIPw1T05kVYiRnNZtxNB7jdLxrs.png",
 "keyart": "https://image.tmdb.org/t/p/w780/c7VBbO2IAoWeQLQxzYSypsFvxd0.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/h9kMKxArSV4CJkPWmGzABC7Z1fw.jpg"
@@ -1304,8 +1891,17 @@
 "clearlogo": "https://image.tmdb.org/t/p/w500/4UQSwK1KmWRBSxs0TMKznhOkVc3.png",
 "landscape": "https://image.tmdb.org/t/p/w1280/wfGYAE8MEaZ4MKAvAa837f0Zr0F.jpg"
 },
+"saghe:azione=percorso&percorso=naruto": {
+"banner": "https://assets.fanart.tv/fanart/naruto-68510307b9c30.jpg",
+"clearart": "https://assets.fanart.tv/fanart/naruto-503e225a49516.png"
+},
+"saghe:azione=percorso&percorso=naruto_veloce": {
+"banner": "https://assets.fanart.tv/fanart/naruto-68510307b9c30.jpg",
+"clearart": "https://assets.fanart.tv/fanart/naruto-503e225a49516.png"
+},
 "saghe:azione=percorso&percorso=one_piece": {
-"banner": "https://media.kitsu.app/anime/12/cover_image/21ecb556255bd46b95aea4779d19789f.jpg"
+"banner": "https://media.kitsu.app/anime/12/cover_image/21ecb556255bd46b95aea4779d19789f.jpg",
+"clearart": "https://assets.fanart.tv/fanart/one-piece-50634996dd128.png"
 },
 "saghe:azione=percorso&percorso=tr_endless_love": {
 "clearlogo": "https://commons.wikimedia.org/wiki/Special:FilePath/Kara_Sevda_Logo.png?width=800"
@@ -1317,8 +1913,13 @@
 "saghe:azione=percorso&percorso=tr_ragazza_ufficiale": {
 "keyart": "https://image.tmdb.org/t/p/w780/oeGieJuRMmgejfpwlnp3seDZE3p.jpg"
 },
+"saghe:azione=percorso&percorso=zodiaco": {
+"banner": "https://assets.fanart.tv/fanart/saint-seiya-53b470965c5bf.jpg",
+"clearart": "https://assets.fanart.tv/fanart/saint-seiya-53f280f63a48e.png"
+},
 "saghe:azione=scaffale_cerca&cosa=Cake Boss": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/319/797622.jpg",
+"clearart": "https://assets.fanart.tv/fanart/cake-boss-4dca08fdec521.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/rCLp6Z6LkyCYTBWefsBCDN5nm3h.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/42x4sO1WxIyg0an5gc0cSMId51x.jpg",
 "keyart": "https://image.tmdb.org/t/p/w780/wvCgT2d1gU2F8zDQ1lOTJHCauqC.jpg"
@@ -1365,17 +1966,22 @@
 },
 "saghe:azione=scaffale_cerca&cosa=boss delle torte": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/319/797622.jpg",
+"clearart": "https://assets.fanart.tv/fanart/cake-boss-4dca08fdec521.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/rCLp6Z6LkyCYTBWefsBCDN5nm3h.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/42x4sO1WxIyg0an5gc0cSMId51x.jpg",
 "keyart": "https://image.tmdb.org/t/p/w780/wvCgT2d1gU2F8zDQ1lOTJHCauqC.jpg"
 },
 "saghe:azione=scaffale_cerca&cosa=chernobyl": {
+"banner": "https://assets.fanart.tv/fanart/chernobyl-5cd1de2bec728.jpg",
+"clearart": "https://assets.fanart.tv/fanart/chernobyl-5cee217ada105.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/f7kz7QLMMfBnM9sMfri4q6FhuvE.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/900tHlUYUkp7Ol04XFSoAaEIXcT.jpg",
 "keyart": "https://image.tmdb.org/t/p/w780/hwzqCWjxTV30fMFgvg6uJCARioe.jpg"
 },
 "saghe:azione=scaffale_cerca&cosa=cocktail ricette": {
+"banner": "https://assets.fanart.tv/fanart/cocktail-54c2b6eec9abb.jpg",
 "clearlogo": "https://image.tmdb.org/t/p/w500/eC3X7lY7OMRGxwxWNOmoorCJl3I.png",
+"discart": "https://assets.fanart.tv/fanart/cocktail-511786c48019a.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/knYXryj3073w9fBMD5Xatk0ECiS.jpg",
 "keyart": "https://image.tmdb.org/t/p/w780/4Awe4ZjKRFImFw9jXDxBMZfK4tO.jpg",
 "poster": "https://image.tmdb.org/t/p/w780/jFRhEPhtsln9tDwzMdZN3OlhUob.jpg"
@@ -1407,16 +2013,24 @@
 "keyart": "https://image.tmdb.org/t/p/w780/qIM1TCSuu00udS6Z86rR5Kx8gV.jpg"
 },
 "saghe:azione=scaffale_cerca&cosa=documentario dinosauri": {
+"banner": "https://assets.fanart.tv/fanart/dinosaur-662281b23ee62.jpg",
+"clearart": "https://assets.fanart.tv/fanart/dinosaur-55212bbdf3770.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/fVNW1fBUvTpiPgADBUnEzNJnBHu.png",
+"discart": "https://assets.fanart.tv/fanart/dinosaur-5406b15259385.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/e1mgahsZE1t1lXzuDIvaZY24lSN.jpg",
 "keyart": "https://image.tmdb.org/t/p/w780/gWKjVwvmv6BFQYf9VwEO8NYSH9n.jpg"
 },
 "saghe:azione=scaffale_cerca&cosa=documentario intelligenza artificiale": {
+"banner": "https://assets.fanart.tv/fanart/ai-artificial-intelligence-5941f79febd27.jpg",
+"clearart": "https://assets.fanart.tv/fanart/ai-artificial-intelligence-50e99a3cb193f.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/zrjz1iKBqgywMOlLIwbYFO4MBnU.png",
+"discart": "https://assets.fanart.tv/fanart/ai-artificial-intelligence-511631576b21a.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/n7p6UTAZtkeoHkwCO42BEQaMFJY.jpg",
 "keyart": "https://image.tmdb.org/t/p/w780/aVqJhlnPgAng8ZOvzjIRgKaR6b7.jpg"
 },
 "saghe:azione=scaffale_cerca&cosa=documentario marte": {
+"banner": "https://assets.fanart.tv/fanart/mars-2016-583aa0552b893.jpg",
+"clearart": "https://assets.fanart.tv/fanart/mars-2016-58ff218fe33c7.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/v14yjqSO6BuP6MfJsIKgvQRWoDe.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/mFeMpWfNj5PdUI2DGhaWDIWRIkU.jpg",
 "keyart": "https://image.tmdb.org/t/p/w780/o024Tol5XC6LOPxZSrpJ7D3qTO2.jpg"
@@ -1425,6 +2039,8 @@
 "keyart": "https://image.tmdb.org/t/p/w780/v0J0CNOb8OMtGjO2ibNslvGMzOM.jpg"
 },
 "saghe:azione=scaffale_cerca&cosa=documentario olocausto": {
+"banner": "https://assets.fanart.tv/fanart/holocaust-5211cb5cc58fb.jpg",
+"clearart": "https://assets.fanart.tv/fanart/holocaust-5211c36531e06.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/niMMKWkZejzmh8PPCjvetlsarQ8.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/3q4C0QTGU6NoqcW5SV64a21Nn2o.jpg"
 },
@@ -1455,7 +2071,9 @@
 "keyart": "https://image.tmdb.org/t/p/w780/yOmQ3Zsmj75pG30gjHOjJKjreyq.jpg"
 },
 "saghe:azione=scaffale_cerca&cosa=documentario vichinghi": {
+"banner": "https://assets.fanart.tv/fanart/the-vikings-599ec56d640e0.jpg",
 "clearlogo": "https://image.tmdb.org/t/p/w500/6Qj4zm76QJ19RLfYQVvuwNu1ptm.png",
+"discart": "https://assets.fanart.tv/fanart/the-vikings-549b0b85e31b1.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/uRi6TrBzjXG3IsPqnUP8cz61NRD.jpg"
 },
 "saghe:azione=scaffale_cerca&cosa=documentario vietnam": {
@@ -1472,6 +2090,7 @@
 },
 "saghe:azione=scaffale_cerca&cosa=hell's kitchen": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/303/759946.jpg",
+"clearart": "https://assets.fanart.tv/fanart/hells-kitchen-5bb64b86d19b5.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/fYRzVKvqCeFMOby2L16Fg5J86E.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/kitfuCa2TqX6oY5HvdFRjMMaLwc.jpg",
 "keyart": "https://image.tmdb.org/t/p/w780/76aSrsadd1zwavBuP7VRz8K5mkW.jpg"
@@ -1481,6 +2100,7 @@
 "keyart": "https://image.tmdb.org/t/p/w780/iZFz1uETlpSzwLlbR5zA0FNc2Xl.jpg"
 },
 "saghe:azione=scaffale_cerca&cosa=pizza fatta in casa": {
+"clearlogo": "https://assets.fanart.tv/fanart/pizza-4e96a318abd10.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/zzR358FOLjkU8xbpPbC1n3Gvnhk.jpg",
 "poster": "https://image.tmdb.org/t/p/w780/nqtMOuCLaFHOKo5F6hMiI5ZBmhn.jpg"
 },
@@ -1493,6 +2113,7 @@
 },
 "saghe:azione=scaffale_cerca&cosa=top chef": {
 "banner": "https://static.tvmaze.com/uploads/images/original_untouched/304/761129.jpg",
+"clearart": "https://assets.fanart.tv/fanart/top-chef-58bbef4ead2de.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/m8RFhepRGwe3mkzbDSa8pc8Krhz.png",
 "fanart": "https://image.tmdb.org/t/p/w1280/1fXznFH7cmHxSli5PRbnNvvte3Y.jpg",
 "keyart": "https://image.tmdb.org/t/p/w780/hgekhcnfMqa62msftBKgEnzDNg5.jpg"
@@ -1502,7 +2123,8 @@
 "keyart": "https://image.tmdb.org/t/p/w780/zPIWnGxBnE2DnraoTpX60pHmUr0.jpg"
 },
 "url:plugin://plugin.video.s4me/?eyJhY3Rpb24iOiJjaW5lbWFfZm9udGkiLCJjaGFubmVsIjoibGVzYWdoZSJ9&titolo_film=Blame%20Game&titolo_originale=Blame%20Game&anno=2018&chiave=movie%2F628315": {
-"keyart": "https://image.tmdb.org/t/p/w780/9DtcX79rBByCk3lPjjhf4cQxbGF.jpg"
+"keyart": "https://image.tmdb.org/t/p/w780/9DtcX79rBByCk3lPjjhf4cQxbGF.jpg",
+"landscape": "https://assets.fanart.tv/fanart/the-blame-game-627fdadf6327b.jpg"
 },
 "url:plugin://plugin.video.s4me/?eyJhY3Rpb24iOiJjaW5lbWFfZm9udGkiLCJjaGFubmVsIjoibGVzYWdoZSJ9&titolo_film=Costa%20Concordia%3A%20incubo%20in%20mare&titolo_originale=Shipwrecked%3A%20Nightmare%20at%20Sea&anno=2026&chiave=movie%2F1715492": {
 "clearlogo": "https://image.tmdb.org/t/p/w500/nM8qjBHakT34ZDl5du19I1TQ3IP.png",
@@ -1514,7 +2136,10 @@
 "keyart": "https://image.tmdb.org/t/p/w780/v529m7jG2P8oqROtiKLeElXm2Tv.jpg"
 },
 "url:plugin://plugin.video.s4me/?eyJhY3Rpb24iOiJjaW5lbWFfZm9udGkiLCJjaGFubmVsIjoibGVzYWdoZSJ9&titolo_film=David%20Attenborough%3A%20una%20vita%20sul%20nostro%20pianeta&titolo_originale=David%20Attenborough%3A%20A%20Life%20on%20Our%20Planet&anno=2020&chiave=movie%2F664280": {
+"banner": "https://assets.fanart.tv/fanart/david-attenborough-a-life-on-our-planet-617889390c7a5.jpg",
+"clearart": "https://assets.fanart.tv/fanart/david-attenborough-a-life-on-our-planet-5f96d03c9cc57.png",
 "clearlogo": "https://image.tmdb.org/t/p/w500/dJm4sxwgEjueTXLf4gP4jCsK9iA.png",
+"discart": "https://assets.fanart.tv/fanart/david-attenborough-a-life-on-our-planet-5f96e6181d3b2.png",
 "keyart": "https://image.tmdb.org/t/p/w780/aX1SqYJ9SNxt5K3fWGgOsRLUCmt.jpg",
 "landscape": "https://image.tmdb.org/t/p/w1280/6xzoWgqsJ0DXmjwntVfagFu9sWU.jpg"
 },
@@ -1559,6 +2184,7 @@
 "landscape": "https://image.tmdb.org/t/p/w1280/oHvNmKakGfykkvYeNXSy33ITxzD.jpg"
 },
 "url:plugin://plugin.video.s4me/?eyJhY3Rpb24iOiJjaW5lbWFfZm9udGkiLCJjaGFubmVsIjoibGVzYWdoZSJ9&titolo_film=Un%20hijo%20propio%20-%20Un%20figlio%20tutto%20mio&titolo_originale=Un%20hijo%20propio&anno=2026&chiave=movie%2F1616131": {
+"clearlogo": "https://assets.fanart.tv/fanart/a-child-of-my-own-69f8fbfdb704d.png",
 "keyart": "https://image.tmdb.org/t/p/w780/OP9GDVWBKdWW6xsrPw8bq1hEjQ.jpg"
 },
 "url:plugin://plugin.video.s4me/?eyJhY3Rpb24iOiJjaW5lbWFfZm9udGkiLCJjaGFubmVsIjoibGVzYWdoZSJ9&titolo_film=Untold%20Raygun%3A%20Breaking%20Badly&titolo_originale=Untold%20Raygun%3A%20Breaking%20Badly&anno=2026&chiave=movie%2F1739202": {
