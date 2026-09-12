@@ -61,6 +61,20 @@ CONTROLLI = (
     '<loop>no</loop><randomize>false</randomize><aspectratio>keep</aspectratio></control>\n    ' % (SEGNO_APERTURA, LOGO, LOGO))
 
 
+def _senza_suono(testo):
+    """Toglie la riga del suono dalla schermata di avvio.
+
+    Era `<onload ...>PlaySFX(...suono.wav)</onload>`, e Kodi la rifiutava
+    ("no such action"): PlaySFX e' un'azione del telecomando, non un comando
+    eseguibile da una schermata. Adesso il suono lo fa il servizio del
+    guardiano con xbmc.playSFX(). Si toglie anche la riga a capo che la
+    seguiva, per non lasciare buchi nel file."""
+    import re as _re
+    if "PlaySFX" not in (testo or ""):
+        return testo
+    return _re.sub(r"[ \t]*<onload[^>]*>\s*PlaySFX\([^)]*\)\s*</onload>\s*\n?", "", testo)
+
+
 def _con_suono(testo):
     """Mette il suono subito prima dell'attesa della home. None se non trova il posto."""
     if SUONO in testo:
@@ -94,13 +108,17 @@ def cuci_startup(testo):
         nuovo = nuovo.replace("<controls/>", "<controls>%s</controls>" % CONTROLLI, 1)
     else:
         nuovo = nuovo.replace("<controls>", "<controls>%s" % CONTROLLI, 1)
-    # NIENTE PlaySFX QUI (12/09/2026). La riga
+    # LA RIGA PlaySFX VA TOLTA, NON SOLO "NON AGGIUNTA" (12/09/2026).
     #   <onload ...>PlaySFX(special://home/.../suono.wav)</onload>
     # non ha mai suonato, e il registro del Raspberry diceva perche':
     #   "Keymapping error: no such action 'playsfx(...)' defined".
     # PlaySFX in Kodi e' un'AZIONE del telecomando, non un comando che una
     # schermata puo' eseguire: dentro <onload> viene rifiutata. Il suono lo fa
     # ora il servizio del guardiano con xbmc.playSFX(), che e' l'API giusta.
+    # ATTENZIONE: ricucendo sopra una versione vecchia il testo di partenza LA
+    # CONTIENE GIA', quindi smettere di aggiungerla non basta - sul Raspberry
+    # infatti era rimasta, col segno nuovo. Qui si toglie davvero.
+    nuovo = _senza_suono(nuovo) if nuovo else nuovo
     return (nuovo, "cucito") if nuovo else (testo, "non riconosciuto")
 
 
