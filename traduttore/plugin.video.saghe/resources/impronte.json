@@ -1,16 +1,16 @@
 {
 "file": {
-"addon.xml": "804575672f8f3c5cb0239daf897256e5",
+"addon.xml": "a7941a4818ce4bd7f22b56fd95466b93",
 "avvio.py": "8e2b4553fc49f3c6a60fe6e580b86dd3",
-"main.py": "7d171e582611fbca662ba70a3a56e013",
+"main.py": "3d702a1b20baafd8601bf1b003e6b238",
 "resources/__init__.py": "d41d8cd98f00b204e9800998ecf8427e",
-"resources/arte_extra.json": "c183ed44c88743d375d9e3cb097e6793",
+"resources/arte_extra.json": "b99c1d731d343cf3b7bfd391329d786a",
 "resources/bandiere/italia.png": "ff7ec64db06ca37368d41f69594f4187",
 "resources/bandiere/russia.png": "c9d6ed2db36bcfcbdaa1aab71a9ab9c4",
 "resources/canale/abbonamenti.json": "775d5422adc4b5d2b22d7a6e81959576",
 "resources/canale/abbonamenti.py": "8451899f04d14aff29495be6c776eea0",
 "resources/canale/lesaghe.json": "5d7fdff0906c65886b890c0495d19c6c",
-"resources/canale/lesaghe.py": "30db9b616d679478c72597bdc6b0c0f5",
+"resources/canale/lesaghe.py": "791fd645ae38e4b0d69ccda4ecf53a02",
 "resources/film/dragonball.json": "43c79b89a09b4104ba98804adb9fcddc",
 "resources/film/dragonball_veloce.json": "43c79b89a09b4104ba98804adb9fcddc",
 "resources/film/gonagai.json": "ce07a33e9f5e186a855508270b2ff772",
@@ -69,7 +69,7 @@
 "resources/lib/catalogo.py": "e13c9270c84a7de39adb7e3e75742d43",
 "resources/lib/cinema.py": "0a2238bd16bd8d507ec5b33ca88e5bd6",
 "resources/lib/consigli.py": "d139f3c2387b7bd1085e52aaeafebf0a",
-"resources/lib/copertine.py": "a3e4188ed3242652dfccffa02afd03de",
+"resources/lib/copertine.py": "aa9138151e7b9c3711cf131e80930b96",
 "resources/lib/custode.py": "f982dc2669499a1c2dcb9a6ae9ce2064",
 "resources/lib/dettagli.py": "667cc2dc1c0f599f3ea35f8c26aebadd",
 "resources/lib/disponibilita.py": "5393203ae107118078bba2e268b0d819",
@@ -81,7 +81,7 @@
 "resources/lib/novita.py": "75674c7a5249835b8de1db1ae29389b6",
 "resources/lib/progresso.py": "80504a76d56921c62150f26be382e751",
 "resources/lib/ricerca.py": "c95c8d813dda164cfc1d81aae35cf819",
-"resources/lib/ricerca_siti.py": "692f278dc83c2c9adab8fd898f18d619",
+"resources/lib/ricerca_siti.py": "4f7c1e1e701788e14c8f315144b77fc5",
 "resources/lib/russo.py": "1a99a7319d14caad6bb5d9ae7fa991be",
 "resources/lib/s4me_link.py": "8dd0b6871d30064b6283d8c19d3112c6",
 "resources/lib/salva.py": "04b7a911b2e609212ee9705b4f5b5df6",
@@ -467,5 +467,5 @@
 "resources/tmdb.json": "627d132d1795e2b945ff47acd3090b77",
 "service.py": "dff8e4a9427a13ec9ac8970edfddc3e9"
 },
-"versione": "1.1.4"
+"versione": "1.1.6"
 }

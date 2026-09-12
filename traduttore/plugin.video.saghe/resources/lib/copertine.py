@@ -47,6 +47,10 @@ from resources.lib.tmdb import CHIAVE as CHIAVE_TMDB  # la chiave sta in un post
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
 
 DURATA = 30 * 24 * 60 * 60          # un mese: questi elenchi cambiano piano
+# Cambia quando cambia il MODO di cercare le locandine: il calcolo si rifa'
+# subito invece di aspettare il mese. 2 = i temi si cercano per argomento
+# (12/09/2026), non piu' per titolo.
+VERSIONE = 2
 
 # Le parole che non contano quando si confrontano due titoli.
 VUOTE = {"il", "lo", "la", "i", "gli", "le", "un", "uno", "una", "di", "a",
@@ -78,7 +82,10 @@ def leggi():
 def scaduto():
     try:
         with io.open(_file(), encoding="utf-8") as f:
-            return (time.time() - (json.load(f) or {}).get("quando", 0)) > DURATA
+            dati = json.load(f) or {}
+        if dati.get("versione", 1) != VERSIONE:
+            return True          # regole nuove: si rifa' senza aspettare il mese
+        return (time.time() - dati.get("quando", 0)) > DURATA
     except Exception:
         return True
 
@@ -199,6 +206,86 @@ def _logo_servizio(etichetta):
     return ("https://www.google.com/s2/favicons?domain=%s&sz=256" % dominio)
 
 
+# I TEMI, CHIESTI PER ARGOMENTO E NON PER TITOLO (12/09/2026)
+#
+# "Foreste e giungla", "NASA e missioni spaziali" non sono titoli: cercandoli
+# per nome TMDB risponde con quello che capita (per "NASA" usciva "Zlatans
+# nasa", per "Meteo" un documentario francese). Sono locandine sbagliate, ed e'
+# esattamente quello che l'utente non vuole: "deve corrispondere".
+# TMDB pero' sa rispondere a un'altra domanda: "documentari SULL'argomento X"
+# (parola chiave + genere Documentario). Le parole chiave le ha in inglese,
+# quindi qui ognuna e' scritta a mano una volta sola: e' una tabella corta,
+# e sbagliata non puo' essere.
+ARGOMENTI = {
+    "Animali selvatici": "wildlife", "Predatori": "predator", "Oceani e mare": "ocean",
+    "Squali": "shark", "Insetti": "insect", "Uccelli": "bird", "Foreste e giungla": "jungle",
+    "Deserti": "desert", "Poli e ghiacci": "arctic", "Vulcani": "volcano",
+    "Meteo estremo": "extreme weather", "Ambiente e clima": "climate change",
+    "Universo e cosmo": "universe", "Sistema solare e pianeti": "solar system",
+    "Buchi neri": "black hole", "NASA e missioni spaziali": "nasa", "Sbarco sulla Luna": "moon landing",
+    "Marte": "mars", "Fisica": "physics", "Fisica quantistica": "quantum physics",
+    "Matematica": "mathematics", "Einstein e i grandi scienziati": "albert einstein",
+    "Evoluzione": "evolution", "Genetica e DNA": "dna", "Cervello e mente": "brain",
+    "Medicina e corpo umano": "human body", "Intelligenza artificiale": "artificial intelligence",
+    "Dinosauri": "dinosaur", "Preistoria e uomo primitivo": "prehistory", "Archeologia": "archaeology",
+    "Antico Egitto": "ancient egypt", "Piramidi": "pyramid", "Antica Roma": "ancient rome",
+    "Antica Grecia": "ancient greece", "Maya, Inca e Aztechi": "maya", "Vichinghi": "viking",
+    "Samurai e Giappone antico": "samurai", "Antica Cina": "ancient china", "Medioevo": "middle ages",
+    "Rinascimento": "renaissance", "Prima guerra mondiale": "world war i",
+    "Seconda guerra mondiale": "world war ii", "Nazismo e Hitler": "nazi", "Olocausto": "holocaust",
+    "Guerra fredda": "cold war", "Vietnam": "vietnam war", "Storia d'Italia": "italian history",
+    "Anni di piombo e terrorismo": "terrorism", "Esplorazioni e scoperte": "exploration",
+    "Aerei e aviazione": "aviation", "Treni": "train", "Navi e transatlantici": "ship",
+    "Ingegneria e ponti": "engineering", "Tecnologia e informatica": "technology",
+    "Titanic": "titanic", "Disastri aerei": "plane crash", "Catastrofi naturali": "natural disaster",
+    "Alieni e UFO": "ufo", "Misteri irrisolti": "mystery", "Complotti": "conspiracy",
+    "Triangolo delle Bermuda": "bermuda triangle", "Cronaca nera italiana": "true crime",
+    "Serial killer": "serial killer", "Mafia e Cosa Nostra": "mafia", "Narcos e droga": "drug cartel",
+    "Processi celebri": "trial", "Carceri": "prison", "Rapine e truffe": "heist",
+    "Viaggi e culture": "travel", "Religioni": "religion", "Economia e finanza": "economics",
+    "Politica": "politics", "Musica e biografie": "music", "Arte e pittura": "art",
+    "Architettura": "architecture", "Fotografia": "photography", "Moda": "fashion",
+    "Sport": "sports", "Montagna ed Everest": "mount everest", "Subacquea": "scuba diving",
+    "Sopravvivenza": "survival",
+    # cucina: qui l'argomento e' il piatto, e i "documentari" sono i programmi
+    "Pasta fatta in casa": "pasta", "Pane e lievitati": "bread", "Pizza": "pizza",
+    "Dolci e torte": "cake", "Pasticceria": "pastry", "Cioccolato": "chocolate",
+    "Gelato": "ice cream", "Cucina italiana": "italian cuisine", "Cucina giapponese e sushi": "sushi",
+    "Cucina cinese": "chinese cuisine", "Cucina indiana": "indian cuisine",
+    "Cucina francese": "french cuisine", "Cucina messicana": "mexican cuisine",
+    "Street food": "street food", "Barbecue e grigliate": "barbecue", "Vino e abbinamenti": "wine",
+    "Cocktail": "cocktail", "Vegetariano e vegano": "vegan",
+}
+GENERE_DOCUMENTARIO = 99
+
+
+def _poster_argomento(etichetta):
+    """La locandina di un documentario SULL'argomento della tessera.
+
+    Non "un titolo che si chiama cosi'", ma "un documentario che parla di
+    questo": si chiede a TMDB l'id della parola chiave e poi i documentari che
+    la portano, dal piu' popolare. Se l'argomento non e' in tabella non si
+    inventa niente: meglio la tessera generata che una locandina a caso."""
+    from urllib.parse import quote
+    inglese = ARGOMENTI.get(etichetta) or ARGOMENTI.get(re.sub(r"\s*\(.*?\)\s*$", "", etichetta).strip())
+    if not inglese:
+        return ""
+    d = _chiedi("https://api.themoviedb.org/3/search/keyword?api_key=%s&query=%s"
+                % (CHIAVE_TMDB, quote(inglese)))
+    risultati = (d or {}).get("results") or []
+    if not risultati:
+        return ""
+    idparola = risultati[0]["id"]
+    for tipo in ("movie", "tv"):
+        d = _chiedi("https://api.themoviedb.org/3/discover/%s?api_key=%s&language=it-IT"
+                    "&with_genres=%d&with_keywords=%s&sort_by=popularity.desc&include_adult=false"
+                    % (tipo, CHIAVE_TMDB, GENERE_DOCUMENTARIO, idparola))
+        for r in ((d or {}).get("results") or [])[:6]:
+            if r.get("poster_path"):
+                return "https://image.tmdb.org/t/p/w500%s" % r["poster_path"]
+    return ""
+
+
 def _poster_tvmaze(titolo):
     """Seconda fonte per i programmi, quando TMDB non ha niente.
 
@@ -265,9 +352,10 @@ def calcola(scaffale_di):
                            or (_poster_tmdb(qp) if qp != q else "")
                            or _poster_tvmaze(q)
                            or (_poster_tvmaze(qp) if qp != q else "")
-                           # ultimo tentativo: un documentario qualunque a
-                           # tema (solo per Documentari/Cucina, non YouTube)
-                           or (_poster_tmdb(qp, doc_ok=True)
+                           # ultimo tentativo: un documentario SULL'ARGOMENTO
+                           # (12/09/2026). Prima si cercava ancora per titolo
+                           # (doc_ok) e per "NASA" usciva "Zlatans nasa".
+                           or (_poster_argomento(etichetta)
                                if quale != "youtube" else ""))
                 if img:
                     trovate[etichetta] = img
@@ -275,8 +363,8 @@ def calcola(scaffale_di):
 
     try:
         with io.open(_file(), "w", encoding="utf-8") as f:
-            f.write(json.dumps({"quando": time.time(), "voci": trovate},
-                               ensure_ascii=False))
+            f.write(json.dumps({"quando": time.time(), "versione": VERSIONE,
+                                "voci": trovate}, ensure_ascii=False))
     except Exception:
         return 0
     return nuove

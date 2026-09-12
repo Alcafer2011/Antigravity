@@ -373,24 +373,49 @@ def _catalogo():
 
 
 def identifica(v, saghe):
+    """(tipo, id TMDb, come) per una voce della Videoteca.
+
+    `come` racconta COME e' stato riconosciuto il titolo, e se la cosa e'
+    sicura. Serve al rapporto: l'utente (12/09/2026) "ci vuole qualcosa che
+    controlla in automatico l'abbinamento, deve corrispondere". Un id preso
+    dall'indirizzo o dal catalogo e' certo; un titolo cercato per nome no, e
+    se e' andato vicino ma non uguale va guardato da un umano invece di
+    finire zitto dentro arte_extra.json.
+    Fra i risultati che passano la soglia si sceglie il PIU' somigliante, con
+    un premio a chi ha anche l'anno giusto: prima si teneva il primo che
+    passava, cioe' quello che TMDb metteva per primo (di solito il piu'
+    popolare, non il piu' somigliante)."""
     p = _parametri(v["file"])
     tipo = v["genere"]
     if p.get("tmdb", "").isdigit():
-        return tipo, int(p["tmdb"])
+        return tipo, int(p["tmdb"]), {"come": "id nell'indirizzo", "sicuro": True}
     if p.get("azione") in ("consiglio_aggiungi", "consiglio_togli") and p.get("id", "").isdigit():
-        return "tv", int(p["id"])
+        return "tv", int(p["id"]), {"come": "id nell'indirizzo", "sicuro": True}
     if p.get("percorso") in saghe and saghe[p["percorso"]] and p.get("azione") != "apri_film":
-        return "tv", int(saghe[p["percorso"]])
+        return "tv", int(saghe[p["percorso"]]), {"come": "catalogo delle saghe", "sicuro": True}
     titolo = pulisci(v["etichetta"])
     if p.get("titolo_film"):
         titolo = p["titolo_film"]
+    migliore = None
     for t in (tipo, "movie" if tipo == "tv" else "tv"):
         d = chiedi("https://api.themoviedb.org/3/search/%s?api_key=%s&language=it-IT&query=%s" % (t, CHIAVE_TMDB, q(titolo)))
         for r in (d or {}).get("results") or []:
             nomi = [r.get("title"), r.get("name"), r.get("original_title"), r.get("original_name")]
-            if accetta(titolo, v.get("anno"), nomi, (r.get("release_date") or r.get("first_air_date") or "")[:4]):
-                return t, r["id"]
-    return tipo, None
+            anno_trovato = (r.get("release_date") or r.get("first_air_date") or "")[:4]
+            if not accetta(titolo, v.get("anno"), nomi, anno_trovato):
+                continue
+            s = max([simile(titolo, n) for n in nomi if n] or [0])
+            anno_uguale = bool(v.get("anno")) and anno_trovato == str(v.get("anno"))[:4]
+            punti = s + (0.05 if anno_uguale else 0)
+            if migliore and punti <= migliore[0]:
+                continue
+            migliore = (punti, t, r["id"],
+                        {"come": "cercato per nome", "sicuro": s >= 0.95 or (s >= 0.9 and anno_uguale),
+                         "titolo_tmdb": r.get("title") or r.get("name") or "",
+                         "somiglianza": round(s, 2), "anno_tmdb": anno_trovato})
+    if migliore:
+        return migliore[1], migliore[2], migliore[3]
+    return tipo, None, {"come": "nessun servizio lo riconosce", "sicuro": False}
 
 
 # ------------------------------------------------------------------ i servizi
@@ -561,8 +586,9 @@ def da_jikan(titolo, anno):
 def lavora(v, saghe):
     mancano = [k for k in TUTTE if v["stato"][k] in ("manca", "morta")]
     if not mancano:
-        return {"voce": v, "scelte": {}, "mancano": [], "fonti": [], "tmdb": None}
-    tipo, tid = identifica(v, saghe)
+        return {"voce": v, "scelte": {}, "mancano": [], "fonti": [], "tmdb": None,
+                "come": {"come": "gia' completo", "sicuro": True}}
+    tipo, tid, come = identifica(v, saghe)
     titolo = pulisci(v["etichetta"])
     anno = v.get("anno") or ""
     candidati = collections.defaultdict(list)
@@ -605,7 +631,8 @@ def lavora(v, saghe):
             if c["url"] and adatta(k, c):
                 scelte[k] = c
                 break
-    return {"voce": v, "scelte": scelte, "mancano": mancano, "fonti": list(dict.fromkeys(fonti)), "tmdb": tid}
+    return {"voce": v, "scelte": scelte, "mancano": mancano, "fonti": list(dict.fromkeys(fonti)),
+            "tmdb": tid, "come": come}
 
 
 # ------------------------------------------------------------------ uscite
@@ -693,6 +720,24 @@ def rapporto(titoli, risultati, cartelle, errori, secondi, nuove, totale_file, s
             motivo += "; clearart e disco li ha solo fanart.tv (serve la chiave gratuita in ~/.fanart-tv-key)"
         senza.append("<tr><td>%s</td><td>%s</td><td>%s</td><td class='tenue'>%s</td></tr>"
                      % (html.escape(pulisci(v["etichetta"])), html.escape(v["dove"][0]), ", ".join(restano), html.escape(motivo)))
+    # ABBINAMENTI DA CONTROLLARE (12/09/2026). Un'immagine presa per un titolo
+    # riconosciuto "per nome" e non identico e' il posto dove nascono le
+    # locandine sbagliate: qui si mostrano una per una, con quello che TMDb ha
+    # risposto e quanto somigliava, cosi' si vedono invece di scoprirle in TV.
+    dubbi = []
+    for r in risultati:
+        c = r.get("come") or {}
+        if not r["scelte"] or c.get("sicuro"):
+            continue
+        immagine = (r["scelte"].get("poster") or r["scelte"].get("keyart")
+                    or r["scelte"].get("landscape") or r["scelte"].get("fanart"))
+        dubbi.append("<div class='tessera'><b>%s</b><div class='tenue'>%s</div>"
+                     "<div class='tenue'>abbinato a: <b>%s</b>%s - somiglianza %s - %s</div>%s</div>"
+                     % (html.escape(pulisci(r["voce"]["etichetta"])), html.escape(r["voce"]["dove"][0]),
+                        html.escape(str(c.get("titolo_tmdb", "?"))),
+                        (" (%s)" % html.escape(str(c.get("anno_tmdb")))) if c.get("anno_tmdb") else "",
+                        c.get("somiglianza", "?"), html.escape(str(c.get("come", ""))),
+                        ("<img loading='lazy' src='%s' alt=''>" % html.escape(immagine["url"])) if immagine else ""))
     morte = ["<tr><td>%s</td><td>%s</td><td class='tenue'>%s</td></tr>" % (html.escape(pulisci(v["etichetta"])), k,
                                                                             html.escape(v["arte"].get(k, "")[:120]))
              for v in titoli for k in TUTTE if v["stato"][k] == "morta"]
@@ -716,6 +761,9 @@ def rapporto(titoli, risultati, cartelle, errori, secondi, nuove, totale_file, s
               + "<h2>Dove</h2><div class='tabella'><table><tr><th>posto</th><th>titoli</th><th>senza locandina prima</th>"
                 "<th>migliorati</th></tr>%s</table></div>"
               % "".join("<tr><td>%s</td><td>%d</td><td>%d</td><td>%d</td></tr>" % (html.escape(p), *n) for p, n in sorted(posti.items()))
+              + ("<h2>Abbinamenti da controllare</h2><p class='tenue'>Titoli riconosciuti per nome e non "
+                 "identici: guarda se l'immagine e' davvero la loro.</p><div class='galleria'>%s</div>"
+                 % "".join(dubbi[:200]) if dubbi else "")
               + ("<h2>Trovate adesso</h2><div class='galleria'>%s</div>" % "".join(trovate_html) if trovate_html else "")
               + ("<h2>Ancora senza</h2><div class='tabella'><table><tr><th>titolo</th><th>dove</th><th>manca</th><th>perche'</th></tr>%s"
                  "</table></div>" % "".join(senza[:600]) if senza else "")

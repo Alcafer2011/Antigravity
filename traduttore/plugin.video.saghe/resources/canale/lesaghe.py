@@ -562,7 +562,12 @@ def _somiglia(a, b):
 # sembrano lo stesso.
 PAROLE_VUOTE = {"la", "le", "il", "lo", "i", "gli", "un", "una", "uno",
                 "di", "del", "della", "dei", "e", "the", "of", "a",
-                "stagione", "season", "ita", "sub", "streaming", "serie", "tv"}
+                "stagione", "season", "ita", "sub", "streaming", "serie", "tv",
+                # Le parole di collegamento (12/09/2026): cercando "fast and
+                # loud" arrivavano i "Fast and Furious", perche' avevano due
+                # parole su tre - "fast" e "and". "and" non distingue niente:
+                # senza di lei servono davvero "fast" E "loud".
+                "and", "n", "y", "und", "et", "con", "per", "su", "al", "nel", "dal", "in"}
 
 
 def _copertura(trovato, voluto):
@@ -1246,8 +1251,101 @@ def search(item, text):
 
 RICERCA_STATO = "special://temp/videoteca-ricerca-siti.json"
 RICERCA_ESCLUSI = ("lesaghe", "abbonamenti")
+# Quante delle parole cercate deve avere il titolo per essere un risultato.
+# 60 = due parole su tre ("fast n loud"), o l'unica parola se ne hai scritta
+# una sola ("chernobyl"). Per aprire un film la soglia resta piu' alta
+# (COPERTURA_MINIMA 80): li' si fa partire un video, qui si mostra un elenco.
+COPERTURA_RICERCA = 60
 RICERCA_FILI = 12
 RICERCA_MASSIMO = 150
+
+
+GRUPPI_FILE = "special://temp/videoteca-gruppi-ricerca.json"
+
+
+def _chiave_titolo(titolo, anno=""):
+    """La chiave con cui due risultati sono LO STESSO titolo.
+
+    Solo le parole che contano (via PAROLE_VUOTE) e, se c'e', l'anno: cosi'
+    "Chernobyl" e "Chernobyl [ITA]" si uniscono, ma "Oceania 2016" e
+    "Oceania 2026" restano due titoli diversi."""
+    import re
+    import unicodedata
+    t = unicodedata.normalize("NFKD", str(titolo or ""))
+    t = "".join(c for c in t if not unicodedata.combining(c)).lower()
+    parole = set(re.sub(r"[^a-z0-9]+", " ", t).split()) - PAROLE_VUOTE
+    return " ".join(sorted(parole)) + ("|%s" % anno if anno else "")
+
+
+def _hash_breve(testo):
+    import hashlib
+    return hashlib.md5(str(testo).encode("utf-8")).hexdigest()[:12]
+
+
+def apri_titolo(item):
+    """Prova i siti che hanno questo titolo e si ferma al primo che funziona.
+
+    PERCHE' (l'utente, 12/09/2026): "ci vuole qualcosa che controlla in
+    automatico l'abbinamento al file, deve corrispondere, io non so scegliere
+    quello giusto tra tanti".
+    L'ordine e' quello della ricerca: prima il titolo piu' aderente, poi la
+    lingua (doppiato italiano prima di tutto). Per ogni sito:
+      - se la voce e' gia' un episodio o un film, si chiedono i suoi server e
+        si tengono solo quelli che danno davvero il video (`_server_vivi`);
+      - se e' una serie, si scende ai suoi episodi (`_episodi_di`).
+    Il primo che risponde vince; degli altri resta scritto nel registro
+    perche' non hanno funzionato. Se non funziona nessuno, non si finge: si
+    dice sito per sito cosa e' successo."""
+    import xbmcvfs
+    gid = str(getattr(item, "gruppo", "") or "")
+    try:
+        with open(xbmcvfs.translatePath(GRUPPI_FILE), encoding="utf-8") as f:
+            import json as _json
+            membri = (_json.load(f) or {}).get(gid) or []
+    except (OSError, ValueError) as e:
+        logger.info("Le Saghe: gruppi della ricerca non letti: %s" % e)
+        membri = []
+    motivi = []
+    for m in membri:
+        nome = m.get("canale", "")
+        canale = _modulo(nome)
+        if not canale:
+            motivi.append("%s: il sito non si carica" % _nome_canale(nome))
+            continue
+        try:
+            voce = Item().fromurl(m.get("voce", ""))
+        except Exception as e:
+            motivi.append("%s: voce illeggibile (%s)" % (_nome_canale(nome), e))
+            continue
+        voce.channel = nome
+        try:
+            if _pare_un_episodio(voce):
+                server = canale.findvideos(voce) or []
+                for s in server:
+                    s.channel = nome
+                vivi = _server_vivi(server) if server else []
+                if vivi:
+                    logger.info("Le Saghe: %r aperto su %s (%d server vivi)"
+                                % (getattr(item, "fulltitle", ""), nome, len(vivi)))
+                    return vivi
+                motivi.append("%s: ce l'ha, ma i video sono stati cancellati" % _nome_canale(nome))
+                continue
+            episodi = _episodi_di(canale, voce)
+            if episodi:
+                for e_ in episodi:
+                    e_.channel = nome
+                logger.info("Le Saghe: %r aperto su %s (%d episodi)"
+                            % (getattr(item, "fulltitle", ""), nome, len(episodi)))
+                return episodi
+            motivi.append("%s: ce l'ha, ma non da' l'elenco degli episodi" % _nome_canale(nome))
+        except Exception as e:
+            logger.info("Le Saghe: %s non ha funzionato per %r: %s" % (nome, getattr(item, "fulltitle", ""), e))
+            motivi.append("%s: va in errore" % _nome_canale(nome))
+    return [Item(channel=item.channel, action="", folder=False,
+                 title=support.typo("Nessuno dei siti lo apre davvero", "bold color kod"),
+                 plot="Ho provato tutti i siti che lo elencavano:\n\n- %s\n\nSuccede quando "
+                      "il titolo e' in elenco ma il video e' stato cancellato dal server."
+                      % "\n- ".join(motivi or ["nessun sito da provare"]))]
 
 
 def _canali_ricerca():
@@ -1348,6 +1446,7 @@ def cerca_siti(item):
 
     visti = set()
     ordinati = []
+    scartati = 0
     for nome, r in raccolti:
         chiave = (getattr(r, "url", ""), getattr(r, "action", ""), getattr(r, "channel", ""))
         if chiave in visti:
@@ -1355,14 +1454,92 @@ def cerca_siti(item):
         visti.add(chiave)
         titolo_r = (getattr(r, "fulltitle", "") or getattr(r, "contentTitle", "")
                     or getattr(r, "contentSerieName", "") or getattr(r, "title", ""))
+        # SOLO QUELLO CHE C'ENTRA (12/09/2026). L'utente: "in chernobyl arrivano
+        # due Maria De Filippi, in fast and loud niente di Fast N' Loud".
+        # Non e' un difetto dell'ordinamento: molti siti, quando non trovano
+        # niente, rispondono con la loro home o con le ultime uscite, e noi le
+        # mostravamo tutte in fondo all'elenco. Un risultato che non contiene
+        # abbastanza parole di quello che hai chiesto NON e' un risultato.
+        quanto = _copertura(titolo_r, testo)
+        if quanto < COPERTURA_RICERCA:
+            scartati += 1
+            # I primi scartati finiscono nel registro col loro punteggio: se un
+            # giorno una ricerca giusta torna vuota, qui si vede subito se e'
+            # colpa della soglia o se i siti hanno risposto con altro.
+            if scartati <= 6:
+                logger.info("Le Saghe: scartato %d%% - %r (%s)" % (quanto, str(titolo_r)[:70], nome))
+            continue
         # Prima quanto del testo cercato c'e' nel titolo, poi la lingua
         # (doppiato prima di sottotitolato, la regola di casa), poi il titolo.
-        ordinati.append((-_copertura(titolo_r, testo), -_rango_lingua(r), str(titolo_r).lower(), nome, r))
+        ordinati.append((-quanto, -_rango_lingua(r), str(titolo_r).lower(), nome, r))
     ordinati.sort(key=lambda x: x[:3])
-    fuori = []
-    for _c, _l, _t, nome, r in ordinati[:RICERCA_MASSIMO]:
-        r.title = "%s%s" % (getattr(r, "title", ""), support.typo(_nome_canale(nome), "_ [] color kod"))
-        fuori.append(r)
+    with serratura:
+        stato["scartati"] = scartati
+        _scrivi_stato()
+
+    # UNA VOCE PER TITOLO (12/09/2026). L'utente: "io non so scegliere quello
+    # giusto tra tanti". Lo stesso film o la stessa serie tornava da otto siti
+    # = otto righe uguali, e quale funzioni non si vede da fuori. Adesso le
+    # righe dello stesso titolo diventano UNA: aprendola, `apri_titolo` prova
+    # i siti uno dopo l'altro e si ferma al primo che da' davvero il video.
+    gruppi, ordine = {}, []
+    for _c, _l, titolo_basso, nome, r in ordinati[:RICERCA_MASSIMO]:
+        k = _chiave_titolo(titolo_basso, _anno_di(r))
+        if k not in gruppi:
+            gruppi[k] = []
+            ordine.append(k)
+        gruppi[k].append((nome, r))
+
+    # LO STESSO TITOLO CON E SENZA ANNO. Molti siti l'anno non lo scrivono:
+    # "Chernobyl" usciva due volte, una col 2019 e una senza. Se di quel titolo
+    # c'e' UN SOLO anno, sono la stessa cosa e si uniscono; se ce ne sono due
+    # (Oceania 2016 e Oceania 2026) restano separate, ed e' tutto il punto.
+    con_anno = {}
+    for k in ordine:
+        parole, segno, anno = k.partition("|")
+        if segno:
+            con_anno.setdefault(parole, []).append(k)
+    for k in [x for x in ordine if "|" not in x]:
+        omonimi = con_anno.get(k) or []
+        if len(omonimi) != 1:
+            continue
+        posto_senza, posto_con = ordine.index(k), ordine.index(omonimi[0])
+        gruppi[omonimi[0]].extend(gruppi.pop(k))
+        ordine.remove(k)
+        if posto_senza < posto_con:
+            ordine.remove(omonimi[0])
+            ordine.insert(posto_senza, omonimi[0])
+
+    salvati, fuori = {}, []
+    for k in ordine:
+        membri = gruppi[k]
+        nome, migliore = membri[0]
+        if len(membri) == 1:
+            migliore.title = "%s%s" % (getattr(migliore, "title", ""),
+                                       support.typo(_nome_canale(nome), "_ [] color kod"))
+            fuori.append(migliore)
+            continue
+        gid = _hash_breve(k)
+        salvati[gid] = [{"canale": n, "voce": v.tourl()} for n, v in membri]
+        siti = ", ".join(dict.fromkeys(_nome_canale(n) for n, _v in membri))
+        fuori.append(Item(
+            channel=item.channel, action="apri_titolo", gruppo=gid, folder=True,
+            title="%s%s" % (getattr(migliore, "title", ""),
+                            support.typo("%d siti" % len(membri), "_ [] color kod")),
+            fulltitle=getattr(migliore, "fulltitle", "") or getattr(migliore, "title", ""),
+            contentType=getattr(migliore, "contentType", "") or "undefined",
+            contentTitle=getattr(migliore, "contentTitle", ""),
+            contentSerieName=getattr(migliore, "contentSerieName", ""),
+            thumbnail=getattr(migliore, "thumbnail", ""),
+            fanart=getattr(migliore, "fanart", ""),
+            plot="Lo hanno in %d siti: %s.\n\nAprendo questa voce li provo io uno "
+                 "dopo l'altro e ti porto sul primo che funziona davvero.\n\n%s"
+                 % (len(membri), siti, getattr(migliore, "plot", "") or "")))
+    try:
+        import xbmcvfs
+        _json_atomico(xbmcvfs.translatePath(GRUPPI_FILE), salvati, ensure_ascii=False)
+    except Exception as e:
+        logger.info("Le Saghe: gruppi della ricerca non salvati: %s" % e)
     logger.info("Le Saghe: ricerca di %r su %d siti: %d risultati, lenti: %s"
                 % (testo, len(canali), len(fuori), ", ".join(stato["lenti"]) or "nessuno"))
     return fuori

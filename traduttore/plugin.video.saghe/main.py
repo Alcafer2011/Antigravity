@@ -1840,6 +1840,12 @@ def _risultati_dei_siti(testo, canali=(), intestazione=True, titolo="DAI SITI"):
     if voci and intestazione:
         nota = "%d risultati da %d siti in %s secondi." % (
             len(voci), risposta.get("siti") or 0, risposta.get("secondi") or 0)
+        # Quelli buttati via perche' non c'entravano (12/09/2026): senza
+        # dirlo, una ricerca con dieci risultati e novanta scartati sembra
+        # che i siti non abbiano risposto.
+        if risposta.get("scartati"):
+            nota += (" Ne ho scartati %d che non c'entravano con quello che hai chiesto."
+                     % risposta["scartati"])
         if risposta.get("lenti"):
             nota += " Non hanno risposto in tempo: %s." % ", ".join(risposta["lenti"][:8])
         li = _voce("[COLOR grey]%s - %d risultati[/COLOR]" % (titolo, len(voci)), nota, icona=ICONA)
@@ -1930,6 +1936,13 @@ def menu_ricerca(testo="", nuova=False):
                 li, True)
 
     dai_siti = _risultati_dei_siti(testo, intestazione=bool(risultati))
+    if not dai_siti:
+        # I CATALOGHI COME RIPIEGO (12/09/2026). I siti di film e serie non
+        # hanno i programmi TV: cercando "fast and loud" (Discovery+) non
+        # usciva niente di vero. Se la ricerca generale torna a mani vuote si
+        # chiede agli stessi cataloghi che usano i generi dei documentari.
+        dai_siti = _risultati_dei_siti(testo, scoperte.CANALI_CATALOGHI,
+                                       intestazione=True, titolo="DAI CATALOGHI")
     if not risultati and not dai_siti:
         li = _voce("Nessun risultato per '%s'" % testo,
                    "Ne' il catalogo ne' i siti hanno questo titolo. Prova con "

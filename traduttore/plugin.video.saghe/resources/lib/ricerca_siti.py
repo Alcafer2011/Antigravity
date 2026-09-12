@@ -55,8 +55,15 @@ def _cartella():
     return c
 
 
+# Cambia quando cambia il MODO di cercare: le risposte memorizzate col modo
+# vecchio non valgono piu'. 2 = filtro di pertinenza e una voce per titolo
+# (12/09/2026): senza questo, "chernobyl" avrebbe risposto per 12 ore con
+# l'elenco di prima, Maria De Filippi compresa.
+VERSIONE_RICERCA = 3
+
+
 def _file(testo, canali):
-    firma = "%s|%s" % ((testo or "").strip().lower(), ",".join(canali))
+    firma = "v%d|%s|%s" % (VERSIONE_RICERCA, (testo or "").strip().lower(), ",".join(canali))
     return os.path.join(_cartella(), hashlib.md5(firma.encode("utf-8")).hexdigest() + ".json")
 
 
@@ -98,7 +105,8 @@ def cerca(testo, canali=(), tempo=TEMPO):
     Restituisce {"testo", "voci": [{etichetta, file, cartella, arte, trama, anno}],
     "siti", "lenti", "secondi", "quando"} e la memorizza."""
     canali = tuple(canali or ())
-    fuori = {"testo": testo, "voci": [], "siti": 0, "lenti": [], "secondi": 0, "quando": time.time()}
+    fuori = {"testo": testo, "voci": [], "siti": 0, "lenti": [], "scartati": 0,
+             "secondi": 0, "quando": time.time()}
     if not (testo or "").strip() or not s4me_presente():
         return fuori
     inizio = time.time()
@@ -129,6 +137,10 @@ def cerca(testo, canali=(), tempo=TEMPO):
     if st.get("testo") == testo:
         fuori["siti"] = st.get("totale", 0)
         fuori["lenti"] = st.get("lenti") or []
+        # Quanti risultati il canale ha buttato via perche' non c'entravano
+        # con la ricerca (12/09/2026): la pagina lo dice, cosi' "pochi
+        # risultati" non si confonde con "i siti non hanno risposto".
+        fuori["scartati"] = st.get("scartati", 0)
     fuori["secondi"] = round(time.time() - inizio, 1)
     fuori["quando"] = time.time()
     try:
