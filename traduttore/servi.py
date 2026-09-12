@@ -91,6 +91,13 @@ def _suono_apertura(testo):
     si riproduce" (1) e si toglie la serie di bip dei tasti (lookandfeel.soundskin
     vuoto): il suono dell'apertura si', i bip a ogni tasto no. Se non era "mai",
     non si tocca niente."""
+    # LA SKIN DEI SUONI MANCANTE ZITTISCE TUTTO (12/09/2026). Sul PC
+    # `lookandfeel.soundskin` valeva `resource.uisounds.kodi`, acceso nel
+    # database ma con la cartella INESISTENTE: Kodi allora non emette nessun
+    # suono d'interfaccia, PlaySFX compreso, e il logo NOVIX partiva muto.
+    # Questa riga si azzera SEMPRE, non solo quando i suoni risultano spenti.
+    testo = re.sub(r'<setting id="lookandfeel.soundskin"[^>]*?(?:/>|>[^<]*</setting>)',
+                   '<setting id="lookandfeel.soundskin"></setting>', testo)
     if not re.search(r'<setting id="audiooutput.guisoundmode"[^>]*>0</setting>', testo):
         return testo
     testo = re.sub(r'<setting id="audiooutput.guisoundmode"[^>]*>0</setting>',
