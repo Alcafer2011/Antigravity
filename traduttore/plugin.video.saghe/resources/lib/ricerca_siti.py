@@ -59,7 +59,7 @@ def _cartella():
 # vecchio non valgono piu'. 2 = filtro di pertinenza e una voce per titolo
 # (12/09/2026): senza questo, "chernobyl" avrebbe risposto per 12 ore con
 # l'elenco di prima, Maria De Filippi compresa.
-VERSIONE_RICERCA = 3
+VERSIONE_RICERCA = 6
 
 
 def _file(testo, canali):

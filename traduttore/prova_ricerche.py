@@ -102,10 +102,24 @@ def come_cerca_la_videoteca(testo):
     cataloghi cercano nei TITOLI, e quasi nessun titolo contiene quella parola.
     Senza questa riga la prova misurerebbe una ricerca che nella Videoteca non
     avviene mai (e infatti dava "Lezioni di documentario")."""
-    return re.sub(r"(?i)^(documentari[oi]?|cucina|ricett[ae])\s+", "", testo).strip() or testo
+    pulito = re.sub(r"(?i)^(documentari[oi]?|cucina|ricett[ae])\s+", "", testo).strip()
+    # E senza la nota fra parentesi: nel catalogo le serie si distinguono con
+    # "(terza serie)", "(rifacimento 2022)", ma sui siti quella scritta non
+    # esiste - il canale infatti prova anche il titolo nudo
+    # (lesaghe._titoli_da_provare, 12/09/2026).
+    pulito = re.sub(r"\s*[\(\[][^\)\]]*[\)\]]\s*", " ", pulito).strip()
+    return pulito or testo
 
 
-def prova(testo, canali=()):
+def parola_piu_forte(testo):
+    """La parola che porta il significato: la piu' lunga sopra le tre lettere.
+    E' il ripiego che fa la Videoteca quando un genere non trova niente
+    (main.menu_scaffale_cerca, 12/09/2026): "pizza fatta in casa" -> "pizza"."""
+    parole = sorted((p for p in re.split(r"[^0-9A-Za-zÀ-ÿ']+", testo) if len(p) > 3), key=len, reverse=True)
+    return parole[0] if parole else ""
+
+
+def prova(testo, canali=(), con_ripiego=True):
     testo = come_cerca_la_videoteca(testo)
     indirizzo = s4me_link.indirizzo({"channel": "lesaghe", "action": "cerca_siti"},
                                     testo=testo, canali=",".join(canali), tempo=30)
@@ -125,6 +139,15 @@ def prova(testo, canali=()):
              "siti": st.get("totale", 0) if st.get("testo") == testo else 0,
              "scartati": st.get("scartati", 0) if st.get("testo") == testo else 0,
              "trovati": st.get("trovati", 0) if st.get("testo") == testo else 0}
+    # Il ripiego dell'add-on: se non c'e' niente si richiede la parola forte.
+    # Senza questo la prova misurerebbe una Videoteca diversa da quella vera.
+    forte = parola_piu_forte(testo)
+    if con_ripiego and canali and not righe and forte and forte.lower() != testo.lower():
+        secondo = prova(forte, canali, con_ripiego=False)
+        if secondo["righe"]:
+            secondo["testo"] = "%s -> '%s'" % (testo, forte)
+            secondo["ripiego"] = forte
+            return secondo
     esito["voto"] = somiglia(righe[0], testo) if righe else 0
     if righe:
         esito["giudizio"] = "buona" if esito["voto"] >= 60 else "sospetta"

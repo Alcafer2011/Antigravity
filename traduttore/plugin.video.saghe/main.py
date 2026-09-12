@@ -1302,6 +1302,17 @@ def menu_scaffale_cerca(cosa):
     per_i_cataloghi = _re.sub(r"(?i)^documentari[oi]?\s+", "", cosa).strip() or cosa
     trovati = _risultati_dei_siti(per_i_cataloghi, scoperte.CANALI_CATALOGHI, intestazione=False)
     if not trovati:
+        # LA PAROLA PIU' FORTE (12/09/2026). "pizza fatta in casa" o "conserve
+        # marmellate" sono come si dice a voce, ma nessun titolo dei cataloghi
+        # le contiene tutte, e i mezzi-risultati sono servizi di telegiornale.
+        # Allora si richiede la parola che porta il significato - la piu'
+        # lunga - e il filtro tiene solo i titoli che parlano davvero di quella.
+        parole = sorted((p for p in _re.split(r"[^0-9A-Za-zÀ-ÿ']+", per_i_cataloghi) if len(p) > 3),
+                        key=len, reverse=True)
+        if parole and parole[0].lower() != per_i_cataloghi.lower():
+            trovati = _risultati_dei_siti(parole[0], scoperte.CANALI_CATALOGHI,
+                                          intestazione=True, titolo="CERCANDO SOLO '%s'" % parole[0].upper())
+    if not trovati:
         li = _voce("[COLOR grey]Nessun catalogo ha '%s' in questo momento[/COLOR]" % per_i_cataloghi,
                    "RaiPlay, Discovery+, La7, Pluto TV, Paramount e Mediaset non "
                    "hanno risposto con niente. Qui sotto c'e' YouTube.", icona=ICONA)

@@ -605,6 +605,32 @@ def _copertura(trovato, voluto):
 # che far partire la serie sbagliata. E' successo con Terra Nova.
 COPERTURA_MINIMA = 80
 
+
+def _precisione(trovato, voluto):
+    """Quanta parte del titolo TROVATO e' roba che hai chiesto, 0-100.
+
+    LA COPERTURA NON BASTA (12/09/2026). Cercando "pasta fatta in casa" i
+    cataloghi rispondevano con "Pomeriggio Cinque - Nonna Irma, 104 anni e la
+    sua pasta fatta a mano": due parole su tre, quindi copertura 66, quindi
+    passava. Ma di quel titolo lunghissimo la tua ricerca copre un quinto: e'
+    un servizio di cronaca che NOMINA la pasta, non un programma di cucina.
+    Questa misura guarda dall'altra parte - quanto del titolo trovato e' tuo -
+    e i notiziari cadono da soli, mentre "Chernobyl Diaries - La mutazione"
+    (una parola su tre) resta."""
+    import re
+    import unicodedata
+
+    def parole(s):
+        s = unicodedata.normalize("NFKD", str(s or ""))
+        s = "".join(x for x in s if not unicodedata.combining(x)).lower()
+        p = set(re.sub(r"[^a-z0-9]+", " ", s).split())
+        return (p - PAROLE_VUOTE) or p
+
+    pt = parole(trovato)
+    if not pt:
+        return 0
+    return int(100.0 * len(pt & parole(voluto)) / len(pt))
+
 # Le parole che DISTINGUONO una serie da un'altra della stessa saga: se il
 # risultato ne ha una che la serie voluta non ha, e' un'ALTRA serie.
 # IL GUASTO (10/09/2026): chiesto "Dragon Ball" episodio 1, s4me ha aperto
@@ -1267,6 +1293,12 @@ RICERCA_ESCLUSI = ("lesaghe", "abbonamenti")
 # una sola ("chernobyl"). Per aprire un film la soglia resta piu' alta
 # (COPERTURA_MINIMA 80): li' si fa partire un video, qui si mostra un elenco.
 COPERTURA_RICERCA = 60
+# E quanto del titolo TROVATO deve essere roba che hai chiesto, ma SOLO quando
+# il titolo non ha tutte le parole chieste: sotto questa soglia sono i servizi
+# dei telegiornali che nominano la cosa di sfuggita ("Pomeriggio Cinque - Nonna
+# Irma... la pasta fatta a mano", dove manca "casa"). Chi le ha tutte passa
+# comunque, anche se il titolo e' lungo.
+PRECISIONE_RICERCA = 25
 RICERCA_FILI = 12
 RICERCA_MASSIMO = 150
 
@@ -1458,6 +1490,7 @@ def cerca_siti(item):
     visti = set()
     ordinati = []
     scartati = 0
+    parole_chieste = len(_parole_nude(testo) - PAROLE_VUOTE)
     for nome, r in raccolti:
         chiave = (getattr(r, "url", ""), getattr(r, "action", ""), getattr(r, "channel", ""))
         if chiave in visti:
@@ -1472,13 +1505,24 @@ def cerca_siti(item):
         # mostravamo tutte in fondo all'elenco. Un risultato che non contiene
         # abbastanza parole di quello che hai chiesto NON e' un risultato.
         quanto = _copertura(titolo_r, testo)
-        if quanto < COPERTURA_RICERCA:
+        preciso = _precisione(titolo_r, testo)
+        # La precisione giudica le corrispondenze parziali e le ricerche di una
+        # parola sola. Se hai chiesto DUE parole o piu' e il titolo le ha tutte,
+        # si tiene comunque anche se e' lungo: "Cortesie per gli ospiti -
+        # Stagione 3, Napoli" e' il programma giusto (col giudizio dato a tutti
+        # mezza cucina spariva, prova del 12/09/2026). Con una parola sola,
+        # invece, la precisione serve eccome: cercando "pizza" un titolo come
+        # "Il campione del mondo di pizza arriva in Casa" ha copertura 100 ma e'
+        # un servizio del telegiornale, e va scartato.
+        tutte_le_parole = quanto >= 100 and parole_chieste >= 2
+        if quanto < COPERTURA_RICERCA or (not tutte_le_parole and preciso < PRECISIONE_RICERCA):
             scartati += 1
             # I primi scartati finiscono nel registro col loro punteggio: se un
             # giorno una ricerca giusta torna vuota, qui si vede subito se e'
             # colpa della soglia o se i siti hanno risposto con altro.
             if scartati <= 6:
-                logger.info("Le Saghe: scartato %d%% - %r (%s)" % (quanto, str(titolo_r)[:70], nome))
+                logger.info("Le Saghe: scartato (copertura %d%%, precisione %d%%) - %r (%s)"
+                            % (quanto, preciso, str(titolo_r)[:70], nome))
             continue
         # Prima quanto del testo cercato c'e' nel titolo, poi la lingua
         # (doppiato prima di sottotitolato, la regola di casa), poi il titolo.
