@@ -2817,6 +2817,64 @@ ARCHI = {
 }
 
 
+def stagioni_di(percorso_id):
+    """Le STAGIONI di una saga: una per serie, con l'intervallo di tappe.
+
+    PERCHE' (l'utente, 12/09/2026): "inutile che io vedo tutti i mille e mille
+    episodi dal primo all'ultimo quando clicco una saga; andrebbe diviso per
+    stagioni o sotto-saghe, esempio Daima dentro Dragon Ball".
+    Le stagioni non vanno inventate: sono gia' nei dati, sono i SEGMENTI.
+    Dragon Ball ne ha sei - Dragon Ball, Z, Daima, Super, Z (il finale), GT -
+    e la catena li mette in fila per raccontare la storia in ordine.
+
+    Una serie puo' comparire in PIU' segmenti (Z si interrompe all'episodio 288
+    e riprende col 289 dopo Daima e Super): qui i pezzi della stessa serie si
+    uniscono in una stagione sola, che e' come la pensa chi guarda, e ogni
+    pezzo resta elencato in `tratti` per sapere quali tappe la compongono.
+
+    Ogni stagione: {serie, titolo, episodi, tratti: [(da_idx, a_idx, primo_ep,
+    ultimo_ep)], da_idx, a_idx, quante_tappe}.
+    """
+    percorso = PERCORSI.get(percorso_id)
+    if not percorso:
+        return []
+    tappe = catena(percorso_id)
+    per_serie, ordine = {}, []
+    idx = 0
+    for serie_id, primo, ultimo in percorso["segmenti"]:
+        da_idx = idx + 1
+        idx += (ultimo - primo + 1)
+        a_idx = idx
+        if serie_id not in per_serie:
+            per_serie[serie_id] = {
+                "serie": serie_id,
+                "titolo": SERIE.get(serie_id, {}).get("titolo", serie_id),
+                "episodi": SERIE.get(serie_id, {}).get("episodi", 0),
+                "nota": SERIE.get(serie_id, {}).get("nota", ""),
+                "anni": SERIE.get(serie_id, {}).get("anni", ""),
+                "tratti": [],
+            }
+            ordine.append(serie_id)
+        per_serie[serie_id]["tratti"].append((da_idx, a_idx, primo, ultimo))
+    fuori = []
+    for serie_id in ordine:
+        s = per_serie[serie_id]
+        s["da_idx"] = min(t[0] for t in s["tratti"])
+        s["a_idx"] = max(t[1] for t in s["tratti"])
+        s["quante_tappe"] = sum(t[1] - t[0] + 1 for t in s["tratti"])
+        fuori.append(s)
+    if not fuori and tappe:          # saga senza segmenti dichiarati
+        fuori = [{"serie": "", "titolo": percorso.get("titolo", ""), "episodi": len(tappe),
+                  "nota": "", "anni": "", "tratti": [(1, len(tappe), 1, len(tappe))],
+                  "da_idx": 1, "a_idx": len(tappe), "quante_tappe": len(tappe)}]
+    return fuori
+
+
+def tappe_della_stagione(percorso_id, serie_id):
+    """Le tappe (in ordine di catena) che compongono una stagione."""
+    return [t for t in catena(percorso_id) if t["serie"] == serie_id]
+
+
 def archi_di(percorso_id):
     """I capitoli di questa saga, o lista vuota se non ne ha."""
     return ARCHI.get(percorso_id, [])

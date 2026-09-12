@@ -2032,16 +2032,64 @@ def menu_percorso(pid):
         testo = "Riprendi da: %s" % dove
         if secondi > 60:
             testo += "  (al minuto %s)" % _mmss(secondi)
+    # LA TESTATA DELLA SAGA (13/09/2026). L'utente: "deve aprirsi una pagina
+    # dedicata, con la locandina e sopra il triangolo riproduci, e una bella
+    # descrizione completa non troncata". Questa e' quella voce: porta la
+    # locandina della saga, lo sfondo, e la spiegazione INTERA - quella di
+    # Dragon Ball racconta perche' Super sta dentro Z, e prima non si leggeva.
+    intera = "\n\n".join(x for x in (p.get("sottotitolo", ""), p.get("spiegazione", "")) if x)
+    quanti_visti = len(progresso.visti(pid))
+    riga2 = "%d episodi" % totale
+    if quanti_visti:
+        riga2 += "  -  visti %d (%d%%)" % (quanti_visti, progresso.percentuale(pid, totale))
     li = _voce("[B]%s[/B]" % testo,
-               "Parte subito l'episodio giusto, senza cercare nulla.",
-               icona="DefaultInProgressShows.png")
+               "%s\n\n%s" % (catalogo.descrizione_segmento(pid, idx), intera),
+               icona="DefaultInProgressShows.png", sotto=riga2)
+    arte = {}
+    po = schede.poster_percorso(pid)
+    sf = schede.sfondo_percorso(pid)
+    if po:
+        arte["poster"] = arte["thumb"] = po
+    if sf:
+        arte["fanart"] = sf
+    if arte:
+        li.setArt(arte)
+    if secondi > 0 and durata > 0:
+        li.setProperty("ResumeTime", str(secondi))
+        li.setProperty("TotalTime", str(durata))
     metti_tappa(pid, idx, catalogo.tappa(pid, idx), li)
 
+    # 1-bis. LE STAGIONI, che nei dati esistono gia' (sono i segmenti).
+    # "Inutile che io vedo tutti i mille e mille episodi": chi apre Dragon Ball
+    # trova Dragon Ball, Z, Daima, Super e GT, non 659 righe di fila.
+    stagioni = catalogo.stagioni_di(pid)
+    if len(stagioni) > 1:
+        for s in stagioni:
+            fatti = sum(1 for i in progresso.visti(pid) if s["da_idx"] <= i <= s["a_idx"])
+            coda = "%d episodi" % s["quante_tappe"]
+            if s.get("anni"):
+                coda += "  -  %s" % s["anni"]
+            if fatti:
+                coda += "  -  [COLOR green]visti %d[/COLOR]" % fatti
+            li = _voce("%s" % s["titolo"], "%s\n\n%s" % (s.get("nota", "") or s["titolo"], intera),
+                       icona="DefaultTVShows.png", sotto=coda)
+            po_s = schede.poster(s["serie"]) or po
+            sf_s = schede.sfondo(s["serie"]) or sf
+            arte_s = {}
+            if po_s:
+                arte_s["poster"] = arte_s["thumb"] = po_s
+            if sf_s:
+                arte_s["fanart"] = sf_s
+            if arte_s:
+                li.setArt(arte_s)
+            xbmcplugin.addDirectoryItem(
+                MANIGLIA, url(azione="stagione", percorso=pid, serie=s["serie"]), li, True)
+
     # 2. Tutti gli episodi.
-    li = _voce("Tutti gli episodi in ordine\n[COLOR grey]%d, dal primo "
-               "all'ultimo[/COLOR]" % totale,
+    li = _voce("Tutti gli episodi in ordine",
                "L'ordine corretto per capire la storia, anche quando salta da "
-               "una serie all'altra.", icona="DefaultTVShows.png")
+               "una serie all'altra.", icona="DefaultTVShows.png",
+               sotto="%d, dal primo all'ultimo" % totale)
     xbmcplugin.addDirectoryItem(
         MANIGLIA, url(azione="sfoglia", percorso=pid, da=1), li, True)
 
@@ -2050,10 +2098,10 @@ def menu_percorso(pid):
     archi = catalogo.archi_di(pid)
     if archi:
         dove = catalogo.arco_della_tappa(pid, progresso.posizione(pid))
-        li = _voce("Vai a un capitolo\n[COLOR grey]%d capitoli%s[/COLOR]"
-                   % (len(archi), (" - sei in: " + dove) if dove else ""),
+        li = _voce("Vai a un capitolo",
                    "Salta direttamente all'arco che ti interessa, senza "
-                   "scorrere centinaia di episodi.", icona="DefaultTags.png")
+                   "scorrere centinaia di episodi.", icona="DefaultTags.png",
+                   sotto="%d capitoli%s" % (len(archi), (" - sei in: " + dove) if dove else ""))
         xbmcplugin.addDirectoryItem(
             MANIGLIA, url(azione="capitoli", percorso=pid), li, False)
 
@@ -2062,20 +2110,20 @@ def menu_percorso(pid):
     if fl:
         disp = sum(1 for m in fl
                    if any(fonti.possiede(f) for f in m.get("f", [])))
-        li = _voce("I film\n[COLOR grey]%d, di cui %d guardabili adesso[/COLOR]"
-                   % (len(fl), disp),
+        li = _voce("I film",
                    "Lungometraggi e special. Stanno fuori dall'ordine: "
-                   "raccontano storie a se'.", icona="DefaultMovies.png")
+                   "raccontano storie a se'.", icona="DefaultMovies.png",
+                   sotto="%d, di cui %d guardabili adesso" % (len(fl), disp))
         xbmcplugin.addDirectoryItem(
             MANIGLIA, url(azione="film", percorso=pid), li, True)
 
     # 4. I tagli italiani.
     quanti = len(catalogo.tutti_i_tagli(pid))
     if quanti:
-        li = _voce("Dove la TV italiana ti ha interrotto\n[COLOR grey]%d punti"
-                   "[/COLOR]" % quanti,
+        li = _voce("Dove la TV italiana ti ha interrotto",
                    "Gli episodi esatti in cui hanno tagliato o smesso di "
-                   "trasmettere.", icona="DefaultAddonNone.png")
+                   "trasmettere.", icona="DefaultAddonNone.png",
+                   sotto="%d punti" % quanti)
         xbmcplugin.addDirectoryItem(
             MANIGLIA, url(azione="tagli", percorso=pid), li, True)
 
@@ -2125,22 +2173,33 @@ def _mmss(secondi):
 # Sfoglia la catena
 # --------------------------------------------------------------------------
 
-def sfoglia(pid, da):
-    tappe = catalogo.catena(pid)
+def sfoglia(pid, da, serie=""):
+    """Gli episodi in ordine. Con `serie` si resta dentro UNA stagione.
+
+    La stessa funzione serve i due elenchi (13/09/2026): "Tutti gli episodi in
+    ordine" - la catena intera, che e' il cuore della Videoteca - e la singola
+    stagione aperta dalla pagina della saga, che e' quello che l'utente chiede
+    per non vedere mille episodi di fila. Cambia solo QUALI tappe si mostrano:
+    la riga, il segno di visto, i tagli e la miniatura restano identici.
+    """
+    tutte = catalogo.catena(pid)
+    tappe = [t for t in tutte if t["serie"] == serie] if serie else tutte
     totale = len(tappe)
-    da = max(1, min(int(da), totale))
+    da = max(1, min(int(da), totale or 1))
     fine = min(da + PAGINA - 1, totale)
     gia_visti = progresso.visti(pid)
     corrente = progresso.posizione(pid)
 
+    titolo_pagina = catalogo.PERCORSI[pid]["titolo"]
+    if serie:
+        titolo_pagina = catalogo.SERIE.get(serie, {}).get("titolo", titolo_pagina)
     xbmcplugin.setPluginCategory(
-        MANIGLIA, "%s - %d-%d di %d" % (
-            catalogo.PERCORSI[pid]["titolo"], da, fine, totale))
+        MANIGLIA, "%s - %d-%d di %d" % (titolo_pagina, da, fine, totale))
 
     if da > 1:
         li = _voce("[COLOR grey]' Indietro[/COLOR]")
         xbmcplugin.addDirectoryItem(
-            MANIGLIA, url(azione="sfoglia", percorso=pid,
+            MANIGLIA, url(azione="sfoglia", percorso=pid, serie=serie,
                           da=max(1, da - PAGINA)), li, True)
 
     for t in tappe[da - 1:fine]:
@@ -2174,7 +2233,13 @@ def sfoglia(pid, da):
 
         sch = schede.episodio(t["serie"], t["ep"])
         nome = sch["titolo"] or t["etichetta"]
-        etichetta = "%s%04d. %s%s" % (segno, t["idx"], nome, coda)
+        # DENTRO UNA STAGIONE SI CONTA DALLA STAGIONE (13/09/2026). In Daima
+        # l'episodio 1 e' "1", non "0442": quel numero e' la posizione nella
+        # catena di 659 tappe, utile in "Tutti gli episodi in ordine" e
+        # incomprensibile qui. L'utente aveva chiesto "serie 1 episodio...".
+        numero = t["ep"] if serie else t["idx"]
+        etichetta = "%s%s. %s%s" % (segno, ("%d" % numero) if serie else ("%04d" % numero),
+                                    nome, coda)
 
         descrizione = "%s\n\n%s" % (
             catalogo.descrizione_segmento(pid, t["idx"]), serie["nota"])
@@ -2236,7 +2301,7 @@ def sfoglia(pid, da):
     if fine < totale:
         li = _voce("[COLOR grey]Avanti '[/COLOR]")
         xbmcplugin.addDirectoryItem(
-            MANIGLIA, url(azione="sfoglia", percorso=pid, da=fine + 1), li, True)
+            MANIGLIA, url(azione="sfoglia", percorso=pid, serie=serie, da=fine + 1), li, True)
 
     xbmcplugin.setContent(MANIGLIA, "episodes")
     xbmcplugin.endOfDirectory(MANIGLIA)
@@ -2671,7 +2736,8 @@ def _az_pollice(p, pid):
 # Ogni voce riceve (parametri, percorso).
 AZIONI = {
     "percorso": lambda p, pid: menu_percorso(pid),
-    "sfoglia": lambda p, pid: sfoglia(pid, p.get("da", 1)),
+    "sfoglia": lambda p, pid: sfoglia(pid, p.get("da", 1), p.get("serie", "")),
+    "stagione": lambda p, pid: sfoglia(pid, p.get("da", 1), p.get("serie", "")),
     "riproduci": lambda p, pid: riproduci(pid, p.get("idx", 1)),
     "salta": lambda p, pid: salta(pid),
     "capitoli": lambda p, pid: capitoli(pid),

@@ -1,8 +1,8 @@
 {
 "file": {
-"addon.xml": "8bbcf098db20b3d2a6abe9c740a10689",
+"addon.xml": "d807aaaadd24b7246cfd1e39bfd77ee4",
 "avvio.py": "8e2b4553fc49f3c6a60fe6e580b86dd3",
-"main.py": "b3fd35f731b1891121667c8e3b41c2c0",
+"main.py": "06246c02df26402eb8f12c3a8371d11b",
 "resources/__init__.py": "d41d8cd98f00b204e9800998ecf8427e",
 "resources/arte_extra.json": "219c04cb7b2d5e041ddb6b6d5756e88d",
 "resources/bandiere/italia.png": "ff7ec64db06ca37368d41f69594f4187",
@@ -66,7 +66,7 @@
 "resources/lib/anteprime.py": "2023a5c2458e8b5b5d64f29a102782b7",
 "resources/lib/arte_extra.py": "92c1d3ac46f51804eec278e8ba4d03ab",
 "resources/lib/audio.py": "3da6fd432b28ce67f2f8626664ab732e",
-"resources/lib/catalogo.py": "e13c9270c84a7de39adb7e3e75742d43",
+"resources/lib/catalogo.py": "4395409a685e4fa5b848c4cf1e46690d",
 "resources/lib/cinema.py": "0a2238bd16bd8d507ec5b33ca88e5bd6",
 "resources/lib/consigli.py": "d139f3c2387b7bd1085e52aaeafebf0a",
 "resources/lib/copertine.py": "aa9138151e7b9c3711cf131e80930b96",
@@ -467,5 +467,5 @@
 "resources/tmdb.json": "627d132d1795e2b945ff47acd3090b77",
 "service.py": "dff8e4a9427a13ec9ac8970edfddc3e9"
 },
-"versione": "1.1.9"
+"versione": "1.2.0"
 }

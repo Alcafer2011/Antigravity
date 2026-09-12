@@ -369,6 +369,57 @@ def _():
     assert not colpevoli, "; ".join(colpevoli[:3])
 
 
+@prova("una saga si apre a stagioni, non con mille episodi in fila")
+def _():
+    """L'utente (12/09/2026): "inutile che io vedo tutti i mille e mille
+    episodi dal primo all'ultimo quando clicco una saga; andrebbe diviso per
+    stagioni o sotto-saghe, esempio Daima dentro Dragon Ball".
+    Le stagioni non sono inventate: sono i segmenti del catalogo."""
+    scrivi_progresso({})
+    finto_kodi.azzera()
+    main.menu_percorso("dragonball")
+    voci = [v for v in finto_kodi.VOCI if isinstance(v, dict)]
+    stagioni = [v for v in voci if "azione=stagione" in v["url"]]
+    assert len(stagioni) == 5, "stagioni mostrate: %d (attese 5)" % len(stagioni)
+    titoli = [v["etichetta"] for v in stagioni]
+    assert any("Daima" in t for t in titoli), "manca Daima: %s" % titoli
+    # Dragon Ball Z e' spezzata in due segmenti (si interrompe a 288 e riprende
+    # col 289 dopo Daima e Super): deve restare UNA stagione, non due.
+    quante_z = sum(1 for t in titoli if t.strip().endswith("Dragon Ball Z"))
+    assert quante_z == 1, "Dragon Ball Z compare %d volte: %s" % (quante_z, titoli)
+
+
+@prova("la pagina della saga ha locandina e descrizione intera")
+def _():
+    """"Deve apparire una locandina di tutta la serie, e una bella descrizione
+    completa non troncata"."""
+    scrivi_progresso({})
+    finto_kodi.azzera()
+    main.menu_percorso("dragonball")
+    voci = [v for v in finto_kodi.VOCI if isinstance(v, dict)]
+    assert voci, "la pagina della saga e' vuota"
+    testata = voci[0]
+    assert testata["arte"].get("poster"), "la testata non ha la locandina"
+    spiegazione = catalogo.PERCORSI["dragonball"].get("spiegazione", "")
+    trovata = testata["tag"].get("plot") or testata["tag"].get("trama") or ""
+    assert spiegazione[:60] in (trovata or ""), "la descrizione non e' quella intera"
+    con_locandina = [v for v in voci if "azione=stagione" in v["url"] and v["arte"].get("poster")]
+    assert con_locandina, "le stagioni non hanno locandina"
+
+
+@prova("aprendo una stagione si vedono solo i suoi episodi")
+def _():
+    """Daima ha venti episodi: aprendola non devono comparire quelli di Z."""
+    scrivi_progresso({})
+    finto_kodi.azzera()
+    main.sfoglia("dragonball", 1, "daima")
+    voci = [v for v in finto_kodi.VOCI if isinstance(v, dict) and _e_una_tappa(v["url"])]
+    assert len(voci) == 20, "episodi mostrati: %d (Daima ne ha 20)" % len(voci)
+    for v in voci:
+        campi = s4me_link.leggi(v["url"])
+        assert campi.get("serie_id") == "daima", "episodio di un'altra serie: " + v["url"]
+
+
 @prova("senza file locali gli episodi passano dal motore di s4me")
 def _():
     """La fusione, vista dalle prove: quando l'episodio non e' un file tuo
