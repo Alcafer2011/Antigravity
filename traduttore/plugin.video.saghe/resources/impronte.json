@@ -1,8 +1,8 @@
 {
 "file": {
-"addon.xml": "f30f040ea88d76f0d0eac944293d6b1c",
+"addon.xml": "ce63ed2f2371b69593bbad96a4587614",
 "avvio.py": "8e2b4553fc49f3c6a60fe6e580b86dd3",
-"main.py": "176d77521c32d65bdb430219ff0ec9cd",
+"main.py": "b3fd35f731b1891121667c8e3b41c2c0",
 "resources/__init__.py": "d41d8cd98f00b204e9800998ecf8427e",
 "resources/arte_extra.json": "219c04cb7b2d5e041ddb6b6d5756e88d",
 "resources/bandiere/italia.png": "ff7ec64db06ca37368d41f69594f4187",
@@ -72,7 +72,7 @@
 "resources/lib/copertine.py": "aa9138151e7b9c3711cf131e80930b96",
 "resources/lib/custode.py": "f982dc2669499a1c2dcb9a6ae9ce2064",
 "resources/lib/dettagli.py": "667cc2dc1c0f599f3ea35f8c26aebadd",
-"resources/lib/disponibilita.py": "5393203ae107118078bba2e268b0d819",
+"resources/lib/disponibilita.py": "298c5f9469011ce734ee75b6ef67b108",
 "resources/lib/fonti.py": "10ad317719efac396d8f3dc081da1f45",
 "resources/lib/immagine.py": "48d689d57b51915b11f5d617e1f6adbb",
 "resources/lib/loghi.py": "d119dd6493104b141fc79d169d614a96",
@@ -467,5 +467,5 @@
 "resources/tmdb.json": "627d132d1795e2b945ff47acd3090b77",
 "service.py": "dff8e4a9427a13ec9ac8970edfddc3e9"
 },
-"versione": "1.1.7"
+"versione": "1.1.8"
 }

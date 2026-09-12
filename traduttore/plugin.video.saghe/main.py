@@ -2464,7 +2464,17 @@ def elenco_film(pid):
         # controllore, che il film lo prova davvero (disponibilita.py).
         chiave = disponibilita.chiave_film(pid, m["t"])
         stato = disponibilita.stato(chiave, verificati)
-        if elenco:
+        # ANCORA DA USCIRE (12/09/2026, trovato da prova_struttura.py). Sette
+        # film del catalogo non hanno data perche' sono annunciati e basta:
+        # Demon Slayer - Il Castello dell'Infinito parti 2 e 3, i due One Piece
+        # nuovi, un Doraemon senza titolo italiano. Su TMDb la data non c'e'
+        # per davvero. Cercarli sui siti e' tempo buttato, e senza anno il
+        # rischio e' aprire un film diverso con lo stesso nome: qui si dice che
+        # non e' ancora uscito e non si cerca niente.
+        uscito = str(m.get("d") or "")[:4].isdigit()
+        if not uscito:
+            coda = "  [COLOR 99BBBBBB]- in arrivo, non ancora uscito[/COLOR]"
+        elif elenco:
             coda = "  [COLOR 997FA8D8]- %s[/COLOR]" % " / ".join(
                 fonti.sigla(f) or f for f in elenco)
         elif stato == "pronto":
@@ -2499,7 +2509,11 @@ def elenco_film(pid):
             tag.setYear(int(anno))
         if m.get("p"):
             tag.setPlot(m["p"])
-        if elenco:
+        if not uscito:
+            # Resta nell'elenco (fa parte della saga) ma non porta da nessuna
+            # parte: non c'e' ancora niente da aprire.
+            indirizzo = url()
+        elif elenco:
             indirizzo = url(azione="apri_film", percorso=pid, titolo=m["t"])
         else:
             indirizzo = s4me_link.indirizzo({"channel": "lesaghe", "action": "cinema_fonti"},

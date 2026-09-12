@@ -135,6 +135,11 @@ def _da_controllare():
             for m in schede.film(pid):
                 if any(fonti.possiede(x) for x in m.get("f", [])):
                     continue
+                # I film ANNUNCIATI e non ancora usciti non si controllano: non
+                # esistono da nessuna parte, e ogni giro sprecherebbe minuti su
+                # un film che uscira' fra un anno (12/09/2026).
+                if not str(m.get("d") or "")[:4].isdigit():
+                    continue
                 fuori.append({"chiave": chiave_film(pid, m.get("t", "")), "titolo": m.get("t", ""),
                               "originale": "", "anno": m.get("d", "")})
     except Exception as errore:
