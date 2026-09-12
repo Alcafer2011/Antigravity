@@ -136,15 +136,21 @@ def prova(testo, canali=()):
 
 
 def voci_da_provare(solo, quante):
+    """(gruppo, voci, canali). I CANALI NON SONO SEMPRE GLI STESSI, ed e' il
+    guasto della prima prova (12/09/2026): documentari e cucina nella Videoteca
+    si cercano sui CATALOGHI (RaiPlay, Discovery+, La7, Pluto, Paramount,
+    Mediaset), non sui 16 siti di film e serie. Provandoli sui siti sbagliati
+    uscivano 97 "tutto scartato" che non erano guasti, solo la domanda fatta
+    alla porta sbagliata."""
     gruppi = []
     if solo in (None, "documentari"):
         for intestazione, voci in scoperte.GENERI_DOC:
             gruppi.append(("Documentari - " + intestazione,
-                           [(e, q) for e, q, in [(v[0], v[1]) for v in voci]][:quante]))
+                           [(v[0], v[1]) for v in voci][:quante], scoperte.CANALI_CATALOGHI))
     if solo in (None, "cucina"):
         for intestazione, voci in scoperte.GENERI_CUCINA:
             gruppi.append(("Cucina - " + intestazione,
-                           [(v[0], v[1]) for v in voci][:quante]))
+                           [(v[0], v[1]) for v in voci][:quante], scoperte.CANALI_CATALOGHI))
     if solo in (None, "saghe"):
         try:
             import importlib.util
@@ -158,7 +164,7 @@ def voci_da_provare(solo, quante):
                 if query and query.lower() not in visti:
                     visti.add(query.lower())
                     unici.append((etichetta, query))
-            gruppi.append(("Serie del catalogo", unici[:quante]))
+            gruppi.append(("Serie del catalogo", unici[:quante], ()))
         except Exception as e:
             print("  (catalogo non letto: %s)" % e)
     return gruppi
@@ -228,11 +234,11 @@ def main(argv):
         raise SystemExit("Il Kodi del PC non risponde su 127.0.0.1:8080 (%s)" % e)
     inizio = time.time()
     risultati = []
-    for gruppo, voci in voci_da_provare(o.solo, o.quante):
+    for gruppo, voci, canali in voci_da_provare(o.solo, o.quante):
         esiti = []
-        print("%s (%d voci)" % (gruppo, len(voci)))
+        print("%s (%d voci, %s)" % (gruppo, len(voci), ", ".join(canali) if canali else "tutti i siti"))
         for etichetta, query in voci:
-            e = prova(query)
+            e = prova(query, canali)
             e["etichetta"] = etichetta
             esiti.append(e)
             print("   %-38s %-14s righe %-3d scartate %-3d %ss"

@@ -645,6 +645,7 @@ def _titoli_da_provare(serie, titolo):
     saga trova la serie sbagliata. Poi il titolo passato, poi gli alias
     (le turche cambiano nome fra Italia e Turchia).
     """
+    import re
     fuori = []
     proprio = (serie or {}).get("titolo", "")
     if proprio:
@@ -654,6 +655,16 @@ def _titoli_da_provare(serie, titolo):
     for alt in (serie or {}).get("alias", []):
         if alt and alt not in fuori:
             fuori.append(alt)
+    # E LO STESSO TITOLO SENZA LA PARENTESI (12/09/2026). Nel catalogo le serie
+    # sono distinte con una nota fra parentesi - "Lupin III (terza serie)",
+    # "Lamu (rifacimento 2022)", "Hunter x Hunter (1999)" - che serve a noi per
+    # capirci, ma sui siti non esiste: cercandola per intero non si trova
+    # niente. Va in CODA: prima si prova il nome preciso, che distingue le
+    # serie di una stessa saga, e solo se non basta si allarga.
+    for nome in list(fuori):
+        senza = re.sub(r"\s*[\(\[][^\)\]]*[\)\]]\s*", " ", nome).strip()
+        if senza and senza not in fuori:
+            fuori.append(senza)
     return fuori
 
 
