@@ -1122,7 +1122,76 @@ def _pare_una_stagione(v):
 MASSIME_STAGIONI = 12
 
 
+def _senza_doppioni(episodi):
+    """Lo stesso episodio una volta sola.
+
+    IL GUASTO (l'utente, 12/09/2026): "ci sono tantissimi episodi ripetuti,
+    l'ho visto in Daima". Nel nostro catalogo doppioni non ce ne sono - contate
+    tutte le 66 catene, zero - quindi le ripetizioni arrivano dall'ELENCO DEL
+    SITO: molti siti mettono lo stesso episodio piu' volte, uno per server o per
+    qualita' ("Ep 10", "Ep 10 [SUB]", "Ep 10 - server 2"), e noi li mostravamo
+    tutti in fila.
+    Qui si tiene UNA voce per numero di episodio, e fra le copie vince quella
+    con la lingua migliore (la regola di casa: doppiato prima di sottotitolato).
+    Le voci senza numero non si toccano: non sapendo cosa sono, buttarle via
+    sarebbe peggio che mostrarle.
+    """
+    import re
+    migliori, fuori = {}, []
+    for e in episodi or []:
+        numero = getattr(e, "contentEpisodeNumber", None)
+        if not numero:
+            m = re.search(r"(?:\d+\s*[xX]\s*(\d{1,4}))|(?:(?:ep|episodio|episode|puntata)\W*(\d{1,4}))",
+                          str(getattr(e, "title", "") or ""), re.I)
+            numero = (m.group(1) or m.group(2)) if m else None
+        try:
+            numero = int(numero)
+        except (TypeError, ValueError):
+            fuori.append(e)
+            continue
+        gia = migliori.get(numero)
+        if gia is None or _rango_lingua(e) > _rango_lingua(gia):
+            migliori[numero] = e
+    ordinati = [migliori[n] for n in sorted(migliori)]
+    quanti = len(episodi or []) - len(ordinati) - len(fuori)
+    if quanti > 0:
+        logger.info("Le Saghe: tolti %d episodi ripetuti (ne restano %d)" % (quanti, len(ordinati) + len(fuori)))
+    return ordinati + fuori
+
+
 def _episodi_di(canale, voce, profondita=2):
+    """Gli episodi di una serie, senza doppioni e senza i fili di TMDb.
+
+    I FILI DI TMDB FANNO CADERE KODI (12/09/2026). Il Raspberry si e' chiuso da
+    solo mentre l'utente guardava Daima, e nel registro, prima del crollo, ci
+    sono le tracce di `s4me[tmdb.sub_thread]`: e' s4me che, mentre elenca gli
+    episodi, va a prendere le schede su TMDb con tanti fili in parallelo. E'
+    la stessa famiglia del crollo di ieri (vedi _FuturesInFila, che pero'
+    copre solo la costruzione delle voci).
+    s4me quei fili li salta del tutto se `tmdb_active` e' spento - lo controlla
+    in cima a set_infoLabels - quindi qui si spegne per il tempo della lettura
+    e si rimette com'era. Le schede non servono: gli episodi li mostriamo noi,
+    col nostro catalogo.
+    """
+    prima = None
+    try:
+        from platformcode import config as _config
+        prima = _config.get_setting("tmdb_active")
+        _config.set_setting("tmdb_active", False)
+    except Exception as e:
+        logger.info("Le Saghe: tmdb_active non spento: %s" % e)
+        _config = None
+    try:
+        return _senza_doppioni(_episodi_di_grezzo(canale, voce, profondita))
+    finally:
+        if _config is not None and prima is not None:
+            try:
+                _config.set_setting("tmdb_active", prima)
+            except Exception as e:
+                logger.info("Le Saghe: tmdb_active non rimesso: %s" % e)
+
+
+def _episodi_di_grezzo(canale, voce, profondita=2):
     """Gli episodi di una serie, seguendo la strada che la voce indica.
 
     TRE COSE IMPARATE IL 07/09/2026 dietro "la serie turca non parte".

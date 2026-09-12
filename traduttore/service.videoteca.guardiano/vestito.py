@@ -43,8 +43,8 @@ import re
 import shutil
 
 SEGNO = "videoteca-vestito-1"               # il logo nelle schermate (Includes_Defs.xml)
-SEGNO_APERTURA = "videoteca-apertura-3"     # l'apertura col suono (Startup.xml)
-APERTURE_VECCHIE = ("videoteca-apertura-2",)
+SEGNO_APERTURA = "videoteca-apertura-4"     # l'apertura (Startup.xml); il suono lo fa il servizio
+APERTURE_VECCHIE = ("videoteca-apertura-2", "videoteca-apertura-3")
 LOGO = "special://home/addons/plugin.video.saghe/resources/media/logo/"
 DURATA = "00:05"
 ATTESA_HOME = '<onload condition="!Skin.HasSetting(disable.startup.window)">ReplaceWindow(1150)</onload>'
@@ -94,7 +94,13 @@ def cuci_startup(testo):
         nuovo = nuovo.replace("<controls/>", "<controls>%s</controls>" % CONTROLLI, 1)
     else:
         nuovo = nuovo.replace("<controls>", "<controls>%s" % CONTROLLI, 1)
-    nuovo = _con_suono(nuovo)
+    # NIENTE PlaySFX QUI (12/09/2026). La riga
+    #   <onload ...>PlaySFX(special://home/.../suono.wav)</onload>
+    # non ha mai suonato, e il registro del Raspberry diceva perche':
+    #   "Keymapping error: no such action 'playsfx(...)' defined".
+    # PlaySFX in Kodi e' un'AZIONE del telecomando, non un comando che una
+    # schermata puo' eseguire: dentro <onload> viene rifiutata. Il suono lo fa
+    # ora il servizio del guardiano con xbmc.playSFX(), che e' l'API giusta.
     return (nuovo, "cucito") if nuovo else (testo, "non riconosciuto")
 
 

@@ -363,6 +363,30 @@ class _Monitor(xbmc.Monitor):
             SCATOLA.notifica(mittente, metodo, dati)
 
 
+SUONO = "special://home/addons/plugin.video.saghe/resources/media/logo/suono.wav"
+
+
+def _suono_apertura(monitor):
+    """Il suono del logo NOVIX, all'accensione.
+
+    PERCHE' QUI E NON NELLA SKIN (12/09/2026). Startup.xml lo chiamava con
+    `<onload>PlaySFX(...)</onload>`, e il registro del Raspberry spiegava il
+    silenzio: "Keymapping error: no such action 'playsfx(...)' defined".
+    PlaySFX e' un'AZIONE del telecomando, non un comando che una schermata puo'
+    eseguire. Da Python invece esiste l'API apposta, xbmc.playSFX, ed e' questa.
+
+    Si aspettano due secondi: all'accensione Kodi sta ancora costruendo la
+    schermata e l'audio non e' pronto. Se l'utente sta gia' guardando qualcosa
+    (servizio riavviato a mano) non si suona niente."""
+    try:
+        if monitor.waitForAbort(2) or xbmc.getCondVisibility("Player.HasMedia"):
+            return
+        xbmc.playSFX(xbmcvfs.translatePath(SUONO), useCached=False)
+        _log("suono dell'apertura riprodotto")
+    except Exception as e:
+        _log("suono dell'apertura non riprodotto: %s" % e, xbmc.LOGWARNING)
+
+
 def main():
     global SCATOLA
     try:
@@ -372,6 +396,7 @@ def main():
     monitor = _Monitor()
     _log("avviato: primo controllo fra %d s, poi ogni %d minuti; scatola nera %s"
          % (PRIMO_GIRO, OGNI // 60, "accesa" if SCATOLA else "spenta"))
+    _suono_apertura(monitor)
     prossimo = time.time() + PRIMO_GIRO
     while not monitor.abortRequested():
         if SCATOLA:
