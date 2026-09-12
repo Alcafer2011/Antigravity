@@ -87,6 +87,14 @@ def _con_suono(testo):
 def cuci_startup(testo):
     """(testo nuovo, esito) - esito: 'cucito', 'gia cucito' o 'non riconosciuto'."""
     if SEGNO_APERTURA in testo:
+        # ANCHE SE E' GIA' CUCITO, la riga del suono va tolta (12/09/2026).
+        # Chi ha ricevuto la versione di prima ha il segno nuovo MA la riga
+        # vecchia dentro: uscendo subito con "gia cucito" non la togliamo mai,
+        # ed e' quello che e' successo sul Raspberry - installazione riuscita,
+        # riga ancora li'. Qui si ripulisce e si dichiara il lavoro fatto.
+        pulito = _senza_suono(testo)
+        if pulito != testo:
+            return pulito, "cucito"
         return testo, "gia cucito"
     vecchia = next((s for s in APERTURE_VECCHIE if s in testo), None)
     if vecchia:
