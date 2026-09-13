@@ -62,33 +62,40 @@ VOCI = [
     # CERCA (11/09/2026): dal menu della skin, senza entrare nella Videoteca.
     # Scrivi, e la ricerca va da sola sul catalogo e su tutti i siti.
     ("Cerca", "cerca", "RunScript(plugin.video.saghe,cerca_nuova)", []),
-    ("Le tue saghe", "letuesaghe", apri("reparto&reparto=cartoni"), [
-        ("Le tue saghe", "saghe"),
-        ("I film delle saghe", "film"),
+    # ANIME, non "Le tue saghe" (13/09/2026): l'utente le chiama cosi', ed e'
+    # il nome che cerca col telecomando. I film escono da qui e diventano una
+    # sezione loro, come le altre.
+    ("Anime", "anime", apri("reparto&reparto=cartoni"), [
+        ("I tuoi anime", "saghe"),
+        ("Continua a guardare", "continua"),
         ("Novita dai tuoi siti", "novita"),
+    ]),
+    # LA SEZIONE FILM, che mancava (13/09/2026): prima i film stavano nascosti
+    # dentro le saghe, e una sezione a se' era l'unica cosa che non c'era.
+    ("Film", "film", apri("film_tutti"), [
+        ("I film delle saghe", "film"),
+        ("Al cinema ora", "cinema"),
+        ("Su Netflix ora - Film", "netflix:film"),
     ]),
     ("Serie TV", "serietv", apri("reparto&reparto=serietv"), [
         ("Le tue serie TV", "serietv"),
         ("Su Netflix ora - Serie TV", "netflix:serietv"),
         ("Al cinema ora", "cinema"),
     ]),
+    # UNA SOLA SEZIONE DOCUMENTARI (13/09/2026). Ce n'erano due, "Documentari"
+    # e "Altri documentari", per una ragione tecnica: la skin mostra al massimo
+    # sei righe per voce, e i gruppi sono undici. Ma due sezioni uguali nel
+    # menu confondono - l'utente: "abbiamo due sezioni documentari, devi farne
+    # una sola con dentro tutte le varie voci". Qui restano le sei righe che si
+    # guardano di piu'; TUTTI gli undici gruppi si trovano aprendo la sezione,
+    # che li elenca uno sotto l'altro con la loro intestazione.
     ("Documentari", "documentari", apri("scaffale&scaffale=documentari"), [
         ("Natura e animali", "documentari:1"),
         ("Spazio e scienza", "documentari:2"),
-        ("Preistoria e archeologia", "documentari:3"),
         ("Storia", "documentari:4"),
         ("I programmi di Discovery e Sky", "documentari:5"),
         ("Motori, garage e restauri", "documentari:6"),
-    ]),
-    # Il limite di 6 righe per voce lasciava fuori 5 gruppi dei documentari:
-    # nessuna voce li raggiungeva, per l'utente non esistevano. (Trovato
-    # dalla sessione di prova il 10/09/2026.)
-    ("Altri documentari", "altridocumentari", apri("scaffale&scaffale=documentari"), [
-        ("Motori e ingegneria", "documentari:7"),
         ("Disastri e misteri", "documentari:8"),
-        ("Cronaca e crimine", "documentari:9"),
-        ("Societa, arte e viaggi", "documentari:10"),
-        ("Documentari a catalogo", "documentari:0"),
     ]),
     ("Cucina", "cucina", apri("scaffale&scaffale=cucina"), [
         ("I programmi", "cucina:1"),
@@ -142,15 +149,30 @@ def controlla():
         if "plugin://" in azione and "?" not in azione:
             guai.append("%s: azione plugin:// senza '?' - skinshortcuts le "
                         "cambierebbe identificativo" % et)
-    # OGNI gruppo di documentari, cucina e YouTube deve essere raggiungibile
-    # da almeno una voce. E' il guasto delle 7 righe orfane del 10/09.
+    # OGNI gruppo di documentari, cucina e YouTube deve essere RAGGIUNGIBILE.
+    # Non pero' per forza con una riga sua: va bene anche se c'e' una voce che
+    # apre la sua SEZIONE, perche' li' dentro i gruppi sono elencati tutti, uno
+    # sotto l'altro con la loro intestazione.
+    #
+    # LA REGOLA DI PRIMA ERA PIU' STRETTA, e aveva una ragione: il 10/09 sette
+    # gruppi erano orfani davvero, perche' nessuna voce apriva la sezione e
+    # nessuna riga li nominava - per l'utente non esistevano. Da allora la
+    # sezione c'e'. Tenere la regola vecchia costringeva a spaccare i
+    # documentari in due voci di menu ("Documentari" e "Altri documentari"),
+    # ed e' proprio il doppione che l'utente ha chiesto di togliere il
+    # 13/09/2026: "abbiamo due sezioni documentari, devi farne una sola".
     presenti = {che for _, _, _, righe in VOCI for _, che in righe}
+    apre_sezione = {sezione for _et, _lid, azione, _righe in VOCI
+                    for sezione in ("documentari", "cucina", "youtube")
+                    if "scaffale=%s" % sezione in (azione or "")}
     sc = _scoperte()
     for sezione in ("documentari", "cucina", "youtube"):
+        if sezione in apre_sezione:
+            continue                      # la sezione si apre: dentro ci sono tutti
         for i, (intestazione, voci) in enumerate(sc.scaffale(sezione)):
             if voci and "%s:%d" % (sezione, i) not in presenti:
-                guai.append("gruppo irraggiungibile: %s:%d (%s)"
-                            % (sezione, i, intestazione))
+                guai.append("gruppo irraggiungibile: %s:%d (%s) - nessuna riga lo nomina "
+                            "e nessuna voce apre la sezione" % (sezione, i, intestazione))
     return guai
 
 

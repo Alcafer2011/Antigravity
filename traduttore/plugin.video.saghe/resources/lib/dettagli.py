@@ -101,7 +101,24 @@ def applica(tag, tipo, tmdb_id):
     if v.get("uscita"):
         tag.setPremiered(v["uscita"])
     if v.get("frase"):
-        tag.setTagline(v["frase"])
+        # setTagLine, NON setTagline (13/09/2026). Con la minuscola Kodi solleva
+        # AttributeError e cade TUTTA la scheda completa: nel registro del PC
+        # c'erano diciotto righe "'xbmc.InfoTagVideo' object has no attribute
+        # 'setTagline'", una per ogni titolo. Con lei non venivano applicati
+        # nemmeno genere, regista, voti e - quel che pesa di piu' - il TRAILER,
+        # che e' quello che fa partire le anteprime al passaggio.
+        # Qui si prova il nome giusto, si accetta quello vecchio se un domani
+        # cambiasse, e si perdona l'assenza: una frase di lancio non vale la
+        # perdita di una scheda intera.
+        for _nome in ("setTagLine", "setTagline"):
+            _metodo = getattr(tag, _nome, None)
+            if _metodo:
+                try:
+                    _metodo(v["frase"])
+                except Exception as _errore:
+                    import xbmc as _x
+                    _x.log("[Le Saghe] frase di lancio non messa: %s" % _errore, _x.LOGDEBUG)
+                break
     if v.get("durata"):
         tag.setDuration(int(v["durata"]))
     if v.get("divieto"):

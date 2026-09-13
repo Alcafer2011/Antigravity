@@ -172,6 +172,34 @@ def _youtube_pronto(attuale):
     return testo
 
 
+def _anteprime_skin(testo):
+    """Le ANTEPRIME al passaggio, come su Netflix (13/09/2026).
+
+    L'utente: "mancano le anteprime, che se ti fermi su un'icona parte una
+    specie di trailer". La skin le sa gia' fare - ha tre finestre apposta
+    (Custom_AutoTrailer_*) che, quando ti fermi qualche secondo su una voce,
+    sfumano lo sfondo e riproducono `ListItem.Trailer` - ma arriva con
+    l'interruttore SPENTO. Il trailer sulle voci ce lo mette gia'
+    resources/lib/dettagli.py, e punta all'add-on YouTube, che ora ha le chiavi
+    personali e funziona.
+    Qui si accende l'interruttore e si mette il ritardo a 3 secondi: piu' corto
+    e parte mentre stai ancora scorrendo, piu' lungo e sembra rotto.
+    Le impostazioni della skin NON stanno in guisettings.xml ma in
+    userdata/addon_data/skin.arctic.zephyr.mod/settings.xml.
+    """
+    if "<settings" not in (testo or ""):
+        testo = "<settings>\n</settings>\n"
+    valori = (("home.netflix.autoplay.trailer", "bool", "true"),
+              ("NetflixTrailerDelay", "string", "3"))
+    for chiave, tipo, valore in valori:
+        riga = '<setting id="%s" type="%s">%s</setting>' % (chiave, tipo, valore)
+        testo, quante = re.subn(
+            r'<setting id="%s"[^>]*?(?:/>|>[^<]*</setting>)' % re.escape(chiave), riga, testo)
+        if not quante:
+            testo = testo.replace("</settings>", "    %s\n</settings>" % riga)
+    return testo
+
+
 def _embuary_italiano(attuale):
     """settings.xml di Embuary Info con lingua e paese italiani.
 
@@ -468,6 +496,13 @@ def servi_pc(tar, impronte, riavvia=True):
     with io.open(p_emb, "w", encoding="utf-8") as f:
         f.write(_embuary_italiano(attuale))
     print("  Embuary Info in italiano (Scheda completa)")
+    dati_skin = os.path.join(kodi, "userdata", "addon_data", "skin.arctic.zephyr.mod")
+    os.makedirs(dati_skin, exist_ok=True)
+    p_skin = os.path.join(dati_skin, "settings.xml")
+    prima_skin = io.open(p_skin, encoding="utf-8").read() if os.path.exists(p_skin) else ""
+    with io.open(p_skin, "w", encoding="utf-8") as f:
+        f.write(_anteprime_skin(prima_skin))
+    print("  anteprime al passaggio accese")
     gs = os.path.join(kodi, "userdata", "guisettings.xml")
     if os.path.exists(gs):
         vecchio = io.open(gs, encoding="utf-8").read()
@@ -583,6 +618,15 @@ def servi_box(tar, impronte, riavvia=True):
     _su("mkdir -p %s && cp /sdcard/servi-embuary.xml %s/settings.xml && rm /sdcard/servi-embuary.xml && chown -R %s %s"
         % (emb, emb, proprietario, emb))
     print("  Embuary Info in italiano (Scheda completa)")
+    dati_skin = "%s/userdata/addon_data/skin.arctic.zephyr.mod" % k
+    prima_skin = _su("cat %s/settings.xml 2>/dev/null" % dati_skin)
+    locale_skin = os.path.join(tempfile.gettempdir(), "servi-skin-impostazioni.xml")
+    with io.open(locale_skin, "w", encoding="utf-8", newline="") as f:
+        f.write(_anteprime_skin(prima_skin if "<settings" in prima_skin else ""))
+    R._adb("push", locale_skin, "/data/local/tmp/servi-skin.xml")
+    _su("mkdir -p %s && cat /data/local/tmp/servi-skin.xml > %s/settings.xml && chown -R %s %s"
+        % (dati_skin, dati_skin, proprietario, dati_skin))
+    print("  anteprime al passaggio accese")
     gs_testo = _su("cat %s/userdata/guisettings.xml" % k, tempo=120)
     if "<settings" in gs_testo:
         locale_gs = os.path.join(tempfile.gettempdir(), "servi-guisettings.xml")
@@ -711,6 +755,12 @@ def servi_pi(tar, impronte, riavvia=True):
     with sftp.open("%s/settings.xml" % emb, "w") as fh:
         fh.write(_embuary_italiano(attuale if "<settings" in attuale else ""))
     print("  Embuary Info in italiano (Scheda completa)")
+    dati_skin = "%s/userdata/addon_data/skin.arctic.zephyr.mod" % k
+    prima_skin = run("cat %s/settings.xml 2>/dev/null" % dati_skin)
+    run("mkdir -p %s" % dati_skin)
+    with sftp.open("%s/settings.xml" % dati_skin, "w") as fh:
+        fh.write(_anteprime_skin(prima_skin if "<settings" in prima_skin else "").encode("utf-8"))
+    print("  anteprime al passaggio accese")
     with sftp.open("%s/userdata/guisettings.xml" % k, "r") as fh:
         gs_testo = fh.read().decode("utf-8", "replace")
     if "<settings" in gs_testo:

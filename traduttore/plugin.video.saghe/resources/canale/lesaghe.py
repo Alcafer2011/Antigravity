@@ -807,7 +807,14 @@ def findvideos(item):
     server = _findvideos_da_rubrica(item, titolo, numero, serie_id)
     if server is not None:
         return server
+    # PRIMA TUTTI I SITI INSIEME (13/09/2026): e' il passo che toglie le attese
+    # di minuti. Se nessuno risponde in tempo si prosegue con la strada di
+    # sempre, uno alla volta, che resta la rete di sicurezza.
+    server, motivi_veloci = _findvideos_veloce(item, titolo, numero, serie_id)
+    if server:
+        return server
     server, motivi = _findvideos_sui_siti(item, titolo, numero, serie_id)
+    motivi = (motivi or []) + [m for m in (motivi_veloci or []) if m not in (motivi or [])]
     if server is not None:
         return server
     return _findvideos_ripieghi(item, titolo, numero, serie_id, motivi)
@@ -847,6 +854,143 @@ def _findvideos_da_rubrica(item, titolo, numero, serie_id):
         # L'indirizzo in rubrica non vale piu': si dimentica e si ricerca.
         _rubrica_scorda(serie_id)
     return None
+
+
+VELOCE_FILI = 6
+VELOCE_SECONDI = 45
+
+
+def _findvideos_veloce(item, titolo, numero, serie_id):
+    """Tutti i siti INSIEME, e vince il primo che ha davvero il video.
+
+    IL PROBLEMA MISURATO (12/09/2026): aprire Dragon Ball Daima episodio 11 non
+    ha dato risposta nemmeno dopo NOVE MINUTI. Non e' un guasto: per un anime i
+    siti da provare sono dieci, e si provavano UNO ALLA VOLTA - ricerca, elenco
+    episodi, video, prova dei server - prima di passare al successivo. Basta un
+    sito lento in testa e l'attesa diventa insopportabile. L'utente lo dice a
+    modo suo: "i tempi di cambio sono lunghi".
+
+    Qui i siti partono insieme, ognuno nel suo filo. Fra quelli che riescono
+    NON vince il piu' veloce ma il PIU' IN ALTO nell'ordine di preferenza: la
+    velocita' non deve cambiare la qualita' di cio' che guardi. Dopo
+    VELOCE_SECONDI si prende quello che c'e'; se non c'e' niente si torna alla
+    strada di prima, che resta intatta come rete di sicurezza.
+
+    (vivi, motivi) oppure (None, motivi) se nessun sito ce l'ha fatta.
+    """
+    import threading
+    import time as _time
+    serie_del_catalogo = catalogo().get("SERIE", {}).get(serie_id, {})
+    nomi = _titoli_da_provare(serie_del_catalogo, titolo)
+    saltati = set(str(getattr(item, "salta_canali", "") or "").split(","))
+    siti = [n for n in _canali_per(serie_del_catalogo) if n not in saltati]
+    if len(siti) < 2:
+        return None, []
+
+    esiti, motivi = {}, []
+    serratura = threading.Lock()
+    posti = threading.Semaphore(VELOCE_FILI)
+    finito = threading.Event()
+
+    # TMDb spento per tutta la corsa: sono le sue schede, scaricate con tanti
+    # fili, che il 12/09 hanno fatto cadere Kodi sul Raspberry. Qui dentro si
+    # usa `_episodi_di_grezzo`, che non tocca le impostazioni: con piu' fili
+    # accesi, spegnere e riaccendere la stessa manopola sarebbe una gara persa.
+    prima_tmdb, _config = None, None
+    try:
+        from platformcode import config as _config
+        prima_tmdb = _config.get_setting("tmdb_active")
+        _config.set_setting("tmdb_active", False)
+    except Exception as e:
+        logger.info("Le Saghe: tmdb_active non spento nella ricerca veloce: %s" % e)
+        _config = None
+
+    def _prova(nome):
+        with posti:
+            if finito.is_set():
+                return
+            canale = _modulo(nome)
+            if not canale:
+                return
+            try:
+                risultati = []
+                for chiamala in nomi:
+                    ricerca = Item(channel=nome, action="search", contentType="tvshow",
+                                   search="", args="")
+                    risultati = canale.search(ricerca, chiamala) or []
+                    if risultati:
+                        break
+                risultati = [r for r in risultati if getattr(r, "action", "")]
+
+                def _nome_r(r):
+                    return getattr(r, "fulltitle", "") or getattr(r, "title", "")
+
+                candidati = [r for r in risultati
+                             if max(_copertura(_nome_r(r), t) for t in nomi) >= COPERTURA_MINIMA
+                             and not _serie_sbagliata(_nome_r(r), nomi)]
+                candidati.sort(key=lambda r: (_rango_lingua(r),
+                                              max(_copertura(_nome_r(r), t) for t in nomi)),
+                               reverse=True)
+                for cand in candidati[:3]:
+                    if finito.is_set():
+                        return
+                    episodi = _senza_doppioni(_episodi_di_grezzo(canale, cand))
+                    scelto = _episodio_giusto(episodi, numero)
+                    if not scelto:
+                        continue
+                    server = canale.findvideos(scelto) or []
+                    for s in server:
+                        s.channel = nome
+                    vivi = _server_vivi(server) if server else []
+                    if vivi:
+                        with serratura:
+                            esiti[nome] = (vivi, cand)
+                        finito.set()
+                        return
+                with serratura:
+                    motivi.append("%s: non ha l'episodio %d" % (nome, numero))
+            except Exception as e:
+                with serratura:
+                    motivi.append("%s: va in errore" % nome)
+                logger.info("Le Saghe: ricerca veloce su %s non riuscita: %s" % (nome, e))
+
+    inizio = _time.time()
+    logger.info("Le Saghe: ricerca veloce di %r ep %d su %d siti: %s"
+                % (titolo, numero, len(siti), ", ".join(siti)))
+    fili = [threading.Thread(target=_prova, args=(n,), name="veloce-%s" % n) for n in siti]
+    for f in fili:
+        f.daemon = True
+        f.start()
+    scadenza = inizio + VELOCE_SECONDI
+    while _time.time() < scadenza and not finito.is_set() and any(f.is_alive() for f in fili):
+        _time.sleep(0.2)
+    # SENZA QUESTA RIGA NON SI CAPISCE NIENTE (13/09/2026): la prima misura su
+    # Daima 11 e' rimasta senza risposta per dieci minuti e nel registro non
+    # c'era traccia di cosa stesse facendo la ricerca. Qui si scrive sempre
+    # quanto e' durata, chi ha risposto e chi e' rimasto appeso: i siti ancora
+    # vivi allo scadere sono quelli che rallentano tutto.
+    appesi = [f.name.replace("veloce-", "") for f in fili if f.is_alive()]
+    logger.info("Le Saghe: ricerca veloce finita in %.0f s - trovato su: %s; ancora appesi: %s"
+                % (_time.time() - inizio, ", ".join(esiti) or "nessuno",
+                   ", ".join(appesi) or "nessuno"))
+
+    if _config is not None and prima_tmdb is not None:
+        try:
+            _config.set_setting("tmdb_active", prima_tmdb)
+        except Exception as e:
+            logger.info("Le Saghe: tmdb_active non rimesso: %s" % e)
+
+    with serratura:
+        for nome in siti:                      # l'ordine di preferenza, non l'arrivo
+            if nome in esiti:
+                vivi, cand = esiti[nome]
+                if serie_id:
+                    _rubrica_segna(serie_id, nome, cand)
+                _apri_sessione_nostra(item)
+                logger.info("Le Saghe: %r ep %d trovato su %s (ricerca in parallelo)"
+                            % (titolo, numero, nome))
+                return vivi, list(motivi)
+        return None, list(motivi)
 
 
 def _findvideos_sui_siti(item, titolo, numero, serie_id):

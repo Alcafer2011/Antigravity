@@ -637,12 +637,14 @@ def menu_principale():
     # --- i reparti ---
     quante = len(catalogo.ORDINE_PERCORSI) + sum(
         len(catalogo.GRUPPI[g]["percorsi"]) for g in _gruppi_del_reparto("cartoni"))
-    li = _voce("Cartoni animati - le saghe\n[COLOR grey]%d saghe, in ordine "
-               "di episodio[/COLOR]" % quante,
+    # "ANIME", non "Cartoni animati" (13/09/2026): e' il nome che usa l'utente,
+    # e menu e contenuto devono chiamarsi allo stesso modo.
+    li = _voce("Anime",
                "Le catene: gli episodi uno dietro l'altro nell'ordine in cui "
                "vanno guardati, anche quando la storia passa da una serie "
                "all'altra. Dagli anni Ottanta a oggi.",
-               icona="DefaultTVShows.png")
+               icona="DefaultTVShows.png",
+               sotto="%d saghe, in ordine di episodio" % quante)
     xbmcplugin.addDirectoryItem(
         MANIGLIA, url(azione="reparto", reparto="cartoni"), li, True)
 

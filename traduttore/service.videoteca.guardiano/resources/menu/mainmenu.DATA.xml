@@ -15,11 +15,18 @@
         <action>RunScript(plugin.video.saghe,cerca_nuova)</action>
     </shortcut>
     <shortcut>
-        <label>Le tue saghe</label>
+        <label>Anime</label>
         <label2>Videoteca</label2>
-        <defaultID>letuesaghe</defaultID>
+        <defaultID>anime</defaultID>
         <icon>DefaultFolder.png</icon>
         <action>ActivateWindow(Videos,"plugin://plugin.video.saghe/?azione=reparto&amp;reparto=cartoni",return)</action>
+    </shortcut>
+    <shortcut>
+        <label>Film</label>
+        <label2>Videoteca</label2>
+        <defaultID>film</defaultID>
+        <icon>DefaultFolder.png</icon>
+        <action>ActivateWindow(Videos,"plugin://plugin.video.saghe/?azione=film_tutti",return)</action>
     </shortcut>
     <shortcut>
         <label>Serie TV</label>
@@ -32,13 +39,6 @@
         <label>Documentari</label>
         <label2>Videoteca</label2>
         <defaultID>documentari</defaultID>
-        <icon>DefaultFolder.png</icon>
-        <action>ActivateWindow(Videos,"plugin://plugin.video.saghe/?azione=scaffale&amp;scaffale=documentari",return)</action>
-    </shortcut>
-    <shortcut>
-        <label>Altri documentari</label>
-        <label2>Videoteca</label2>
-        <defaultID>altridocumentari</defaultID>
         <icon>DefaultFolder.png</icon>
         <action>ActivateWindow(Videos,"plugin://plugin.video.saghe/?azione=scaffale&amp;scaffale=documentari",return)</action>
     </shortcut>
