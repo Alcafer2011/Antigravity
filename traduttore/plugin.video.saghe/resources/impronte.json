@@ -1,6 +1,6 @@
 {
 "file": {
-"addon.xml": "11f52008ff7ccb722132d9a5220956ba",
+"addon.xml": "da29098d420be2ddeac453cbdb302dcf",
 "avvio.py": "8e2b4553fc49f3c6a60fe6e580b86dd3",
 "main.py": "f3395f2a38cdb7118526c63ba818466a",
 "resources/__init__.py": "d41d8cd98f00b204e9800998ecf8427e",
@@ -10,7 +10,7 @@
 "resources/canale/abbonamenti.json": "775d5422adc4b5d2b22d7a6e81959576",
 "resources/canale/abbonamenti.py": "8451899f04d14aff29495be6c776eea0",
 "resources/canale/lesaghe.json": "5d7fdff0906c65886b890c0495d19c6c",
-"resources/canale/lesaghe.py": "563f6997b1154ea739d1ffc8b09987fc",
+"resources/canale/lesaghe.py": "e315f20f587217cfad92f7e9bad71a80",
 "resources/film/dragonball.json": "43c79b89a09b4104ba98804adb9fcddc",
 "resources/film/dragonball_veloce.json": "43c79b89a09b4104ba98804adb9fcddc",
 "resources/film/gonagai.json": "ce07a33e9f5e186a855508270b2ff772",
@@ -467,5 +467,5 @@
 "resources/tmdb.json": "627d132d1795e2b945ff47acd3090b77",
 "service.py": "dff8e4a9427a13ec9ac8970edfddc3e9"
 },
-"versione": "1.2.1"
+"versione": "1.2.2"
 }

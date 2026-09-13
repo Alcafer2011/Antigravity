@@ -804,8 +804,10 @@ def findvideos(item):
     # Tre passi, ognuno nella sua funzione (erano 195 righe in una, 11/09/2026):
     # la rubrica, la ricerca sui siti, i ripieghi. La logica e' la stessa.
     # None = "questo passo non ha deciso"; anche una lista vuota e' una risposta.
+    logger.info("Le Saghe: findvideos %r ep %d (serie_id=%s)" % (titolo, numero, serie_id or "-"))
     server = _findvideos_da_rubrica(item, titolo, numero, serie_id)
     if server is not None:
+        logger.info("Le Saghe: risolto dalla rubrica (%d server)" % len(server))
         return server
     # PRIMA TUTTI I SITI INSIEME (13/09/2026): e' il passo che toglie le attese
     # di minuti. Se nessuno risponde in tempo si prosegue con la strada di
@@ -885,6 +887,12 @@ def _findvideos_veloce(item, titolo, numero, serie_id):
     saltati = set(str(getattr(item, "salta_canali", "") or "").split(","))
     siti = [n for n in _canali_per(serie_del_catalogo) if n not in saltati]
     if len(siti) < 2:
+        # ANCHE QUESTO RAMO DEVE PARLARE (13/09/2026): la prima diagnosi non
+        # ha scritto NIENTE nel registro, e uscire in silenzio da qui e' l'unico
+        # modo in cui poteva succedere. Senza questa riga si continua a cercare
+        # al buio.
+        logger.info("Le Saghe: ricerca veloce saltata: solo %d siti utili (saltati: %s)"
+                    % (len(siti), ", ".join(x for x in saltati if x) or "nessuno"))
         return None, []
 
     esiti, motivi = {}, []
